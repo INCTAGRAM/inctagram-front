@@ -2,5 +2,69 @@
 
 body {
     font-family: 'Inter', sans-serif;
+}
+
+h1 {
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 36px;
+}
+
+h2 {
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 24px;
+}
+
+h3 {
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 24px;
+}
+
+p {
+    font-family: 'Inter', sans-serif;
     font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+}
+
+p b,
+p strong {
+    font-weight: 700;
+}
+
+p.regular {
+    font-size: 14px;
+}
+
+p.regular b,
+p.regular strong {
+    font-weight: 700;
+}
+
+p.medium {
+    font-weight: 500;
+    font-size: 14px;
+}
+
+p.small {
+    font-size: 12px;
+    line-height: 16px;
+}
+
+p.small b,
+p.small strong {
+    font-weight: 600;
+}
+
+a {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 24px;
+    text-decoration: underline;
 }
