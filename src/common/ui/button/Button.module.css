@@ -1,0 +1,22 @@
+.button {
+  display: block;
+  width: 100%;
+  padding: 6px 24px;
+  background: #397DF6;
+  color: #fff;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 24px;
+  border: 0;
+  border-radius: 2px;
+  transition: 0.2s;
+}
+
+.button:hover {
+  background: #73A5FF;
+}
+
+.button:disabled {
+  opacity: 0.4;
+}
