@@ -11,6 +11,8 @@
     "prepare": "husky install"
   },
   "dependencies": {
+    "@tanstack/react-query": "^4.28.0",
+    "axios": "^1.3.4",
     "icomoon-react": "^3.0.0",
     "next": "13.2.4",
     "react": "18.2.0",
