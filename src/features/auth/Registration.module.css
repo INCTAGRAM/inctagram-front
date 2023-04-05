@@ -1,0 +1,24 @@
+.formContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+}
+
+.formContainer form {
+  width: 100%;
+  max-width: 378px;
+  padding: 24px;
+  background: #171717;
+  border: 1px solid #333;
+}
+
+.formContainer form h1 {
+  text-align: center;
+  color: #fff;
+  margin-bottom: 20px;
+}
+
+.formContainer form p {
+  margin-bottom: 30px;
+}
