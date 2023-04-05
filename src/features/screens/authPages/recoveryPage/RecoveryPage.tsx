@@ -1,4 +1,4 @@
-import React, { ChangeEvent, FormEvent, useRef, useState } from 'react'
+import { ChangeEvent, FormEvent, useRef, useState } from 'react'
 import { useMutation } from '@tanstack/react-query'
 import { authService } from '@/services/authService'
 import RecoveryForm from '@/features/auth/recoveryForm/RecoveryForm'
