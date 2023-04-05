@@ -1,0 +1,17 @@
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 35px;
+
+    .form_info {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+
+      p {
+        font-size: 14px;
+        color: #BDC1C7;
+        width: 330px;
+      }
+    }
+}
