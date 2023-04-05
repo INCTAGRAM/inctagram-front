@@ -1,26 +1,21 @@
 import React, { ChangeEvent, DetailedHTMLProps, forwardRef, InputHTMLAttributes, KeyboardEvent, useState } from 'react'
 import style from './InputText.module.css'
+import { UseFormRegisterReturn } from 'react-hook-form'
 
 // Пропсы стандартного инпута
 type DefaultInputTextPropsType = DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>
 
 type InputTextPropsType = DefaultInputTextPropsType & {
-  fieldName?: string
   onChangeText?: (value: string) => void
   onEnter?: () => void
   error?: string
   spanClassName?: string
 }
 
-type Ref = HTMLInputElement
+//type Ref = HTMLInputElement
 
-export const InputText = forwardRef<Ref, InputTextPropsType>(
-  (
-    { type, fieldName, onChange, onChangeText, onKeyDown, onEnter, error, className, spanClassName, ...restProps },
-    ref
-  ) => {
-    InputText.displayName = 'InputText'
-
+export const InputText = forwardRef<HTMLInputElement, Partial<UseFormRegisterReturn> & InputTextPropsType>(
+  ({ onChange, onChangeText, onKeyDown, onEnter, error, className, spanClassName, ...restProps }, ref) => {
     const [inpValue, setInpValue] = useState('')
     const [fieldNameTop, setFieldNameTop] = useState(false)
 
@@ -58,14 +53,15 @@ export const InputText = forwardRef<Ref, InputTextPropsType>(
             onBlur={onBlurHandler}
             {...restProps}
           />
-          {fieldName && (
+          {/*{fieldName && (
             <span className={fieldNameTop ? `${style.fieldName} ${style.fieldNameTop}` : style.fieldName}>
               {fieldName}
             </span>
-          )}
+          )}*/}
         </label>
         {error && <span className={finalSpanClassName}>{error}</span>}
       </>
     )
   }
 )
+InputText.displayName = 'InputText'
