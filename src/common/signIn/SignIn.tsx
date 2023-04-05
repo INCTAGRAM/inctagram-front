@@ -8,6 +8,9 @@ import { Button } from '@/common/ui/button/Button'
 import s from './SignIn.module.scss'
 import { Form } from '@/common/ui/Form/Form'
 import { useForm } from 'react-hook-form'
+import { QueryClient, useMutation } from 'react-query'
+import axios from 'axios'
+import { object, string } from 'yup'
 
 //type SignInProps = {}
 export type FormType = {
@@ -16,9 +19,22 @@ export type FormType = {
 }
 
 const SignIn = () => {
-  //sconst {handleSubmit, control, register} = useForm<FormType>()
+  const LoginSchema = object().shape({
+    email: string().email('Invalid email').required('Required'),
+    password: string().required('Required'),
+  })
+  const client = new QueryClient()
+
+  const { mutate: login } = useMutation({
+    mutationFn: (body) => axios.post('api/auth/login', body),
+    onSuccess: (user) => {
+      client.setQueriesData(['login'], () => {
+        return user
+      })
+    },
+  })
   const onSubmit = (data: FormType) => {
-    console.log('data => ', data)
+    login(data)
   }
 
   return (
