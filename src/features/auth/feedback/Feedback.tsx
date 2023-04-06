@@ -22,7 +22,7 @@ const Feedback = ({ title, info, image, actionBtnTitle, action }: IFeedback) => 
             <Button onClick={action}>{actionBtnTitle}</Button>
           </div>
         </div>
-        <Image src={image} alt="" />
+        <Image width={473} height={353} src={image} alt="" />
       </div>
     </div>
   )
