@@ -1,7 +1,15 @@
 import '@/assets/styles/reset.css'
 import '@/assets/styles/globals.css'
+import { QueryClient, QueryClientProvider } from 'react-query'
 import type { AppProps } from 'next/app'
+import { useState } from 'react'
 
 export default function App({ Component, pageProps }: AppProps) {
-  return <Component {...pageProps} />
+  const [queryClient] = useState(() => new QueryClient())
+
+  return (
+    <QueryClientProvider client={queryClient}>
+      <Component {...pageProps} />
+    </QueryClientProvider>
+  )
 }
