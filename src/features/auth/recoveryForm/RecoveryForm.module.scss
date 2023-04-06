@@ -1,0 +1,16 @@
+.block {
+  width: 378px;
+  padding: 24px;
+  background: #171717;
+  border: 1px solid #333333;
+  border-radius: 2px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 50px;
+
+  h1 {
+    line-height: 36px;
+    color: #FFFFFF;
+  }
+}

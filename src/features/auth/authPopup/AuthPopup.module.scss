@@ -1,0 +1,17 @@
+.popup_content {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  align-items: flex-end;
+
+  p {
+    font-size: 16px;
+    line-height: 24px;
+    color: #FFFFFF;
+  }
+
+  div {
+    display: flex;
+    justify-content: flex-end;
+  }
+}

@@ -4,6 +4,7 @@
   padding: 6px 24px;
   background: #397DF6;
   color: #fff;
+  cursor: pointer;
   font-family: 'Inter', sans-serif;
   font-weight: 600;
   font-size: 16px;
@@ -18,5 +19,6 @@
 }
 
 .button:disabled {
+  pointer-events: none;
   opacity: 0.4;
 }
