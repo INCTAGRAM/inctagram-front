@@ -5,7 +5,7 @@ import { Button } from '@/common/ui/button/Button'
 import { useMutation } from '@tanstack/react-query'
 import authStyles from '@/features/screens/authPages/authPages.module.scss'
 import RecoveryForm from '@/features/auth/recoveryForm/RecoveryForm'
-import style from './NewPasswordPage.module.scss'
+import styles from './NewPasswordPage.module.scss'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { newPasswordSchema } from '@/validations/auth-schemes'
 import * as yup from 'yup'
@@ -48,31 +48,35 @@ const NewPasswordPage = ({ code }: INewPasswordPage) => {
   return (
     <div className={authStyles.authPage}>
       <RecoveryForm title="Create New Password">
-        <form className={style.formContainer} onSubmit={handleSubmit(onFormSubmit)}>
-          <InputPassword
-            fieldName="New Password"
-            type="password"
-            name={newPasswordName}
-            onChange={onNewPasswordChange}
-            onBlur={onNewPasswordBlur}
-            ref={newPasswordRef}
-            error={errors.newPassword?.message ? errors.newPassword.message : ''}
-          />
-          <div style={{ marginTop: 22 }}>
-            <InputPassword
-              fieldName="Password Confirmation"
-              type="password"
-              name={passwordConfirmationName}
-              onChange={onPasswordConfirmationChange}
-              onBlur={onPasswordConfirmationBlur}
-              ref={passwordConfirmationRef}
-              error={errors.passwordConfirmation?.message ? errors.passwordConfirmation.message : ''}
-            />
+        <form className={styles.formContainer} onSubmit={handleSubmit(onFormSubmit)}>
+          <div className={styles.form_info}>
+            <div className={styles.btn_group}>
+              <div>
+                <InputPassword
+                  fieldName="New Password"
+                  type="password"
+                  name={newPasswordName}
+                  onChange={onNewPasswordChange}
+                  onBlur={onNewPasswordBlur}
+                  ref={newPasswordRef}
+                  error={errors.newPassword?.message ? errors.newPassword.message : ''}
+                />
+              </div>
+              <div>
+                <InputPassword
+                  fieldName="Password Confirmation"
+                  type="password"
+                  name={passwordConfirmationName}
+                  onChange={onPasswordConfirmationChange}
+                  onBlur={onPasswordConfirmationBlur}
+                  ref={passwordConfirmationRef}
+                  error={errors.passwordConfirmation?.message ? errors.passwordConfirmation.message : ''}
+                />
+              </div>
+            </div>
+            <p>Your password must be between 6 and 20 characters</p>
           </div>
-
-          <p>Your password must be between 6 and 20 characters</p>
-
-          <Button type="submit" disabled={!isValid && !isDirty} className={style.button}>
+          <Button type="submit" disabled={!isValid && !isDirty}>
             Create new password
           </Button>
         </form>

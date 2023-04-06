@@ -4,14 +4,14 @@
     gap: 35px;
 
     .form_info {
+      width: 330px;
       display: flex;
       flex-direction: column;
-      gap: 5px;
+      gap: 10px;
 
       p {
         font-size: 14px;
         color: #BDC1C7;
-        width: 330px;
       }
     }
 }

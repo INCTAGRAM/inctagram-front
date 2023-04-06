@@ -2,11 +2,12 @@ import authStyles from '../authPages.module.scss'
 import Feedback from '@/features/auth/feedback/Feedback'
 import expiredImg from '@/assets/images/auth/expired-link.png'
 import { useRouter } from 'next/router'
+import { RouteNames } from '@/constants/routes'
 
 const ExpiredPages = () => {
   const { push } = useRouter()
 
-  const redirectInRecovery = () => push('/auth/recovery')
+  const redirectInRecovery = () => push(RouteNames.EXPIRED)
 
   return (
     <div className={authStyles.authPage}>

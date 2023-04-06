@@ -5,11 +5,7 @@ import { useRouter } from 'next/router'
 const Code = () => {
   const { query } = useRouter()
 
-  return (
-    <div>
-      <NewPasswordPage code={query.code as string} />
-    </div>
-  )
+  return <NewPasswordPage code={query.code as string} />
 }
 
 export default Code
