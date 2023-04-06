@@ -53,6 +53,7 @@ const RecoveryPage = () => {
           <div className={styles.form_info}>
             <InputText
               fieldName="email"
+              autoComplete="off"
               error={errors.email?.message ? errors.email.message : ''}
               name={name}
               onChange={onChange}

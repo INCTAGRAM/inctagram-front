@@ -12,6 +12,8 @@ interface IFeedback {
 }
 
 const Feedback = ({ title, info, image, actionBtnTitle, action }: IFeedback) => {
+  const { src, width, height } = image
+
   return (
     <div className={authStyles.authPage}>
       <div className={style.content}>
@@ -22,7 +24,7 @@ const Feedback = ({ title, info, image, actionBtnTitle, action }: IFeedback) => 
             <Button onClick={action}>{actionBtnTitle}</Button>
           </div>
         </div>
-        <Image width={473} height={353} src={image} alt="" />
+        <Image src={src} width={width} height={height} priority="false" alt="" />
       </div>
     </div>
   )
