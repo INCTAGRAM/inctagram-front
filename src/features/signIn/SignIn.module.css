@@ -1,0 +1,85 @@
+.page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #0D0D0D;
+  height: 100vh;
+}
+
+.main {
+  border: #333333 solid 2px;
+  border-radius: 2px;
+  width: 24.6%;
+  height: 65.9%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.sign_in_btn {
+  width: 87.3%;
+}
+
+.forgot_pass_link {
+  color: #BDC1C7;
+  text-decoration: none;
+  position: relative;
+  left: 93%;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 24px;
+  letter-spacing: 0em;
+  text-align: center;
+}
+.forgot_pass_link:hover {
+  text-decoration: underline;
+}
+
+.input {
+  width: 87.3%;
+}
+
+.inscription {
+  font-size: 16px;
+  font-weight: 400;
+  letter-spacing: 0;
+  color: #FFFFFF;
+}
+.inscription :hover {
+  text-decoration: underline;
+}
+
+.sign_up_btn {
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 24px;
+  letter-spacing: 0px;
+  text-align: center;
+  color: #397DF6;
+  background-color: transparent;
+  width: 87.3%;
+  text-decoration: none;
+}
+
+.icons_container {
+  display: flex;
+  gap: 40%;
+}
+
+.title {
+  font-weight: 700;
+  font-size: 2.5vh;
+  color: #FFFFFF;
+  padding-top: 3%;
+}
+
+.form_class {
+  display: contents;
+}
+
+.icon {
+  cursor: pointer;
+}
+
+/*# sourceMappingURL=SignIn.module.css.map */
