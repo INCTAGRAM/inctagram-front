@@ -13,11 +13,7 @@ const RecoveryForm = ({ title, subLink, subLinkTitle, children }: IAuthProps) =>
     <div className={styles.block}>
       <h1>{title}</h1>
       {children}
-      {subLink && subLinkTitle && (
-        <Link className={styles.link} href={subLink}>
-          {subLinkTitle}
-        </Link>
-      )}
+      {subLink && subLinkTitle && <Link href={subLink}>{subLinkTitle}</Link>}
     </div>
   )
 }

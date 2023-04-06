@@ -1,4 +1,4 @@
-import { ChangeEvent, FormEvent, useRef, useState } from 'react'
+import { useState } from 'react'
 import { useMutation } from '@tanstack/react-query'
 import { authService } from '@/services/authService'
 import RecoveryForm from '@/features/auth/recoveryForm/RecoveryForm'
@@ -7,42 +7,66 @@ import { Button } from '@/common/ui/button/Button'
 import AuthPopup from '@/features/auth/authPopup/AuthPopup'
 import authStyles from '../authPages.module.scss'
 import styles from './RecoveryPage.module.scss'
+import { SubmitHandler, useForm } from 'react-hook-form'
+import { yupResolver } from '@hookform/resolvers/yup'
+import * as yup from 'yup'
+import { recoverySchema } from '@/validations/auth-schemes'
+
+type IRecovery = yup.InferType<typeof recoverySchema>
 
 const RecoveryPage = () => {
   const [email, setEmail] = useState('')
   const [isShowPopup, setIsShowPopup] = useState(false)
 
-  const emailRef = useRef(null)
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isValid, isDirty },
+    setError,
+    reset,
+  } = useForm<IRecovery>({
+    mode: 'onBlur',
+    reValidateMode: 'onChange',
+    resolver: yupResolver(recoverySchema),
+  })
+
+  const { name, onChange, onBlur, ref } = register('email')
+
+  const onFormSubmit: SubmitHandler<IRecovery> = (data) => {
+    if (!data.email) return
+
+    sendEmail(data.email)
+    setEmail(data.email)
+    reset()
+  }
 
   const { mutate: sendEmail } = useMutation({
     mutationFn: authService.passwordRecovery,
     onSuccess: () => setIsShowPopup(true),
+    onError: (error) => setError('email', error),
   })
-
-  const clearEmailField = () => setEmail('')
-
-  const onChangeEmail = (e: ChangeEvent<HTMLInputElement>) => {
-    setEmail(e.currentTarget.value)
-  }
-
-  const onFormSubmit = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
-
-    email ? sendEmail(email) : emailRef.current.focus()
-  }
 
   return (
     <div className={authStyles.authPage}>
-      <RecoveryForm title="Forgot Password" subLink="/" subLinkTitle="Back to Sing In" clearFields={clearEmailField}>
-        <form className={styles.form} onSubmit={onFormSubmit}>
+      <RecoveryForm title="Forgot Password" subLink="/" subLinkTitle="Back to Sing In">
+        <form className={styles.form} onSubmit={handleSubmit(onFormSubmit)}>
           <div className={styles.form_info}>
-            <InputText fieldName="email" ref={emailRef} value={email} onChange={onChangeEmail} />
-            <p>Enter your email address and we will send you further instructions </p>
+            <InputText
+              fieldName="email"
+              error={errors.email?.message ? errors.email.message : ''}
+              name={name}
+              onChange={onChange}
+              onBlur={onBlur}
+              ref={ref}
+            />
+            <p>Enter your email address and we will send you further instructions</p>
           </div>
-          <Button type="submit">Send Instructions</Button>
+          <Button type="submit" disabled={!isValid && !isDirty}>
+            Send Instructions
+          </Button>
         </form>
       </RecoveryForm>
-      <AuthPopup email={email} isShowPopup={isShowPopup} setIsShowPopup={setIsShowPopup} clearEmail={clearEmailField} />
+      <AuthPopup email={email} isShowPopup={isShowPopup} setIsShowPopup={setIsShowPopup} />
     </div>
   )
 }

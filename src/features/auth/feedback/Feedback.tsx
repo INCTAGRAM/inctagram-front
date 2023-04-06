@@ -19,7 +19,7 @@ const Feedback = ({ title, info, image, actionBtnTitle, action }: IFeedback) => 
           <h1>{title}</h1>
           <p>{info}</p>
           <div>
-            <Button>{actionBtnTitle}</Button>
+            <Button onClick={action}>{actionBtnTitle}</Button>
           </div>
         </div>
         <Image src={image} alt="" />

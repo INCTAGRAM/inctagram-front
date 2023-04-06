@@ -5,17 +5,12 @@ import Popup from '@/common/ui/popup/Popup'
 
 interface IAuthPopup {
   email: string
-  clearEmail?: () => void
   isShowPopup: boolean
   setIsShowPopup: (isShow: boolean) => void
 }
 
-const AuthPopup = ({ email, isShowPopup, setIsShowPopup, clearEmail }: IAuthPopup) => {
-  const closePopup = () => {
-    setIsShowPopup(false)
-
-    clearEmail && clearEmail()
-  }
+const AuthPopup = ({ email, isShowPopup, setIsShowPopup }: IAuthPopup) => {
+  const closePopup = () => setIsShowPopup(false)
 
   return (
     <Popup title="Email sent" show={isShowPopup} modalOnClick={closePopup}>
