@@ -1,13 +1,23 @@
 import React from 'react'
 import { FieldValues, SubmitHandler, useForm, UseFormReturn } from 'react-hook-form'
-
+import { yupResolver } from '@hookform/resolvers/yup'
 type FormProps<TFormValues extends FieldValues> = {
   onSubmit: SubmitHandler<TFormValues>
-  LoginSchema: any
   children: (method: UseFormReturn<TFormValues>) => React.ReactNode
+  classname: any
+  schema: any
 }
 
-export const Form = <TFormValues extends FieldValues>({ onSubmit, LoginSchema, children }: FormProps<TFormValues>) => {
-  const method = useForm<TFormValues>()
-  return <form onSubmit={method.handleSubmit(onSubmit)}>{children(method)}</form>
+export const Form = <TFormValues extends FieldValues>({
+  onSubmit,
+  schema,
+  classname,
+  children,
+}: FormProps<TFormValues>) => {
+  const method = useForm<TFormValues>({ resolver: yupResolver(schema) })
+  return (
+    <form className={classname} onSubmit={method.handleSubmit(onSubmit)}>
+      {children(method)}
+    </form>
+  )
 }

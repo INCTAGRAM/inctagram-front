@@ -19,10 +19,6 @@ export type FormType = {
 }
 
 const SignIn = () => {
-  const LoginSchema = object().shape({
-    email: string().email('Invalid email').required('Required'),
-    password: string().required('Required'),
-  })
   const client = new QueryClient()
 
   const { mutate: login } = useMutation({
@@ -34,9 +30,13 @@ const SignIn = () => {
     },
   })
   const onSubmit = (data: FormType) => {
-    login(data)
+    //login(data)
+    console.log(data)
   }
-
+  const schema = object().shape({
+    email: string().required().email(),
+    password: string().required().min(6).max(20),
+  })
   return (
     <div className={s.page}>
       <div className={s.main}>
@@ -45,21 +45,20 @@ const SignIn = () => {
           <IcomoonReact className={s.icon} icon={'google-svgrepo-com-1'} iconSet={iconSet} size={70} />
           <IcomoonReact className={s.icon} icon={'facebook-svgrepo-com-1-1'} iconSet={iconSet} size={70} />
         </div>
-        <Form<FormType>
-          onSubmit={onSubmit}
-          //className={s.form_class}
-        >
-          {({ register }) => (
+        <Form<FormType> onSubmit={onSubmit} classname={s.form_class} schema={schema}>
+          {({ register, formState: { errors, touchedFields } }) => (
             <>
-              <InputText {...register('email')} />
-              <InputPassword {...register('password')} />
+              <InputText className={s.input} {...register('email')} />
+              {errors.email && touchedFields.email && <div className={s.error}>{errors.email.message}</div>}
+              <InputPassword className={s.input} {...register('password')} />
+              {errors.password && touchedFields.password && <div className={s.error}>{errors.password.message}</div>}
               <Button type={'submit'} className={s.sign_in_btn}>
                 Sign in
               </Button>
             </>
           )}
         </Form>
-        <div>
+        <div className={s.forgot_pass_row}>
           <Link href={'/forgot_password'} className={s.forgot_pass_link}>
             Forgot password
           </Link>
