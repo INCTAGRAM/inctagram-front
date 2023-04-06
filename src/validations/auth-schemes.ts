@@ -8,5 +8,10 @@ export const recoverySchema = yup.object().shape({
 
 export const newPasswordSchema = yup.object().shape({
   newPassword: yup.string().min(6).max(20).required(),
-  passwordConfirmation: yup.string().min(6).max(20).required(),
+  passwordConfirmation: yup
+    .string()
+    .min(6)
+    .max(20)
+    .oneOf([yup.ref('newPassword')], 'Password mismatch')
+    .required(),
 })

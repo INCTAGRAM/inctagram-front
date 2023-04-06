@@ -3,14 +3,13 @@ import { SubmitHandler, useForm } from 'react-hook-form'
 import { InputPassword } from '@/common/ui/inputPassword/InputPassword'
 import { Button } from '@/common/ui/button/Button'
 import { useMutation } from '@tanstack/react-query'
-import { intagramApi } from '@/services/intagram'
-import { NewPassword } from '@/services/intagram/types'
 import authStyles from '@/features/screens/authPages/authPages.module.scss'
 import RecoveryForm from '@/features/auth/recoveryForm/RecoveryForm'
 import style from './NewPasswordPage.module.scss'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { newPasswordSchema } from '@/validations/auth-schemes'
 import * as yup from 'yup'
+import { authService } from '@/services/auth/authService'
 
 type INewPassword = yup.InferType<typeof newPasswordSchema>
 
@@ -21,9 +20,7 @@ const NewPasswordPage = ({ code }: INewPasswordPage) => {
   const {
     register,
     handleSubmit,
-    setError,
     formState: { errors, isValid, isDirty },
-    clearErrors,
   } = useForm<INewPassword>({ mode: 'onBlur', resolver: yupResolver(newPasswordSchema) })
 
   const {
@@ -40,15 +37,12 @@ const NewPasswordPage = ({ code }: INewPasswordPage) => {
     ref: passwordConfirmationRef,
   } = register('passwordConfirmation')
 
-  const { mutate: createNewPassword } = useMutation((payload: NewPassword) => intagramApi.newPassword(payload))
+  const { mutate: createNewPassword } = useMutation({
+    mutationFn: authService.createNewPassword,
+  })
 
   const onFormSubmit: SubmitHandler<INewPassword> = (data) => {
-    if (data.newPassword === data.passwordConfirmation) {
-      clearErrors()
-      data.newPassword && createNewPassword({ newPassword: data.newPassword, recoveryCode: code })
-    } else {
-      setError('passwordConfirmation', { type: 'custom', message: 'Password mismatch' })
-    }
+    data.newPassword && createNewPassword({ newPassword: data.newPassword, recoveryCode: code })
   }
 
   return (

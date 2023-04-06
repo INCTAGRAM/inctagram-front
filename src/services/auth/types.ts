@@ -1,4 +1,4 @@
-export type NewPassword = {
+export interface INewPassword {
   newPassword: string
   recoveryCode: string
 }

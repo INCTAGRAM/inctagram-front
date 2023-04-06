@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useMutation } from '@tanstack/react-query'
-import { authService } from '@/services/authService'
+import { authService } from '@/services/auth/authService'
 import RecoveryForm from '@/features/auth/recoveryForm/RecoveryForm'
 import { InputText } from '@/common/ui/inputText/InputText'
 import { Button } from '@/common/ui/button/Button'
