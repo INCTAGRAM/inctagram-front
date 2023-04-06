@@ -1,41 +1,34 @@
 import React, { ChangeEvent, DetailedHTMLProps, forwardRef, InputHTMLAttributes, KeyboardEvent, useState } from 'react'
 import style from './InputText.module.css'
-import { UseFormRegisterReturn } from 'react-hook-form'
 
 // Пропсы стандартного инпута
 type DefaultInputTextPropsType = DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>
 
 type InputTextPropsType = DefaultInputTextPropsType & {
+  fieldName?: string
   onChangeText?: (value: string) => void
   onEnter?: () => void
   error?: string
   spanClassName?: string
 }
 
-//type Ref = HTMLInputElement
+type Ref = HTMLInputElement
 
-export const InputText = forwardRef<HTMLInputElement, Partial<UseFormRegisterReturn> & InputTextPropsType>(
-  ({ onChange, onChangeText, onKeyDown, onEnter, error, className, spanClassName, ...restProps }, ref) => {
-    const [inpValue, setInpValue] = useState('')
-    const [fieldNameTop, setFieldNameTop] = useState(false)
+export const InputText = forwardRef<Ref, InputTextPropsType>(
+  (
+    { type, fieldName, onChange, onChangeText, onKeyDown, onEnter, error, className, spanClassName, ...restProps },
+    ref
+  ) => {
+    InputText.displayName = 'InputText'
 
     const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
       onChange && onChange(e)
       onChangeText && onChangeText(e.currentTarget.value)
-      setInpValue(e.currentTarget.value)
     }
 
     const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
       onKeyDown && onKeyDown(e)
       onEnter && e.key === 'Enter' && onEnter()
-    }
-
-    const onFocusHandler = () => setFieldNameTop(true)
-
-    const onBlurHandler = () => {
-      if (!inpValue.length) {
-        setFieldNameTop(false)
-      }
     }
 
     const finalSpanClassName = `${style.error} ${spanClassName ? spanClassName : ''}`
@@ -44,24 +37,11 @@ export const InputText = forwardRef<HTMLInputElement, Partial<UseFormRegisterRet
     return (
       <>
         <label className={`${style.inputContainer} ${finalInputClassName}`}>
-          <input
-            ref={ref}
-            type={'text'}
-            onChange={onChangeHandler}
-            onKeyDown={onKeyPressHandler}
-            onFocus={onFocusHandler}
-            onBlur={onBlurHandler}
-            {...restProps}
-          />
-          {/*{fieldName && (
-            <span className={fieldNameTop ? `${style.fieldName} ${style.fieldNameTop}` : style.fieldName}>
-              {fieldName}
-            </span>
-          )}*/}
+          {fieldName && <span className={style.fieldName}>{fieldName}</span>}
+          <input ref={ref} type={'text'} onChange={onChangeHandler} onKeyDown={onKeyPressHandler} {...restProps} />
         </label>
         {error && <span className={finalSpanClassName}>{error}</span>}
       </>
     )
   }
 )
-InputText.displayName = 'InputText'

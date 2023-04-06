@@ -23,26 +23,15 @@ export const InputPassword = forwardRef<Ref, InputPasswordPropsType>(
   ) => {
     InputPassword.displayName = 'InputText'
 
-    const [inpValue, setInpValue] = useState('')
-    const [fieldNameTop, setFieldNameTop] = useState(false)
     const [showPass, setShowPass] = useState(false)
 
     const onChangeCallback = (e: ChangeEvent<HTMLInputElement>) => {
       onChange && onChange(e)
       onChangePassword && onChangePassword(e.currentTarget.value)
-      setInpValue(e.currentTarget.value)
     }
     const onKeyPressCallback = (e: KeyboardEvent<HTMLInputElement>) => {
       onKeyDown && onKeyDown(e)
       onEnter && e.key === 'Enter' && onEnter()
-    }
-
-    const onFocusHandler = () => setFieldNameTop(true)
-
-    const onBlurHandler = () => {
-      if (!inpValue.length) {
-        setFieldNameTop(false)
-      }
     }
 
     const finalSpanClassName = `${style.error} ${spanClassName ? spanClassName : ''}`
@@ -51,20 +40,14 @@ export const InputPassword = forwardRef<Ref, InputPasswordPropsType>(
     return (
       <>
         <label className={`${style.inputContainer} ${finalInputClassName}`}>
+          {fieldName && <span className={style.fieldName}>{fieldName}</span>}
           <input
             ref={ref}
             type={showPass ? 'text' : 'password'}
             onChange={onChangeCallback}
             onKeyDown={onKeyPressCallback}
-            onFocus={onFocusHandler}
-            onBlur={onBlurHandler}
             {...restProps}
           />
-          {fieldName && (
-            <span className={fieldNameTop ? `${style.fieldName} ${style.fieldNameTop}` : style.fieldName}>
-              {fieldName}
-            </span>
-          )}
           <span onClick={() => setShowPass(!showPass)}>
             {showPass ? (
               <IcomoonReact className={style.icon} iconSet={iconSet} icon={'eye-off-outline'} size={24} />
