@@ -1,5 +1,5 @@
 import React from 'react'
-import SignIn from '@/common/signIn/SignIn'
+import SignIn from '@/features/signIn/SignIn'
 
 const Login = () => {
   return <SignIn />

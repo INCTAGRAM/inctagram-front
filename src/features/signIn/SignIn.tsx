@@ -26,6 +26,7 @@ const SignIn = () => {
     email: string().required().email(),
     password: string().required().min(6).max(20),
   })
+  const errMessage = error && error.response.data.message[0]
   return (
     <div className={s.page}>
       <div className={s.main}>
@@ -41,6 +42,7 @@ const SignIn = () => {
               {errors.email && touchedFields.email && <div className={s.error}>{errors.email.message}</div>}
               <InputPassword className={s.input} {...register('password')} />
               {errors.password && touchedFields.password && <div className={s.error}>{errors.password.message}</div>}
+              {errMessage && <div className={s.error}>{errMessage}</div>}
               <Button type={'submit'} className={s.sign_in_btn}>
                 Sign in
               </Button>
@@ -48,14 +50,14 @@ const SignIn = () => {
           )}
         </Form>
         <div className={s.forgot_pass_row}>
-          <Link href={'/forgot_password'} className={s.forgot_pass_link}>
+          <Link href={'/auth/recovery'} className={s.forgot_pass_link}>
             Forgot password
           </Link>
         </div>
         {/* eslint-disable-next-line react/no-unescaped-entities */}
         <span className={s.inscription}>Don't have an account?</span>
         <span>
-          <Link href={'/signup'} className={s.sign_up_btn}>
+          <Link href={'/auth/signUp'} className={s.sign_up_btn}>
             Sign up
           </Link>
         </span>
