@@ -3,12 +3,20 @@ import style from './CreateNewPassword.module.scss'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { InputPassword } from '@/common/ui/inputPassword/InputPassword'
 import { Button } from '@/common/ui/button/Button'
+import { useMutation } from 'react-query'
+import { intagramApi } from '@/services/intagram'
+import { NewPassword } from '@/services/intagram/types'
 
 type Inputs = {
   NewPassword: string
   PasswordConfirmation: string
 }
-const CreateNewPassword = () => {
+
+type Props = {
+  code: string
+}
+const CreateNewPassword = (props: Props) => {
+  const { code } = props
   const {
     register,
     handleSubmit,
@@ -17,10 +25,12 @@ const CreateNewPassword = () => {
     formState: { errors, isValid },
   } = useForm<Inputs>({ mode: 'onBlur' })
 
+  const mutation = useMutation((payload: NewPassword) => intagramApi.newPassword(payload))
+
   const onSubmit: SubmitHandler<Inputs> = (data) => {
     if (data.NewPassword === data.PasswordConfirmation) {
       clearErrors()
-      console.log(data)
+      mutation.mutate({ newPassword: data.NewPassword, recoveryCode: code })
     } else {
       setError('PasswordConfirmation', { type: 'custom', message: 'custom error' })
     }
