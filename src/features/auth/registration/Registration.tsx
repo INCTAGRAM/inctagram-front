@@ -5,6 +5,9 @@ import { SubmitHandler, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { inputSchema } from '@/hooks/inputValidation'
 import { Button } from '@/common/ui/button/Button'
+import { RegistrationValueType } from '@/features/auth/registration/types'
+import { useQuery } from 'react-query'
+import { authAPI } from '@/api/auth'
 
 export const Registration = () => {
   const {
@@ -13,9 +16,22 @@ export const Registration = () => {
     handleSubmit,
   } = useForm({ mode: 'onTouched', resolver: yupResolver(inputSchema) })
 
-  const onSubmit: SubmitHandler<any> = (data) => {
-    console.log(data)
+  const onSubmit: SubmitHandler<RegistrationValueType> = (values) => {
+    // const { data } = useQuery({
+    //   queryKey: ['registrationResult'],
+    //   queryFn: authAPI.test,
+    // })
+    // authAPI.test().then((res) => {
+    //   console.log(res)
+    // })
   }
+
+  // const { data } = useQuery({
+  //   queryKey: ['registrationResult'],
+  //   queryFn: () => authAPI.registration({ email: 'dfefelov@bk.ru', password: '111111111' }),
+  // })
+
+  // console.log(data)
 
   return (
     <div className={style.formContainer}>
