@@ -5,8 +5,7 @@ import { SubmitHandler, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { inputSchema } from '@/hooks/inputValidation'
 import { Button } from '@/common/ui/button/Button'
-import { RegistrationValueType } from '@/features/auth/registration/types'
-import { useQuery } from 'react-query'
+import { useMutation, useQuery } from 'react-query'
 import { authAPI } from '@/api/auth'
 
 export const Registration = () => {
@@ -16,19 +15,15 @@ export const Registration = () => {
     handleSubmit,
   } = useForm({ mode: 'onTouched', resolver: yupResolver(inputSchema) })
 
+  const mutation = useMutation((values: RegistrationValueType) => authAPI.registration(values))
+
   const onSubmit: SubmitHandler<RegistrationValueType> = (values) => {
-    // const { data } = useQuery({
-    //   queryKey: ['registrationResult'],
-    //   queryFn: authAPI.test,
-    // })
-    // authAPI.test().then((res) => {
-    //   console.log(res)
-    // })
+    mutation.mutate(values)
   }
 
   // const { data } = useQuery({
   //   queryKey: ['registrationResult'],
-  //   queryFn: () => authAPI.registration({ email: 'dfefelov@bk.ru', password: '111111111' }),
+  //   queryFn: () => authAPI.signUp({ email: 'dfefelov@bk.ru', password: '111111111' }),
   // })
 
   // console.log(data)
@@ -50,4 +45,10 @@ export const Registration = () => {
       </form>
     </div>
   )
+}
+
+type RegistrationValueType = {
+  email: string
+  password: string
+  passwordConfirmation: string
 }

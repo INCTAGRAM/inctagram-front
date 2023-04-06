@@ -1,0 +1,28 @@
+.congratulations {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.row {
+  max-width: 500px;
+}
+
+.congratulations h1 {
+  text-align: center;
+  color: #fff;
+  margin-bottom: 25px;
+}
+
+.congratulations p {
+  text-align: center;
+  color: #fff;
+  margin-bottom: 54px;
+}
+
+.congratulations .signInBtn {
+  width: 182px;
+  margin: 0 auto 72px auto;
+}
+

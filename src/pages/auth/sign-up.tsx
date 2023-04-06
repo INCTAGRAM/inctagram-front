@@ -1,4 +1,4 @@
-import { Registration } from '@/features/auth/registration/Registration'
+import { Registration } from '@/features/auth/authorization/signUp/Registration'
 
 export default function SignUp() {
   return <Registration />
