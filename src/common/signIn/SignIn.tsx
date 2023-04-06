@@ -7,31 +7,20 @@ import Link from 'next/link'
 import { Button } from '@/common/ui/button/Button'
 import s from './SignIn.module.scss'
 import { Form } from '@/common/ui/Form/Form'
-import { useForm } from 'react-hook-form'
-import { QueryClient, useMutation } from 'react-query'
-import axios from 'axios'
+import { QueryClient } from 'react-query'
 import { object, string } from 'yup'
+import { useLoginMutation } from '@/services/login/hooks'
 
-//type SignInProps = {}
 export type FormType = {
   email: string
   password: string
 }
 
 const SignIn = () => {
-  const client = new QueryClient()
+  const { mutate: login, data, error } = useLoginMutation()
 
-  const { mutate: login } = useMutation({
-    mutationFn: (body) => axios.post('api/auth/login', body),
-    onSuccess: (user) => {
-      client.setQueriesData(['login'], () => {
-        return user
-      })
-    },
-  })
   const onSubmit = (data: FormType) => {
-    //login(data)
-    console.log(data)
+    login(data)
   }
   const schema = object().shape({
     email: string().required().email(),
@@ -63,7 +52,6 @@ const SignIn = () => {
             Forgot password
           </Link>
         </div>
-
         {/* eslint-disable-next-line react/no-unescaped-entities */}
         <span className={s.inscription}>Don't have an account?</span>
         <span>
