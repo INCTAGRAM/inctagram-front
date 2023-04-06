@@ -3,6 +3,7 @@ $dark_300: #333333;
 $light_900: #BDC1C7;
 $light_100: #FFFFFF;
 $primary_500: #397DF6;
+$danger_500: #CC1439;
 
 .page {
     display: flex;
@@ -29,7 +30,7 @@ $primary_500: #397DF6;
     color: $light_900;
     text-decoration: none;
     position: relative;
-    left: 93%;
+    //left: 93%;
     font-size: 14px;
     font-weight: 400;
     line-height: 24px;
@@ -78,4 +79,13 @@ $primary_500: #397DF6;
 }
 .icon {
     cursor: pointer;
+}
+.error {
+    color: $danger_500;
+}
+.forgot_pass_row{
+    width: 100%;
+    display: flex;
+    justify-content: right;
+    padding-right: 8%;
 }
