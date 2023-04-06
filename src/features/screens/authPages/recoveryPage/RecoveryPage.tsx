@@ -32,6 +32,12 @@ const RecoveryPage = () => {
 
   const { name, onChange, onBlur, ref } = register('email')
 
+  const { mutate: sendEmail } = useMutation({
+    mutationFn: authService.passwordRecovery,
+    onSuccess: () => setIsShowPopup(true),
+    onError: (error) => setError('email', error),
+  })
+
   const onFormSubmit: SubmitHandler<IRecovery> = (data) => {
     if (!data.email) return
 
@@ -39,12 +45,6 @@ const RecoveryPage = () => {
     setEmail(data.email)
     reset()
   }
-
-  const { mutate: sendEmail } = useMutation({
-    mutationFn: authService.passwordRecovery,
-    onSuccess: () => setIsShowPopup(true),
-    onError: (error) => setError('email', error),
-  })
 
   return (
     <div className={authStyles.authPage}>

@@ -1,13 +1,13 @@
 import React from 'react'
-import CreateNewPassword from '@/features/auth/CreateNewPassword/CreateNewPassword'
+import NewPasswordPage from '@/features/screens/authPages/newPasswordPage/NewPasswordPage'
 import { useRouter } from 'next/router'
 
 const Code = () => {
   const { query } = useRouter()
-  console.log(query.code)
+
   return (
     <div>
-      <CreateNewPassword code={query.code as string} />
+      <NewPasswordPage code={query.code as string} />
     </div>
   )
 }
