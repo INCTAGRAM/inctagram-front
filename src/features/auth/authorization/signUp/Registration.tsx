@@ -5,22 +5,31 @@ import { SubmitHandler, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { inputSchema } from '@/hooks/inputValidation'
 import { Button } from '@/common/ui/button/Button'
-import { useMutation, useQuery } from 'react-query'
+import { useMutation } from '@tanstack/react-query'
 import { authAPI } from '@/api/auth'
+import { useState } from 'react'
+import AuthPopup from '@/features/auth/authPopup/AuthPopup'
 
 export const Registration = () => {
+  const [email, setEmail] = useState('')
+  const [isShowPopup, setIsShowPopup] = useState(false)
+
   const {
     register,
     formState: { errors },
     handleSubmit,
+    reset,
   } = useForm({ mode: 'onTouched', resolver: yupResolver(inputSchema) })
 
   const { mutate: registration } = useMutation({
     mutationFn: authAPI.registration,
+    onSuccess: () => setIsShowPopup(true),
   })
 
   const onSubmit: SubmitHandler<RegistrationValuesType> = (values) => {
     registration(values)
+    setEmail(values.email)
+    reset()
   }
 
   return (
@@ -53,6 +62,7 @@ export const Registration = () => {
         </p>
         <Button type={'submit'}>Sign Up</Button>
       </form>
+      <AuthPopup email={email} isShowPopup={isShowPopup} setIsShowPopup={setIsShowPopup} />
     </div>
   )
 }
