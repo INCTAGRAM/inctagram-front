@@ -1,4 +1,4 @@
-import { useMutation, useQueryClient } from 'react-query'
+import { useMutation } from 'react-query'
 import { loginApi } from '@/services/login/loginApi'
 import { instance } from '@/services/login/instance'
 
