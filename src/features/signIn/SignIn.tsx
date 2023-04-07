@@ -29,11 +29,13 @@ const SignIn = () => {
     if (isSuccess) {
       router.push('/')
     }
-  }, [isSuccess])
+  }, [isSuccess, router])
 
   return (
     <>
-      {isLoading && <div style={{ color: 'red', position: 'absolute' }}>Loading....</div>}
+      {isLoading && (
+        <div style={{ color: 'red', position: 'absolute', left: '50%', transform: 'translate(-50%)' }}>Loading....</div>
+      )}
       <div className={s.page}>
         <div className={s.main}>
           <div className={s.title}>Sign in</div>
