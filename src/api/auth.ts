@@ -8,9 +8,6 @@ export const authAPI = {
   registration(data: RegistrationDateType) {
     return instance.post('/auth/registration', data).then((res) => res.data)
   },
-  test() {
-    return axios.get('https://jsonplaceholder.typicode.com/posts/1')
-  },
 }
 
 type RegistrationDateType = {

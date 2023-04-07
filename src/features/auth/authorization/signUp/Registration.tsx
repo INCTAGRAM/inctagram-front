@@ -15,31 +15,41 @@ export const Registration = () => {
     handleSubmit,
   } = useForm({ mode: 'onTouched', resolver: yupResolver(inputSchema) })
 
-  const mutation = useMutation((values: RegistrationValueType) => authAPI.registration(values))
+  const { mutate: registration } = useMutation({
+    mutationFn: authAPI.registration,
+  })
 
-  const onSubmit: SubmitHandler<RegistrationValueType> = (values) => {
-    mutation.mutate(values)
+  const onSubmit: SubmitHandler<RegistrationValuesType> = (values) => {
+    registration(values)
   }
-
-  // const { data } = useQuery({
-  //   queryKey: ['registrationResult'],
-  //   queryFn: () => authAPI.signUp({ email: 'dfefelov@bk.ru', password: '111111111' }),
-  // })
-
-  // console.log(data)
 
   return (
     <div className={style.formContainer}>
       <form onSubmit={handleSubmit(onSubmit)}>
         <h1>Sign Up</h1>
         <p>
-          <InputText fieldName={'Email'} {...register('email')} />
+          <InputText
+            fieldName={'Email'}
+            autoComplete="off"
+            {...register('email')}
+            error={errors.email?.message && errors.email.message}
+          />
         </p>
         <p>
-          <InputPassword fieldName={'Password'} {...register('password')} />
+          <InputPassword
+            fieldName={'Password'}
+            autoComplete="off"
+            {...register('password')}
+            error={errors.password?.message && errors.password.message}
+          />
         </p>
         <p>
-          <InputPassword fieldName={'Password confirmation'} {...register('passwordConfirmation')} />
+          <InputPassword
+            fieldName={'Password confirmation'}
+            autoComplete="off"
+            {...register('passwordConfirmation')}
+            error={errors.passwordConfirmation?.message && errors.passwordConfirmation.message}
+          />
         </p>
         <Button type={'submit'}>Sign Up</Button>
       </form>
@@ -47,7 +57,7 @@ export const Registration = () => {
   )
 }
 
-type RegistrationValueType = {
+type RegistrationValuesType = {
   email: string
   password: string
   passwordConfirmation: string
