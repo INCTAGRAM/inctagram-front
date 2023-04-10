@@ -3,7 +3,6 @@ import * as yup from 'yup'
 const emailRegExp = /^\w[\w-.]*@[\w-]+\.[a-z]{2,7}$/i
 
 export const loginSchema = yup.object().shape({
-  userName: yup.string().required(),
   email: yup.string().matches(emailRegExp, 'Email must be a valid').required(),
   password: yup.string().min(6).max(20).required(),
 })

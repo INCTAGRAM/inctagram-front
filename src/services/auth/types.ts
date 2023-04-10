@@ -2,7 +2,12 @@ export interface ILoginResponse {
   accessToken: string
 }
 
-export interface IAuthData {
+export interface ILoginData {
+  email: string
+  password: string
+}
+
+export interface IRegistrationData {
   userName: string
   email: string
   password: string

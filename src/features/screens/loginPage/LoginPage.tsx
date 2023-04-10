@@ -39,10 +39,10 @@ const LoginPage = () => {
     },
   })
 
-  const onFormSubmit: SubmitHandler<LoginType> = ({ userName, email, password }) => {
-    if (!userName || !email || !password) return
+  const onFormSubmit: SubmitHandler<LoginType> = ({ email, password }) => {
+    if (!email || !password) return
 
-    login({ userName, email, password })
+    login({ email, password })
   }
 
   useEffect(() => {
@@ -57,14 +57,6 @@ const LoginPage = () => {
         onSubmit={handleSubmit(onFormSubmit)}
         redirect={{ title: "Don't have an account?", link: RouteNames.REGISTER, linkTitle: 'Sign Up' }}
       >
-        <p>
-          <InputText
-            fieldName="Username"
-            {...register('userName')}
-            autoComplete="off"
-            error={errors.userName?.message ? errors.userName.message : ''}
-          />
-        </p>
         <p>
           <InputText
             fieldName="Email"

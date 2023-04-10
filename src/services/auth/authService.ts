@@ -1,11 +1,11 @@
 import { instance } from '@/services/config'
-import { IAuthData, ILoginResponse, INewPasswordData, IAuthData } from '@/services/auth/types'
+import { ILoginData, ILoginResponse, INewPasswordData, IRegistrationData } from '@/services/auth/types'
 
 export const authService = {
-  login: (payload: IAuthData) => {
+  login: (payload: ILoginData) => {
     return instance.post<ILoginResponse>('/auth/login', payload)
   },
-  registration: (payload: IAuthData) => {
+  registration: (payload: IRegistrationData) => {
     return instance.post('/auth/registration', payload).then((response) => response.data)
   },
   passwordRecovery: (email: string) => {
