@@ -8,7 +8,7 @@ export interface ILoginData {
 }
 
 export interface IRegistrationData {
-  userName: string
+  username: string
   email: string
   password: string
 }

@@ -31,10 +31,10 @@ export const RegistrationPage = () => {
     onSuccess: () => setIsShowPopup(true),
   })
 
-  const onFormSubmit: SubmitHandler<RegistrationType> = ({ userName, email, password }) => {
-    if (!email || !password || !userName) return
+  const onFormSubmit: SubmitHandler<RegistrationType> = ({ username, email, password }) => {
+    if (!email || !password || !username) return
 
-    registration({ userName, email, password })
+    registration({ username, email, password })
     setEmail(email)
     reset()
   }
@@ -51,8 +51,8 @@ export const RegistrationPage = () => {
           <InputText
             fieldName={'Username'}
             autoComplete="off"
-            {...register('userName')}
-            error={errors.userName?.message ? errors.userName.message : ''}
+            {...register('username')}
+            error={errors.username?.message ? errors.username.message : ''}
           />
         </p>
         <p>
