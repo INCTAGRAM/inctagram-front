@@ -1,0 +1,19 @@
+$dark_700: #0D0D0D;
+$dark_300: #333333;
+$light_900: #BDC1C7;
+$light_100: #FFFFFF;
+$primary_500: #397DF6;
+$danger_500: #CC1439;
+
+.content_center {
+  background: #0D0D0D;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+};
+
+.content_end {
+  display: flex;
+  justify-content: flex-end;
+}

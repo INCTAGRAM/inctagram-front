@@ -1,3 +1,5 @@
-export default function Home() {
-  return <>Hello)</>
+const Index = () => {
+  return <></>
 }
+
+export default Index
