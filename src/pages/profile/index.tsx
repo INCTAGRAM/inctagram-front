@@ -1,5 +1,6 @@
 import { NextPage } from 'next'
+import GeneralInfo from '@/features/profile/generalInfo/GeneralInfo'
 
-const Index: NextPage = () => <div>profile</div>
+const Index: NextPage = () => <GeneralInfo />
 
 export default Index
