@@ -1,11 +1,19 @@
 import React from 'react'
 import NewPasswordPage from '@/features/screens/newPasswordPage/NewPasswordPage'
 import { useRouter } from 'next/router'
+import { NextPageWithLayout } from '@/pages/_app'
+import HeadMeta from '@/common/headMeta/HeadMeta'
+import { getBaseLayout } from '@/common/layout/baseLayout/BaseLayout'
 
-const Index = () => {
+const NewPassword: NextPageWithLayout = () => {
   const { query } = useRouter()
 
-  return <NewPasswordPage code={query.code as string} />
+  return (
+    <HeadMeta title={'New password'}>
+      <NewPasswordPage code={query.code as string} />
+    </HeadMeta>
+  )
 }
 
-export default Index
+NewPassword.getLayout = getBaseLayout
+export default NewPassword

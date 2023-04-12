@@ -9,7 +9,6 @@ import EmailSendPopup from '@/features/popups/emailSendPopup/EmailSendPopup'
 import { authService } from '@/services/auth/authService'
 import { registrationSchema } from '@/validations/auth-schemes'
 import * as yup from 'yup'
-import screenStyles from '../screens.module.scss'
 import Form from '@/features/form/Form'
 import { RouteNames } from '@/constants/routes'
 
@@ -40,7 +39,7 @@ export const RegistrationPage = () => {
   }
 
   return (
-    <div className={screenStyles.content_center}>
+    <>
       <Form
         title="Sign Up"
         isTopPanel={true}
@@ -84,6 +83,6 @@ export const RegistrationPage = () => {
         </Button>
       </Form>
       <EmailSendPopup email={email} isShowPopup={isShowPopup} setIsShowPopup={setIsShowPopup} />
-    </div>
+    </>
   )
 }
