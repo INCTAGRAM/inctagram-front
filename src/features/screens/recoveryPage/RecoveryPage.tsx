@@ -4,7 +4,6 @@ import { authService } from '@/services/auth/authService'
 import { InputText } from '@/common/ui/inputText/InputText'
 import { Button } from '@/common/ui/button/Button'
 import EmailSendPopup from '@/features/popups/emailSendPopup/EmailSendPopup'
-import screenStyles from '../screens.module.scss'
 import { ErrorOption, SubmitHandler, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
@@ -45,7 +44,7 @@ const RecoveryPage = () => {
   }
 
   return (
-    <div className={screenStyles.content_center}>
+    <>
       <Form
         title="Forgot Password"
         onSubmit={handleSubmit(onFormSubmit)}
@@ -66,7 +65,7 @@ const RecoveryPage = () => {
         </Button>
       </Form>
       <EmailSendPopup email={email} isShowPopup={isShowPopup} setIsShowPopup={setIsShowPopup} />
-    </div>
+    </>
   )
 }
 

@@ -1,7 +1,16 @@
 import React from 'react'
-import { NextPage } from 'next'
 import RecoveryPage from '@/features/screens/recoveryPage/RecoveryPage'
+import { NextPageWithLayout } from '@/pages/_app'
+import HeadMeta from '@/common/headMeta/HeadMeta'
+import { getBaseLayout } from '@/common/layout/baseLayout/BaseLayout'
 
-const Index: NextPage = () => <RecoveryPage />
+const Recovery: NextPageWithLayout = () => {
+  return (
+    <HeadMeta title={'Recovery password'}>
+      <RecoveryPage />
+    </HeadMeta>
+  )
+}
 
-export default Index
+Recovery.getLayout = getBaseLayout
+export default Recovery
