@@ -7,13 +7,16 @@ export enum RouteNames {
   RECOVERY_EXPIRED = '/recovery/expired',
   PROFILE = '/profile',
   HOME = '/',
+  PROFILE = '/profile',
+  PROFILE_EMPTY = '/profile/empty',
+  PROFILE_CREATE = '/profile/create',
 }
 
-export const UnprotectedRoutes = [
+export const UnprotectedRoutes: string[] = [
   RouteNames.LOGIN,
   RouteNames.REGISTER,
   RouteNames.REGISTER_SUCCESS,
   RouteNames.RECOVERY,
   RouteNames.NEW_PASSWORD,
   RouteNames.RECOVERY_EXPIRED,
-] as string
+]

@@ -1,28 +1,29 @@
 import style from './Feedback.module.scss'
 import { Button } from '@/common/ui/button/Button'
 import Image from 'next/image'
+import { MouseEventHandler } from 'react'
 
 interface IFeedback {
   title: string
   info: string
-  image: string
+  image?: string
   actionBtnTitle?: string
-  action?: () => void
+  action?: MouseEventHandler<HTMLButtonElement>
 }
 
 const Feedback = ({ title, info, image, actionBtnTitle, action }: IFeedback) => {
-  const { src, width, height } = image
-
   return (
     <div className={style.content}>
       <div className={style.info_content}>
         <h1>{title}</h1>
         <p>{info}</p>
-        <div>
-          <Button onClick={action}>{actionBtnTitle}</Button>
-        </div>
+        {action && (
+          <div>
+            <Button onClick={action}>{actionBtnTitle}</Button>
+          </div>
+        )}
       </div>
-      <Image src={src} width={width} height={height} priority="false" alt="" />
+      {image && <Image src={image} alt="" />}
     </div>
   )
 }
