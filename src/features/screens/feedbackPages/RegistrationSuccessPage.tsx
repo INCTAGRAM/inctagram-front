@@ -1,5 +1,5 @@
 import screenStyles from '../screens.module.scss'
-import successImg from '@/assets/images/auth/bro.png'
+import successImg from '../../../../public/bro.png'
 import Feedback from '@/common/ui/feedback/Feedback'
 import { useRouter } from 'next/router'
 import { RouteNames } from '@/constants/routes'

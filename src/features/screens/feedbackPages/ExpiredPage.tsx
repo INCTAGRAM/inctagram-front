@@ -1,6 +1,6 @@
 import screenStyles from '../screens.module.scss'
 import Feedback from '@/common/ui/feedback/Feedback'
-import expiredImg from '@/assets/images/auth/expired-link.png'
+import expiredImg from '../../../../public/expired-link.png'
 import { useRouter } from 'next/router'
 import { RouteNames } from '@/constants/routes'
 
