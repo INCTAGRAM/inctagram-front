@@ -3,4 +3,4 @@
 
 yarn lint-staged
 
-yarn ts-lint-commit-hook
+yarn ts-lint
