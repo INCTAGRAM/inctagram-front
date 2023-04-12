@@ -50,7 +50,6 @@ const RecoveryPage = () => {
         title="Forgot Password"
         onSubmit={handleSubmit(onFormSubmit)}
         redirect={{ link: RouteNames.LOGIN, linkTitle: 'Back to Sign In' }}
-        isTopPanel={true}
       >
         <p>
           <InputText

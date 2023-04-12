@@ -8,6 +8,8 @@
     "start": "next start",
     "lint": "next lint",
     "lint:fix": "yarn run lint --fix",
+    "ts-lint": "tsc --project tsconfig.json",
+    "ts-lint:watch": "tsc --project tsconfig.json --watch",
     "prepare": "husky install"
   },
   "dependencies": {
