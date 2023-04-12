@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { PropsWithChildren } from 'react'
 import styles from './Popup.module.scss'
 import IcomoonReact from 'icomoon-react'
 import iconSet from '@/assets/icons/selection.json'
@@ -9,7 +9,7 @@ interface IPopupProps {
   modalOnClick?: () => void
 }
 
-export const Popup = ({ show, modalOnClick, title, children }: IPopupProps) => {
+export const Popup = ({ show, modalOnClick, title, children }: PropsWithChildren<IPopupProps>) => {
   const finalPopupClassName = show ? `${styles.popup_background} ${styles.popup_open}` : `${styles.popup_background}`
 
   return (

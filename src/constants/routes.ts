@@ -8,11 +8,11 @@ export enum RouteNames {
   HOME = '/',
 }
 
-export const UnprotectedRoutes = [
+export const UnprotectedRoutes: string[] = [
   RouteNames.LOGIN,
   RouteNames.REGISTER,
   RouteNames.REGISTER_SUCCESS,
   RouteNames.RECOVERY,
   RouteNames.NEW_PASSWORD,
   RouteNames.RECOVERY_EXPIRED,
-] as string
+]

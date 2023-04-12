@@ -3,7 +3,7 @@ import { ILoginData, ILoginResponse, INewPasswordData, IRegistrationData } from 
 
 export const authService = {
   login: (payload: ILoginData) => {
-    return instance.post<ILoginResponse>('/auth/login', payload)
+    return instance.post<ILoginResponse>('/auth/login', payload).then((response) => response.data)
   },
   registration: (payload: IRegistrationData) => {
     return instance.post('/auth/registration', payload).then((response) => response.data)

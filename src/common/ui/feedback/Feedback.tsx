@@ -5,7 +5,7 @@ import Image from 'next/image'
 interface IFeedback {
   title: string
   info: string
-  image: string
+  image: any
   actionBtnTitle?: string
   action?: () => void
 }
@@ -22,7 +22,7 @@ const Feedback = ({ title, info, image, actionBtnTitle, action }: IFeedback) => 
           <Button onClick={action}>{actionBtnTitle}</Button>
         </div>
       </div>
-      <Image src={src} width={width} height={height} priority="false" alt="" />
+      <Image src={src} width={width} height={height} alt="" />
     </div>
   )
 }

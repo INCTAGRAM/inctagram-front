@@ -2,7 +2,7 @@ import IcomoonReact from 'icomoon-react'
 import iconSet from '@/assets/icons/selection.json'
 import { RouteNames } from '@/constants/routes'
 import Link from 'next/link'
-import React from 'react'
+import React, { PropsWithChildren } from 'react'
 import styles from './Form.module.scss'
 
 interface IFormProps {
@@ -18,7 +18,7 @@ interface IRedirect {
   linkTitle: string
 }
 
-const Form = ({ title, onSubmit, redirect, isTopPanel, children }: IFormProps) => {
+const Form = ({ title, onSubmit, redirect, isTopPanel, children }: PropsWithChildren<IFormProps>) => {
   return (
     <div className={styles.block}>
       <h1>{title}</h1>
