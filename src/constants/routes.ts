@@ -5,7 +5,6 @@ export enum RouteNames {
   RECOVERY = '/recovery',
   NEW_PASSWORD = '/recovery/new-password',
   RECOVERY_EXPIRED = '/recovery/expired',
-  PROFILE = '/profile',
   HOME = '/',
   PROFILE = '/profile',
   PROFILE_EMPTY = '/profile/empty',

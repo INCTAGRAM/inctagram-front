@@ -1,12 +1,12 @@
 import style from './Feedback.module.scss'
 import { Button } from '@/common/ui/button/Button'
-import Image from 'next/image'
+import Image, { StaticImageData } from 'next/image'
 import { MouseEventHandler } from 'react'
 
 interface IFeedback {
   title: string
   info: string
-  image?: string
+  image?: StaticImageData
   actionBtnTitle?: string
   action?: MouseEventHandler<HTMLButtonElement>
 }

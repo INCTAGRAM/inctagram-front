@@ -8,6 +8,8 @@
     "start": "next start",
     "lint": "next lint",
     "lint:fix": "yarn run lint --fix",
+    "ts-lint": "tsc --noEmit --incremental --watch",
+    "ts-lint-commit-hook": "tsc --noEmit --incremental",
     "prepare": "husky install"
   },
   "dependencies": {
