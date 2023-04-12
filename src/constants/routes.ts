@@ -6,6 +6,9 @@ export enum RouteNames {
   NEW_PASSWORD = '/recovery/new-password',
   RECOVERY_EXPIRED = '/recovery/expired',
   HOME = '/',
+  PROFILE = '/profile',
+  PROFILE_EMPTY = '/profile/empty',
+  PROFILE_CREATE = '/profile/create',
 }
 
 export const UnprotectedRoutes: string[] = [
