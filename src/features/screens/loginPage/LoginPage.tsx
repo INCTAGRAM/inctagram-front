@@ -14,6 +14,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { RouteNames } from '@/constants/routes'
 import Form from '@/features/form/Form'
 import Link from 'next/link'
+import { ILoginResponse } from '@/services/auth/types'
 
 type LoginType = yup.InferType<typeof loginSchema>
 
@@ -30,7 +31,7 @@ const LoginPage = () => {
     resolver: yupResolver(loginSchema),
   })
 
-  const { mutate: login, isSuccess } = useMutation({
+  const { mutate: login, isSuccess } = useMutation<ILoginResponse, unknown, LoginType>({
     mutationFn: authService.login,
     onSuccess: (response) => {
       const accessToken = response.accessToken

@@ -5,7 +5,7 @@ import { InputText } from '@/common/ui/inputText/InputText'
 import { Button } from '@/common/ui/button/Button'
 import EmailSendPopup from '@/features/popups/emailSendPopup/EmailSendPopup'
 import screenStyles from '../screens.module.scss'
-import { SubmitHandler, useForm } from 'react-hook-form'
+import { ErrorOption, SubmitHandler, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
 import { recoverySchema } from '@/validations/auth-schemes'
@@ -33,7 +33,7 @@ const RecoveryPage = () => {
   const { mutate: sendEmail } = useMutation({
     mutationFn: authService.passwordRecovery,
     onSuccess: () => setIsShowPopup(true),
-    onError: (error) => setError('email', error),
+    onError: (error: ErrorOption) => setError('email', error),
   })
 
   const onFormSubmit: SubmitHandler<RecoveryType> = ({ email }) => {
@@ -50,7 +50,7 @@ const RecoveryPage = () => {
         title="Forgot Password"
         onSubmit={handleSubmit(onFormSubmit)}
         redirect={{ link: RouteNames.LOGIN, linkTitle: 'Back to Sign In' }}
-        isRecovery={true}
+        isTopPanel={true}
       >
         <p>
           <InputText
