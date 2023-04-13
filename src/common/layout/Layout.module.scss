@@ -1,18 +1,17 @@
-$dark_700: #0D0D0D;
-$dark_300: #333333;
-$light_900: #BDC1C7;
-$light_100: #FFFFFF;
-$primary_500: #397DF6;
-$danger_500: #CC1439;
+@import "src/assets/styles/variables";
 
 .content_center {
-  background: #0D0D0D;
+  background: $dark_700;
   min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 0 20px 20px 20px;
 };
+
+.navbar_and_content {
+  display: grid;
+  grid-template-columns: 220px calc(100% - 220px);
+}
 
 .content_end {
   display: flex;
