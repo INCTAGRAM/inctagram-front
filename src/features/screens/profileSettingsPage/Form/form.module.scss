@@ -1,0 +1,24 @@
+$light_100: #FFFFFF;
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  width: 494px;
+  p {
+    span {
+      color: #BDC1C7;
+      font-size: 14px;
+    }
+    input {
+      color: $light_100;
+      font-size: 16px;
+    }
+    .field{
+      color: white;
+    }
+    button {
+      display: inline-block;
+    }
+  }
+}
