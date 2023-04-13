@@ -1,9 +1,7 @@
 .container {
   display: flex;
   flex-direction: row;
-  h1 {
-    color: #FFFFFF;
-  }
+
   gap: 40px;
   div {
     .button {
@@ -22,6 +20,9 @@
     width: 725px;
     background: #333333;
     margin: 25px 0;
+  }
+  h1 {
+    color: #FFFFFF;
   }
 
 }
