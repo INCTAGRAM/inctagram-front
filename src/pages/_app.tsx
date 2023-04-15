@@ -1,7 +1,7 @@
 import '@/assets/styles/reset.css'
 import '@/assets/styles/globals.scss'
 import type { AppProps } from 'next/app'
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { QueryClient, QueryClientProvider, Hydrate } from '@tanstack/react-query'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import LoginRedirect from '@/features/loginRedirect'
 import { ReactElement, ReactNode, useState } from 'react'
@@ -22,9 +22,11 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
 
   return getLayout(
     <QueryClientProvider client={queryClient}>
-      <LoginRedirect>
-        <Component {...pageProps} />
-      </LoginRedirect>
+      <Hydrate state={pageProps.dehydratedState}>
+        <LoginRedirect>
+          <Component {...pageProps} />
+        </LoginRedirect>
+      </Hydrate>
       <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
   )

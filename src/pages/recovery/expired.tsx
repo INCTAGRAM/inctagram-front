@@ -5,11 +5,12 @@ import { getBaseLayout } from '@/common/layout/baseLayout/BaseLayout'
 
 const Expired: NextPageWithLayout = () => {
   return (
-    <HeadMeta title={'Expired'}>
+    <HeadMeta title="Expired">
       <ExpiredPage />
     </HeadMeta>
   )
 }
 
 Expired.getLayout = getBaseLayout
+
 export default Expired
