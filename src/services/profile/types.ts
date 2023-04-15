@@ -6,6 +6,16 @@ export interface IProfileData {
   aboutMe: string
 }
 
+export interface IProfileResponse {
+  username: string
+  name: string
+  surname: string
+  birthday: string
+  city: string
+  aboutMe: string
+  avatar: IUploadAvatarResponse
+}
+
 export interface IUploadAvatarResponse {
   url: string
   previewUrl: string
