@@ -1,7 +1,16 @@
 import React from 'react'
-import { NextPage } from 'next'
 import LoginPage from '@/features/screens/loginPage/LoginPage'
+import { NextPageWithLayout } from '@/pages/_app'
+import { getBaseLayout } from '@/common/layout/baseLayout/BaseLayout'
+import HeadMeta from '@/common/headMeta/HeadMeta'
 
-const Index: NextPage = () => <LoginPage />
+const Login: NextPageWithLayout = () => {
+  return (
+    <HeadMeta title={'Login'}>
+      <LoginPage />
+    </HeadMeta>
+  )
+}
 
-export default Index
+Login.getLayout = getBaseLayout
+export default Login

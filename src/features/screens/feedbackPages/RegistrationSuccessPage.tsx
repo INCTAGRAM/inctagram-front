@@ -1,4 +1,3 @@
-import screenStyles from '../screens.module.scss'
 import successImg from '../../../../public/auth/bro.png'
 import Feedback from '@/common/ui/feedback/Feedback'
 import { useRouter } from 'next/router'
@@ -10,15 +9,13 @@ const RegistrationSuccessPage = () => {
   const redirectToLogin = () => push(RouteNames.LOGIN)
 
   return (
-    <div className={screenStyles.content_center}>
-      <Feedback
-        title="Congratulations!"
-        info="Your email has been confirmed"
-        image={successImg}
-        actionBtnTitle="Sign In"
-        action={redirectToLogin}
-      />
-    </div>
+    <Feedback
+      title="Congratulations!"
+      info="Your email has been confirmed"
+      image={successImg}
+      actionBtnTitle="Sign In"
+      action={redirectToLogin}
+    />
   )
 }
 

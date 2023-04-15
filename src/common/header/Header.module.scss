@@ -1,0 +1,11 @@
+.headerContainer {
+  height: 60px;
+  display: flex;
+  align-items: center;
+
+  .logo {
+    max-width: 128px;
+    height: 36px;
+    margin-left: 60px;
+  }
+}

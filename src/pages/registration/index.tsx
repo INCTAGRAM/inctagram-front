@@ -1,6 +1,15 @@
 import { RegistrationPage } from '@/features/screens/registrationPage/RegistrationPage'
-import { NextPage } from 'next'
+import { NextPageWithLayout } from '@/pages/_app'
+import HeadMeta from '@/common/headMeta/HeadMeta'
+import { getBaseLayout } from '@/common/layout/baseLayout/BaseLayout'
 
-const Index: NextPage = () => <RegistrationPage />
+const Registration: NextPageWithLayout = () => {
+  return (
+    <HeadMeta title={'Registration'}>
+      <RegistrationPage />
+    </HeadMeta>
+  )
+}
 
-export default Index
+Registration.getLayout = getBaseLayout
+export default Registration

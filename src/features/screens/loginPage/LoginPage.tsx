@@ -9,7 +9,6 @@ import { SubmitHandler, useForm } from 'react-hook-form'
 import { useMutation } from '@tanstack/react-query'
 import { authService } from '@/services/auth/authService'
 import { instance } from '@/services/config'
-import screenStyles from '@/features/screens/screens.module.scss'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { RouteNames } from '@/constants/routes'
 import Form from '@/features/form/Form'
@@ -51,37 +50,35 @@ const LoginPage = () => {
   }, [isSuccess, push])
 
   return (
-    <div className={screenStyles.content_center}>
-      <Form
-        title="Sign In"
-        isTopPanel={true}
-        onSubmit={handleSubmit(onFormSubmit)}
-        redirect={{ title: "Don't have an account?", link: RouteNames.REGISTER, linkTitle: 'Sign Up' }}
-      >
-        <p>
-          <InputText
-            fieldName="Email"
-            {...register('email')}
-            autoComplete="off"
-            error={errors.email?.message ? errors.email.message : ''}
-          />
-        </p>
-        <p>
-          <InputPassword
-            fieldName="Password"
-            {...register('password')}
-            autoComplete="off"
-            error={errors.password?.message ? errors.password.message : ''}
-          />
-        </p>
-        <div>
-          <Link href={RouteNames.RECOVERY}>Forgot Password</Link>
-        </div>
-        <Button type="submit" disabled={!isValid && !isDirty}>
-          Sign in
-        </Button>
-      </Form>
-    </div>
+    <Form
+      title="Sign In"
+      isTopPanel={true}
+      onSubmit={handleSubmit(onFormSubmit)}
+      redirect={{ title: "Don't have an account?", link: RouteNames.REGISTER, linkTitle: 'Sign Up' }}
+    >
+      <p>
+        <InputText
+          fieldName="Email"
+          {...register('email')}
+          autoComplete="off"
+          error={errors.email?.message ? errors.email.message : ''}
+        />
+      </p>
+      <p>
+        <InputPassword
+          fieldName="Password"
+          {...register('password')}
+          autoComplete="off"
+          error={errors.password?.message ? errors.password.message : ''}
+        />
+      </p>
+      <div>
+        <Link href={RouteNames.RECOVERY}>Forgot Password</Link>
+      </div>
+      <Button type="submit" disabled={!isValid && !isDirty}>
+        Sign in
+      </Button>
+    </Form>
   )
 }
 
