@@ -10,7 +10,7 @@ const NewPassword: NextPageWithLayout = () => {
 
   return (
     <HeadMeta title={'New password'}>
-      <NewPasswordPage code={query.code as string} />
+      <NewPasswordPage code={query.code as string} email={query.email as string} />
     </HeadMeta>
   )
 }
