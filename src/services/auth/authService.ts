@@ -1,5 +1,11 @@
 import { instance } from '@/services/config'
-import { ILoginData, ILoginResponse, INewPasswordData, IRegistrationData } from '@/services/auth/types'
+import {
+  IConfirmationData,
+  ILoginData,
+  ILoginResponse,
+  INewPasswordData,
+  IRegistrationData,
+} from '@/services/auth/types'
 
 export const authService = {
   login: (payload: ILoginData) => {
@@ -7,6 +13,14 @@ export const authService = {
   },
   registration: (payload: IRegistrationData) => {
     return instance.post('/auth/registration', payload).then((response) => response.data)
+  },
+  confirmation: (code: string) => {
+    return instance
+      .post<IConfirmationData>('/auth/registration-confirmation', { code })
+      .then((response) => response.data)
+  },
+  resendingConfirmation: (email: string) => {
+    return instance.post('/auth/registration-email-resending', { email }).then((response) => response.data)
   },
   passwordRecovery: (email: string) => {
     return instance.post('/auth/password-recovery', { email }).then((response) => response.data)

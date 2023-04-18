@@ -8,22 +8,42 @@ import { newPasswordSchema } from '@/validations/auth-schemes'
 import * as yup from 'yup'
 import { authService } from '@/services/auth/authService'
 import Form from '@/features/form/Form'
+import { useRouter } from 'next/router'
+import { RouteNames } from '@/constants/routes'
+import { AxiosError } from 'axios'
+import { INewPasswordError } from '@/services/auth/types'
+import { MailVerificationErrors } from '@/constants/errorMessages'
 
 type NewPassword = yup.InferType<typeof newPasswordSchema>
 
 interface INewPasswordPage {
   code: string
+  email: string
 }
 
-const NewPasswordPage = ({ code }: INewPasswordPage) => {
+const NewPasswordPage = ({ code, email }: INewPasswordPage) => {
+  const { push } = useRouter()
+
   const {
     register,
     handleSubmit,
     formState: { errors, isValid, isDirty },
   } = useForm<NewPassword>({ mode: 'onBlur', resolver: yupResolver(newPasswordSchema) })
 
-  const { mutate: createNewPassword } = useMutation({
+  const { mutate: createNewPassword } = useMutation<unknown, AxiosError<INewPasswordError>, any>({
     mutationFn: authService.createNewPassword,
+    onSuccess: () => {
+      push(RouteNames.NEW_PASSWORD_CONFIRMATION)
+    },
+    onError: (err) => {
+      const message = err.response?.data.message[0]
+      if (message === MailVerificationErrors.Expired || message === MailVerificationErrors.NoExists) {
+        push({
+          pathname: RouteNames.RECOVERY_EXPIRED,
+          query: { email },
+        })
+      }
+    },
   })
 
   const onFormSubmit: SubmitHandler<NewPassword> = ({ newPassword }) => {
