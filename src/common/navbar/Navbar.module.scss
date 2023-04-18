@@ -3,7 +3,7 @@
 .navbar {
   padding: 72px 20px 150px 60px;
   border-right: 1px solid $dark_300;
-  min-height: 100vh;
+  min-height: calc(100vh - 60px);
   .navbar_link {
     display: flex;
     align-items: center;
