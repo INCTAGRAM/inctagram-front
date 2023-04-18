@@ -1,0 +1,8 @@
+.page_wrapper {
+  padding: 25px;
+  width: 90%;
+
+  @media screen and (max-width: 896px) {
+    width: 100%;
+  }
+}
