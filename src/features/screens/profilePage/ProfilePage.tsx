@@ -1,14 +1,13 @@
-import GeneralInfo, { IInfo } from '@/features/profile/generalInfo/GeneralInfo'
-import { QueryClient, dehydrate, useQuery } from '@tanstack/react-query'
-import { instance } from '@/services/config'
+import ProfileInfo, { IInfo } from '@/features/profile/profileInfo/ProfileInfo'
+import { dehydrate, QueryClient, useQuery } from '@tanstack/react-query'
 import styles from './ProfilePage.module.scss'
-
-const getProfile = () => instance.get<IInfo>('/users/self/profile').then((response) => response.data)
+import { profileService } from '@/services/profile/profileService'
+import { IProfileResponse } from '@/services/profile/types'
 
 export const getServerSideProps = async () => {
   const queryClient = new QueryClient()
 
-  await queryClient.prefetchQuery(['profile'], getProfile)
+  await queryClient.prefetchQuery(['profile'], profileService.checkUserProfile)
 
   return {
     props: {
@@ -18,17 +17,14 @@ export const getServerSideProps = async () => {
 }
 
 const ProfilePage = () => {
-  const { data: profileInfo } = useQuery<IInfo, unknown, IInfo>({
+  const { data: profileInfo } = useQuery<IProfileResponse, unknown, IInfo>({
     queryKey: ['posts'],
-    queryFn: getProfile,
-    onSuccess: (data) => {
-      console.log(data)
-    },
+    queryFn: profileService.checkUserProfile,
   })
 
   return profileInfo ? (
     <div className={styles.page_wrapper}>
-      <GeneralInfo info={profileInfo} />
+      <ProfileInfo info={profileInfo} />
     </div>
   ) : null
 }

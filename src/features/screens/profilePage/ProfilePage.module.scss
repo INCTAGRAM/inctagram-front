@@ -1,8 +1,9 @@
 .page_wrapper {
-  padding: 25px;
-  width: 90%;
+  display: flex;
+  justify-content: flex-start;
+  padding: 35px;
 
-  @media screen and (max-width: 896px) {
-    width: 100%;
+  @media screen and (max-width: 1200px) {
+    justify-content: center;
   }
 }
