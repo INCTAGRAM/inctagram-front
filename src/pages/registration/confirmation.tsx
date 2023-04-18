@@ -6,6 +6,7 @@ import ExpiredPage from '@/features/screens/feedbackPages/ExpiredPage'
 import { getBaseLayout } from '@/common/layout/baseLayout/BaseLayout'
 import { AxiosError } from 'axios'
 import { INewPasswordError } from '@/services/auth/types'
+import { MailVerificationErrors } from '@/constants/errorMessages'
 
 interface IConfirmation {
   isSuccess: boolean
@@ -22,7 +23,7 @@ interface IContext {
 
 export const getServerSideProps = async (context: IContext) => {
   try {
-    await authService.confirmation(context.query.code ?? '')
+    await authService.confirmation(context.query.code ? context.query.code : '')
 
     return {
       props: {
@@ -37,7 +38,7 @@ export const getServerSideProps = async (context: IContext) => {
       props: {
         isSuccess: false,
         email: context.query.email ? context.query.email : '',
-        message: err.response?.data.message[0],
+        message: err.response ? err.response.data.message[0] : '',
       },
     }
   }
@@ -50,7 +51,7 @@ const Confirmation: NextPageWithLayout<IConfirmation> = ({ message, email, isSuc
         <RegistrationSuccessPage />
       </HeadMeta>
     )
-  } else if (message === 'User code has expired' || message === 'No user exists with the given confirmation code') {
+  } else if (message === MailVerificationErrors.Expired || message === MailVerificationErrors.NoExists) {
     return (
       <HeadMeta title={'Expired'}>
         <ExpiredPage email={email} />

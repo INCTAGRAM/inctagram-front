@@ -12,6 +12,7 @@ import { useRouter } from 'next/router'
 import { RouteNames } from '@/constants/routes'
 import { AxiosError } from 'axios'
 import { INewPasswordError } from '@/services/auth/types'
+import { MailVerificationErrors } from '@/constants/errorMessages'
 
 type NewPassword = yup.InferType<typeof newPasswordSchema>
 
@@ -36,7 +37,7 @@ const NewPasswordPage = ({ code, email }: INewPasswordPage) => {
     },
     onError: (err) => {
       const message = err.response?.data.message[0]
-      if (message === 'User code has expired' || message === 'No user exists with the given confirmation code') {
+      if (message === MailVerificationErrors.Expired || message === MailVerificationErrors.NoExists) {
         push({
           pathname: RouteNames.RECOVERY_EXPIRED,
           query: { email },
