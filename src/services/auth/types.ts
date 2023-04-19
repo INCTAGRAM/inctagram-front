@@ -2,6 +2,12 @@ export interface ILoginResponse {
   accessToken: string
 }
 
+export interface IProfileSettingResponse {
+  statusCode: 'string'
+  message: ['string']
+  path: 'string'
+}
+
 export interface ILoginData {
   email: string
   password: string

@@ -1,0 +1,8 @@
+.picker {
+  display: inline-block;
+}
+.picker input, .picker label, .picker svg, .picker fieldset {
+  color: #FFFFFF;
+}
+
+/*# sourceMappingURL=DatePicker.module.css.map */

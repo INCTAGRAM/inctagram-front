@@ -1,28 +1,35 @@
 $light_100: #FFFFFF;
 
 .form {
+
   display: flex;
   flex-direction: column;
-  gap: 30px;
+  gap: 48px;
   width: 494px;
+
+  button[type="submit"] {
+    display: inline-block;
+    position: relative;
+    width: 175px;
+    margin-left: 320px;
+  }
+
+
+
   p {
     span {
       color: #BDC1C7;
       font-size: 14px;
     }
+
     input {
       color: $light_100;
       font-size: 16px;
     }
-    .field{
+
+    .field {
       color: white;
     }
-
   }
-
-    button {
-      width: 179px;
-      float: right;
-    }
-
 }
+

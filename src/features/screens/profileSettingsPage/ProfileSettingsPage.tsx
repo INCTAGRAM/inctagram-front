@@ -2,56 +2,61 @@ import React, { useEffect } from 'react'
 import Image from 'next/image'
 import { Button } from '@/common/ui/button/Button'
 import profilePhotoExample from '@/../public/blank-profile-picture-973460_1280 (1).webp'
-import s from './profileSettingsPage.module.scss'
-import Form from './Form/Form'
-import { decode } from 'jsonwebtoken'
+import s from './ProfileSettingsPage.module.scss'
+import Form from '@/features/ProfileSettings/form/Form'
 import { getBaseLayout } from '@/common/layout/baseLayout/BaseLayout'
 import { InputText } from '@/common/ui/inputText/InputText'
-import DatePicker from '@/features/screens/profileSettingsPage/datePicker/DatePicker'
+import DatePicker from '@/features/ProfileSettings/datePicker/DatePicker'
 import { TextField } from '@mui/material'
 import { RouteNames } from '@/constants/routes'
 import { useForm } from 'react-hook-form'
-import { getConvertedDate } from '@/features/screens/profileSettingsPage/fn/convertDate'
 import { useRouter } from 'next/router'
 import { useMutation } from '@tanstack/react-query'
 import { instance } from '@/services/config'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { createProfileSchema } from '@/validations/auth-schemes'
+import { changeProfileSchema } from '@/validations/auth-schemes'
 import * as yup from 'yup'
+import { IProfileSettingResponse } from '@/services/auth/types'
+import moment from 'moment/moment'
+import TopPanel from '@/features/ProfileSettings/TopPanel/TopPanel'
+
+export type SetProfileType = yup.InferType<typeof changeProfileSchema>
+
+type SetProfileRequestType = Pick<SetProfileType, Exclude<keyof SetProfileType, 'birthday'>> & { birthday: string }
 
 const ProfileSettingsPage = () => {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<createProfileType>({
-    mode: 'onBlur',
-    reValidateMode: 'onChange',
-    resolver: yupResolver(createProfileSchema),
-  })
-  const onFormSubmit = (data: createProfileType) => {
-    data.birthday = getConvertedDate(data.birthday)
-    createProfile(data)
-  }
-  const { push } = useRouter()
-
-  const { mutate: createProfile, isSuccess } = useMutation<any, any, any>({
+  const { mutate: createProfile, isSuccess } = useMutation<IProfileSettingResponse, unknown, SetProfileRequestType>({
     mutationFn: async (data) => {
-      const decodedData = decode(localStorage.getItem('accessToken')!)!
-      let id
-      if (typeof decodedData !== 'string') id = decodedData.userId
-      await instance.post(`/users/${id}/profile`, data)
+      return instance.post<IProfileSettingResponse>(`/users/self/profile`, data).then((response) => response.data)
     },
   })
+
+  const { push } = useRouter()
 
   useEffect(() => {
     isSuccess && push(RouteNames.PROFILE)
   }, [isSuccess, push])
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    control,
+  } = useForm<SetProfileType>({
+    mode: 'onBlur',
+    reValidateMode: 'onChange',
+    resolver: yupResolver(changeProfileSchema),
+  })
+
+  const onFormSubmit = (data: SetProfileType) => {
+    const birthday = data.birthday ? moment(data.birthday, 'DD.MM.YYYY').format('YYYY-MM-DD')! : ''
+    createProfile({ ...data, birthday })
+  }
+
   return (
     <div>
       <div className={s.content}>
-        <h1>Create profile</h1>
-        <div className={s.line}></div>
+        <TopPanel />
         <div className={s.container}>
           <div>
             <Image src={profilePhotoExample} alt={''} width={192} height={192} className={s.Image} />
@@ -59,55 +64,46 @@ const ProfileSettingsPage = () => {
           </div>
           <Form onSubmit={handleSubmit(onFormSubmit)}>
             <p>
-              <span>Username</span>
               <InputText
-                fieldName={'username'}
+                fieldName={'Username'}
                 {...register('username')}
                 error={errors.username?.message ? errors.username.message : ''}
               />
             </p>
             <p>
-              <span>Name</span>
               <InputText
-                fieldName={'name'}
+                fieldName={'Name'}
                 {...register('name')}
                 error={errors.name?.message ? errors.name.message : ''}
               />
             </p>
             <p>
-              <span>Surname</span>
               <InputText
-                fieldName={'surname'}
+                fieldName={'Surname'}
                 {...register('surname')}
                 error={errors.surname?.message ? errors.surname.message : ''}
               />
             </p>
-            <DatePicker register={register} />
+            <DatePicker register={register} name={'birthday'} control={control} />
             <p>
-              <span>City</span>
               <InputText
-                fieldName={'city'}
+                fieldName={'City'}
                 {...register('city')}
                 error={errors.city?.message ? errors.city.message : ''}
               />
             </p>
-
             <TextField
               multiline
               rows={3}
-              {...register('aboutMe')}
-              InputLabelProps={{
-                style: { color: '#FFFFFF' },
-              }}
               label={'About me'}
-              sx={aboutMeTextFieldStyle}
+              {...register('aboutMe')}
+              className={s.aboutMeTextFieldStyle}
               error={!!errors.username?.message}
               helperText={errors.username?.message ? errors.username.message : ''}
             />
-            <Button>Create</Button>
+            <Button type={'submit'}>Save Changes</Button>
           </Form>
         </div>
-        <div style={{ position: 'relative', bottom: '75px' }} className={s.line}></div>
       </div>
     </div>
   )
@@ -115,14 +111,3 @@ const ProfileSettingsPage = () => {
 ProfileSettingsPage.getBaseLayout = getBaseLayout
 
 export default ProfileSettingsPage
-
-type createProfileType = yup.InferType<typeof createProfileSchema>
-const aboutMeTextFieldStyle = {
-  input: {
-    color: '#FFFFFF',
-    backgroundColor: '#333333',
-  },
-  backgroundColor: '#171717',
-  border: '2px solid #333333',
-  borderRadius: '2px',
-}
