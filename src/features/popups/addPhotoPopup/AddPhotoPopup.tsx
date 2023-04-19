@@ -15,6 +15,7 @@ export const AddPhotoPopup = ({ isShowPopup, setIsShowPopup }: IAddPhotoPopup) =
   const [isLoadingPhoto, setIsLoadingPhoto] = useState(false)
   const [file, setFile] = useState<any>()
   const closePopup = () => setIsShowPopup(false)
+
   const uploadPhoto = () => {
     inputRef && inputRef.current?.click()
   }
