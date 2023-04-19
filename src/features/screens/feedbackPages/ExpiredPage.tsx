@@ -1,12 +1,20 @@
 import Feedback from '@/common/ui/feedback/Feedback'
 import expiredImg from '../../../../public/auth/expired-link.png'
-import { useRouter } from 'next/router'
-import { RouteNames } from '@/constants/routes'
+import { useMutation } from '@tanstack/react-query'
+import { authService } from '@/services/auth/authService'
 
-const ExpiredPage = () => {
-  const { push } = useRouter()
+interface IExpiredPage {
+  email: string
+}
 
-  const redirectToRecovery = () => push(RouteNames.RECOVERY_EXPIRED)
+const ExpiredPage = ({ email }: IExpiredPage) => {
+  const { mutate: sendEmail } = useMutation({
+    mutationFn: authService.resendingConfirmation,
+  })
+
+  const redirectToRecovery = () => {
+    sendEmail(email)
+  }
 
   return (
     <Feedback

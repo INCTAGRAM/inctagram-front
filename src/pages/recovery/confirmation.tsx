@@ -1,9 +1,9 @@
-import RegistrationSuccessPage from '@/features/screens/feedbackPages/RegistrationSuccessPage'
 import { NextPageWithLayout } from '@/pages/_app'
 import HeadMeta from '@/common/headMeta/HeadMeta'
+import RegistrationSuccessPage from '@/features/screens/feedbackPages/RegistrationSuccessPage'
 import { getBaseLayout } from '@/common/layout/baseLayout/BaseLayout'
 
-const Congratulations: NextPageWithLayout = () => {
+const Confirmation: NextPageWithLayout = () => {
   return (
     <HeadMeta title={'Congratulations'}>
       <RegistrationSuccessPage />
@@ -11,5 +11,5 @@ const Congratulations: NextPageWithLayout = () => {
   )
 }
 
-Congratulations.getLayout = getBaseLayout
-export default Congratulations
+Confirmation.getLayout = getBaseLayout
+export default Confirmation
