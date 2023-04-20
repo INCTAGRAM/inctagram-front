@@ -11,6 +11,9 @@ export const authService = {
   login: (payload: ILoginData) => {
     return instance.post<ILoginResponse>('/auth/login', payload).then((response) => response.data)
   },
+  refreshToken: () => {
+    return instance.post<ILoginResponse>('/auth/refresh-token').then((response) => response.data)
+  },
   registration: (payload: IRegistrationData) => {
     return instance.post('/auth/registration', payload).then((response) => response.data)
   },

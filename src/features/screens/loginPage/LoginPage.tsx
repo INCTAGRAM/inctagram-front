@@ -35,7 +35,7 @@ const LoginPage = () => {
     onSuccess: (response) => {
       const accessToken = response.accessToken
       localStorage.setItem('accessToken', accessToken)
-      instance.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`
+      // instance.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`
     },
   })
 
