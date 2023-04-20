@@ -20,7 +20,7 @@ instance.interceptors.request.use(async (config) => {
   if (config.url && urlsSkipAuth.includes(config.url)) {
     return config
   }
-  const accessToken = await getAccessToken
+  const accessToken = await getAccessToken()
 
   if (accessToken) config.headers.Authorization = `Bearer ${accessToken}`
 
