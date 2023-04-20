@@ -5,7 +5,7 @@ import { authService } from '@/services/auth/authService'
 
 let refreshTokenRequest: AxiosPromise<ILoginResponse> | null = null
 
-export const getAccessToken = () => async (): Promise<string | null> => {
+export const getAccessToken = async (): Promise<string | null> => {
   try {
     const accessToken = localStorage.getItem('accessToken')
 
