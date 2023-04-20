@@ -34,6 +34,8 @@ const LoginPage = () => {
     onSuccess: (response) => {
       const accessToken = response.accessToken
       localStorage.setItem('accessToken', accessToken)
+
+      push(RouteNames.PROFILE)
     },
   })
 

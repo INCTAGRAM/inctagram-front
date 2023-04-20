@@ -18,8 +18,9 @@ export const getServerSideProps = async () => {
 
 const ProfilePage = () => {
   const { data: profileInfo } = useQuery<IProfileResponse, unknown, IInfo>({
-    queryKey: ['posts'],
+    queryKey: ['profile'],
     queryFn: profileService.checkUserProfile,
+    retry: false,
   })
 
   return profileInfo ? (
