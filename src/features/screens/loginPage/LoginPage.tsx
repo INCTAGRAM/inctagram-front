@@ -8,7 +8,6 @@ import { loginSchema } from '@/validations/auth-schemes'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { useMutation } from '@tanstack/react-query'
 import { authService } from '@/services/auth/authService'
-import { instance } from '@/services/config'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { RouteNames } from '@/constants/routes'
 import Form from '@/features/form/Form'
@@ -35,7 +34,6 @@ const LoginPage = () => {
     onSuccess: (response) => {
       const accessToken = response.accessToken
       localStorage.setItem('accessToken', accessToken)
-      // instance.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`
     },
   })
 

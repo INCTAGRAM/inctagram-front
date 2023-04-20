@@ -9,7 +9,9 @@ export const profileService = {
     return instance.get<IProfileResponse>(`/users/self/profile`).then((response) => response.data)
   },
   uploadAvatar: (payload: FormData) => {
-    return instance.post<IUploadAvatarResponse>(`/users/self/images/avatar`, payload).then((response) => response.data)
+    return instance.post<IUploadAvatarResponse>(`/users/self/images/avatar`, payload).then((response) => {
+      return response.data
+    })
   },
   updateUserProfile: (payload: IProfileData) => {
     return instance.put(`/users/self/profile`, payload)
