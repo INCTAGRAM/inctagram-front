@@ -19,7 +19,19 @@ export interface IRegistrationData {
   password: string
 }
 
+export interface IConfirmationData {
+  statusCode: string
+  message: string[]
+  path: string
+}
+
 export interface INewPasswordData {
   newPassword: string
   recoveryCode: string
+}
+
+export interface INewPasswordError {
+  statusCode: number
+  message: string[]
+  path: string
 }

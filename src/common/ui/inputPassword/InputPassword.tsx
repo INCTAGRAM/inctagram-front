@@ -55,8 +55,8 @@ export const InputPassword = forwardRef<Ref, InputPasswordPropsType>(
               <IcomoonReact className={style.icon} iconSet={iconSet} icon={'eye-outline'} size={24} />
             )}
           </span>
+          {error && <span className={finalSpanClassName}>{error}</span>}
         </label>
-        {error && <span className={finalSpanClassName}>{error}</span>}
       </>
     )
   }

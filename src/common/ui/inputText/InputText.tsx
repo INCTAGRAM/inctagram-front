@@ -1,4 +1,4 @@
-import React, { ChangeEvent, DetailedHTMLProps, forwardRef, InputHTMLAttributes, KeyboardEvent, useState } from 'react'
+import React, { ChangeEvent, DetailedHTMLProps, forwardRef, InputHTMLAttributes, KeyboardEvent } from 'react'
 import style from './InputText.module.css'
 
 // Пропсы стандартного инпута
@@ -39,8 +39,8 @@ export const InputText = forwardRef<Ref, InputTextPropsType>(
         <label className={`${style.inputContainer} ${finalInputClassName}`}>
           {fieldName && <span className={style.fieldName}>{fieldName}</span>}
           <input ref={ref} type={'text'} onChange={onChangeHandler} onKeyDown={onKeyPressHandler} {...restProps} />
+          {error && <span className={finalSpanClassName}>{error}</span>}
         </label>
-        {error && <span className={finalSpanClassName}>{error}</span>}
       </>
     )
   }

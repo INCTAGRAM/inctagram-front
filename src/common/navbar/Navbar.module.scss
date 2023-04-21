@@ -1,0 +1,27 @@
+@import "src/assets/styles/variables";
+
+.navbar {
+  padding: 72px 20px 150px 60px;
+  border-right: 1px solid $dark_300;
+  min-height: calc(100vh - 60px);
+  .navbar_link {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 500;
+    text-decoration: none;
+    margin-bottom: 25px;
+  }
+  .active {
+    color: #397DF6;
+    font-weight: 700;
+  }
+  .margin_top_link {
+    margin-top: 60px;
+  }
+  .no_active_link {
+    color: #fff;
+  }
+}
