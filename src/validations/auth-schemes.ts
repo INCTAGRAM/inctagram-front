@@ -32,11 +32,3 @@ export const newPasswordSchema = yup.object().shape({
     .oneOf([yup.ref('newPassword')], 'The password must match the new password')
     .required(),
 })
-export const changeProfileSchema = yup.object().shape({
-  username: yup.string().required(),
-  name: yup.string().required(),
-  surname: yup.string().required(),
-  birthday: yup.date().required(),
-  city: yup.string().required(),
-  aboutMe: yup.string().required(),
-})

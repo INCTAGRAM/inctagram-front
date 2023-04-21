@@ -13,6 +13,7 @@ import { RouteNames } from '@/constants/routes'
 import Form from '@/features/form/Form'
 import Link from 'next/link'
 import { ILoginResponse } from '@/services/auth/types'
+import { headers } from 'next/headers'
 
 type LoginType = yup.InferType<typeof loginSchema>
 

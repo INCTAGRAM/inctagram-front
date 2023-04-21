@@ -12,22 +12,21 @@ import { RouteNames } from '@/constants/routes'
 import { useForm } from 'react-hook-form'
 import { useRouter } from 'next/router'
 import { useMutation } from '@tanstack/react-query'
-import { instance } from '@/services/config'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { changeProfileSchema } from '@/validations/auth-schemes'
+import { changeProfileSchema } from '@/validations/profile-schemes'
 import * as yup from 'yup'
-import { IProfileSettingResponse } from '@/services/auth/types'
+import { IProfileSettingResponse } from '@/services/profile/types'
 import moment from 'moment/moment'
 import TopPanel from '@/features/ProfileSettings/TopPanel/TopPanel'
+import { profileService } from '@/services/profile/profileService'
+import { IProfileData } from '@/services/profile/types'
 
 export type SetProfileType = yup.InferType<typeof changeProfileSchema>
 
-type SetProfileRequestType = Pick<SetProfileType, Exclude<keyof SetProfileType, 'birthday'>> & { birthday: string }
-
 const ProfileSettingsPage = () => {
-  const { mutate: createProfile, isSuccess } = useMutation<IProfileSettingResponse, unknown, SetProfileRequestType>({
+  const { mutate: createProfile, isSuccess } = useMutation<IProfileSettingResponse, unknown, IProfileData>({
     mutationFn: async (data) => {
-      return instance.post<IProfileSettingResponse>(`/users/self/profile`, data).then((response) => response.data)
+      return profileService.updateUserProfile(data)
     },
   })
 
@@ -65,13 +64,6 @@ const ProfileSettingsPage = () => {
           <Form onSubmit={handleSubmit(onFormSubmit)}>
             <p>
               <InputText
-                fieldName={'Username'}
-                {...register('username')}
-                error={errors.username?.message ? errors.username.message : ''}
-              />
-            </p>
-            <p>
-              <InputText
                 fieldName={'Name'}
                 {...register('name')}
                 error={errors.name?.message ? errors.name.message : ''}
@@ -98,8 +90,8 @@ const ProfileSettingsPage = () => {
               label={'About me'}
               {...register('aboutMe')}
               className={s.aboutMeTextFieldStyle}
-              error={!!errors.username?.message}
-              helperText={errors.username?.message ? errors.username.message : ''}
+              error={!!errors.aboutMe?.message}
+              helperText={errors.aboutMe?.message ? errors.aboutMe.message : ''}
             />
             <Button type={'submit'}>Save Changes</Button>
           </Form>
