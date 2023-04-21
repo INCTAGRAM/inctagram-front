@@ -5,8 +5,12 @@ import RegistrationSuccessPage from '@/features/screens/feedbackPages/Registrati
 import ExpiredPage from '@/features/screens/feedbackPages/ExpiredPage'
 import { getBaseLayout } from '@/common/layout/baseLayout/BaseLayout'
 import { AxiosError } from 'axios'
-import { INewPasswordError } from '@/services/auth/types'
 import { MailVerificationErrors } from '@/constants/errorMessages'
+import { AlertSnackbar } from '@/common/alertSnackbar/AlertSnackbar'
+import { errorHandler } from '@/hooks/errorsHandler'
+import { Button } from '@/common/ui/button/Button'
+import { useRouter } from 'next/router'
+import { RouteNames } from '@/constants/routes'
 
 interface IConfirmation {
   isSuccess: boolean
@@ -33,32 +37,42 @@ export const getServerSideProps = async (context: IContext) => {
       },
     }
   } catch (e) {
-    const err = e as AxiosError<INewPasswordError>
+    const err = e as AxiosError
     return {
       props: {
         isSuccess: false,
         email: context.query.email ? context.query.email : '',
-        message: err.response ? err.response.data.message[0] : '',
+        message: errorHandler(err),
       },
     }
   }
 }
 
 const Confirmation: NextPageWithLayout<IConfirmation> = ({ message, email, isSuccess }) => {
+  const { push } = useRouter()
+  console.log(message)
   if (isSuccess) {
     return (
       <HeadMeta title={'Congratulations'}>
         <RegistrationSuccessPage />
       </HeadMeta>
     )
-  } else if (message === MailVerificationErrors.Expired || message === MailVerificationErrors.NoExists) {
+  } else if (message === MailVerificationErrors.Expired) {
     return (
       <HeadMeta title={'Expired'}>
         <ExpiredPage email={email} />
       </HeadMeta>
     )
   } else {
-    return null
+    return (
+      <HeadMeta title={'Error'}>
+        <Button onClick={() => push(RouteNames.LOGIN)}>Go to log in page</Button>
+        <br />
+        <br />
+        <Button onClick={() => push(RouteNames.REGISTER)}>Go to registration page</Button>
+        {!isSuccess && <AlertSnackbar type={'error'} message={message} />}
+      </HeadMeta>
+    )
   }
 }
 
