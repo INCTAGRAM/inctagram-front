@@ -6,13 +6,16 @@ import {
   INewPasswordData,
   IRegistrationData,
 } from '@/services/auth/types'
+import { AxiosResponse } from 'axios'
 
 export const authService = {
   login: (payload: ILoginData) => {
-    return instance.post<ILoginResponse>('/auth/login', payload).then((response) => response.data)
+    return instance
+      .post<any, AxiosResponse<ILoginResponse>, ILoginData>('/auth/login', payload)
+      .then((response) => response.data)
   },
   logout: () => {
-    instance.post('/auth/logout')
+    return instance.post('/auth/logout')
   },
   registration: (payload: IRegistrationData) => {
     return instance.post('/auth/registration', payload).then((response) => response.data)
