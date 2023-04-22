@@ -23,9 +23,3 @@ export interface INewPasswordData {
   newPassword: string
   recoveryCode: string
 }
-
-export interface INewPasswordError {
-  statusCode: number
-  message: string[]
-  path: string
-}
