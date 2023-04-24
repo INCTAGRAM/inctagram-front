@@ -1,0 +1,18 @@
+.additionalInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+
+  .additionalInfo_item {
+    color: #333333;
+
+    span {
+      color: #FFFFFF;
+      font-size: 14px;
+    }
+  }
+}
+
+.no_content {
+  text-align: center;
+}

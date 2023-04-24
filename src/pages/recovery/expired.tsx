@@ -16,4 +16,5 @@ const Expired: NextPageWithLayout = () => {
 }
 
 Expired.getLayout = getBaseLayout
+
 export default Expired

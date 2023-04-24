@@ -12,4 +12,5 @@ const Empty: NextPageWithLayout = () => {
 }
 
 Empty.getLayout = getBaseLayout
+
 export default Empty
