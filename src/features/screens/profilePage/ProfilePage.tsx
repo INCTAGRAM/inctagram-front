@@ -3,6 +3,10 @@ import { dehydrate, QueryClient, useQuery } from '@tanstack/react-query'
 import styles from './ProfilePage.module.scss'
 import { profileService } from '@/services/profile/profileService'
 import { IProfileResponse } from '@/services/profile/types'
+import React from 'react'
+import { AxiosError } from 'axios'
+import { errorHandler } from '@/hooks/errorsHandler'
+import { AlertSnackbar } from '@/common/alertSnackbar/AlertSnackbar'
 
 export const getServerSideProps = async () => {
   const queryClient = new QueryClient()
@@ -17,16 +21,22 @@ export const getServerSideProps = async () => {
 }
 
 const ProfilePage = () => {
-  const { data: profileInfo } = useQuery<IProfileResponse, unknown, IInfo>({
+  const {
+    data: profileInfo,
+    isSuccess,
+    isError,
+    error,
+  } = useQuery<IProfileResponse, AxiosError, IInfo>({
     queryKey: ['profile'],
     queryFn: profileService.checkUserProfile,
     retry: false,
   })
 
-  return profileInfo ? (
+  return (
     <div className={styles.page_wrapper}>
-      <ProfileInfo info={profileInfo} />
+      {isSuccess && profileInfo && <ProfileInfo info={profileInfo} />}
+      {isError && <AlertSnackbar type={'error'} message={errorHandler(error)} />}
     </div>
-  ) : null
+  )
 }
 export default ProfilePage

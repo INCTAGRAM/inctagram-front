@@ -17,7 +17,7 @@ const Avatar = ({ avatar }: IAvatarProps) => {
   return (
     <div className={styles.circle}>
       {url && previewUrl ? (
-        <Image src={url} fill alt="profile avatar" unoptimized priority />
+        <Image src={previewUrl} fill alt="profile avatar" unoptimized priority />
       ) : (
         <div className={styles.block}>
           <Image src={AvatarIco} alt="" />

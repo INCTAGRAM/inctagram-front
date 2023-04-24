@@ -2,10 +2,11 @@ import styles from './GeneralInfo.module.scss'
 import Avatar from '@/features/profile/avatar/Avatar'
 import { Button } from '@/common/ui/button/Button'
 import StatisticItem from '@/features/profile/profileInfo/statisticItem/StatisticItem'
+import { useRouter } from 'next/router'
+import { RouteNames } from '@/constants/routes'
 
 interface IGeneralInfoProps {
-  name: string
-  surname: string
+  username: string
   aboutMe: string
   avatar: IAvatar
 }
@@ -15,7 +16,11 @@ interface IAvatar {
   url: string
 }
 
-const GeneralInfo = ({ name, surname, aboutMe, avatar }: IGeneralInfoProps) => {
+const GeneralInfo = ({ username, aboutMe, avatar }: IGeneralInfoProps) => {
+  const { push } = useRouter()
+
+  const onSettingsBtnClick = () => push(RouteNames.PROFILE_SETTINGS)
+
   return (
     <div className={styles.info_block}>
       <div className={styles.image_wrapper}>
@@ -23,11 +28,9 @@ const GeneralInfo = ({ name, surname, aboutMe, avatar }: IGeneralInfoProps) => {
       </div>
       <div className={styles.info}>
         <div className={styles.info_header}>
-          <h1>
-            {name} {surname}
-          </h1>
+          <h1>{username}</h1>
           <div>
-            <Button>Edit Profile</Button>
+            <Button onClick={onSettingsBtnClick}>Edit Profile</Button>
           </div>
         </div>
         <div className={styles.statistics}>

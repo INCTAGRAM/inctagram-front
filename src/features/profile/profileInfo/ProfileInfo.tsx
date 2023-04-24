@@ -23,7 +23,7 @@ interface IAvatar {
 }
 
 const ProfileInfo = ({ info }: IProfileInfoProps) => {
-  const { name, surname, avatar, aboutMe, city, birthday } = info
+  const { username, avatar, aboutMe, city, birthday } = info
 
   const [isShowMore, setIsShowMore] = useState(false)
 
@@ -31,7 +31,7 @@ const ProfileInfo = ({ info }: IProfileInfoProps) => {
 
   return (
     <div className={styles.block}>
-      <GeneralInfo name={name} surname={surname} aboutMe={aboutMe} avatar={avatar} />
+      <GeneralInfo username={username} aboutMe={aboutMe} avatar={avatar} />
       <button className={styles.show_btn} onClick={onShowMoreBtnClick}>
         {!isShowMore ? 'Show more' : 'Hide'}
       </button>
