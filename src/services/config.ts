@@ -13,18 +13,15 @@ const urlsSkipAuth = [
   '/auth/registration-email-resending',
   '/auth/password-recovery',
   '/auth/new-password',
-  // '/api/auth/refresh-token',
+  '/api/auth/refresh-token',
 ]
 
 instance.interceptors.request.use(async (config) => {
-  debugger
   if (config.url && urlsSkipAuth.includes(config.url)) {
     return config
   }
   const accessToken = await getAccessToken()
-
   if (accessToken) config.headers.Authorization = `Bearer ${accessToken}`
-
   return config
 })
 
