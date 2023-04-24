@@ -1,4 +1,3 @@
-import React from 'react'
 import RecoveryPage from '@/features/screens/recoveryPage/RecoveryPage'
 import { NextPageWithLayout } from '@/pages/_app'
 import HeadMeta from '@/common/headMeta/HeadMeta'
@@ -13,4 +12,5 @@ const Recovery: NextPageWithLayout = () => {
 }
 
 Recovery.getLayout = getBaseLayout
+
 export default Recovery

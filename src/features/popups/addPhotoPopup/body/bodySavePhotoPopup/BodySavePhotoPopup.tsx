@@ -2,8 +2,8 @@ import styles from './BodySavePhotoPopup.module.scss'
 import { Button } from '@/common/ui/button/Button'
 import Cropper, { Area } from 'react-easy-crop'
 import { useState } from 'react'
-import { generateDownload } from '@/features/popups/addPhotoPopup/body/bodySavePhotoPopup/cropImage/cropImage'
-import { addUserPhoto } from '@/common/utils'
+import { generateDownload } from '@/utils'
+import { addUserPhoto } from '@/utils'
 
 interface IBodySavePhotoPopup {
   savePhoto: () => void
@@ -13,7 +13,6 @@ interface IBodySavePhotoPopup {
 export type CroppedAreaType = { width: number; height: number; x: number; y: number }
 
 export const BodySavePhotoPopup = ({ savePhoto, file }: IBodySavePhotoPopup) => {
-  // const urlFile = URL.createObjectURL(file)
   const [croppedArea, setCroppedArea] = useState<CroppedAreaType>({ width: 0, height: 0, x: 0, y: 0 })
   const [crop, setCrop] = useState({ x: 0, y: 0 })
   const [zoom, setZoom] = useState(1)
@@ -25,7 +24,6 @@ export const BodySavePhotoPopup = ({ savePhoto, file }: IBodySavePhotoPopup) => 
   const onClickHandler = () => {
     console.log('croppedArea', croppedArea)
     generateDownload(file, croppedArea, addUserPhoto)
-    // addUserPhoto(canvas)
     savePhoto()
   }
 

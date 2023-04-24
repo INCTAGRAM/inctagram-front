@@ -1,6 +1,16 @@
-import { NextPage } from 'next'
-import GeneralInfo from '@/features/profile/generalInfo/GeneralInfo'
+import HeadMeta from '@/common/headMeta/HeadMeta'
+import { NextPageWithLayout } from '@/pages/_app'
+import { getNavbarLayout } from '@/common/layout/navbarLayout/NavbarLayout'
+import ProfilePage from '@/features/screens/profilePage/ProfilePage'
 
-const Index: NextPage = () => <GeneralInfo />
+const Profile: NextPageWithLayout = () => {
+  return (
+    <HeadMeta title="Profile">
+      <ProfilePage />
+    </HeadMeta>
+  )
+}
 
-export default Index
+Profile.getLayout = getNavbarLayout
+
+export default Profile

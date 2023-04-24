@@ -1,9 +1,9 @@
 export interface IProfileData {
-  name: string
-  surname: string
-  birthday: string
-  city: string
-  aboutMe: string
+  name?: string
+  surname?: string
+  birthday?: string
+  city?: string
+  aboutMe?: string
 }
 
 export interface IProfileResponse {
@@ -23,4 +23,10 @@ export interface IUploadAvatarResponse {
 
 export interface IUploadAvatarData {
   file: string
+}
+
+export interface IProfileSettingResponse {
+  statusCode: 'string'
+  message: ['string']
+  path: 'string'
 }
