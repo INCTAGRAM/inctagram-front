@@ -6,6 +6,7 @@ import {
   INewPasswordData,
   IRegistrationData,
 } from '@/services/auth/types'
+import axios from 'axios'
 
 export const authService = {
   login: (payload: ILoginData) => {
@@ -32,6 +33,11 @@ export const authService = {
     return instance.post('/auth/new-password', payload).then((response) => response.data)
   },
   refreshToken: () => {
-    return instance.post('/api/auth/refresh-token').then((response) => response.data)
+    debugger
+    return axios
+      .post<ILoginResponse>('https://inctagram.herokuapp.com/api/auth/refresh-token', {}, { withCredentials: true })
+      .then((response) => {
+        response.data.accessToken
+      })
   },
 }
