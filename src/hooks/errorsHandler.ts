@@ -6,6 +6,6 @@ export const errorHandler = (e: Error | AxiosError<{ message: string[] }> | null
   if (axios.isAxiosError(err)) {
     return err.response?.data ? err.response.data.message[0] : err.message
   } else {
-    return `Native error ${err.message}`
+    return `Native error: ${err.message}`
   }
 }

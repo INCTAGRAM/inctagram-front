@@ -11,7 +11,6 @@ import Form from '@/features/form/Form'
 import { useRouter } from 'next/router'
 import { RouteNames } from '@/constants/routes'
 import { AxiosError } from 'axios'
-import { MailVerificationErrors } from '@/constants/errorMessages'
 import { errorHandler } from '@/hooks/errorsHandler'
 import { AlertSnackbar } from '@/common/alertSnackbar/AlertSnackbar'
 
@@ -35,14 +34,13 @@ const NewPasswordPage = ({ code, email }: INewPasswordPage) => {
     mutate: createNewPassword,
     isError,
     error,
-  } = useMutation<unknown, AxiosError, any>({
+  } = useMutation({
     mutationFn: authService.createNewPassword,
     onSuccess: () => {
       push(RouteNames.NEW_PASSWORD_CONFIRMATION)
     },
-    onError: (err) => {
-      const message = errorHandler(err)
-      if (message === MailVerificationErrors.Expired) {
+    onError: (err: AxiosError) => {
+      if (err.response?.status === 410) {
         push({
           pathname: RouteNames.RECOVERY_EXPIRED,
           query: { email },

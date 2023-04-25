@@ -29,10 +29,13 @@ instance.interceptors.request.use(async (config) => {
 instance.interceptors.response.use(
   (res) => res,
   (error: AxiosError) => {
-    const isLoggedIn = localStorage.getItem('accessToken')
-    if (error.response?.status === 401 && isLoggedIn) {
-      authService.logout()
+    if (typeof window !== 'undefined') {
+      const isLoggedIn = localStorage.getItem('accessToken')
+      if (error.response?.status === 401 && isLoggedIn) {
+        authService.logout()
+      }
     }
+    return Promise.reject(error)
   }
 )
 //
