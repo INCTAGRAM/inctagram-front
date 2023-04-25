@@ -12,7 +12,6 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { RouteNames } from '@/constants/routes'
 import Form from '@/features/form/Form'
 import Link from 'next/link'
-import { ILoginResponse } from '@/services/auth/types'
 import { AlertSnackbar } from '@/common/alertSnackbar/AlertSnackbar'
 import { errorHandler } from '@/hooks/errorsHandler'
 import { AxiosError } from 'axios'
@@ -37,7 +36,7 @@ const LoginPage = () => {
     isSuccess,
     isError,
     error,
-  } = useMutation<ILoginResponse, AxiosError, LoginType>({
+  } = useMutation({
     mutationFn: authService.login,
     onSuccess: (response) => {
       const accessToken = response.accessToken
@@ -86,7 +85,7 @@ const LoginPage = () => {
           Sign in
         </Button>
       </Form>
-      {isError && <AlertSnackbar type={'error'} message={errorHandler(error)} />}
+      {isError && <AlertSnackbar type={'error'} message={errorHandler(error as AxiosError)} />}
     </>
   )
 }

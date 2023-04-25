@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import React, { useState } from 'react'
 import { useMutation } from '@tanstack/react-query'
 import { authService } from '@/services/auth/authService'
 import { InputText } from '@/common/ui/inputText/InputText'
@@ -10,6 +10,9 @@ import * as yup from 'yup'
 import { recoverySchema } from '@/validations/auth-schemes'
 import Form from '@/features/form/Form'
 import { RouteNames } from '@/constants/routes'
+import { AlertSnackbar } from '@/common/alertSnackbar/AlertSnackbar'
+import { errorHandler } from '@/hooks/errorsHandler'
+import { AxiosError } from 'axios'
 
 type RecoveryType = yup.InferType<typeof recoverySchema>
 
@@ -29,7 +32,11 @@ const RecoveryPage = () => {
     resolver: yupResolver(recoverySchema),
   })
 
-  const { mutate: sendEmail } = useMutation({
+  const {
+    mutate: sendEmail,
+    isError,
+    error,
+  } = useMutation({
     mutationFn: authService.passwordRecovery,
     onSuccess: () => setIsShowPopup(true),
     onError: (error: ErrorOption) => setError('email', error),
@@ -64,6 +71,7 @@ const RecoveryPage = () => {
         </Button>
       </Form>
       <EmailSendPopup email={email} isShowPopup={isShowPopup} setIsShowPopup={setIsShowPopup} />
+      {isError && <AlertSnackbar type={'error'} message={errorHandler(error as AxiosError)} />}
     </>
   )
 }
