@@ -21,12 +21,7 @@ export const getServerSideProps = async () => {
 }
 
 const ProfilePage = () => {
-  const {
-    data: profileInfo,
-    isSuccess,
-    isError,
-    error,
-  } = useQuery<IProfileResponse, AxiosError, IInfo>({
+  const { data, isSuccess, isError, error } = useQuery<IProfileResponse, AxiosError, IInfo>({
     queryKey: ['profile'],
     queryFn: profileService.checkUserProfile,
     retry: false,
@@ -34,7 +29,7 @@ const ProfilePage = () => {
 
   return (
     <div className={styles.page_wrapper}>
-      {isSuccess && profileInfo && <ProfileInfo info={profileInfo} />}
+      {isSuccess && data && <ProfileInfo info={data} />}
       {isError && <AlertSnackbar type={'error'} message={errorHandler(error)} />}
     </div>
   )

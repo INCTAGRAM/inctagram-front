@@ -16,19 +16,17 @@ import { changeProfileSchema } from '@/validations/profile-schemes'
 import * as yup from 'yup'
 import { IProfileSettingResponse } from '@/services/profile/types'
 import moment from 'moment/moment'
-import TopPanel from '@/features/profileSettings/topPanel/TopPanel'
-import { profileService } from '@/services/profile/profileService'
 import { IProfileData } from '@/services/profile/types'
 import { AddPhotoPopup } from '@/features/popups/addPhotoPopup/AddPhotoPopup'
+import { profileService } from '@/services/profile/profileService'
+import TopPanel from '@/features/profileSettings/topPanel/TopPanel'
 
 export type SetProfileType = yup.InferType<typeof changeProfileSchema>
 
 const ProfileSettingsPage = () => {
   const [isShowPopup, setIsShowPopup] = useState(false)
   const { mutate: createProfile, isSuccess } = useMutation<IProfileSettingResponse, unknown, IProfileData>({
-    mutationFn: async (data) => {
-      return profileService.updateUserProfile(data)
-    },
+    mutationFn: profileService.updateUserProfile,
   })
 
   const { push } = useRouter()
