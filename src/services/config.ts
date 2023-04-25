@@ -4,6 +4,7 @@ import { getAccessToken } from '@/services/jwt/getAccessToken'
 
 export const instance = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL,
+  withCredentials: true,
 })
 
 const urlsSkipAuth = [

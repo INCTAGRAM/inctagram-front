@@ -2,7 +2,6 @@ import { profileService } from '@/services/profile/profileService'
 import axios, { AxiosError } from 'axios'
 
 export const addUserPhoto = (file: File) => {
-  console.log('file', file)
   try {
     if (file.size < 2000000) {
       const formData = new FormData()
