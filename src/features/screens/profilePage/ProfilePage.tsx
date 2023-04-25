@@ -2,8 +2,6 @@ import ProfileInfo, { IInfo } from '@/features/profile/profileInfo/ProfileInfo'
 import { dehydrate, QueryClient, useQuery } from '@tanstack/react-query'
 import styles from './ProfilePage.module.scss'
 import { profileService } from '@/services/profile/profileService'
-import { IProfileResponse } from '@/services/profile/types'
-import React from 'react'
 import { AxiosError } from 'axios'
 import { errorHandler } from '@/hooks/errorsHandler'
 import { AlertSnackbar } from '@/common/alertSnackbar/AlertSnackbar'
@@ -21,7 +19,7 @@ export const getServerSideProps = async () => {
 }
 
 const ProfilePage = () => {
-  const { data, isSuccess, isError, error } = useQuery<IProfileResponse, AxiosError, IInfo>({
+  const { data, isSuccess, isError, error } = useQuery({
     queryKey: ['profile'],
     queryFn: profileService.checkUserProfile,
     retry: false,
@@ -30,7 +28,7 @@ const ProfilePage = () => {
   return (
     <div className={styles.page_wrapper}>
       {isSuccess && data && <ProfileInfo info={data} />}
-      {isError && <AlertSnackbar type={'error'} message={errorHandler(error)} />}
+      {isError && <AlertSnackbar type={'error'} message={errorHandler(error as AxiosError)} />}
     </div>
   )
 }
