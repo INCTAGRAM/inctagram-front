@@ -11,7 +11,7 @@ export enum RouteNames {
   PROFILE_SETTINGS = '/profile/settings',
 }
 
-export const UnprotectedRoutes: string[] = [
+export const PublicRoutes: string[] = [
   RouteNames.LOGIN,
   RouteNames.REGISTER,
   RouteNames.REGISTER_CONFIRMATION,
@@ -20,3 +20,5 @@ export const UnprotectedRoutes: string[] = [
   RouteNames.NEW_PASSWORD,
   RouteNames.RECOVERY_EXPIRED,
 ]
+
+export const PrivateRoutes: string[] = [RouteNames.HOME, RouteNames.PROFILE, RouteNames.PROFILE_SETTINGS]

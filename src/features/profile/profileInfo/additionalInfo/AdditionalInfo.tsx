@@ -1,9 +1,10 @@
 import styles from './AdditionalInfo.module.scss'
 import { formatDateOfBirth } from '@/utils'
+import { Nullable } from '@/common/types/Nullable'
 
 interface IAdditionalInfoProps {
-  city?: string
-  birthday?: string
+  city: Nullable<string>
+  birthday: Nullable<string>
 }
 
 const AdditionalInfo = ({ city, birthday }: IAdditionalInfoProps) => {

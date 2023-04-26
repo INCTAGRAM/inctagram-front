@@ -1,14 +1,15 @@
 import AvatarIco from './../../../../public/avatar-ico.png'
 import styles from './Avatar.module.scss'
 import Image from 'next/image'
+import { Nullable } from '@/common/types/Nullable'
 
 interface IAvatarProps {
   avatar: IAvatar
 }
 
 interface IAvatar {
-  url: string
-  previewUrl: string
+  url: Nullable<string>
+  previewUrl: Nullable<string>
 }
 
 const Avatar = ({ avatar }: IAvatarProps) => {

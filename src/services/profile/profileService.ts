@@ -3,14 +3,10 @@ import {
   IProfileData,
   IProfileResponse,
   IProfileSettingResponse,
-  IUploadAvatarData,
   IUploadAvatarResponse,
 } from '@/services/profile/types'
 
 export const profileService = {
-  createProfile: (payload: IProfileData) => {
-    return instance.post(`/users/self/profile`, payload)
-  },
   checkUserProfile: () => {
     return instance.get<IProfileResponse>(`/users/self/profile`).then((response) => response.data)
   },
