@@ -23,7 +23,6 @@ export const BodySavePhotoPopup = ({ savePhoto, file }: IBodySavePhotoPopup) => 
 
   const onClickHandler = () => {
     generateDownload(file, croppedArea, addUserPhoto).then(savePhoto)
-    debugger
   }
 
   return (
