@@ -22,9 +22,8 @@ export const BodySavePhotoPopup = ({ savePhoto, file }: IBodySavePhotoPopup) => 
   }
 
   const onClickHandler = () => {
-    console.log('croppedArea', croppedArea)
-    generateDownload(file, croppedArea, addUserPhoto)
-    savePhoto()
+    generateDownload(file, croppedArea, addUserPhoto).then(savePhoto)
+    debugger
   }
 
   return (
@@ -36,6 +35,7 @@ export const BodySavePhotoPopup = ({ savePhoto, file }: IBodySavePhotoPopup) => 
             crop={crop}
             zoom={zoom}
             aspect={1}
+            cropShape="round"
             onCropChange={setCrop}
             onZoomChange={setZoom}
             onCropComplete={onCropComplete}
