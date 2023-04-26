@@ -1,3 +1,5 @@
+import { Nullable } from '@/common/types/Nullable'
+
 export interface IProfileData {
   name?: string
   surname?: string
@@ -8,17 +10,17 @@ export interface IProfileData {
 
 export interface IProfileResponse {
   username: string
-  name: string
-  surname: string
-  birthday: string
-  city: string
-  aboutMe: string
+  name: Nullable<string>
+  surname: Nullable<string>
+  birthday: Nullable<string>
+  city: Nullable<string>
+  aboutMe: Nullable<string>
   avatar: IUploadAvatarResponse
 }
 
 export interface IUploadAvatarResponse {
-  url: string
-  previewUrl: string
+  url: Nullable<string>
+  previewUrl: Nullable<string>
 }
 
 export interface IUploadAvatarData {

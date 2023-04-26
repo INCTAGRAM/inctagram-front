@@ -1,4 +1,4 @@
-import ProfileInfo, { IInfo } from '@/features/profile/profileInfo/ProfileInfo'
+import ProfileInfo from '@/features/profile/profileInfo/ProfileInfo'
 import { dehydrate, QueryClient, useQuery } from '@tanstack/react-query'
 import styles from './ProfilePage.module.scss'
 import { profileService } from '@/services/profile/profileService'

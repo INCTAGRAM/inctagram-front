@@ -4,16 +4,17 @@ import { Button } from '@/common/ui/button/Button'
 import StatisticItem from '@/features/profile/profileInfo/statisticItem/StatisticItem'
 import { useRouter } from 'next/router'
 import { RouteNames } from '@/constants/routes'
+import { Nullable } from '@/common/types/Nullable'
 
 interface IGeneralInfoProps {
   username: string
-  aboutMe: string
+  aboutMe: Nullable<string>
   avatar: IAvatar
 }
 
 interface IAvatar {
-  previewUrl: string
-  url: string
+  previewUrl: Nullable<string>
+  url: Nullable<string>
 }
 
 const GeneralInfo = ({ username, aboutMe, avatar }: IGeneralInfoProps) => {

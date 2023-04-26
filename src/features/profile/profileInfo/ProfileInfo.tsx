@@ -2,6 +2,7 @@ import styles from './ProfileInfo.module.scss'
 import { useState } from 'react'
 import AdditionalInfo from '@/features/profile/profileInfo/additionalInfo/AdditionalInfo'
 import GeneralInfo from '@/features/profile/profileInfo/generalInfo/GeneralInfo'
+import { Nullable } from '@/common/types/Nullable'
 
 interface IProfileInfoProps {
   info: IInfo
@@ -9,17 +10,17 @@ interface IProfileInfoProps {
 
 export interface IInfo {
   username: string
-  name: string
-  surname: string
-  city: string
-  birthday: string
+  name: Nullable<string>
+  surname: Nullable<string>
+  city: Nullable<string>
+  birthday: Nullable<string>
   avatar: IAvatar
-  aboutMe: string
+  aboutMe: Nullable<string>
 }
 
 interface IAvatar {
-  previewUrl: string
-  url: string
+  previewUrl: Nullable<string>
+  url: Nullable<string>
 }
 
 const ProfileInfo = ({ info }: IProfileInfoProps) => {
