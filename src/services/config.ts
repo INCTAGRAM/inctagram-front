@@ -41,27 +41,3 @@ instance.interceptors.response.use(
     return Promise.reject(error)
   }
 )
-//
-// instance.interceptors.response.use(
-//   (response) => {
-//     return response
-//   },
-//   async (error) => {
-//     const config = error?.config
-//     console.log(config)
-//     if (error.response) {
-//       if (error.response.status === 401 && !config?.sent) {
-//         config.sent = true
-//         const response = await authService.refreshToken()
-//         if (response.accessToken) {
-//           config.headers = {
-//             ...config.headers,
-//             authorization: `Bearer ${response?.accessToken}`,
-//           }
-//         }
-//         return config
-//       }
-//     }
-//     return Promise.reject(error)
-//   }
-// )
