@@ -13,7 +13,7 @@ import Form from '@/features/form/Form'
 import { RouteNames } from '@/constants/routes'
 import { AlertSnackbar } from '@/common/alertSnackbar/AlertSnackbar'
 import { errorHandler } from '@/hooks/errorsHandler'
-import { AxiosError } from 'axios/index'
+import { AxiosError } from 'axios'
 
 type RegistrationType = yup.InferType<typeof registrationSchema>
 

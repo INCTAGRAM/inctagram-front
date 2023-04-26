@@ -4,7 +4,7 @@ import { useMutation } from '@tanstack/react-query'
 import { authService } from '@/services/auth/authService'
 import { AlertSnackbar } from '@/common/alertSnackbar/AlertSnackbar'
 import { errorHandler } from '@/hooks/errorsHandler'
-import { AxiosError } from 'axios/index'
+import { AxiosError } from 'axios'
 
 interface IExpiredPage {
   email: string

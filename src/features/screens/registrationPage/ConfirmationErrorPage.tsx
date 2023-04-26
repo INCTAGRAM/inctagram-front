@@ -12,7 +12,7 @@ import { Button } from '@/common/ui/button/Button'
 import EmailSendPopup from '@/features/popups/emailSendPopup/EmailSendPopup'
 import { AlertSnackbar } from '@/common/alertSnackbar/AlertSnackbar'
 import { errorHandler } from '@/hooks/errorsHandler'
-import { AxiosError } from 'axios/index'
+import { AxiosError } from 'axios'
 
 type RecoveryType = yup.InferType<typeof recoverySchema>
 
