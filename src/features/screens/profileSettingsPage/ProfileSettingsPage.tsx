@@ -14,21 +14,19 @@ import { useMutation } from '@tanstack/react-query'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { changeProfileSchema } from '@/validations/profile-schemes'
 import * as yup from 'yup'
-import { IProfileSettingResponse } from '@/services/profile/types'
-import moment from 'moment/moment'
-import TopPanel from '@/features/profileSettings/topPanel/TopPanel'
-import { profileService } from '@/services/profile/profileService'
-import { IProfileData } from '@/services/profile/types'
+import { IProfileData, IProfileSettingResponse } from '@/services/profile/types'
+
 import { AddPhotoPopup } from '@/features/popups/addPhotoPopup/AddPhotoPopup'
+import { profileService } from '@/services/profile/profileService'
+import TopPanel from '@/features/profileSettings/topPanel/TopPanel'
+import moment from 'moment'
 
 export type SetProfileType = yup.InferType<typeof changeProfileSchema>
 
 const ProfileSettingsPage = () => {
   const [isShowPopup, setIsShowPopup] = useState(false)
   const { mutate: createProfile, isSuccess } = useMutation<IProfileSettingResponse, unknown, IProfileData>({
-    mutationFn: async (data) => {
-      return profileService.updateUserProfile(data)
-    },
+    mutationFn: profileService.updateUserProfile,
   })
 
   const { push } = useRouter()
@@ -49,7 +47,7 @@ const ProfileSettingsPage = () => {
   })
 
   const onFormSubmit = (data: SetProfileType) => {
-    const birthday = data.birthday ? moment(data.birthday, 'DD.MM.YYYY').format('YYYY-MM-DD')! : ''
+    const birthday = data.birthday ? moment(data.birthday, 'DD.MM.YYYY').format('YYYY-MM-DD') : ''
     createProfile({ ...data, birthday })
   }
 

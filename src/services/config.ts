@@ -14,7 +14,6 @@ const urlsSkipAuth = [
   '/auth/registration-email-resending',
   '/auth/password-recovery',
   '/auth/new-password',
-  // '/auth/refresh-token',
 ]
 
 instance.interceptors.request.use(async (config) => {
@@ -22,22 +21,47 @@ instance.interceptors.request.use(async (config) => {
     return config
   }
   const accessToken = await getAccessToken()
-  if (accessToken) {
-    config.headers.Authorization = `Bearer ${accessToken}`
-  }
+  if (accessToken) config.headers.Authorization = `Bearer ${accessToken}`
   return config
 })
 
 instance.interceptors.response.use(
   (res) => res,
   (error: AxiosError) => {
-    const isLoggedIn = !!localStorage.getItem('accessToken')
-    if (
-      error.response?.status === 401 &&
-      isLoggedIn &&
-      error.request.responseURL !== 'https://inctagram.herokuapp.com/api/auth/logout'
-    ) {
-      authService.logout()
+    if (typeof window !== 'undefined') {
+      const isLoggedIn = !!localStorage.getItem('accessToken')
+      if (
+        error.response?.status === 401 &&
+        isLoggedIn &&
+        error.request.responseURL !== 'https://inctagram.herokuapp.com/api/auth/logout'
+      ) {
+        authService.logout()
+      }
     }
+    return Promise.reject(error)
   }
 )
+//
+// instance.interceptors.response.use(
+//   (response) => {
+//     return response
+//   },
+//   async (error) => {
+//     const config = error?.config
+//     console.log(config)
+//     if (error.response) {
+//       if (error.response.status === 401 && !config?.sent) {
+//         config.sent = true
+//         const response = await authService.refreshToken()
+//         if (response.accessToken) {
+//           config.headers = {
+//             ...config.headers,
+//             authorization: `Bearer ${response?.accessToken}`,
+//           }
+//         }
+//         return config
+//       }
+//     }
+//     return Promise.reject(error)
+//   }
+// )

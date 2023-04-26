@@ -33,11 +33,8 @@ export const authService = {
     return instance.post('/auth/new-password', payload).then((response) => response.data)
   },
   refreshToken: () => {
-    debugger
     return axios
       .post<ILoginResponse>('https://inctagram.herokuapp.com/api/auth/refresh-token', {}, { withCredentials: true })
-      .then((response) => {
-        response.data.accessToken
-      })
+      .then((response) => response.data.accessToken)
   },
 }

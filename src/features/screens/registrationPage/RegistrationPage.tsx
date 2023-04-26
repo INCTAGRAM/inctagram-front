@@ -11,6 +11,9 @@ import { registrationSchema } from '@/validations/auth-schemes'
 import * as yup from 'yup'
 import Form from '@/features/form/Form'
 import { RouteNames } from '@/constants/routes'
+import { AlertSnackbar } from '@/common/alertSnackbar/AlertSnackbar'
+import { errorHandler } from '@/hooks/errorsHandler'
+import { AxiosError } from 'axios'
 
 type RegistrationType = yup.InferType<typeof registrationSchema>
 
@@ -25,7 +28,11 @@ export const RegistrationPage = () => {
     reset,
   } = useForm<RegistrationType>({ mode: 'onTouched', resolver: yupResolver(registrationSchema) })
 
-  const { mutate: registration } = useMutation({
+  const {
+    mutate: registration,
+    isError,
+    error,
+  } = useMutation({
     mutationFn: authService.registration,
     onSuccess: () => setIsShowPopup(true),
   })
@@ -83,6 +90,7 @@ export const RegistrationPage = () => {
         </Button>
       </Form>
       <EmailSendPopup email={email} isShowPopup={isShowPopup} setIsShowPopup={setIsShowPopup} />
+      {isError && <AlertSnackbar type={'error'} message={errorHandler(error as AxiosError)} />}
     </>
   )
 }

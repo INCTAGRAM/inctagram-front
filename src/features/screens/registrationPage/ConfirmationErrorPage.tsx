@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import React, { useState } from 'react'
 import { ErrorOption, SubmitHandler, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { recoverySchema } from '@/validations/auth-schemes'
@@ -10,6 +10,9 @@ import { RouteNames } from '@/constants/routes'
 import { InputText } from '@/common/ui/inputText/InputText'
 import { Button } from '@/common/ui/button/Button'
 import EmailSendPopup from '@/features/popups/emailSendPopup/EmailSendPopup'
+import { AlertSnackbar } from '@/common/alertSnackbar/AlertSnackbar'
+import { errorHandler } from '@/hooks/errorsHandler'
+import { AxiosError } from 'axios'
 
 type RecoveryType = yup.InferType<typeof recoverySchema>
 
@@ -29,7 +32,11 @@ const ConfirmationErrorPage = () => {
     resolver: yupResolver(recoverySchema),
   })
 
-  const { mutate: sendEmail } = useMutation({
+  const {
+    mutate: sendEmail,
+    isError,
+    error,
+  } = useMutation({
     mutationFn: authService.resendingConfirmation,
     onSuccess: () => setIsShowPopup(true),
     onError: (error: ErrorOption) => setError('email', error),
@@ -67,6 +74,7 @@ const ConfirmationErrorPage = () => {
         </Button>
       </Form>
       <EmailSendPopup email={email} isShowPopup={isShowPopup} setIsShowPopup={setIsShowPopup} />
+      {isError && <AlertSnackbar type={'error'} message={errorHandler(error as AxiosError)} />}
     </>
   )
 }
