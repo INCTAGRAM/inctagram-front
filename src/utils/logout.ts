@@ -7,7 +7,7 @@ export const logout = async () => {
   try {
     await authService.logout()
     localStorage.removeItem('accessToken')
-    deleteCookie('isAuthorization')
+    deleteCookie('logged-in')
   } catch (e) {
     errorHandler(e as AxiosError)
   }
