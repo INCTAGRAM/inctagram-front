@@ -2,10 +2,24 @@
   height: 60px;
   display: flex;
   align-items: center;
+  justify-content: space-between;
 
   .logo {
     max-width: 128px;
     height: 36px;
     margin-left: 60px;
+  }
+
+  .logout {
+    color: white;
+    margin-right: 64px;
+    font-size: 14px;
+    line-height: 24px;
+    font-weight: 500;
+
+    .icon {
+      color: white;
+      margin-right: 15px;
+    }
   }
 }
