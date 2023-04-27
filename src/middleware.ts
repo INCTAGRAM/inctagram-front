@@ -3,9 +3,7 @@ import { NextRequest, NextResponse } from 'next/server'
 
 export default function middleware(req: NextRequest) {
   const currentUrl = req.nextUrl
-  const verify = req.cookies.get('isLoggedIn')
-
-  console.log(verify)
+  const verify = req.cookies.has('logged-in')
 
   if (!verify && PrivateRoutes.includes(currentUrl.pathname)) {
     return NextResponse.redirect(new URL(RouteNames.LOGIN, currentUrl))

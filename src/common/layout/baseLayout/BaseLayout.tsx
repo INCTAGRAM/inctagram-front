@@ -6,7 +6,7 @@ import Header from '@/common/header/Header'
 const BaseLayout: NextPage<PropsWithChildren> = ({ children }) => {
   return (
     <>
-      <Header logout={true} />
+      <Header isLogout={true} />
       <div className={styles.content_center}>
         <main>{children}</main>
       </div>

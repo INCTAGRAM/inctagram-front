@@ -43,7 +43,7 @@ const LoginPage = () => {
       const accessToken = response.accessToken
 
       localStorage.setItem('accessToken', accessToken)
-      setCookie('isLoggedIn', true)
+      setCookie('logged-in', 'true')
     },
   })
 

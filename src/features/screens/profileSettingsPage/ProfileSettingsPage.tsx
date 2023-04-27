@@ -9,7 +9,7 @@ import Avatar from '@/features/profileSettings/avatar/Avatar'
 import ProfileSettingsForm from '@/features/profileSettings/form/ProfileSettingsForm'
 import { AlertSnackbar } from '@/common/alertSnackbar/AlertSnackbar'
 import { errorHandler } from '@/hooks/errorsHandler'
-import { AxiosError } from 'axios/index'
+import { AxiosError } from 'axios'
 
 export type SetProfileType = yup.InferType<typeof changeProfileSchema>
 

@@ -1,6 +1,6 @@
 import axios, { AxiosError } from 'axios'
 import { getAccessToken } from '@/services/jwt/getAccessToken'
-import { Logout } from '@/utils'
+import { logout } from '@/utils'
 
 export const instance = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL,
@@ -36,7 +36,7 @@ instance.interceptors.response.use(
         isLoggedIn &&
         error.request.responseURL !== 'https://inctagram.herokuapp.com/api/auth/logout'
       ) {
-        Logout()
+        logout()
       }
     }
     return Promise.reject(error)
