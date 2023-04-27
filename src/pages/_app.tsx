@@ -6,8 +6,6 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import { ReactElement, ReactNode, useState } from 'react'
 import { NextPage } from 'next'
 import { useLoader } from '@/hooks/useLoader'
-import '@/assets/styles/nprogress.css'
-import Redirect from '@/features/redirect'
 
 export type NextPageWithLayout<P = {}> = NextPage<P> & {
   getLayout?: (page: ReactElement) => ReactNode
@@ -27,9 +25,7 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
   return getLayout(
     <QueryClientProvider client={queryClient}>
       <Hydrate state={pageProps.dehydratedState}>
-        <Redirect>
-          <Component {...pageProps} />
-        </Redirect>
+        <Component {...pageProps} />
       </Hydrate>
       <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>

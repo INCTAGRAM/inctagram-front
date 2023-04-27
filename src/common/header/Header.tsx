@@ -13,10 +13,11 @@ interface IHeader {
 
 const Header = ({ logout }: IHeader) => {
   const { push } = useRouter()
+
   const handler = () => {
-    Logout()
-    push(RouteNames.LOGIN)
+    Logout().then(() => push(RouteNames.LOGIN))
   }
+
   return (
     <div className={style.headerContainer}>
       <Image src={Inctagram} alt={'logo'} className={style.logo} />

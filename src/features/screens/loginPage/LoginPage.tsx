@@ -15,6 +15,7 @@ import Link from 'next/link'
 import { AlertSnackbar } from '@/common/alertSnackbar/AlertSnackbar'
 import { errorHandler } from '@/hooks/errorsHandler'
 import { AxiosError } from 'axios'
+import { setCookie } from 'cookies-next'
 
 type LoginType = yup.InferType<typeof loginSchema>
 
@@ -40,12 +41,14 @@ const LoginPage = () => {
     mutationFn: authService.login,
     onSuccess: (response) => {
       const accessToken = response.accessToken
+
       localStorage.setItem('accessToken', accessToken)
+      setCookie('isLoggedIn', true)
     },
   })
 
   useEffect(() => {
-    isSuccess && push(RouteNames.PROFILE)
+    if (isSuccess) push(RouteNames.PROFILE)
   }, [isSuccess, push])
 
   const onFormSubmit: SubmitHandler<LoginType> = ({ email, password }) => {
