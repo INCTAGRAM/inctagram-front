@@ -1,0 +1,53 @@
+.top_panel {
+  display: flex;
+  flex-direction: row;
+  gap: 49px;
+  padding: 4px 0;
+  position: relative;
+}
+.top_panel > div:nth-child(1) {
+  display: flex;
+  flex-direction: row;
+  gap: 35px;
+  padding: 4px 13px;
+}
+.top_panel > div:nth-child(1) .selected {
+  color: #397DF6;
+  transition: 0.5s;
+}
+.top_panel > div:nth-child(1) h2 {
+  position: relative;
+  color: #333333;
+  cursor: pointer;
+}
+.top_panel > div:nth-child(2) {
+  display: flex;
+  align-items: center;
+  height: 1px;
+  width: 733px;
+  background: #333333;
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+}
+.top_panel > div:nth-child(2) div {
+  width: 313px;
+  height: 2px;
+  background: #333333;
+}
+.top_panel > div:nth-child(2) div .underline, .top_panel > div:nth-child(2) div .opt2, .top_panel > div:nth-child(2) div .opt1 {
+  background: #397DF6;
+  position: relative;
+  height: 2px;
+  transition: 0.5s;
+}
+.top_panel > div:nth-child(2) div .opt1 {
+  width: 202px;
+  left: 0;
+}
+.top_panel > div:nth-child(2) div .opt2 {
+  width: 111px;
+  left: 202px;
+}
+
+/*# sourceMappingURL=TopPanel.module.css.map */
