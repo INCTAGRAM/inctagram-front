@@ -4,7 +4,11 @@ import s from '@/features/screens/profileSettingsPage/ProfileSettingsPage.module
 import { Button } from '@/common/ui/button/Button'
 import { AddPhotoPopup } from '@/features/popups/addPhotoPopup/AddPhotoPopup'
 
-const Avatar = ({ data }: any) => {
+interface IAvatarProps {
+  userAvatarUrl: string | null
+}
+
+const Avatar = ({ userAvatarUrl }: IAvatarProps) => {
   const [isShowPopup, setIsShowPopup] = useState(false)
 
   const defaultPhotoUrl =
@@ -16,7 +20,7 @@ const Avatar = ({ data }: any) => {
 
   return (
     <div>
-      <Image src={data.avatar.url ?? defaultPhotoUrl} alt={''} width={192} height={192} className={s.Image} />
+      <Image src={userAvatarUrl ?? defaultPhotoUrl} alt={''} width={192} height={192} className={s.Image} />
       <Button className={s.button} onClick={() => onClickHandler(true)}>
         Add a Profile Photo
       </Button>

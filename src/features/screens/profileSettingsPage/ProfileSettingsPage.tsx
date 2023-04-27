@@ -24,7 +24,7 @@ const ProfileSettingsPage = () => {
       <div className={s.content}>
         <TopPanel />
         <div className={s.container}>
-          {isSuccess && data && <Avatar data={data} />}
+          {isSuccess && data && <Avatar userAvatarUrl={data.avatar.url} />}
           {isSuccess && data && <ProfileSettingsForm data={data} />}
           {isError && <AlertSnackbar type={'error'} message={errorHandler(error as AxiosError)} />}
         </div>

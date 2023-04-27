@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { InputText } from '@/common/ui/inputText/InputText'
 import DatePicker from '@/features/profileSettings/datePicker/DatePicker'
-import { TextField } from '@mui/material'
+import { createTheme, TextField } from '@mui/material'
 import s from '@/features/screens/profileSettingsPage/ProfileSettingsPage.module.scss'
 import { Button } from '@/common/ui/button/Button'
 import Form from '@/features/profileSettings/form/Form'
@@ -15,8 +15,14 @@ import { IProfileData, IProfileSettingResponse } from '@/services/profile/types'
 import { profileService } from '@/services/profile/profileService'
 import { RouteNames } from '@/constants/routes'
 import { useRouter } from 'next/router'
+import { IInfo } from '@/features/profile/profileInfo/ProfileInfo'
+import { ThemeProvider } from '@mui/system'
 
-const ProfileSettingsForm = ({ data }: any) => {
+interface IProfileSettingsFormProps {
+  data: IInfo
+}
+
+const ProfileSettingsForm = ({ data }: IProfileSettingsFormProps) => {
   const { mutate: createProfile, isSuccess } = useMutation<IProfileSettingResponse, unknown, IProfileData>({
     mutationFn: profileService.updateUserProfile,
   })
@@ -77,18 +83,32 @@ const ProfileSettingsForm = ({ data }: any) => {
       <p>
         <InputText fieldName={'City'} {...register('city')} error={errors.city?.message ? errors.city.message : ''} />
       </p>
-      <TextField
-        multiline
-        rows={3}
-        label={'About me'}
-        {...register('aboutMe')}
-        className={s.aboutMeTextFieldStyle}
-        error={!!errors.aboutMe?.message}
-        helperText={errors.aboutMe?.message ? errors.aboutMe.message : ''}
-      />
+      <ThemeProvider theme={theme}>
+        <TextField
+          multiline
+          rows={3}
+          label={'About me'}
+          {...register('aboutMe')}
+          className={s.aboutMeTextFieldStyle}
+          error={!!errors.aboutMe?.message}
+          helperText={errors.aboutMe?.message ? errors.aboutMe.message : ''}
+        />
+      </ThemeProvider>
       <Button type={'submit'}>Save Changes</Button>
     </Form>
   )
 }
 
 export default ProfileSettingsForm
+
+const theme = createTheme({
+  components: {
+    MuiInputBase: {
+      styleOverrides: {
+        root: {
+          border: '1px solid #333333',
+        },
+      },
+    },
+  },
+})
