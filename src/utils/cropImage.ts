@@ -21,12 +21,12 @@ async function getCroppedImg(imageSrc: string, pixelCrop: CroppedAreaType, rotat
   const maxSize = Math.max(image.width, image.height)
   const safeArea = 2 * ((maxSize / 2) * Math.sqrt(2))
 
-  // set each dimensions to double largest dimension to allow for a safe area for the
+  // set each dimensions to double largest dimension to allow for profileSettings safe area for the
   // image to rotate in without being clipped by canvas context
   canvas.width = safeArea
   canvas.height = safeArea
 
-  // translate canvas context to a central location on image to allow rotating around the center.
+  // translate canvas context to profileSettings central location on image to allow rotating around the center.
   ctx?.translate(safeArea / 2, safeArea / 2)
   ctx?.rotate(getRadianAngle(rotation))
   ctx?.translate(-safeArea / 2, -safeArea / 2)

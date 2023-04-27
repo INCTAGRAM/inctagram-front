@@ -6,4 +6,5 @@ export const changeProfileSchema = yup.object().shape({
   birthday: yup.date(),
   city: yup.string().min(1).max(60),
   aboutMe: yup.string().min(1).max(200),
+  username: yup.string().min(1).max(40),
 })
