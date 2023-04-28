@@ -32,12 +32,12 @@ export type TResponseCreatePost = {
   ]
 }
 
-export type TRequestCreatePost = {
-  files: string
-  zoom?: number
+export type TPayloadCreatePost = {
+  files: File
+  zoom?: number[]
   filters?: string[]
-  cropInfo?: TCropInfo
-  ratio?: string
+  cropInfo?: TCropInfo[]
+  ratio?: string[]
 }
 
 type TCropInfo = {

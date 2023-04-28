@@ -1,8 +1,8 @@
 import { instance } from '@/services/config'
-import { TChangePost, TResponseCreatePost } from '@/services/post/type'
+import { TChangePost, TPayloadCreatePost, TResponseCreatePost } from '@/services/post/type'
 
 export const postService = {
-  createPost: (payload: string) => {
+  createPost: (payload: TPayloadCreatePost) => {
     return instance.post<TResponseCreatePost>('/users/self/posts', { payload })
   },
   removePost: (id: string) => {
