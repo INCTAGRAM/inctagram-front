@@ -1,7 +1,7 @@
 import Feedback from '@/common/ui/feedback/Feedback'
 import expiredImg from '../../../../public/auth/expired-link.png'
 import { useMutation } from '@tanstack/react-query'
-import { authService } from '@/services/auth/authService'
+import { authService } from '@/services'
 import { AlertSnackbar } from '@/common/alertSnackbar/AlertSnackbar'
 import { errorHandler } from '@/hooks/errorsHandler'
 import { AxiosError } from 'axios'

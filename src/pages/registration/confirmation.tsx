@@ -1,5 +1,5 @@
 import { NextPageWithLayout } from '@/pages/_app'
-import { authService } from '@/services/auth/authService'
+import { authService } from '@/services'
 import HeadMeta from '@/common/headMeta/HeadMeta'
 import RegistrationSuccessPage from '@/features/screens/feedbackPages/RegistrationSuccessPage'
 import ExpiredPage from '@/features/screens/feedbackPages/ExpiredPage'

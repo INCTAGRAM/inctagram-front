@@ -1,4 +1,4 @@
-import { authService } from '@/services/auth/authService'
+import { authService } from '@/services'
 import { errorHandler } from '@/hooks/errorsHandler'
 import { AxiosError } from 'axios'
 import { deleteCookie } from 'cookies-next'

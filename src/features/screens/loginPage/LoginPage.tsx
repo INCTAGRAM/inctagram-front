@@ -7,7 +7,6 @@ import * as yup from 'yup'
 import { loginSchema } from '@/validations/auth-schemes'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { useMutation } from '@tanstack/react-query'
-import { authService } from '@/services/auth/authService'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { RouteNames } from '@/constants/routes'
 import Form from '@/features/form/Form'
@@ -16,6 +15,7 @@ import { AlertSnackbar } from '@/common/alertSnackbar/AlertSnackbar'
 import { errorHandler } from '@/hooks/errorsHandler'
 import { AxiosError } from 'axios'
 import { setCookie } from 'cookies-next'
+import { authService } from '@/services'
 
 type LoginType = yup.InferType<typeof loginSchema>
 

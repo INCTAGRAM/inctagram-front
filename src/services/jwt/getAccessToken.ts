@@ -1,5 +1,5 @@
 import { isTokenExpired } from '@/services/jwt/isTokenExpired'
-import { authService } from '@/services/auth/authService'
+import { authService } from '@/services'
 
 export const getAccessToken = async (): Promise<string | null> => {
   try {

@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useMutation } from '@tanstack/react-query'
-import { authService } from '@/services/auth/authService'
+import { authService } from '@/services'
 import { InputText } from '@/common/ui/inputText/InputText'
 import { Button } from '@/common/ui/button/Button'
 import EmailSendPopup from '@/features/popups/emailSendPopup/EmailSendPopup'

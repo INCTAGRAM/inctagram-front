@@ -1,4 +1,4 @@
-import { profileService } from '@/services/profile/profileService'
+import { profileService } from '@/services'
 import axios, { AxiosError } from 'axios'
 
 export const addUserPhoto = async (file: File) => {

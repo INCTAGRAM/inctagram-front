@@ -6,13 +6,13 @@ import { useMutation } from '@tanstack/react-query'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { newPasswordSchema } from '@/validations/auth-schemes'
 import * as yup from 'yup'
-import { authService } from '@/services/auth/authService'
 import Form from '@/features/form/Form'
 import { useRouter } from 'next/router'
 import { RouteNames } from '@/constants/routes'
 import { AxiosError } from 'axios'
 import { errorHandler } from '@/hooks/errorsHandler'
 import { AlertSnackbar } from '@/common/alertSnackbar/AlertSnackbar'
+import { authService } from '@/services'
 
 type NewPassword = yup.InferType<typeof newPasswordSchema>
 

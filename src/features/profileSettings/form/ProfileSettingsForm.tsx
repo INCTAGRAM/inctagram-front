@@ -12,7 +12,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { changeProfileSchema } from '@/validations/profile-schemes'
 import { useMutation } from '@tanstack/react-query'
 import { IProfileData, IProfileSettingResponse } from '@/services/profile/types'
-import { profileService } from '@/services/profile/profileService'
+import { profileService } from '@/services'
 import { RouteNames } from '@/constants/routes'
 import { useRouter } from 'next/router'
 import { IInfo } from '@/features/profile/profileInfo/ProfileInfo'
@@ -52,7 +52,7 @@ const ProfileSettingsForm = ({ data }: IProfileSettingsFormProps) => {
   }, [isSuccess, push])
 
   const onFormSubmit = (data: SetProfileType) => {
-    const birthday = data.birthday ? dayjs(data.birthday, 'DD.MM.YYYY').format('YYYY-MM-DD')! : ''
+    const birthday = data.birthday ? dayjs(data.birthday, 'DD.MM.YYYY').format('YYYY-MM-DD') : ''
     createProfile({ ...data, birthday })
   }
 
