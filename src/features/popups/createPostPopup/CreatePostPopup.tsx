@@ -1,14 +1,29 @@
-import Popup from '@/common/ui/popup/Popup'
+import { AddPhotoPopup } from '@/features/popups/createPostPopup/addPhotoPopup/AddPhotoPopup'
+import { useState } from 'react'
+import { CroppingPhotoPopup } from '@/features/popups/createPostPopup/croppingPhotoPopup/CroppingPhotoPopup'
 
 interface ICreatePostPopup {
-  isShowPopup: boolean
-  setIsShowPopup: (arg: boolean) => void
+  isShowAddPost: boolean
+  setIsShowAddPost: (arg: boolean) => void
 }
-export const CreatePostPopup = ({ isShowPopup, setIsShowPopup }: ICreatePostPopup) => {
-  const closePopup = () => setIsShowPopup(false)
+
+export const CreatePostPopup = ({ isShowAddPost, setIsShowAddPost }: ICreatePostPopup) => {
+  const [images, setImages] = useState<any>([])
+  const [isShowCroppingPhotoPopup, setIsShowCroppingPhotoPopup] = useState(false)
+
   return (
-    <Popup title="Add photo" show={isShowPopup} modalOnClick={closePopup}>
-      11111111111111
-    </Popup>
+    <>
+      <AddPhotoPopup
+        isShowAddPhotoPopup={isShowAddPost}
+        setIsShowAddPhotoPopup={setIsShowAddPost}
+        images={images}
+        setImages={setImages}
+        setIsShowCroppingPhotoPopup={setIsShowCroppingPhotoPopup}
+      />
+      <CroppingPhotoPopup
+        isShowCroppingPhotoPopup={isShowCroppingPhotoPopup}
+        setIsShowCroppingPhotoPopup={setIsShowCroppingPhotoPopup}
+      />
+    </>
   )
 }
