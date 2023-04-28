@@ -8,11 +8,11 @@ import { CreatePostPopup } from '@/features/popups/createPostPopup/CreatePostPop
 import { INavbar, navbarPaths } from '@/common/navbar/navbarPaths'
 
 const Navbar = () => {
-  const [isShowPopup, setIsShowPopup] = useState(false)
+  const [isShowAddPost, setIsShowAddPost] = useState(false)
   const { pathname } = useRouter()
 
-  const onClickHandler = (boolean: boolean) => {
-    setIsShowPopup(boolean)
+  const onClickHandler = (isShow: boolean) => {
+    setIsShowAddPost(isShow)
   }
 
   return (
@@ -46,7 +46,7 @@ const Navbar = () => {
           )
         })}
       </ul>
-      <CreatePostPopup isShowPopup={isShowPopup} setIsShowPopup={setIsShowPopup} />
+      <CreatePostPopup isShowAddPost={isShowAddPost} setIsShowAddPost={setIsShowAddPost} />
     </>
   )
 }
