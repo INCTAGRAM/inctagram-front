@@ -35,6 +35,7 @@ export const BodySavePhotoPopup = ({ savePhoto, file }: IBodySavePhotoPopup) => 
             zoom={zoom}
             aspect={1}
             cropShape="round"
+            showGrid={false}
             onCropChange={setCrop}
             onZoomChange={setZoom}
             onCropComplete={onCropComplete}

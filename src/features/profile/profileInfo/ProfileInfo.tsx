@@ -1,8 +1,9 @@
-import styles from './ProfileInfo.module.scss'
 import { useState } from 'react'
 import AdditionalInfo from '@/features/profile/profileInfo/additionalInfo/AdditionalInfo'
 import GeneralInfo from '@/features/profile/profileInfo/generalInfo/GeneralInfo'
 import { Nullable } from '@/common/types/Nullable'
+import { FiltersPhotoPopup } from '@/features/popups/filtersPhotoPopup/FiltersPhotoPopup'
+import styles from './ProfileInfo.module.scss'
 
 interface IProfileInfoProps {
   info: IInfo
@@ -24,6 +25,8 @@ interface IAvatar {
 }
 
 const ProfileInfo = ({ info }: IProfileInfoProps) => {
+  const [isShowPopup, setIsShowPopup] = useState(true)
+
   const { username, avatar, aboutMe, city, birthday } = info
 
   const [isShowMore, setIsShowMore] = useState(false)
@@ -37,6 +40,7 @@ const ProfileInfo = ({ info }: IProfileInfoProps) => {
         {!isShowMore ? 'Show more' : 'Hide'}
       </button>
       {isShowMore && <AdditionalInfo city={city} birthday={birthday} />}
+      <FiltersPhotoPopup isShowPopup={isShowPopup} setIsShowPopup={setIsShowPopup} />
     </div>
   )
 }

@@ -1,0 +1,13 @@
+.container {
+  display: flex;
+  width: 972px;
+  height: 480px;
+
+  .containerImg {
+    width: 50%;
+  }
+  .containerSelect {
+    width: 50%;
+    padding: 15px;
+  }
+}
