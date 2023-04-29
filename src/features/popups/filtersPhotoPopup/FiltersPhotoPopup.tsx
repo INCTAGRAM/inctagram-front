@@ -18,6 +18,7 @@ export type CustomFilterType = {
   sepia: number
   gray: number
 }
+
 type ValueType = {
   tabFilter: string
   setTabFilter: (tabFilter: string) => void
@@ -26,14 +27,6 @@ type ValueType = {
   customFilter: CustomFilterType
   setCustomFilter: ({}: CustomFilterType) => void
 }
-// const initialState = {
-//   tabFilter: ' ',
-//   setTabFilter: () => {},
-//   filterClass: ' ',
-//   setFilterClass: () => {},
-//   customFilter: {} as CustomFilterType,
-//   setCustomFilter: () => {},
-// }
 
 export const FilterContext = createContext<ValueType>({} as ValueType)
 

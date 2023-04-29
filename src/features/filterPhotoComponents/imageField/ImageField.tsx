@@ -28,7 +28,6 @@ export const ImageField = () => {
   const imgResultRef = useRef(null)
   const [imageFile, setImageFile] = useState('')
   const { filterClass, customFilter } = useContext(FilterContext)
-
   const handleChangeInput = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length) {
       setImageFile(URL.createObjectURL(e.target.files[0]))

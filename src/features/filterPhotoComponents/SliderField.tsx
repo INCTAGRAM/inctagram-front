@@ -1,8 +1,9 @@
 import { Box, Slider } from '@mui/material'
 import { useContext, useEffect, useState } from 'react'
 import { FilterContext } from '@/features/popups/filtersPhotoPopup/FiltersPhotoPopup'
+import { SliderType } from '@/features/filterPhotoComponents/CustomFilter'
 
-export const SliderField = ({ slide }: any) => {
+export const SliderField = ({ slide }: { slide: SliderType }) => {
   const { label, defaultValue, field } = slide
   const [value, setValue] = useState(defaultValue)
   const { customFilter, setCustomFilter } = useContext(FilterContext)
@@ -11,8 +12,8 @@ export const SliderField = ({ slide }: any) => {
     setCustomFilter({ ...customFilter, [field]: value })
   }, [value])
 
-  const handleSliderValue = (e: any) => {
-    if (e.target.value) {
+  const handleSliderValue = (e: Event | any) => {
+    if (e.target) {
       setValue(e.target.value)
     }
   }
