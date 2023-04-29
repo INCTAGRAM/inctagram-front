@@ -1,20 +1,31 @@
 import style from './Header.module.scss'
 import Image from 'next/image'
 import Inctagram from './../../assets/image/Inctagram.svg'
-import { authService } from '@/services/auth/authService'
+import { Logout } from '@/utils'
+import { useRouter } from 'next/navigation'
+import { RouteNames } from '@/constants/routes'
+import IcomoonReact from 'icomoon-react'
+import LogOut from '@/assets/icons/selection.json'
 
 interface IHeader {
   logout: boolean
 }
 
 const Header = ({ logout }: IHeader) => {
+  const { push } = useRouter()
   const handler = () => {
-    authService.logout()
+    Logout()
+    push(RouteNames.LOGIN)
   }
   return (
     <div className={style.headerContainer}>
       <Image src={Inctagram} alt={'logo'} className={style.logo} />
-      {!logout && <button onClick={handler}>logout</button>}
+      {!logout && (
+        <div onClick={handler} className={style.logout}>
+          <IcomoonReact iconSet={LogOut} icon={'log-out'} size={16} className={style.icon} color={'white'} />
+          Log Out
+        </div>
+      )}
     </div>
   )
 }

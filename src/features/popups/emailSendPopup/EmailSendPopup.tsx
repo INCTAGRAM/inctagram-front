@@ -1,7 +1,7 @@
 import React from 'react'
 import styles from './EmailSendPopup.module.scss'
 import { Button } from '@/common/ui/button/Button'
-import Popup from '@/common/ui/popup/Popup'
+import { Popup } from '@/common/ui/popup/Popup'
 
 interface IEmailSendPopup {
   email: string

@@ -7,22 +7,23 @@ interface IPopupProps {
   title?: string
   show: boolean
   modalOnClick?: () => void
+  className?: string
 }
 
-export const Popup = ({ show, modalOnClick, title, children }: PropsWithChildren<IPopupProps>) => {
-  const finalPopupClassName = show ? `${styles.popup_background} ${styles.popup_open}` : `${styles.popup_background}`
+export const Popup = ({ show, modalOnClick, title, className, children }: PropsWithChildren<IPopupProps>) => {
+  let finalPopupClassName = `${styles.popup_background} `
+  finalPopupClassName += show ? `${styles.popup_open} ` : ''
+  finalPopupClassName += className ? className : ''
 
   return (
     <div className={finalPopupClassName}>
       <div className={styles.popup} onClick={(e) => e.stopPropagation()}>
         <div className={styles.popup_header}>
-          <h1>{title}</h1>
+          <p className={styles.title}>{title}</p>
           <IcomoonReact className={styles.close_btn} iconSet={iconSet} icon="close" size={25} onClick={modalOnClick} />
         </div>
-        <div className={styles.popup_body}>{children}</div>
+        <div>{children}</div>
       </div>
     </div>
   )
 }
-
-export default Popup
