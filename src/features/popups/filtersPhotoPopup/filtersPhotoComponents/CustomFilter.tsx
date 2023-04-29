@@ -1,5 +1,5 @@
 import { Box } from '@mui/material'
-import { SliderField } from '@/features/filterPhotoComponents/SliderField'
+import { SliderField } from '@/features/popups/filtersPhotoPopup/filtersPhotoComponents/SliderField'
 
 export type SliderType = {
   label: string

@@ -25,7 +25,7 @@ interface IAvatar {
 }
 
 const ProfileInfo = ({ info }: IProfileInfoProps) => {
-  const [isShowPopup, setIsShowPopup] = useState(true)
+  const [isShowPopup, setIsShowPopup] = useState(false)
 
   const { username, avatar, aboutMe, city, birthday } = info
 

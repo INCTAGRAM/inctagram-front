@@ -1,7 +1,7 @@
 import { Box, Slider } from '@mui/material'
 import { useContext, useEffect, useState } from 'react'
 import { FilterContext } from '@/features/popups/filtersPhotoPopup/FiltersPhotoPopup'
-import { SliderType } from '@/features/filterPhotoComponents/CustomFilter'
+import { SliderType } from '@/features/popups/filtersPhotoPopup/filtersPhotoComponents/CustomFilter'
 
 export const SliderField = ({ slide }: { slide: SliderType }) => {
   const { label, defaultValue, field } = slide
