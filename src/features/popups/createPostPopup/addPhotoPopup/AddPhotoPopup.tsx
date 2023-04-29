@@ -1,24 +1,25 @@
 import React, { ChangeEvent } from 'react'
-import Popup from '@/common/ui/popup/Popup'
+import { Popup } from '@/common/ui/popup/Popup'
 import styles from './AddPhotoPopup.module.scss'
 import IcomoonReact from 'icomoon-react'
 import iconSet from '@/assets/icons/selection.json'
 import { Button } from '@/common/ui/button/Button'
+import { IPost } from '@/features/popups/createPostPopup/types'
 
-interface IAddPhotoPopup {
+interface IAddPhotoPopupProps {
+  post: IPost
+  setPost: (post: IPost) => void
   isShowAddPhotoPopup: boolean
   setIsShowAddPhotoPopup: (arg: boolean) => void
   setIsShowCroppingPhotoPopup: (isShow: boolean) => void
-  images: any
-  setImages: (images: any) => void
 }
 export const AddPhotoPopup = ({
   isShowAddPhotoPopup,
   setIsShowAddPhotoPopup,
   setIsShowCroppingPhotoPopup,
-  images,
-  setImages,
-}: IAddPhotoPopup) => {
+  post,
+  setPost,
+}: IAddPhotoPopupProps) => {
   const closePopup = () => setIsShowAddPhotoPopup(false)
 
   const uploadHandler = (e: ChangeEvent<HTMLInputElement>) => {
@@ -28,7 +29,7 @@ export const AddPhotoPopup = ({
       reader.readAsDataURL(file)
       reader.onload = () => {
         if (typeof reader.result === 'string') {
-          setImages([...images, { image: reader.result }])
+          setPost({ ...post, images: [...post.images, reader.result] })
           setIsShowAddPhotoPopup(false)
           setIsShowCroppingPhotoPopup(true)
         }

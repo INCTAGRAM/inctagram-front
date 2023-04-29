@@ -1,4 +1,4 @@
-import Popup from '@/common/ui/popup/Popup'
+import { Popup } from '@/common/ui/popup/Popup'
 import React, { ChangeEvent, useRef, useState } from 'react'
 import styles from './AddFhotoPopup.module.scss'
 import { BodyUploadPhotoPopup } from '@/features/popups/addPhotoPopup/body/bodyUploadPhotoPopup/BodyUploadPhotoPopup'
