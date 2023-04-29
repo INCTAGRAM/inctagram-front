@@ -1,10 +1,10 @@
 import React, { createContext, useState } from 'react'
-import Popup from '@/common/ui/popup/Popup'
-import styles from './FilterPhotoPopup.module.scss'
 import { FilterTabs } from '@/features/popups/filtersPhotoPopup/filtersPhotoComponents/FilterTabs'
 import { InstaFitler } from '@/features/popups/filtersPhotoPopup/filtersPhotoComponents/InstaField'
 import { CustomFilter } from '@/features/popups/filtersPhotoPopup/filtersPhotoComponents/CustomFilter'
 import { ImageField } from '@/features/popups/filtersPhotoPopup/filtersPhotoComponents/imageField/ImageField'
+import { Popup } from '@/common/ui/popup/Popup'
+import styles from './FilterPhotoPopup.module.scss'
 
 interface IAddPhotoPopup {
   isShowPopup: boolean

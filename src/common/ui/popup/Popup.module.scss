@@ -26,7 +26,7 @@
       align-items: center;
       border-bottom: 1px solid #4C4C4C;
 
-      .popup_button_next{
+      .popup_button_next {
         font-family: Inter;
         font-style: normal;
         font-weight: 600;
@@ -35,17 +35,17 @@
         color: #397DF6
       }
 
-      h1 {
+      p.title {
         color: #FFFFFF;
       }
 
       .close_btn {
         cursor: pointer;
       }
-    }
 
-    .popup_body {
-      padding: 12px 24px;
+      .popup_body {
+        padding: 12px 24px;
+      }
     }
   }
 }

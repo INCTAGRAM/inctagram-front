@@ -10,10 +10,20 @@ interface IPopupProps {
   title?: string
   show: boolean
   modalOnClick?: () => void
+  className?: string
 }
 
-export const Popup = ({ show, modalOnClick, title, photoPopup, children }: PropsWithChildren<IPopupProps>) => {
-  const finalPopupClassName = show ? `${styles.popup_background} ${styles.popup_open}` : `${styles.popup_background}`
+export const Popup = ({
+  show,
+  modalOnClick,
+  title,
+  className,
+  photoPopup,
+  children,
+}: PropsWithChildren<IPopupProps>) => {
+  let finalPopupClassName = `${styles.popup_background} `
+  finalPopupClassName += show ? `${styles.popup_open} ` : ''
+  finalPopupClassName += className ? className : ''
 
   return (
     <div className={finalPopupClassName}>
@@ -24,7 +34,7 @@ export const Popup = ({ show, modalOnClick, title, photoPopup, children }: Props
               <ArrowBackIosIcon />
             </IconButton>
           )}
-          <h1>{title}</h1>
+          <p className={styles.title}>{title}</p>
           {photoPopup ? (
             <IconButton className={styles.popup_button_next}>Next</IconButton>
           ) : (
@@ -42,5 +52,3 @@ export const Popup = ({ show, modalOnClick, title, photoPopup, children }: Props
     </div>
   )
 }
-
-export default Popup
