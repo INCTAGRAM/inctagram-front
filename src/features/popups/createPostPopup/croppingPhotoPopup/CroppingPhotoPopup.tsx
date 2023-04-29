@@ -4,8 +4,6 @@ import Cropper, { Area } from 'react-easy-crop'
 import { useState } from 'react'
 import { CroppedAreaType } from '@/features/popups/addPhotoPopup/body/bodySavePhotoPopup/BodySavePhotoPopup'
 import { IPost } from '@/features/popups/createPostPopup/types'
-import { Button } from '@/common/ui/button/Button'
-import domtoimage from 'dom-to-image'
 
 interface ICroppingPhotoPopup {
   post: IPost
