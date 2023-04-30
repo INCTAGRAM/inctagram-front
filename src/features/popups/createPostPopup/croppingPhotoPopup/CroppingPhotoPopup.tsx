@@ -6,6 +6,7 @@ import { CroppedAreaType } from '@/features/popups/addPhotoPopup/body/bodySavePh
 import { IPost } from '@/features/popups/createPostPopup/types'
 import { generateDownload } from '@/utils'
 import { ControlElement } from '@/features/popups/createPostPopup/croppingPhotoPopup/controlElement/ControlElement'
+import Slider from '@mui/material/Slider'
 
 interface ICroppingPhotoPopup {
   post: IPost
@@ -43,6 +44,10 @@ export const CroppingPhotoPopup = ({
   }
   const nextStep = (images: string[], croppedArea: CroppedAreaType, getImages: (file: File) => void) => {
     generateDownload(images[0], croppedArea, getImages)
+  }
+
+  const onChangeSlider = (event: Event, value: number | number[]) => {
+    if (typeof value === 'number') setZoom(value / 100)
   }
 
   return (
@@ -83,7 +88,20 @@ export const CroppingPhotoPopup = ({
             </p>
           </div>
         </ControlElement>
-        <ControlElement icon={'maximize-outline'} elementClass={'zoom'}></ControlElement>
+        <ControlElement icon={'maximize-outline'} elementClass={'zoom'}>
+          <div className={`${styles.popupControlElement} ${styles.zoomControlElement}`}>
+            <Slider
+              size="small"
+              defaultValue={100}
+              value={zoom * 100}
+              onChange={onChangeSlider}
+              min={100}
+              max={300}
+              aria-label="Small"
+              valueLabelDisplay="off"
+            />
+          </div>
+        </ControlElement>
         <ControlElement icon={'image-outline'} elementClass={'gallery'}></ControlElement>
       </div>
     </Popup>
