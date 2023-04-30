@@ -3,6 +3,7 @@ import { styled } from '@mui/system'
 import { ChangeEvent, useContext, useRef, useState } from 'react'
 import { CustomFilterType, FilterContext } from '@/features/popups/filtersPhotoPopup/FiltersPhotoPopup'
 import style from './Instagram.module.css'
+import { IPost } from '@/features/popups/createPostPopup/types'
 
 const StyleBox = styled(Box)({
   background: '#ddd',
@@ -23,14 +24,24 @@ const StyledImage = styled('img')((props: { customFilter: Partial<CustomFilterTy
   filter: `contrast(${props.customFilter.contrast}%) brightness(${props.customFilter.brightness}%) saturate(${props.customFilter.saturate}%) sepia(${props.customFilter.sepia}%) grayScale(${props.customFilter.gray}%)`,
 }))
 
-export const ImageField = () => {
+type ImageFieldPropsType = {
+  post: IPost
+}
+
+export const ImageField = ({ post }: ImageFieldPropsType) => {
+  const { images } = post
+  console.log(images)
+  const imageFileFromCropping = images[0]
   const uploadInputRef = useRef<HTMLInputElement>(null)
   const imgResultRef = useRef(null)
-  const [imageFile, setImageFile] = useState('')
+  const [imageFile, setImageFile] = useState(imageFileFromCropping)
   const { filterClass, customFilter } = useContext(FilterContext)
+
   const handleChangeInput = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length) {
       setImageFile(URL.createObjectURL(e.target.files[0]))
+      // console.log('1', e.target.files[0])
+      // console.log('URL', URL.createObjectURL(e.target.files[0]))
     }
   }
 

@@ -2,20 +2,25 @@
 
 .upload_container {
   padding: 60px 111px 96px 111px;
+
   .icon_container {
     width: max-content;
     padding: 96px 93px;
     background: #171717;
     margin-bottom: 60px;
   }
+
   input {
     display: none;
   }
+
   label {
     cursor: pointer;
+
     &:hover button {
       background: $primary_100;
     }
+
     button {
       pointer-events: none;
     }

@@ -11,6 +11,8 @@ interface IPopupProps {
   show: boolean
   modalOnClick?: () => void
   className?: string
+  setBackOnClick?: () => void
+  setNextOnClick?: () => void
 }
 
 export const Popup = ({
@@ -20,23 +22,26 @@ export const Popup = ({
   className,
   photoPopup,
   children,
+  setBackOnClick,
+  setNextOnClick,
 }: PropsWithChildren<IPopupProps>) => {
   let finalPopupClassName = `${styles.popup_background} `
   finalPopupClassName += show ? `${styles.popup_open} ` : ''
   finalPopupClassName += className ? className : ''
-
   return (
     <div className={finalPopupClassName}>
       <div className={styles.popup} onClick={(e) => e.stopPropagation()}>
         <div className={styles.popup_header}>
           {photoPopup && (
-            <IconButton sx={{ color: 'white' }}>
+            <IconButton sx={{ color: 'white' }} onClick={setBackOnClick}>
               <ArrowBackIosIcon />
             </IconButton>
           )}
           <p className={styles.title}>{title}</p>
           {photoPopup ? (
-            <IconButton className={styles.popup_button_next}>Next</IconButton>
+            <IconButton className={styles.popup_button_next} onClick={setNextOnClick}>
+              Next
+            </IconButton>
           ) : (
             <IcomoonReact
               className={styles.close_btn}

@@ -2,6 +2,7 @@ import { AddPhotoPopup } from '@/features/popups/createPostPopup/addPhotoPopup/A
 import { useState } from 'react'
 import { CroppingPhotoPopup } from '@/features/popups/createPostPopup/croppingPhotoPopup/CroppingPhotoPopup'
 import { IPost } from '@/features/popups/createPostPopup/types'
+import { FiltersPhotoPopup } from '@/features/popups/filtersPhotoPopup/FiltersPhotoPopup'
 
 interface ICreatePostPopupProps {
   isShowAddPost: boolean
@@ -16,7 +17,8 @@ const postInitial: IPost = {
 export const CreatePostPopup = ({ isShowAddPost, setIsShowAddPost }: ICreatePostPopupProps) => {
   const [post, setPost] = useState<IPost>(postInitial)
   const [isShowCroppingPhotoPopup, setIsShowCroppingPhotoPopup] = useState(false)
-
+  const [isShowFilterPopup, setIsShowFilterPopup] = useState(false)
+  debugger
   return (
     <>
       <AddPhotoPopup
@@ -31,6 +33,15 @@ export const CreatePostPopup = ({ isShowAddPost, setIsShowAddPost }: ICreatePost
         setPost={setPost}
         isShowCroppingPhotoPopup={isShowCroppingPhotoPopup}
         setIsShowCroppingPhotoPopup={setIsShowCroppingPhotoPopup}
+        setIsShowAddPost={setIsShowAddPost}
+        setIsShowFilterPopup={setIsShowFilterPopup}
+      />
+      <FiltersPhotoPopup
+        post={post}
+        setPost={setPost}
+        isShowPopup={isShowFilterPopup}
+        setIsShowCroppingPhotoPopup={setIsShowCroppingPhotoPopup}
+        setIsShowPopup={setIsShowFilterPopup}
       />
     </>
   )

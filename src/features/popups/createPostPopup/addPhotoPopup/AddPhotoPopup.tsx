@@ -13,6 +13,7 @@ interface IAddPhotoPopupProps {
   setIsShowAddPhotoPopup: (arg: boolean) => void
   setIsShowCroppingPhotoPopup: (isShow: boolean) => void
 }
+
 export const AddPhotoPopup = ({
   isShowAddPhotoPopup,
   setIsShowAddPhotoPopup,

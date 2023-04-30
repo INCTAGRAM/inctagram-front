@@ -5,10 +5,14 @@ import { CustomFilter } from '@/features/popups/filtersPhotoPopup/filtersPhotoCo
 import { ImageField } from '@/features/popups/filtersPhotoPopup/filtersPhotoComponents/imageField/ImageField'
 import { Popup } from '@/common/ui/popup/Popup'
 import styles from './FilterPhotoPopup.module.scss'
+import { IPost } from '@/features/popups/createPostPopup/types'
 
 interface IAddPhotoPopup {
+  post: IPost
+  setPost: (images: IPost) => void
   isShowPopup: boolean
   setIsShowPopup: (arg: boolean) => void
+  setIsShowCroppingPhotoPopup: (arg: boolean) => void
 }
 
 export type CustomFilterType = {
@@ -30,7 +34,12 @@ type ValueType = {
 
 export const FilterContext = createContext<ValueType>({} as ValueType)
 
-export const FiltersPhotoPopup = ({ isShowPopup, setIsShowPopup }: IAddPhotoPopup) => {
+export const FiltersPhotoPopup = ({
+  isShowPopup,
+  setIsShowPopup,
+  setIsShowCroppingPhotoPopup,
+  post,
+}: IAddPhotoPopup) => {
   const [tabFilter, setTabFilter] = useState('instaFilter')
   const [filterClass, setFilterClass] = useState('')
   const [customFilter, setCustomFilter] = useState<CustomFilterType>({
@@ -52,12 +61,23 @@ export const FiltersPhotoPopup = ({ isShowPopup, setIsShowPopup }: IAddPhotoPopu
 
   const closePopup = () => setIsShowPopup(false)
 
+  const setBackOnClick = () => {
+    setIsShowPopup(false)
+    setIsShowCroppingPhotoPopup(true)
+  }
+
   return (
     <FilterContext.Provider value={value}>
-      <Popup title="Filters" show={isShowPopup} modalOnClick={closePopup} photoPopup={true}>
+      <Popup
+        title="Filters"
+        show={isShowPopup}
+        modalOnClick={closePopup}
+        photoPopup={true}
+        setBackOnClick={setBackOnClick}
+      >
         <div className={styles.container}>
           <div className={styles.containerImg}>
-            <ImageField />
+            <ImageField post={post} />
           </div>
           <div className={styles.containerSelect}>
             <FilterTabs />
