@@ -4,10 +4,11 @@ import Cropper, { Area } from 'react-easy-crop'
 import { useState } from 'react'
 import { CroppedAreaType } from '@/features/popups/addPhotoPopup/body/bodySavePhotoPopup/BodySavePhotoPopup'
 import { IPost } from '@/features/popups/createPostPopup/types'
+import { generateDownload } from '@/utils'
 
 interface ICroppingPhotoPopup {
   post: IPost
-  setPost: (images: IPost) => void
+  setPost: (post: IPost) => void
   isShowCroppingPhotoPopup: boolean
   setIsShowCroppingPhotoPopup: (isShow: boolean) => void
 }
@@ -22,14 +23,30 @@ export const CroppingPhotoPopup = ({
   const [crop, setCrop] = useState({ x: 0, y: 0 })
   const [zoom, setZoom] = useState(1)
   const [aspect, setAspect] = useState(1)
+  const [testImg, setTestImg] = useState('')
 
   const onCropComplete = (croppedAreaPercentage: Area, croppedAreaPixels: Area) => {
     setCroppedArea(croppedAreaPixels)
   }
 
   const closePopup = () => setIsShowCroppingPhotoPopup(false)
+
+  const getImages = (file: File) => {
+    const url = URL.createObjectURL(file)
+    setPost({ ...post, images: [url] })
+  }
+  const nextStepHandler = (images: string[], croppedArea: CroppedAreaType, getImages: (file: File) => void) => {
+    generateDownload(images[0], croppedArea, getImages)
+  }
   return (
-    <Popup title="Cropping" show={isShowCroppingPhotoPopup} modalOnClick={closePopup} className={styles.croppingPopup}>
+    <Popup
+      title="Cropping"
+      show={isShowCroppingPhotoPopup}
+      modalOnClick={() => nextStepHandler(post.images, croppedArea, getImages)}
+      modalOnClickPrevStep={closePopup}
+      onclickContent={'Next'}
+      className={styles.croppingPopup}
+    >
       <div className={styles.croppingImages}>
         {post.images?.map((img, i) => {
           return (
@@ -47,6 +64,7 @@ export const CroppingPhotoPopup = ({
           )
         })}
       </div>
+      <img src={testImg} />
     </Popup>
   )
 }
