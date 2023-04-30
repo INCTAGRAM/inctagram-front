@@ -64,7 +64,6 @@ export const CroppingPhotoPopup = ({
           )
         })}
       </div>
-      <img src={testImg} />
     </Popup>
   )
 }

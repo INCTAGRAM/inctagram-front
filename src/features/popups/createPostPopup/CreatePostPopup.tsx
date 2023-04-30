@@ -2,7 +2,6 @@ import { AddPhotoPopup } from '@/features/popups/createPostPopup/addPhotoPopup/A
 import { useState } from 'react'
 import { CroppingPhotoPopup } from '@/features/popups/createPostPopup/croppingPhotoPopup/CroppingPhotoPopup'
 import { IPost } from '@/features/popups/createPostPopup/types'
-import login from '@/pages/login'
 
 interface ICreatePostPopupProps {
   isShowAddPost: boolean
@@ -17,8 +16,6 @@ const postInitial: IPost = {
 export const CreatePostPopup = ({ isShowAddPost, setIsShowAddPost }: ICreatePostPopupProps) => {
   const [post, setPost] = useState<IPost>(postInitial)
   const [isShowCroppingPhotoPopup, setIsShowCroppingPhotoPopup] = useState(false)
-
-  console.log(post)
 
   return (
     <>
