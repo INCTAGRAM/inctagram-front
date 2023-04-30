@@ -10,6 +10,7 @@ interface ICroppingPhotoPopup {
   post: IPost
   setPost: (post: IPost) => void
   isShowCroppingPhotoPopup: boolean
+  setIsShowAddPhotoPopup: (isShow: boolean) => void
   setIsShowCroppingPhotoPopup: (isShow: boolean) => void
 }
 
@@ -17,6 +18,7 @@ export const CroppingPhotoPopup = ({
   post,
   setPost,
   isShowCroppingPhotoPopup,
+  setIsShowAddPhotoPopup,
   setIsShowCroppingPhotoPopup,
 }: ICroppingPhotoPopup) => {
   const [croppedArea, setCroppedArea] = useState<CroppedAreaType>({ width: 0, height: 0, x: 0, y: 0 })
@@ -29,21 +31,26 @@ export const CroppingPhotoPopup = ({
     setCroppedArea(croppedAreaPixels)
   }
 
-  const closePopup = () => setIsShowCroppingPhotoPopup(false)
-
   const getImages = (file: File) => {
     const url = URL.createObjectURL(file)
     setPost({ ...post, images: [url] })
   }
-  const nextStepHandler = (images: string[], croppedArea: CroppedAreaType, getImages: (file: File) => void) => {
+
+  const prevStep = () => {
+    setPost({ ...post, images: [] })
+    setIsShowCroppingPhotoPopup(false)
+    setIsShowAddPhotoPopup(true)
+  }
+  const nextStep = (images: string[], croppedArea: CroppedAreaType, getImages: (file: File) => void) => {
     generateDownload(images[0], croppedArea, getImages)
   }
+
   return (
     <Popup
       title="Cropping"
       show={isShowCroppingPhotoPopup}
-      modalOnClick={() => nextStepHandler(post.images, croppedArea, getImages)}
-      modalOnClickPrevStep={closePopup}
+      modalOnClick={() => nextStep(post.images, croppedArea, getImages)}
+      modalOnClickPrevStep={prevStep}
       onclickContent={'Next'}
       className={styles.croppingPopup}
     >

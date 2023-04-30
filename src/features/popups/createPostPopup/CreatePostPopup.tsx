@@ -29,6 +29,7 @@ export const CreatePostPopup = ({ isShowAddPost, setIsShowAddPost }: ICreatePost
       <CroppingPhotoPopup
         post={post}
         setPost={setPost}
+        setIsShowAddPhotoPopup={setIsShowAddPost}
         isShowCroppingPhotoPopup={isShowCroppingPhotoPopup}
         setIsShowCroppingPhotoPopup={setIsShowCroppingPhotoPopup}
       />
