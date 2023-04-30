@@ -15,9 +15,11 @@ export const ControlElement = ({ children, icon, elementClass }: PropsWithChildr
 
   useEffect(() => {
     if (!open) return
-    const handleClick = (e: any) => {
+    const handleClick = (e: Event) => {
+      console.log(e)
       if (!control.current) return
-      if (!control.current.contains(e.target)) {
+      if (!e.target) return
+      if (!control.current.contains(e.target as HTMLElement)) {
         setOpen(false)
       }
     }
