@@ -27,7 +27,7 @@ export const Popup = ({
 
   return (
     <div className={finalPopupClassName}>
-      <div className={styles.popup} onClick={(e) => e.stopPropagation()}>
+      <div className={styles.popup}>
         <div className={styles.popup_header}>
           {modalOnClickPrevStep ? (
             <IcomoonReact
