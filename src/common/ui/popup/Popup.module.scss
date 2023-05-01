@@ -1,3 +1,5 @@
+@import "src/assets/styles/variables";
+
 .popup_background {
   position: fixed;
   left: 0;
@@ -26,26 +28,29 @@
       align-items: center;
       border-bottom: 1px solid #4C4C4C;
 
-      .popup_button_next {
-        font-family: Inter;
-        font-style: normal;
-        font-weight: 600;
-        font-size: 16px;
-        line-height: 24px;
-        color: #397DF6
-      }
-
       p.title {
         color: #FFFFFF;
+        font-size: 20px;
+        font-weight: 700;
       }
 
       .close_btn {
         cursor: pointer;
       }
 
-      .popup_body {
-        padding: 12px 24px;
+      .rightAction {
+        color: $primary_500;
+        cursor: pointer;
+        font-family: Inter;
+        font-style: normal;
+        font-weight: 600;
+        font-size: 16px;
+        line-height: 24px;
       }
+    }
+
+    .popup_body {
+      padding: 12px 24px;
     }
   }
 }

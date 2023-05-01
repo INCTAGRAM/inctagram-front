@@ -18,7 +18,7 @@ export const CreatePostPopup = ({ isShowAddPost, setIsShowAddPost }: ICreatePost
   const [post, setPost] = useState<IPost>(postInitial)
   const [isShowCroppingPhotoPopup, setIsShowCroppingPhotoPopup] = useState(false)
   const [isShowFilterPopup, setIsShowFilterPopup] = useState(false)
-  debugger
+
   return (
     <>
       <AddPhotoPopup
@@ -31,17 +31,17 @@ export const CreatePostPopup = ({ isShowAddPost, setIsShowAddPost }: ICreatePost
       <CroppingPhotoPopup
         post={post}
         setPost={setPost}
+        setIsShowAddPhotoPopup={setIsShowAddPost}
         isShowCroppingPhotoPopup={isShowCroppingPhotoPopup}
         setIsShowCroppingPhotoPopup={setIsShowCroppingPhotoPopup}
-        setIsShowAddPost={setIsShowAddPost}
         setIsShowFilterPopup={setIsShowFilterPopup}
       />
       <FiltersPhotoPopup
         post={post}
         setPost={setPost}
-        isShowPopup={isShowFilterPopup}
+        setIsShowFilterPopup={setIsShowFilterPopup}
         setIsShowCroppingPhotoPopup={setIsShowCroppingPhotoPopup}
-        setIsShowPopup={setIsShowFilterPopup}
+        isShowFilterPopup={isShowFilterPopup}
       />
     </>
   )

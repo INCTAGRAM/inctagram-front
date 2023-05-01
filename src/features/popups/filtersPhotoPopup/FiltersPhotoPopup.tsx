@@ -10,8 +10,8 @@ import { IPost } from '@/features/popups/createPostPopup/types'
 interface IAddPhotoPopup {
   post: IPost
   setPost: (images: IPost) => void
-  isShowPopup: boolean
-  setIsShowPopup: (arg: boolean) => void
+  isShowFilterPopup: boolean
+  setIsShowFilterPopup: (arg: boolean) => void
   setIsShowCroppingPhotoPopup: (arg: boolean) => void
 }
 
@@ -35,10 +35,11 @@ type ValueType = {
 export const FilterContext = createContext<ValueType>({} as ValueType)
 
 export const FiltersPhotoPopup = ({
-  isShowPopup,
-  setIsShowPopup,
+  isShowFilterPopup,
+  setIsShowFilterPopup,
   setIsShowCroppingPhotoPopup,
   post,
+  setPost,
 }: IAddPhotoPopup) => {
   const [tabFilter, setTabFilter] = useState('instaFilter')
   const [filterClass, setFilterClass] = useState('')
@@ -59,21 +60,34 @@ export const FiltersPhotoPopup = ({
     setCustomFilter,
   }
 
-  const closePopup = () => setIsShowPopup(false)
+  // const closePopup = () => isShowFilterPopup(false)
 
-  const setBackOnClick = () => {
-    setIsShowPopup(false)
+  // const setBackOnClick = () => {
+  //   isShowFilterPopup(false)
+  //   setIsShowCroppingPhotoPopup(true)
+  // }
+  const prevStep = () => {
+    setPost({ ...post, images: [] })
+    setIsShowFilterPopup(false)
     setIsShowCroppingPhotoPopup(true)
+  }
+  const setNextOnClick = () => {
+    setIsShowCroppingPhotoPopup(false)
+    setIsShowFilterPopup(true)
   }
 
   return (
     <FilterContext.Provider value={value}>
       <Popup
         title="Filters"
-        show={isShowPopup}
-        modalOnClick={closePopup}
-        photoPopup={true}
-        setBackOnClick={setBackOnClick}
+        show={isShowFilterPopup}
+        modalOnClick={setNextOnClick}
+        // photoPopup={true}
+        // setBackOnClick={setBackOnClick}
+        onclickContent={'Next'}
+        modalOnClickPrevStep={prevStep}
+        // setBackOnClick={setBackOnClick}
+        // setNextOnClick={setNextOnClick}
       >
         <div className={styles.container}>
           <div className={styles.containerImg}>

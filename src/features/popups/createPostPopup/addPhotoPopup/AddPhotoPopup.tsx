@@ -10,7 +10,7 @@ interface IAddPhotoPopupProps {
   post: IPost
   setPost: (post: IPost) => void
   isShowAddPhotoPopup: boolean
-  setIsShowAddPhotoPopup: (arg: boolean) => void
+  setIsShowAddPhotoPopup: (isShow: boolean) => void
   setIsShowCroppingPhotoPopup: (isShow: boolean) => void
 }
 

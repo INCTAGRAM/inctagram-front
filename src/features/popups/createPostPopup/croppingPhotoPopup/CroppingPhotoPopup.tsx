@@ -4,14 +4,15 @@ import Cropper, { Area } from 'react-easy-crop'
 import { useState } from 'react'
 import { CroppedAreaType } from '@/features/popups/addPhotoPopup/body/bodySavePhotoPopup/BodySavePhotoPopup'
 import { IPost } from '@/features/popups/createPostPopup/types'
+import { generateDownload } from '@/utils'
 
 interface ICroppingPhotoPopup {
   post: IPost
-  setPost: (images: IPost) => void
+  setPost: (post: IPost) => void
   isShowCroppingPhotoPopup: boolean
   setIsShowCroppingPhotoPopup: (isShow: boolean) => void
   setIsShowFilterPopup: (isShow: boolean) => void
-  setIsShowAddPost: (isShow: boolean) => void
+  setIsShowAddPhotoPopup: (isShow: boolean) => void
 }
 
 export const CroppingPhotoPopup = ({
@@ -19,37 +20,43 @@ export const CroppingPhotoPopup = ({
   setPost,
   isShowCroppingPhotoPopup,
   setIsShowCroppingPhotoPopup,
-  setIsShowAddPost,
+  setIsShowAddPhotoPopup,
   setIsShowFilterPopup,
 }: ICroppingPhotoPopup) => {
   const [croppedArea, setCroppedArea] = useState<CroppedAreaType>({ width: 0, height: 0, x: 0, y: 0 })
   const [crop, setCrop] = useState({ x: 0, y: 0 })
   const [zoom, setZoom] = useState(1)
   const [aspect, setAspect] = useState(1)
-  console.log(croppedArea)
+
   const onCropComplete = (croppedAreaPercentage: Area, croppedAreaPixels: Area) => {
     setCroppedArea(croppedAreaPixels)
   }
 
-  const setBackOnClick = () => {
-    setIsShowCroppingPhotoPopup(false)
-    setIsShowAddPost(true)
+  const getImages = (file: File) => {
+    const url = URL.createObjectURL(file)
+    setPost({ ...post, images: [url] })
   }
 
-  const setNextOnClick = () => {
+  const prevStep = () => {
+    setPost({ ...post, images: [] })
+    setIsShowCroppingPhotoPopup(false)
+    setIsShowAddPhotoPopup(true)
+  }
+
+  const nextStep = (images: string[], croppedArea: CroppedAreaType, getImages: (file: File) => void) => {
+    generateDownload(images[0], croppedArea, getImages)
     setIsShowCroppingPhotoPopup(false)
     setIsShowFilterPopup(true)
   }
-  const closePopup = () => setIsShowCroppingPhotoPopup(false)
+
   return (
     <Popup
       title="Cropping"
       show={isShowCroppingPhotoPopup}
-      modalOnClick={closePopup}
+      modalOnClick={() => nextStep(post.images, croppedArea, getImages)}
+      modalOnClickPrevStep={prevStep}
+      onclickContent={'Next'}
       className={styles.croppingPopup}
-      photoPopup={true}
-      setBackOnClick={setBackOnClick}
-      setNextOnClick={setNextOnClick}
     >
       <div className={styles.croppingImages}>
         {post.images?.map((img, i) => {
