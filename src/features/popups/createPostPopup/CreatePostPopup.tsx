@@ -8,7 +8,7 @@ interface ICreatePostPopupProps {
   setIsShowAddPost: (arg: boolean) => void
 }
 
-const postInitial: IPost = {
+export const postInitial: IPost = {
   description: '',
   images: [],
 }

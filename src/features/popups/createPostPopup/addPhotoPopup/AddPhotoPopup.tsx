@@ -5,6 +5,7 @@ import IcomoonReact from 'icomoon-react'
 import iconSet from '@/assets/icons/selection.json'
 import { Button } from '@/common/ui/button/Button'
 import { IPost } from '@/features/popups/createPostPopup/types'
+import { postInitial } from '@/features/popups/createPostPopup/CreatePostPopup'
 
 interface IAddPhotoPopupProps {
   post: IPost
@@ -20,7 +21,10 @@ export const AddPhotoPopup = ({
   post,
   setPost,
 }: IAddPhotoPopupProps) => {
-  const closePopup = () => setIsShowAddPost(false)
+  const closePopup = () => {
+    setPost(postInitial)
+    setIsShowAddPost(false)
+  }
 
   const uploadHandler = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length) {
