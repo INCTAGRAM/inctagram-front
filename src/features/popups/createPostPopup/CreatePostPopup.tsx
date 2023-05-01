@@ -22,14 +22,14 @@ export const CreatePostPopup = ({ isShowAddPost, setIsShowAddPost }: ICreatePost
       <AddPhotoPopup
         post={post}
         setPost={setPost}
-        isShowAddPhotoPopup={isShowAddPost}
-        setIsShowAddPhotoPopup={setIsShowAddPost}
+        isShowAddPost={isShowAddPost}
+        setIsShowAddPost={setIsShowAddPost}
         setIsShowCroppingPhotoPopup={setIsShowCroppingPhotoPopup}
       />
       <CroppingPhotoPopup
         post={post}
         setPost={setPost}
-        setIsShowAddPhotoPopup={setIsShowAddPost}
+        setIsShowAddPost={setIsShowAddPost}
         isShowCroppingPhotoPopup={isShowCroppingPhotoPopup}
         setIsShowCroppingPhotoPopup={setIsShowCroppingPhotoPopup}
       />

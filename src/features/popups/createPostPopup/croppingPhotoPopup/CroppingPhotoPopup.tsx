@@ -12,7 +12,7 @@ interface ICroppingPhotoPopupProps {
   post: IPost
   setPost: (post: IPost) => void
   isShowCroppingPhotoPopup: boolean
-  setIsShowAddPhotoPopup: (isShow: boolean) => void
+  setIsShowAddPost: (isShow: boolean) => void
   setIsShowCroppingPhotoPopup: (isShow: boolean) => void
 }
 
@@ -20,7 +20,7 @@ export const CroppingPhotoPopup = ({
   post,
   setPost,
   isShowCroppingPhotoPopup,
-  setIsShowAddPhotoPopup,
+  setIsShowAddPost,
   setIsShowCroppingPhotoPopup,
 }: ICroppingPhotoPopupProps) => {
   const [croppedArea, setCroppedArea] = useState<CroppedAreaType>({ width: 0, height: 0, x: 0, y: 0 })
@@ -40,7 +40,7 @@ export const CroppingPhotoPopup = ({
   const prevStep = () => {
     setPost({ ...post, images: [] })
     setIsShowCroppingPhotoPopup(false)
-    setIsShowAddPhotoPopup(true)
+    setIsShowAddPost(true)
   }
   const nextStep = (images: string[], croppedArea: CroppedAreaType, getImages: (file: File) => void) => {
     generateDownload(images[0], croppedArea, getImages)

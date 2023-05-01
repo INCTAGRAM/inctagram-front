@@ -9,18 +9,18 @@ import { IPost } from '@/features/popups/createPostPopup/types'
 interface IAddPhotoPopupProps {
   post: IPost
   setPost: (post: IPost) => void
-  isShowAddPhotoPopup: boolean
-  setIsShowAddPhotoPopup: (arg: boolean) => void
+  isShowAddPost: boolean
+  setIsShowAddPost: (arg: boolean) => void
   setIsShowCroppingPhotoPopup: (isShow: boolean) => void
 }
 export const AddPhotoPopup = ({
-  isShowAddPhotoPopup,
-  setIsShowAddPhotoPopup,
+  isShowAddPost,
+  setIsShowAddPost,
   setIsShowCroppingPhotoPopup,
   post,
   setPost,
 }: IAddPhotoPopupProps) => {
-  const closePopup = () => setIsShowAddPhotoPopup(false)
+  const closePopup = () => setIsShowAddPost(false)
 
   const uploadHandler = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length) {
@@ -30,7 +30,7 @@ export const AddPhotoPopup = ({
       reader.onload = () => {
         if (typeof reader.result === 'string') {
           setPost({ ...post, images: [...post.images, reader.result] })
-          setIsShowAddPhotoPopup(false)
+          setIsShowAddPost(false)
           setIsShowCroppingPhotoPopup(true)
         }
       }
@@ -38,7 +38,7 @@ export const AddPhotoPopup = ({
   }
 
   return (
-    <Popup title="Add photo" show={isShowAddPhotoPopup} modalOnClick={closePopup}>
+    <Popup title="Add photo" show={isShowAddPost} modalOnClick={closePopup}>
       <div className={styles.upload_container}>
         <div className={styles.icon_container}>
           <IcomoonReact iconSet={iconSet} icon="image-outline" color={'white'} className={styles.icon} size={48} />
