@@ -7,6 +7,8 @@ import { IPost } from '@/features/popups/createPostPopup/types'
 import { generateDownload } from '@/utils'
 import { ControlElement } from '@/features/popups/createPostPopup/croppingPhotoPopup/controlElement/ControlElement'
 import Slider from '@mui/material/Slider'
+import { AspectControl } from '@/features/popups/createPostPopup/croppingPhotoPopup/controlElement/aspectControl/AspectControl'
+import { ControlSlider } from '@/features/popups/createPostPopup/croppingPhotoPopup/controlElement/controlSlider/ControlSlider'
 
 interface ICroppingPhotoPopupProps {
   post: IPost
@@ -46,10 +48,6 @@ export const CroppingPhotoPopup = ({
     generateDownload(images[0], croppedArea, getImages)
   }
 
-  const onChangeSlider = (event: Event, value: number | number[]) => {
-    if (typeof value === 'number') setZoom(value / 100)
-  }
-
   return (
     <Popup
       title="Cropping"
@@ -76,31 +74,10 @@ export const CroppingPhotoPopup = ({
           )
         })}
         <ControlElement icon={'expand-outline'} elementClass={'aspect'}>
-          <div className={`${styles.popupControlElement} ${styles.aspectControlElement}`}>
-            <p className={styles.sides1_1} onClick={() => setAspect(1)}>
-              1:1
-            </p>
-            <p className={styles.sides4_5} onClick={() => setAspect(4 / 5)}>
-              4:5
-            </p>
-            <p className={styles.sides16_9} onClick={() => setAspect(16 / 9)}>
-              16:9
-            </p>
-          </div>
+          <AspectControl setAspect={setAspect} />
         </ControlElement>
         <ControlElement icon={'maximize-outline'} elementClass={'zoom'}>
-          <div className={`${styles.popupControlElement} ${styles.zoomControlElement}`}>
-            <Slider
-              size="small"
-              defaultValue={100}
-              value={zoom * 100}
-              onChange={onChangeSlider}
-              min={100}
-              max={300}
-              aria-label="Small"
-              valueLabelDisplay="off"
-            />
-          </div>
+          <ControlSlider zoom={zoom} setZoom={setZoom} />
         </ControlElement>
         <ControlElement icon={'image-outline'} elementClass={'gallery'}></ControlElement>
       </div>

@@ -4,6 +4,57 @@
   padding: 6px;
   background: rgba(0, 0, 0, 0.8);
   border-radius: 2px;
+
+  .popupControlElement {
+    position: absolute;
+    left: 0;
+    top: -2px;
+    transform: translate(0, -100%);
+    padding: 12px;
+    background: rgba(0, 0, 0, 0.8);
+    border-radius: 2px;
+
+    &.aspectControlElement {
+
+      p {
+        position: relative;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        min-width: 132px;
+        color: #fff;
+        margin-bottom: 8px;
+        cursor: pointer;
+
+        &:last-of-type {
+          margin-bottom: 0;
+        }
+
+        &:after {
+          content: '';
+          display: inline-block;
+          width: 18px;
+          height: 18px;
+          border: 2px solid #fff;
+          border-radius: 3px;
+        }
+
+        &.sides4_5:after {
+          height: 26px;
+        }
+
+        &.sides16_9:after {
+          width: 26px;
+        }
+      }
+    }
+
+    &.zoomControlElement {
+      width: 124px;
+      padding: 9px 12px;
+    }
+
+  }
 }
 
 .aspect {
