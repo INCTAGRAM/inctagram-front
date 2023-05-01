@@ -5,10 +5,9 @@ import React, { useState } from 'react'
 import { CroppedAreaType } from '@/features/popups/addPhotoPopup/body/bodySavePhotoPopup/BodySavePhotoPopup'
 import { IPost } from '@/features/popups/createPostPopup/types'
 import { generateDownload } from '@/utils'
-import { ControlElement } from '@/features/popups/createPostPopup/croppingPhotoPopup/controlElement/ControlElement'
-import Slider from '@mui/material/Slider'
-import { AspectControl } from '@/features/popups/createPostPopup/croppingPhotoPopup/controlElement/aspectControl/AspectControl'
-import { ControlSlider } from '@/features/popups/createPostPopup/croppingPhotoPopup/controlElement/controlSlider/ControlSlider'
+import { ControlElement } from './controlElement/ControlElement'
+import { AspectControl } from './controlElement/aspectControl/AspectControl'
+import { ControlSlider } from './controlElement/controlSlider/ControlSlider'
 
 interface ICroppingPhotoPopupProps {
   post: IPost

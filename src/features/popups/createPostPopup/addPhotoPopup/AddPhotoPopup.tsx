@@ -4,7 +4,7 @@ import styles from './AddPhotoPopup.module.scss'
 import IcomoonReact from 'icomoon-react'
 import iconSet from '@/assets/icons/selection.json'
 import { Button } from '@/common/ui/button/Button'
-import { IPost } from '@/features/popups/createPostPopup/types'
+import { IPost } from './../types'
 import { postInitial } from '@/features/popups/createPostPopup/CreatePostPopup'
 
 interface IAddPhotoPopupProps {

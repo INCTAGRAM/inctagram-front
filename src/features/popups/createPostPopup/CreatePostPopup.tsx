@@ -1,7 +1,7 @@
-import { AddPhotoPopup } from '@/features/popups/createPostPopup/addPhotoPopup/AddPhotoPopup'
+import { AddPhotoPopup } from './addPhotoPopup/AddPhotoPopup'
 import { useState } from 'react'
-import { CroppingPhotoPopup } from '@/features/popups/createPostPopup/croppingPhotoPopup/CroppingPhotoPopup'
-import { IPost } from '@/features/popups/createPostPopup/types'
+import { CroppingPhotoPopup } from './croppingPhotoPopup/CroppingPhotoPopup'
+import { IPost } from './types'
 
 interface ICreatePostPopupProps {
   isShowAddPost: boolean
