@@ -3,12 +3,12 @@ import styles from './ControlElement.module.scss'
 import iconSet from '@/assets/icons/selection.json'
 import IcomoonReact from 'icomoon-react'
 
-interface IControlElement {
+interface IControlElementProps {
   icon: string
   elementClass: string
 }
 
-export const ControlElement = ({ children, icon, elementClass }: PropsWithChildren<IControlElement>) => {
+export const ControlElement = ({ children, icon, elementClass }: PropsWithChildren<IControlElementProps>) => {
   const [open, setOpen] = useState(false)
 
   const control = useRef(null as HTMLDivElement | null)

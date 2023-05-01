@@ -8,7 +8,7 @@ import { generateDownload } from '@/utils'
 import { ControlElement } from '@/features/popups/createPostPopup/croppingPhotoPopup/controlElement/ControlElement'
 import Slider from '@mui/material/Slider'
 
-interface ICroppingPhotoPopup {
+interface ICroppingPhotoPopupProps {
   post: IPost
   setPost: (post: IPost) => void
   isShowCroppingPhotoPopup: boolean
@@ -22,7 +22,7 @@ export const CroppingPhotoPopup = ({
   isShowCroppingPhotoPopup,
   setIsShowAddPhotoPopup,
   setIsShowCroppingPhotoPopup,
-}: ICroppingPhotoPopup) => {
+}: ICroppingPhotoPopupProps) => {
   const [croppedArea, setCroppedArea] = useState<CroppedAreaType>({ width: 0, height: 0, x: 0, y: 0 })
   const [crop, setCrop] = useState({ x: 0, y: 0 })
   const [zoom, setZoom] = useState(1)
