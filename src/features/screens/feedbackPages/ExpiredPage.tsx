@@ -32,7 +32,7 @@ const ExpiredPage = ({ email }: IExpiredPage) => {
         actionBtnTitle="Resend verification link"
         action={redirectToRecovery}
       />
-      {isError && <AlertSnackbar type={'error'} message={errorHandler(error as AxiosError)} />}
+      {isError && <AlertSnackbar type={'error'} error={error as AxiosError} />}
     </>
   )
 }

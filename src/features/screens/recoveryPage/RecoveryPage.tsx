@@ -71,7 +71,7 @@ const RecoveryPage = () => {
         </Button>
       </Form>
       <EmailSendPopup email={email} isShowPopup={isShowPopup} setIsShowPopup={setIsShowPopup} />
-      {isError && <AlertSnackbar type={'error'} message={errorHandler(error as AxiosError)} />}
+      {isError && <AlertSnackbar type={'error'} error={error as AxiosError} />}
     </>
   )
 }

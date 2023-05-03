@@ -85,7 +85,7 @@ const LoginPage = () => {
           Sign in
         </Button>
       </Form>
-      {isError && <AlertSnackbar type={'error'} message={errorHandler(error as AxiosError)} />}
+      {isError && <AlertSnackbar type={'error'} error={error as AxiosError} />}
     </>
   )
 }

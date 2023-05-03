@@ -28,7 +28,7 @@ const ProfilePage = () => {
   return (
     <div className={styles.page_wrapper}>
       {isSuccess && data && <ProfileInfo info={data} />}
-      {isError && <AlertSnackbar type={'error'} message={errorHandler(error as AxiosError)} />}
+      {isError && <AlertSnackbar type={'error'} error={error as AxiosError} />}
     </div>
   )
 }
