@@ -1,11 +1,13 @@
-import React, { createContext, useState } from 'react'
+import React, { createContext, useLayoutEffect, useRef, useState } from 'react'
 import { FilterTabs } from '@/features/popups/filtersPhotoPopup/filtersPhotoComponents/FilterTabs'
 import { InstaFitler } from '@/features/popups/filtersPhotoPopup/filtersPhotoComponents/InstaField'
 import { CustomFilter } from '@/features/popups/filtersPhotoPopup/filtersPhotoComponents/CustomFilter'
-import { ImageField } from '@/features/popups/filtersPhotoPopup/filtersPhotoComponents/imageField/ImageField'
 import { Popup } from '@/common/ui/popup/Popup'
-import styles from './FilterPhotoPopup.module.scss'
+import domtoimage from 'dom-to-image'
 import { IPost } from '@/features/popups/createPostPopup/types'
+import { Button } from '@mui/material'
+import { ImageField } from '@/features/popups/filtersPhotoPopup/filtersPhotoComponents/imageField/ImageField'
+import styles from './FilterPhotoPopup.module.scss'
 
 interface IAddPhotoPopup {
   post: IPost
@@ -41,8 +43,17 @@ export const FiltersPhotoPopup = ({
   post,
   setPost,
 }: IAddPhotoPopup) => {
+  const { images } = post
+  const imageFileFromCropping = images[0]
   const [tabFilter, setTabFilter] = useState('instaFilter')
   const [filterClass, setFilterClass] = useState('')
+  const [imageFile, setImageFile] = useState(imageFileFromCropping)
+  const imgResultRef = useRef(null)
+
+  useLayoutEffect(() => {
+    setImageFile(imageFileFromCropping)
+  }, [imageFileFromCropping])
+
   const [customFilter, setCustomFilter] = useState<CustomFilterType>({
     contrast: 100,
     brightness: 100,
@@ -60,20 +71,32 @@ export const FiltersPhotoPopup = ({
     setCustomFilter,
   }
 
-  // const closePopup = () => isShowFilterPopup(false)
-
-  // const setBackOnClick = () => {
-  //   isShowFilterPopup(false)
-  //   setIsShowCroppingPhotoPopup(true)
-  // }
   const prevStep = () => {
     setPost({ ...post, images: [] })
     setIsShowFilterPopup(false)
     setIsShowCroppingPhotoPopup(true)
   }
+
+  const handleDownloadImage = async () => {
+    return (
+      imgResultRef.current !== null &&
+      domtoimage
+        .toBlob(imgResultRef.current)
+        .then(function (blob) {
+          // saveAs(blob, 'result.png')
+          const url = URL.createObjectURL(blob)
+          setPost({ ...post, images: [url] })
+        })
+        .catch(function (error) {
+          console.error('ooops, something went wrong!', error)
+        })
+    )
+  }
+
   const setNextOnClick = () => {
-    setIsShowCroppingPhotoPopup(false)
-    setIsShowFilterPopup(true)
+    handleDownloadImage().then(() => {
+      setIsShowFilterPopup(false)
+    })
   }
 
   return (
@@ -82,16 +105,15 @@ export const FiltersPhotoPopup = ({
         title="Filters"
         show={isShowFilterPopup}
         modalOnClick={setNextOnClick}
-        // photoPopup={true}
-        // setBackOnClick={setBackOnClick}
         onclickContent={'Next'}
         modalOnClickPrevStep={prevStep}
-        // setBackOnClick={setBackOnClick}
-        // setNextOnClick={setNextOnClick}
       >
         <div className={styles.container}>
           <div className={styles.containerImg}>
-            <ImageField post={post} />
+            <ImageField imageFile={imageFile} ref={imgResultRef} />
+            <Button onClick={handleDownloadImage} variant="contained" fullWidth>
+              Download Image
+            </Button>
           </div>
           <div className={styles.containerSelect}>
             <FilterTabs />

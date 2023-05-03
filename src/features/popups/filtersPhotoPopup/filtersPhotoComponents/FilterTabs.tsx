@@ -13,7 +13,7 @@ export const FilterTabs = () => {
   }
 
   return (
-    <Box sx={{ marginBottom: '2rem' }}>
+    <Box sx={{ marginBottom: '2rem', color: '#FFFFFF' }}>
       <Tabs value={tabFilter} onChange={handleChange} textColor="inherit" indicatorColor="primary">
         <Tab value="instaFilter" label="Instagram Filter" />
         <Tab value="customFilter" label="Custom Filter" />

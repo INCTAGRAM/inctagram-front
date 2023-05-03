@@ -44,7 +44,7 @@ export const CroppingPhotoPopup = ({
   }
 
   const nextStep = (images: string[], croppedArea: CroppedAreaType, getImages: (file: File) => void) => {
-    generateDownload(images[0], croppedArea, getImages)
+    generateDownload(images[images.length - 1], croppedArea, getImages)
     setIsShowCroppingPhotoPopup(false)
     setIsShowFilterPopup(true)
   }

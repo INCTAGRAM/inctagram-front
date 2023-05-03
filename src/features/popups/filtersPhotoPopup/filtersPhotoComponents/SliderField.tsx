@@ -20,7 +20,7 @@ export const SliderField = ({ slide }: { slide: SliderType }) => {
 
   return (
     <Box sx={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '1rem' }}>
-      <Box sx={{ minWidth: '6rem' }}>{label}</Box>
+      <Box sx={{ minWidth: '6rem', color: '#FFFFFF' }}>{label}</Box>
       <Slider size="small" valueLabelDisplay="auto" value={value} onChange={handleSliderValue} max={200} />
     </Box>
   )

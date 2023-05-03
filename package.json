@@ -16,6 +16,7 @@
     "@emotion/react": "^11.10.6",
     "@emotion/styled": "^11.10.6",
     "@hookform/resolvers": "^3.0.1",
+    "@intactile/dom-to-image-next": "^3.0.3",
     "@mui/icons-material": "^5.11.16",
     "@mui/material": "^5.12.0",
     "@mui/x-date-pickers": "^6.1.0",

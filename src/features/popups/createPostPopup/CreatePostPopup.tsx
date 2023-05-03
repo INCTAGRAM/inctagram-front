@@ -18,7 +18,7 @@ export const CreatePostPopup = ({ isShowAddPost, setIsShowAddPost }: ICreatePost
   const [post, setPost] = useState<IPost>(postInitial)
   const [isShowCroppingPhotoPopup, setIsShowCroppingPhotoPopup] = useState(false)
   const [isShowFilterPopup, setIsShowFilterPopup] = useState(false)
-
+  console.log(post)
   return (
     <>
       <AddPhotoPopup
