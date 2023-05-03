@@ -11,7 +11,6 @@ import { recoverySchema } from '@/validations/auth-schemes'
 import Form from '@/features/form/Form'
 import { RouteNames } from '@/constants/routes'
 import { AlertSnackbar } from '@/common/alertSnackbar/AlertSnackbar'
-import { errorHandler } from '@/hooks/errorsHandler'
 import { AxiosError } from 'axios'
 
 type RecoveryType = yup.InferType<typeof recoverySchema>

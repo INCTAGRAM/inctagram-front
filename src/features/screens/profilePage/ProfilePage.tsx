@@ -3,7 +3,6 @@ import { dehydrate, QueryClient, useQuery } from '@tanstack/react-query'
 import styles from './ProfilePage.module.scss'
 import { profileService } from '@/services/profile/profileService'
 import { AxiosError } from 'axios'
-import { errorHandler } from '@/hooks/errorsHandler'
 import { AlertSnackbar } from '@/common/alertSnackbar/AlertSnackbar'
 
 export const getServerSideProps = async () => {

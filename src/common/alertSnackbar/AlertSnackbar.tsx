@@ -16,7 +16,7 @@ const Alert = forwardRef<HTMLDivElement, AlertProps>(function Alert(props, ref) 
 
 export function AlertSnackbar({ error, type, time }: IAlertSnackbar) {
   const [open, setOpen] = useState(true)
-  let message = ''
+  let message
 
   if (typeof error !== 'string') {
     message = errorHandler(error)

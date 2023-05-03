@@ -13,7 +13,6 @@ import { RouteNames } from '@/constants/routes'
 import Form from '@/features/form/Form'
 import Link from 'next/link'
 import { AlertSnackbar } from '@/common/alertSnackbar/AlertSnackbar'
-import { errorHandler } from '@/hooks/errorsHandler'
 import { AxiosError } from 'axios'
 
 type LoginType = yup.InferType<typeof loginSchema>
