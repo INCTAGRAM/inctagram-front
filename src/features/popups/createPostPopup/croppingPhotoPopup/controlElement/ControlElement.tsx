@@ -9,14 +9,13 @@ interface IControlElementProps {
 }
 
 export const ControlElement = ({ children, icon, elementClass }: PropsWithChildren<IControlElementProps>) => {
-  const [open, setOpen] = useState(false)
+  const [open, setOpen] = useState(true)
 
   const control = useRef(null as HTMLDivElement | null)
 
   useEffect(() => {
     if (!open) return
     const handleClick = (e: Event) => {
-      console.log(e)
       if (!control.current) return
       if (!e.target) return
       if (!control.current.contains(e.target as HTMLElement)) {
