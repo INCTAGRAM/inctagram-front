@@ -41,8 +41,6 @@ export const BodySavePhotoPopup = ({ savePhoto, file }: IBodySavePhotoPopup) => 
             onCropComplete={onCropComplete}
           />
         </div>
-        {/*<Image src={Subtract} width={332} height={340} alt={'subtract'} className={styles.photo_subtract} />*/}
-        {/*<Image src={file ? file : defaultAva} width={332} height={340} alt={'ava'} className={styles.photo} />*/}
       </div>
       <Button onClick={onClickHandler}>Save</Button>
     </div>

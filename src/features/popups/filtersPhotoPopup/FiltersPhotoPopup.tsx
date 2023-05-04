@@ -5,7 +5,6 @@ import { CustomFilter } from '@/features/popups/filtersPhotoPopup/filtersPhotoCo
 import { Popup } from '@/common/ui/popup/Popup'
 import domtoimage from 'dom-to-image'
 import { IPost } from '@/features/popups/createPostPopup/types'
-import { Button } from '@mui/material'
 import { ImageField } from '@/features/popups/filtersPhotoPopup/filtersPhotoComponents/imageField/ImageField'
 import styles from './FilterPhotoPopup.module.scss'
 
@@ -111,9 +110,6 @@ export const FiltersPhotoPopup = ({
         <div className={styles.container}>
           <div className={styles.containerImg}>
             <ImageField imageFile={imageFile} ref={imgResultRef} />
-            <Button onClick={handleDownloadImage} variant="contained" fullWidth>
-              Download Image
-            </Button>
           </div>
           <div className={styles.containerSelect}>
             <FilterTabs />
