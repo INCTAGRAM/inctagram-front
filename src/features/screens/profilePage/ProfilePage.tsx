@@ -3,7 +3,6 @@ import { dehydrate, QueryClient, useQuery } from '@tanstack/react-query'
 import styles from './ProfilePage.module.scss'
 import { profileService } from '@/services/profile/profileService'
 import { AxiosError } from 'axios'
-import { errorHandler } from '@/hooks/errorsHandler'
 import { AlertSnackbar } from '@/common/alertSnackbar/AlertSnackbar'
 
 export const getServerSideProps = async () => {
@@ -28,7 +27,7 @@ const ProfilePage = () => {
   return (
     <div className={styles.page_wrapper}>
       {isSuccess && data && <ProfileInfo info={data} />}
-      {isError && <AlertSnackbar type={'error'} message={errorHandler(error as AxiosError)} />}
+      {isError && <AlertSnackbar type={'error'} error={error as AxiosError} />}
     </div>
   )
 }

@@ -10,7 +10,10 @@ interface ICreatePostPopupProps {
 
 export const postInitial: IPost = {
   description: '',
+  originalImages: [],
+  croppingParameters: [],
   images: [],
+  activeImage: 0,
 }
 
 export const CreatePostPopup = ({ isShowAddPost, setIsShowAddPost }: ICreatePostPopupProps) => {

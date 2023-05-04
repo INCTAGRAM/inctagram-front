@@ -67,7 +67,7 @@ const Confirmation: NextPageWithLayout<IConfirmation> = ({ message, errorStatus,
         <br />
         <br />
         <Button onClick={() => push(RouteNames.REGISTER)}>Go to registration page</Button>
-        {!isSuccess && <AlertSnackbar type={'error'} message={message ? message : ''} />}
+        {!isSuccess && <AlertSnackbar type={'error'} error={message ? message : ''} />}
       </HeadMeta>
     )
   }

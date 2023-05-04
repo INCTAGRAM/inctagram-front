@@ -11,7 +11,6 @@ import Form from '@/features/form/Form'
 import { useRouter } from 'next/router'
 import { RouteNames } from '@/constants/routes'
 import { AxiosError } from 'axios'
-import { errorHandler } from '@/hooks/errorsHandler'
 import { AlertSnackbar } from '@/common/alertSnackbar/AlertSnackbar'
 
 type NewPassword = yup.InferType<typeof newPasswordSchema>
@@ -77,7 +76,7 @@ const NewPasswordPage = ({ code, email }: INewPasswordPage) => {
           Create new password
         </Button>
       </Form>
-      {isError && <AlertSnackbar type={'error'} message={errorHandler(error)} />}
+      {isError && <AlertSnackbar type={'error'} error={error} />}
     </>
   )
 }
