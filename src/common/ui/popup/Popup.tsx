@@ -32,14 +32,13 @@ export const Popup = ({
       <div className={styles.popup}>
         <div className={styles.popup_header}>
           {modalOnClickPrevStep ? (
-            <IconButton>
+            <IconButton onClick={modalOnClickPrevStep}>
               <IcomoonReact
                 className={styles.close_btn}
                 iconSet={iconSet}
                 color={'#fff'}
                 icon="arrow-ios-back"
                 size={25}
-                onClick={modalOnClickPrevStep}
               />
             </IconButton>
           ) : (
@@ -47,19 +46,12 @@ export const Popup = ({
           )}
           <p className={styles.title}>{title}</p>
           {onclickContent ? (
-            <span className={styles.rightAction} onClick={modalOnClick}>
-              {onclickContent}
-            </span>
+            <IconButton onClick={modalOnClick} size={'small'}>
+              <span className={styles.rightAction}>{onclickContent}</span>
+            </IconButton>
           ) : (
-            <IconButton>
-              <IcomoonReact
-                className={styles.close_btn}
-                iconSet={iconSet}
-                color={'#fff'}
-                icon="close"
-                size={25}
-                onClick={modalOnClick}
-              />
+            <IconButton onClick={modalOnClick}>
+              <IcomoonReact className={styles.close_btn} iconSet={iconSet} color={'#fff'} icon="close" size={25} />
             </IconButton>
           )}
         </div>
