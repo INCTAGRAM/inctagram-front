@@ -1,7 +1,8 @@
-import React, { PropsWithChildren } from 'react'
+import React, { PropsWithChildren, ReactNode } from 'react'
 import styles from './Popup.module.scss'
 import IcomoonReact from 'icomoon-react'
 import iconSet from '@/assets/icons/selection.json'
+import { IconButton } from '@mui/material'
 
 interface IPopupProps {
   title?: string
@@ -10,6 +11,7 @@ interface IPopupProps {
   onclickContent?: string
   modalOnClickPrevStep?: () => void
   className?: string
+  children?: ReactNode
 }
 
 export const Popup = ({
@@ -30,14 +32,16 @@ export const Popup = ({
       <div className={styles.popup}>
         <div className={styles.popup_header}>
           {modalOnClickPrevStep ? (
-            <IcomoonReact
-              className={styles.close_btn}
-              iconSet={iconSet}
-              color={'#fff'}
-              icon="arrow-ios-back"
-              size={25}
-              onClick={modalOnClickPrevStep}
-            />
+            <IconButton>
+              <IcomoonReact
+                className={styles.close_btn}
+                iconSet={iconSet}
+                color={'#fff'}
+                icon="arrow-ios-back"
+                size={25}
+                onClick={modalOnClickPrevStep}
+              />
+            </IconButton>
           ) : (
             ''
           )}
@@ -47,14 +51,16 @@ export const Popup = ({
               {onclickContent}
             </span>
           ) : (
-            <IcomoonReact
-              className={styles.close_btn}
-              iconSet={iconSet}
-              color={'#fff'}
-              icon="close"
-              size={25}
-              onClick={modalOnClick}
-            />
+            <IconButton>
+              <IcomoonReact
+                className={styles.close_btn}
+                iconSet={iconSet}
+                color={'#fff'}
+                icon="close"
+                size={25}
+                onClick={modalOnClick}
+              />
+            </IconButton>
           )}
         </div>
         <div>{children}</div>
