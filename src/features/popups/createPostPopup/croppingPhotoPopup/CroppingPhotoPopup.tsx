@@ -34,8 +34,6 @@ export const CroppingPhotoPopup = ({
   const [zoom, setZoom] = useState(1)
   const [aspect, setAspect] = useState(1)
 
-  console.log(croppingParameters, originalImages, activeImage)
-
   useEffect(() => {
     if (croppingParameters[activeImage]) {
       setCrop(croppingParameters[activeImage].crop)

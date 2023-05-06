@@ -67,6 +67,19 @@ export const GalleryControl = ({ crop, zoom, aspect, croppedArea }: IGalleryCont
 
   const removePhoto = (e: MouseEvent<HTMLElement>, index: number) => {
     e.stopPropagation()
+
+    dispatch(
+      changeCroppingParamsImage({
+        imageIndex: activeImage,
+        croppingParameters: {
+          crop,
+          croppedArea,
+          zoom,
+          aspect,
+        },
+      })
+    )
+
     setTimeout(() => {
       dispatch(removeImageAndCropParameters(index))
       if (index <= activeImage) {
@@ -87,7 +100,6 @@ export const GalleryControl = ({ crop, zoom, aspect, croppedArea }: IGalleryCont
         },
       })
     )
-    console.log(3)
     dispatch(changeActiveImage(newPhotoIndex))
   }
 
