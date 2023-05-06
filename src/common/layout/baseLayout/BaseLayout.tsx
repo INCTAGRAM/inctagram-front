@@ -2,14 +2,20 @@ import styles from '../Layout.module.scss'
 import { NextPage } from 'next'
 import { PropsWithChildren, ReactElement } from 'react'
 import Header from '@/common/header/Header'
+import { wrapper } from '@/services/redux/store'
+import { Provider } from 'react-redux'
 
-const BaseLayout: NextPage<PropsWithChildren> = ({ children }) => {
+const BaseLayout: NextPage<PropsWithChildren> = ({ children, ...rest }) => {
+  const { store } = wrapper.useWrappedStore(rest)
+
   return (
     <>
-      <Header logout={true} />
-      <div className={styles.content_center}>
-        <main>{children}</main>
-      </div>
+      <Provider store={store}>
+        <Header logout={true} />
+        <div className={styles.content_center}>
+          <main>{children}</main>
+        </div>
+      </Provider>
     </>
   )
 }

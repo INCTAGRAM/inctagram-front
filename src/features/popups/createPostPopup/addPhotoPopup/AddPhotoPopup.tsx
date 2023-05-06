@@ -4,12 +4,10 @@ import styles from './AddPhotoPopup.module.scss'
 import IcomoonReact from 'icomoon-react'
 import iconSet from '@/assets/icons/selection.json'
 import { Button } from '@/common/ui/button/Button'
-import { IPost } from './../types'
-import { postInitial } from '@/features/popups/createPostPopup/CreatePostPopup'
+import { useAppDispatch } from '@/utils/reduxUtils'
+import { setInitialPostState, addOriginalImages } from '@/services/redux/createPostReducer'
 
 interface IAddPhotoPopupProps {
-  post: IPost
-  setPost: (post: IPost) => void
   isShowAddPost: boolean
   setIsShowAddPost: (arg: boolean) => void
   setIsShowCroppingPhotoPopup: (isShow: boolean) => void
@@ -18,11 +16,10 @@ export const AddPhotoPopup = ({
   isShowAddPost,
   setIsShowAddPost,
   setIsShowCroppingPhotoPopup,
-  post,
-  setPost,
 }: IAddPhotoPopupProps) => {
+  const dispatch = useAppDispatch()
   const closePopup = () => {
-    setPost(postInitial)
+    dispatch(setInitialPostState())
     setIsShowAddPost(false)
   }
 
@@ -41,7 +38,7 @@ export const AddPhotoPopup = ({
       reader.readAsDataURL(file)
       reader.onload = () => {
         if (typeof reader.result === 'string') {
-          setPost({ ...post, originalImages: [...post.originalImages, reader.result] })
+          dispatch(addOriginalImages([reader.result]))
           setIsShowAddPost(false)
           setIsShowCroppingPhotoPopup(true)
         }

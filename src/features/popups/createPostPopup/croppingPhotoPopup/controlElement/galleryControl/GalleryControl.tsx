@@ -1,14 +1,18 @@
-import { ICrop, IPost } from '@/features/popups/createPostPopup/types'
+import { ICrop } from '@/features/popups/createPostPopup/types'
 import styles from './../ControlElement.module.scss'
 import iconSet from '@/assets/icons/selection.json'
 import IcomoonReact from 'icomoon-react'
 import React, { ChangeEvent, useRef } from 'react'
-import { switchPhotoOnSlider } from '@/features/popups/createPostPopup/utils/switchPhotoOnSlider'
 import { CroppedAreaType } from '@/features/popups/addPhotoPopup/body/bodySavePhotoPopup/BodySavePhotoPopup'
+import { useAppDispatch, useAppSelector } from '@/utils/reduxUtils'
+import {
+  addImageAndCropParameters,
+  removeImageAndCropParameters,
+  changeActiveImage,
+  changeCroppingParamsImage,
+} from '@/services/redux/createPostReducer'
 
 interface IGalleryControlProps {
-  post: IPost
-  setPost: (post: IPost) => void
   crop: ICrop
   setCrop: (crop: ICrop) => void
   zoom: number
@@ -18,8 +22,6 @@ interface IGalleryControlProps {
   croppedArea: CroppedAreaType
 }
 export const GalleryControl = ({
-  post,
-  setPost,
   crop,
   setCrop,
   zoom,
@@ -28,6 +30,9 @@ export const GalleryControl = ({
   setAspect,
   croppedArea,
 }: IGalleryControlProps) => {
+  const dispatch = useAppDispatch()
+  const originalImages = useAppSelector((state) => state.createPostReducer.originalImages)
+  const activeImage = useAppSelector((state) => state.createPostReducer.activeImage)
   const inpFile = useRef<HTMLInputElement | null>(null)
 
   const clearInputContent = () => {
@@ -42,12 +47,18 @@ export const GalleryControl = ({
       reader.readAsDataURL(file)
       reader.onload = () => {
         if (typeof reader.result === 'string') {
-          setPost({
-            ...post,
-            originalImages: [...post.originalImages, reader.result],
-            activeImage: post.activeImage + 1,
-            croppingParameters: [...post.croppingParameters, { crop, zoom, aspect, croppedArea }],
-          })
+          dispatch(
+            addImageAndCropParameters({
+              originalImage: reader.result,
+              croppingParameters: {
+                crop,
+                croppedArea,
+                zoom,
+                aspect,
+              },
+            })
+          )
+          dispatch(changeActiveImage(originalImages.length))
           setCrop({ x: 0, y: 0 })
           setZoom(1)
           setAspect(1)
@@ -58,30 +69,36 @@ export const GalleryControl = ({
 
   const removePhoto = (index: number) => {
     setTimeout(() => {
-      if (index <= post.activeImage) {
-        setPost({
-          ...post,
-          originalImages: post.originalImages.filter((img, i) => i !== index),
-          activeImage: post.activeImage - 1,
-        })
-      } else {
-        setPost({ ...post, originalImages: post.originalImages.filter((img, i) => i !== index) })
+      dispatch(removeImageAndCropParameters(index))
+      if (index <= activeImage) {
+        dispatch(changeActiveImage(activeImage - 1))
       }
     }, 30)
+  }
+
+  const switchPhoto = (newPhotoIndex: number) => {
+    dispatch(
+      changeCroppingParamsImage({
+        imageIndex: activeImage,
+        croppingParameters: {
+          crop,
+          croppedArea,
+          zoom,
+          aspect,
+        },
+      })
+    )
+    dispatch(changeActiveImage(newPhotoIndex))
   }
 
   return (
     <div className={`${styles.popupControlElement} ${styles.galleryControlElement}`}>
       <div className={styles.galleryPreviews}>
-        {post.originalImages.map((img, i) => {
+        {originalImages.map((img, i) => {
           return (
-            <div
-              className={styles.preview}
-              key={i}
-              onClick={() => switchPhotoOnSlider(i, post, setPost, crop, zoom, aspect, croppedArea)}
-            >
+            <div className={styles.preview} key={i} onClick={() => switchPhoto(i)}>
               <img src={img} alt={''} />
-              {post.originalImages.length > 1 ? (
+              {originalImages.length > 1 ? (
                 <span className={styles.delPhoto} onClick={() => removePhoto(i)}>
                   <IcomoonReact iconSet={iconSet} color={'#fff'} icon={'close-outline'} size={14} />
                 </span>
