@@ -16,9 +16,6 @@ export const createPostSlice = createSlice({
     addDescription(state, action: PayloadAction<string>) {
       state.description = action.payload
     },
-    addOriginalImages(state, action: PayloadAction<string[]>) {
-      state.originalImages = action.payload
-    },
     addImageAndCropParameters(state, action: PayloadAction<IAddImageAndCropParametersPayload>) {
       state.originalImages.push(action.payload.originalImage)
       state.croppingParameters.push(action.payload.croppingParameters)
@@ -44,7 +41,6 @@ export const createPostSlice = createSlice({
 
 export const {
   addDescription,
-  addOriginalImages,
   addImageAndCropParameters,
   removeImageAndCropParameters,
   changeActiveImage,

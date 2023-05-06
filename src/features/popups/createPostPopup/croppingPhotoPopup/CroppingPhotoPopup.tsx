@@ -34,9 +34,12 @@ export const CroppingPhotoPopup = ({
   const [zoom, setZoom] = useState(1)
   const [aspect, setAspect] = useState(1)
 
+  console.log(croppingParameters, originalImages, activeImage)
+
   useEffect(() => {
-    if (croppingParameters[activeImage]?.crop) {
+    if (croppingParameters[activeImage]) {
       setCrop(croppingParameters[activeImage].crop)
+      setCroppedArea(croppingParameters[activeImage].croppedArea)
       setZoom(croppingParameters[activeImage].zoom)
       setAspect(croppingParameters[activeImage].aspect)
     }
@@ -48,6 +51,9 @@ export const CroppingPhotoPopup = ({
 
   const prevStep = () => {
     dispatch(setInitialPostState())
+    setCrop({ x: 0, y: 0 })
+    setZoom(1)
+    setAspect(1)
     setIsShowCroppingPhotoPopup(false)
     setIsShowAddPost(true)
   }
@@ -56,11 +62,9 @@ export const CroppingPhotoPopup = ({
     if (images.length !== croppingParameters.length) {
       const cropImages = await generateImages(images, croppingParameters, croppedArea)
       dispatch(addImages(cropImages))
-      console.log(cropImages)
     } else {
       const cropImages = await generateImages(images, croppingParameters)
       dispatch(addImages(cropImages))
-      console.log(cropImages)
     }
   }
 
@@ -111,15 +115,7 @@ export const CroppingPhotoPopup = ({
           <ControlSlider zoom={zoom} setZoom={setZoom} />
         </ControlElement>
         <ControlElement icon={'image-outline'} elementClass={'gallery'}>
-          <GalleryControl
-            crop={crop}
-            setCrop={setCrop}
-            zoom={zoom}
-            setZoom={setZoom}
-            aspect={aspect}
-            setAspect={setAspect}
-            croppedArea={croppedArea}
-          />
+          <GalleryControl crop={crop} zoom={zoom} aspect={aspect} croppedArea={croppedArea} />
         </ControlElement>
       </div>
     </Popup>
