@@ -1,7 +1,7 @@
 import { AddPhotoPopup } from '@/features/popups/createPostPopup/addPhotoPopup/AddPhotoPopup'
 import { useState } from 'react'
-import { CroppingPhotoPopup } from '@/features/popups/createPostPopup/croppingPhotoPopup/CroppingPhotoPopup'
-import { IPost } from '@/features/popups/createPostPopup/types'
+import { CroppingPhotoPopup } from './croppingPhotoPopup/CroppingPhotoPopup'
+import { IPost } from './types'
 import { FiltersPhotoPopup } from '@/features/popups/filtersPhotoPopup/FiltersPhotoPopup'
 
 interface ICreatePostPopupProps {
@@ -9,9 +9,12 @@ interface ICreatePostPopupProps {
   setIsShowAddPost: (arg: boolean) => void
 }
 
-const postInitial: IPost = {
+export const postInitial: IPost = {
   description: '',
+  originalImages: [],
+  croppingParameters: [],
   images: [],
+  activeImage: 0,
 }
 
 export const CreatePostPopup = ({ isShowAddPost, setIsShowAddPost }: ICreatePostPopupProps) => {

@@ -4,34 +4,9 @@ import { InstaFitler } from '@/features/popups/filtersPhotoPopup/filtersPhotoCom
 import { CustomFilter } from '@/features/popups/filtersPhotoPopup/filtersPhotoComponents/CustomFilter'
 import { Popup } from '@/common/ui/popup/Popup'
 import domtoimage from 'dom-to-image'
-import { IPost } from '@/features/popups/createPostPopup/types'
 import { ImageField } from '@/features/popups/filtersPhotoPopup/filtersPhotoComponents/imageField/ImageField'
 import styles from './FilterPhotoPopup.module.scss'
-
-interface IAddPhotoPopup {
-  post: IPost
-  setPost: (images: IPost) => void
-  isShowFilterPopup: boolean
-  setIsShowFilterPopup: (arg: boolean) => void
-  setIsShowCroppingPhotoPopup: (arg: boolean) => void
-}
-
-export type CustomFilterType = {
-  contrast: number
-  brightness: number
-  saturate: number
-  sepia: number
-  gray: number
-}
-
-type ValueType = {
-  tabFilter: string
-  setTabFilter: (tabFilter: string) => void
-  filterClass: string
-  setFilterClass: (filterClass: string) => void
-  customFilter: CustomFilterType
-  setCustomFilter: ({}: CustomFilterType) => void
-}
+import { CustomFilterType, IFiltersPhotoPopup, ValueType } from '@/features/popups/filtersPhotoPopup/types'
 
 export const FilterContext = createContext<ValueType>({} as ValueType)
 
@@ -41,8 +16,8 @@ export const FiltersPhotoPopup = ({
   setIsShowCroppingPhotoPopup,
   post,
   setPost,
-}: IAddPhotoPopup) => {
-  const { images } = post
+}: IFiltersPhotoPopup) => {
+  const { originalImages: images } = post
   const imageFileFromCropping = images[0]
   const [tabFilter, setTabFilter] = useState('instaFilter')
   const [filterClass, setFilterClass] = useState('')
@@ -84,7 +59,7 @@ export const FiltersPhotoPopup = ({
         .then(function (blob) {
           // saveAs(blob, 'result.png')
           const url = URL.createObjectURL(blob)
-          setPost({ ...post, images: [url] })
+          setPost({ ...post, images: [...images, url] })
         })
         .catch(function (error) {
           console.error('ooops, something went wrong!', error)

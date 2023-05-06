@@ -25,7 +25,6 @@ interface IAvatar {
 
 const ProfileInfo = ({ info }: IProfileInfoProps) => {
   const { username, avatar, aboutMe, city, birthday } = info
-
   const [isShowMore, setIsShowMore] = useState(false)
 
   const onShowMoreBtnClick = () => setIsShowMore(!isShowMore)

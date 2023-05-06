@@ -1,8 +1,9 @@
 import { Box, Grid } from '@mui/material'
 import { styled } from '@mui/system'
 import { forwardRef, Ref, useContext } from 'react'
-import { CustomFilterType, FilterContext } from '@/features/popups/filtersPhotoPopup/FiltersPhotoPopup'
+import { FilterContext } from '@/features/popups/filtersPhotoPopup/FiltersPhotoPopup'
 import style from './Instagram.module.css'
+import { CustomFilterType } from '@/features/popups/filtersPhotoPopup/types'
 
 const StyleBox = styled(Box)({
   background: '#ddd',

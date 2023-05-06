@@ -11,7 +11,6 @@ import { recoverySchema } from '@/validations/auth-schemes'
 import Form from '@/features/form/Form'
 import { RouteNames } from '@/constants/routes'
 import { AlertSnackbar } from '@/common/alertSnackbar/AlertSnackbar'
-import { errorHandler } from '@/hooks/errorsHandler'
 import { AxiosError } from 'axios'
 
 type RecoveryType = yup.InferType<typeof recoverySchema>
@@ -71,7 +70,7 @@ const RecoveryPage = () => {
         </Button>
       </Form>
       <EmailSendPopup email={email} isShowPopup={isShowPopup} setIsShowPopup={setIsShowPopup} />
-      {isError && <AlertSnackbar type={'error'} message={errorHandler(error as AxiosError)} />}
+      {isError && <AlertSnackbar type={'error'} error={error as AxiosError} />}
     </>
   )
 }

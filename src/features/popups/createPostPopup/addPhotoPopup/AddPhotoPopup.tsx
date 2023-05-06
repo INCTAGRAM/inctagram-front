@@ -1,10 +1,11 @@
-import React, { ChangeEvent } from 'react'
+import React, { ChangeEvent, useRef } from 'react'
 import { Popup } from '@/common/ui/popup/Popup'
 import styles from './AddPhotoPopup.module.scss'
 import IcomoonReact from 'icomoon-react'
 import iconSet from '@/assets/icons/selection.json'
 import { Button } from '@/common/ui/button/Button'
-import { IPost } from '@/features/popups/createPostPopup/types'
+import { IPost } from './../types'
+import { postInitial } from '@/features/popups/createPostPopup/CreatePostPopup'
 
 interface IAddPhotoPopupProps {
   post: IPost
@@ -21,7 +22,18 @@ export const AddPhotoPopup = ({
   post,
   setPost,
 }: IAddPhotoPopupProps) => {
-  const closePopup = () => setIsShowAddPhotoPopup(false)
+  const closePopup = () => {
+    setPost(postInitial)
+    setIsShowAddPhotoPopup(false)
+  }
+
+  const inpFile = useRef<HTMLInputElement | null>(null)
+
+  const clearInputContent = () => {
+    if (inpFile.current) {
+      inpFile.current!.value = ''
+    }
+  }
 
   const uploadHandler = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length) {
@@ -30,8 +42,9 @@ export const AddPhotoPopup = ({
       reader.readAsDataURL(file)
       reader.onload = () => {
         if (typeof reader.result === 'string') {
-          setPost({ ...post, images: [...post.images, reader.result] })
+          setPost({ ...post, originalImages: [...post.originalImages, reader.result] })
           setIsShowAddPhotoPopup(false)
+          console.log(1)
           setIsShowCroppingPhotoPopup(true)
         }
       }
@@ -45,7 +58,14 @@ export const AddPhotoPopup = ({
           <IcomoonReact iconSet={iconSet} icon="image-outline" color={'white'} className={styles.icon} size={48} />
         </div>
         <label>
-          <input type="file" name="myImage" accept="image/*" onChange={uploadHandler} />
+          <input
+            ref={inpFile}
+            type="file"
+            name="myImage"
+            accept="image/*"
+            onClick={clearInputContent}
+            onChange={uploadHandler}
+          />
           <Button>Select from computer</Button>
         </label>
       </div>

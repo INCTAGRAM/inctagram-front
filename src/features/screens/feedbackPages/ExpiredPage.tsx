@@ -3,7 +3,6 @@ import expiredImg from '../../../../public/auth/expired-link.png'
 import { useMutation } from '@tanstack/react-query'
 import { authService } from '@/services/auth/authService'
 import { AlertSnackbar } from '@/common/alertSnackbar/AlertSnackbar'
-import { errorHandler } from '@/hooks/errorsHandler'
 import { AxiosError } from 'axios'
 
 interface IExpiredPage {
@@ -32,7 +31,7 @@ const ExpiredPage = ({ email }: IExpiredPage) => {
         actionBtnTitle="Resend verification link"
         action={redirectToRecovery}
       />
-      {isError && <AlertSnackbar type={'error'} message={errorHandler(error as AxiosError)} />}
+      {isError && <AlertSnackbar type={'error'} error={error as AxiosError} />}
     </>
   )
 }
