@@ -19,28 +19,28 @@ export const authService = createApi({
         body,
       }),
     }),
-    registration: build.mutation<any, IRegistrationData>({
+    registration: build.mutation<unknown, IRegistrationData>({
       query: (body) => ({
         url: '/auth/registration',
         method: 'POST',
         body,
       }),
     }),
-    resendingConfirmation: build.mutation<any, { email: string }>({
+    resendingConfirmation: build.mutation<unknown, { email: string }>({
       query: (body) => ({
         url: '/auth/registration-email-resending',
         method: 'POST',
         body,
       }),
     }),
-    passwordRecovery: build.mutation<any, IRecoveryData>({
+    passwordRecovery: build.mutation<unknown, IRecoveryData>({
       query: (body) => ({
         url: '/auth/password-recovery',
         method: 'POST',
         body,
       }),
     }),
-    createNewPassword: build.mutation<any, INewPasswordData>({
+    createNewPassword: build.mutation<unknown, INewPasswordData>({
       query: (body) => ({
         url: '/auth/new-password',
         method: 'POST',
