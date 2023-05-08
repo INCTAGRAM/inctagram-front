@@ -1,4 +1,4 @@
-import { IConfirmationData, ILoginData, IToken, INewPasswordData, IRegistrationData } from '@/services/auth/types'
+import { ILoginData, IToken, INewPasswordData, IRegistrationData } from '@/services/auth/types'
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { HYDRATE } from 'next-redux-wrapper'
 
@@ -19,23 +19,10 @@ export const authService = createApi({
         body,
       }),
     }),
-    logout: build.mutation({
-      query: () => ({
-        url: '/auth/logout',
-        method: 'POST',
-      }),
-    }),
     registration: build.mutation<any, IRegistrationData>({
       query: (body) => ({
         url: '/auth/registration',
         method: 'POST',
-        body,
-      }),
-    }),
-    confirmation: build.mutation<IConfirmationData, { code: string }>({
-      query: (body) => ({
-        url: '/auth/registration-confirmation',
-        mathod: 'POST',
         body,
       }),
     }),
@@ -65,9 +52,7 @@ export const authService = createApi({
 
 export const {
   useLoginMutation,
-  useLogoutMutation,
   useRegistrationMutation,
-  useConfirmationMutation,
   useResendingConfirmationMutation,
   usePasswordRecoveryMutation,
   useCreateNewPasswordMutation,

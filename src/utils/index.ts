@@ -1,4 +1,4 @@
-export { Logout } from '@/utils/logout'
+export { logout } from '@/utils/logout'
 
 export * from './addUserPhoto'
 export * from './cropImage'
