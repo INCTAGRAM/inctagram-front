@@ -14,10 +14,12 @@ import { AlertSnackbar } from '@/common/alertSnackbar/AlertSnackbar'
 import { AxiosError } from 'axios'
 
 type RecoveryType = yup.InferType<typeof recoverySchema>
+import { useGoogleReCaptcha } from 'react-google-recaptcha-v3'
 
 const RecoveryPage = () => {
   const [email, setEmail] = useState('')
   const [isShowPopup, setIsShowPopup] = useState(false)
+  const { executeRecaptcha } = useGoogleReCaptcha()
 
   const {
     register,
@@ -44,9 +46,16 @@ const RecoveryPage = () => {
   const onFormSubmit: SubmitHandler<RecoveryType> = ({ email }) => {
     if (!email) return
 
-    sendEmail(email)
-    setEmail(email)
-    reset()
+    if (!executeRecaptcha) {
+      console.log('Execute recaptcha not yet available')
+      return
+    }
+
+    executeRecaptcha('enquiryFormSubmit').then((recaptchaToken) => {
+      sendEmail({ email: email, recaptchaToken: recaptchaToken })
+      setEmail(email)
+      reset()
+    })
   }
 
   return (
@@ -76,3 +85,7 @@ const RecoveryPage = () => {
 }
 
 export default RecoveryPage
+
+// this keys for recaptcha we dont use, but it have to work
+// 6Lfoc-8lAAAAAASNlkyDs89G9ZGBrEGNmTJEwshp ---- Front
+// 6Lfoc-8lAAAAAE0QWBXTrwcayEBKoA6VUA0mfjLR --- Bek
