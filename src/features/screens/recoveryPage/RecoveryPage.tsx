@@ -1,21 +1,21 @@
 import React, { useState } from 'react'
-import { useMutation } from '@tanstack/react-query'
-import { authService } from '@/services/auth/authService'
+import { usePasswordRecoveryMutation } from '@/services/auth/authService'
 import { InputText } from '@/common/ui/inputText/InputText'
 import { Button } from '@/common/ui/button/Button'
 import EmailSendPopup from '@/features/popups/emailSendPopup/EmailSendPopup'
-import { ErrorOption, SubmitHandler, useForm } from 'react-hook-form'
+import { SubmitHandler, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
 import { recoverySchema } from '@/validations/auth-schemes'
 import Form from '@/features/form/Form'
 import { RouteNames } from '@/constants/routes'
-import { AlertSnackbar } from '@/common/alertSnackbar/AlertSnackbar'
-import { AxiosError } from 'axios'
+import { ErrorSnackbar } from '@/common/alertSnackbar/ErrorSnackbar'
+import { IErrorResponse } from '@/services/auth/types'
 
 type RecoveryType = yup.InferType<typeof recoverySchema>
 
 const RecoveryPage = () => {
+  const [sendEmail, { isError, error }] = usePasswordRecoveryMutation()
   const [email, setEmail] = useState('')
   const [isShowPopup, setIsShowPopup] = useState(false)
 
@@ -23,7 +23,6 @@ const RecoveryPage = () => {
     register,
     handleSubmit,
     formState: { errors, isValid, isDirty },
-    setError,
     reset,
   } = useForm<RecoveryType>({
     mode: 'onBlur',
@@ -31,20 +30,10 @@ const RecoveryPage = () => {
     resolver: yupResolver(recoverySchema),
   })
 
-  const {
-    mutate: sendEmail,
-    isError,
-    error,
-  } = useMutation({
-    mutationFn: authService.passwordRecovery,
-    onSuccess: () => setIsShowPopup(true),
-    onError: (error: ErrorOption) => setError('email', error),
-  })
-
   const onFormSubmit: SubmitHandler<RecoveryType> = ({ email }) => {
     if (!email) return
 
-    sendEmail(email)
+    sendEmail({ email })
     setEmail(email)
     reset()
   }
@@ -70,7 +59,7 @@ const RecoveryPage = () => {
         </Button>
       </Form>
       <EmailSendPopup email={email} isShowPopup={isShowPopup} setIsShowPopup={setIsShowPopup} />
-      {isError && <AlertSnackbar type={'error'} error={error as AxiosError} />}
+      {isError && <ErrorSnackbar error={error as IErrorResponse} />}
     </>
   )
 }

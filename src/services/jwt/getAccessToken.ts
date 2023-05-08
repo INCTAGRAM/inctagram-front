@@ -1,13 +1,14 @@
 import { isTokenExpired } from '@/services/jwt/isTokenExpired'
-import { authService } from '@/services/auth/authService'
+import { IToken } from '@/services/auth/types'
+import { instance } from '@/services/config'
 
 export const getAccessToken = async (): Promise<string | null> => {
   try {
     const accessToken = localStorage.getItem('accessToken')
     if (!accessToken || isTokenExpired(accessToken)) {
-      const res = await authService.refreshToken()
-      localStorage.setItem('accessToken', res)
-      return res
+      const { data } = await instance.post<IToken>('/auth/refresh-token')
+      localStorage.setItem('accessToken', data.accessToken)
+      return data.accessToken
     }
     return accessToken
   } catch (e) {

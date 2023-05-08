@@ -1,4 +1,4 @@
-export interface ILoginResponse {
+export interface IToken {
   accessToken: string
 }
 
@@ -22,4 +22,15 @@ export interface IConfirmationData {
 export interface INewPasswordData {
   newPassword: string
   recoveryCode: string
+}
+
+export interface IErrorResponse {
+  status: number | string
+  data: IErrorData
+}
+
+interface IErrorData {
+  statusCode: number
+  message: string[]
+  path: string
 }

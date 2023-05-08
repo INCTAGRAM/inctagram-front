@@ -1,14 +1,16 @@
-import { combineReducers } from 'redux'
 import { configureStore } from '@reduxjs/toolkit'
 import { createPostReducer } from '@/services/redux/createPostReducer'
 import { createWrapper } from 'next-redux-wrapper'
-
-const rootReducer = combineReducers({
-  createPostReducer,
-})
+import { authService } from '@/services/auth/authService'
 
 const makeStore = () => {
-  return configureStore({ reducer: rootReducer })
+  return configureStore({
+    reducer: {
+      createPostReducer,
+      [authService.reducerPath]: authService.reducer,
+    },
+    middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat([authService.middleware]),
+  })
 }
 
 export type AppStore = ReturnType<typeof makeStore>
