@@ -1,4 +1,4 @@
-import { ILoginData, IToken, INewPasswordData, IRegistrationData } from '@/services/auth/types'
+import { ILoginData, ITokenResponse, INewPasswordData, IRegistrationData, IRecoveryData } from '@/services/auth/types'
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { HYDRATE } from 'next-redux-wrapper'
 
@@ -12,7 +12,7 @@ export const authService = createApi({
     }
   },
   endpoints: (build) => ({
-    login: build.mutation<IToken, ILoginData>({
+    login: build.mutation<ITokenResponse, ILoginData>({
       query: (body) => ({
         url: '/auth/login',
         method: 'POST',
@@ -33,7 +33,7 @@ export const authService = createApi({
         body,
       }),
     }),
-    passwordRecovery: build.mutation<any, { email: string }>({
+    passwordRecovery: build.mutation<any, IRecoveryData>({
       query: (body) => ({
         url: '/auth/password-recovery',
         method: 'POST',

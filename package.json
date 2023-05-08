@@ -33,6 +33,7 @@
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-easy-crop": "^4.7.4",
+    "react-google-recaptcha-v3": "^1.10.1",
     "react-hook-form": "^7.43.9",
     "react-query": "^3.39.3",
     "react-redux": "^8.0.5",

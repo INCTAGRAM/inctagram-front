@@ -10,7 +10,6 @@ import { Button } from '@/common/ui/button/Button'
 import { useRouter } from 'next/router'
 import { RouteNames } from '@/constants/routes'
 import { instance } from '@/services/config'
-import { IConfirmationData } from '@/services/auth/types'
 
 interface IConfirmation {
   isSuccess: boolean
@@ -28,7 +27,7 @@ interface IContext {
 
 export const getServerSideProps = async (context: IContext) => {
   try {
-    await instance.post<IConfirmationData>('/auth/registration-confirmation', {
+    await instance.post('/auth/registration-confirmation', {
       code: context.query.code ? context.query.code : '',
     })
     return {
