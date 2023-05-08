@@ -1,33 +1,27 @@
-import { ICrop, IPost } from '@/features/popups/createPostPopup/types'
+import { ICrop } from '@/features/popups/createPostPopup/types'
 import styles from './../ControlElement.module.scss'
 import iconSet from '@/assets/icons/selection.json'
 import IcomoonReact from 'icomoon-react'
-import React, { ChangeEvent, useRef } from 'react'
-import { switchPhotoOnSlider } from '@/features/popups/createPostPopup/utils/switchPhotoOnSlider'
+import { MouseEvent, ChangeEvent, useRef } from 'react'
 import { CroppedAreaType } from '@/features/popups/addPhotoPopup/body/bodySavePhotoPopup/BodySavePhotoPopup'
+import { useAppDispatch, useAppSelector } from '@/utils/reduxUtils'
+import {
+  addImageAndCropParameters,
+  removeImageAndCropParameters,
+  changeActiveImage,
+  changeCroppingParamsImage,
+} from '@/services/redux/createPostReducer'
 
 interface IGalleryControlProps {
-  post: IPost
-  setPost: (post: IPost) => void
   crop: ICrop
-  setCrop: (crop: ICrop) => void
   zoom: number
-  setZoom: (zoom: number) => void
   aspect: number
-  setAspect: (aspect: number) => void
   croppedArea: CroppedAreaType
 }
-export const GalleryControl = ({
-  post,
-  setPost,
-  crop,
-  setCrop,
-  zoom,
-  setZoom,
-  aspect,
-  setAspect,
-  croppedArea,
-}: IGalleryControlProps) => {
+export const GalleryControl = ({ crop, zoom, aspect, croppedArea }: IGalleryControlProps) => {
+  const dispatch = useAppDispatch()
+  const originalImages = useAppSelector((state) => state.createPostReducer.originalImages)
+  const activeImage = useAppSelector((state) => state.createPostReducer.activeImage)
   const inpFile = useRef<HTMLInputElement | null>(null)
 
   const clearInputContent = () => {
@@ -35,6 +29,7 @@ export const GalleryControl = ({
       inpFile.current.value = ''
     }
   }
+
   const uploadHandler = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length) {
       const file = e.target.files[0]
@@ -42,47 +37,81 @@ export const GalleryControl = ({
       reader.readAsDataURL(file)
       reader.onload = () => {
         if (typeof reader.result === 'string') {
-          setPost({
-            ...post,
-            originalImages: [...post.originalImages, reader.result],
-            activeImage: post.activeImage + 1,
-            croppingParameters: [...post.croppingParameters, { crop, zoom, aspect, croppedArea }],
-          })
-          setCrop({ x: 0, y: 0 })
-          setZoom(1)
-          setAspect(1)
+          dispatch(
+            changeCroppingParamsImage({
+              imageIndex: activeImage,
+              croppingParameters: {
+                crop,
+                croppedArea,
+                zoom,
+                aspect,
+              },
+            })
+          )
+          dispatch(
+            addImageAndCropParameters({
+              originalImage: reader.result,
+              croppingParameters: {
+                crop: { x: 0, y: 0 },
+                croppedArea: { width: 0, height: 0, x: 0, y: 0 },
+                zoom: 1,
+                aspect: 1,
+              },
+            })
+          )
+          dispatch(changeActiveImage(originalImages.length))
         }
       }
     }
   }
 
-  const removePhoto = (index: number) => {
+  const removePhoto = (e: MouseEvent<HTMLElement>, index: number) => {
+    e.stopPropagation()
+
+    dispatch(
+      changeCroppingParamsImage({
+        imageIndex: activeImage,
+        croppingParameters: {
+          crop,
+          croppedArea,
+          zoom,
+          aspect,
+        },
+      })
+    )
+
     setTimeout(() => {
-      if (index <= post.activeImage) {
-        setPost({
-          ...post,
-          originalImages: post.originalImages.filter((img, i) => i !== index),
-          activeImage: post.activeImage - 1,
-        })
-      } else {
-        setPost({ ...post, originalImages: post.originalImages.filter((img, i) => i !== index) })
+      dispatch(removeImageAndCropParameters(index))
+      if (index <= activeImage) {
+        dispatch(changeActiveImage(activeImage - 1))
       }
     }, 30)
+  }
+
+  const switchPhoto = (newPhotoIndex: number) => {
+    dispatch(
+      changeCroppingParamsImage({
+        imageIndex: activeImage,
+        croppingParameters: {
+          crop,
+          croppedArea,
+          zoom,
+          aspect,
+        },
+      })
+    )
+    dispatch(changeActiveImage(newPhotoIndex))
   }
 
   return (
     <div className={`${styles.popupControlElement} ${styles.galleryControlElement}`}>
       <div className={styles.galleryPreviews}>
-        {post.originalImages.map((img, i) => {
+        {originalImages.map((img, i) => {
           return (
-            <div
-              className={styles.preview}
-              key={i}
-              onClick={() => switchPhotoOnSlider(i, post, setPost, crop, zoom, aspect, croppedArea)}
-            >
+            <div className={styles.preview} key={i} onClick={() => switchPhoto(i)}>
               <img src={img} alt={''} />
-              {post.originalImages.length > 1 ? (
-                <span className={styles.delPhoto} onClick={() => removePhoto(i)}>
+              {originalImages.length > 1 ? (
+                <span className={styles.delPhoto} onClick={(e) => removePhoto(e, i)}>
                   <IcomoonReact iconSet={iconSet} color={'#fff'} icon={'close-outline'} size={14} />
                 </span>
               ) : (
