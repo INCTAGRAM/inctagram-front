@@ -11,15 +11,17 @@
   }
 
   .logout {
+    display: flex;
+    align-items: center;
     color: white;
     margin-right: 64px;
     font-size: 14px;
     line-height: 24px;
     font-weight: 500;
+    cursor: pointer;
 
     .icon {
-      color: white;
-      margin-right: 15px;
+      margin-right: 10px;
     }
   }
 }
