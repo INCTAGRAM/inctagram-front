@@ -12,7 +12,7 @@ const NavbarLayout: NextPage<PropsWithChildren> = ({ children, ...rest }) => {
   return (
     <>
       <Provider store={store}>
-        <Header logout={false} />
+        <Header showLogout={true} />
         <div className={`${styles.content_center} ${styles.navbar_and_content}`}>
           <Navbar />
           <main>{children}</main>

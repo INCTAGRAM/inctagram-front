@@ -11,7 +11,7 @@ const BaseLayout: NextPage<PropsWithChildren> = ({ children, ...rest }) => {
   return (
     <>
       <Provider store={store}>
-        <Header logout={true} />
+        <Header showLogout={false} />
         <div className={styles.content_center}>
           <main>{children}</main>
         </div>
