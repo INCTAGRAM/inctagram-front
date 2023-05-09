@@ -2,14 +2,17 @@ import { configureStore } from '@reduxjs/toolkit'
 import { createPostReducer } from '@/services/redux/createPostReducer'
 import { createWrapper } from 'next-redux-wrapper'
 import { authService } from '@/services/auth/authService'
+import { profileService } from '@/services/profile/profileService'
 
 const makeStore = () => {
   return configureStore({
     reducer: {
       createPostReducer,
       [authService.reducerPath]: authService.reducer,
+      [profileService.reducerPath]: profileService.reducer,
     },
-    middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat([authService.middleware]),
+    middleware: (getDefaultMiddleware) =>
+      getDefaultMiddleware().concat([authService.middleware, profileService.middleware]),
   })
 }
 
