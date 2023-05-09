@@ -9,7 +9,7 @@ const initialPostState: IPost = {
   activeImage: 0,
 }
 
-export const createPostSlice = createSlice({
+const createPostSlice = createSlice({
   name: 'createPost',
   initialState: initialPostState,
   reducers: {

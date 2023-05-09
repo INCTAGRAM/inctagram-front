@@ -3,10 +3,12 @@ import { createPostReducer } from '@/services/redux/createPostReducer'
 import { createWrapper } from 'next-redux-wrapper'
 import { authService } from '@/services/auth/authService'
 import { profileService } from '@/services/profile/profileService'
+import { tokenReducer } from '@/services/redux/tokenReducer'
 
 const makeStore = () => {
   return configureStore({
     reducer: {
+      tokenReducer,
       createPostReducer,
       [authService.reducerPath]: authService.reducer,
       [profileService.reducerPath]: profileService.reducer,

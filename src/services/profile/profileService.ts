@@ -6,11 +6,23 @@ import {
 } from '@/services/profile/types'
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/dist/query/react'
 import { HYDRATE } from 'next-redux-wrapper'
+import { AppState } from '@/services/redux/store'
 
 export const profileService = createApi({
   reducerPath: 'profileApi',
   tagTypes: ['Profile'],
-  baseQuery: fetchBaseQuery({ baseUrl: process.env.NEXT_PUBLIC_API_URL, credentials: 'include' }),
+  baseQuery: fetchBaseQuery({
+    baseUrl: process.env.NEXT_PUBLIC_API_URL,
+    credentials: 'include',
+    prepareHeaders: (headers, { getState }) => {
+      const accessToken = (getState() as AppState).tokenReducer.accessToken
+
+      if (accessToken) {
+        headers.set('Authorization', `Bearer ${accessToken}`)
+      }
+      return headers
+    },
+  }),
   extractRehydrationInfo(action, { reducerPath }) {
     if (action.type === HYDRATE) {
       return action.payload[reducerPath]
