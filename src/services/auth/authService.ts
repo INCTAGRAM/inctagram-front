@@ -4,6 +4,7 @@ import {
   ILoginData,
   ILoginResponse,
   INewPasswordData,
+  IRecoveryData,
   IRegistrationData,
 } from '@/services/auth/types'
 import axios from 'axios'
@@ -24,10 +25,14 @@ export const authService = {
       .then((response) => response.data)
   },
   resendingConfirmation: (email: string) => {
-    return instance.post('/auth/registration-email-resending', { email }).then((response) => response.data)
+    return instance
+      .post('/auth/registration-email-resending', {
+        email,
+      })
+      .then((response) => response.data)
   },
-  passwordRecovery: (email: string) => {
-    return instance.post('/auth/password-recovery', { email }).then((response) => response.data)
+  passwordRecovery: (payload: IRecoveryData) => {
+    return instance.post('/auth/password-recovery', payload).then((response) => response.data)
   },
   createNewPassword: (payload: INewPasswordData) => {
     return instance.post('/auth/new-password', payload).then((response) => response.data)

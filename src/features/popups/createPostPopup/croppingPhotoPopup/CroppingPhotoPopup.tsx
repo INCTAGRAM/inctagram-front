@@ -3,18 +3,17 @@ import { Popup } from '@/common/ui/popup/Popup'
 import Cropper, { Area } from 'react-easy-crop'
 import React, { useEffect, useState } from 'react'
 import { CroppedAreaType } from '@/features/popups/addPhotoPopup/body/bodySavePhotoPopup/BodySavePhotoPopup'
-import { ICroppingParameters, IPost } from '@/features/popups/createPostPopup/types'
+import { ICrop, ICroppingParameters } from '@/features/popups/createPostPopup/types'
 import { ControlElement } from './controlElement/ControlElement'
 import { AspectControl } from './controlElement/aspectControl/AspectControl'
 import { ControlSlider } from './controlElement/controlSlider/ControlSlider'
 import { GalleryControl } from './controlElement/galleryControl/GalleryControl'
-import { postInitial } from '@/features/popups/createPostPopup/CreatePostPopup'
-import { SliderControlElements } from '@/features/popups/createPostPopup/croppingPhotoPopup/sliderControlElements/SliderControlElements'
+import { SliderControlElements } from './sliderControlElements/SliderControlElements'
 import { generateImages } from '@/features/popups/createPostPopup/utils/generateImages'
+import { useAppDispatch, useAppSelector } from '@/utils/reduxUtils'
+import { addImages, setInitialPostState } from '@/services/redux/createPostReducer'
 
 interface ICroppingPhotoPopupProps {
-  post: IPost
-  setPost: (post: IPost) => void
   isShowCroppingPhotoPopup: boolean
   setIsShowCroppingPhotoPopup: (isShow: boolean) => void
   setIsShowFilterPopup: (isShow: boolean) => void
@@ -22,82 +21,67 @@ interface ICroppingPhotoPopupProps {
 }
 
 export const CroppingPhotoPopup = ({
-  post,
-  setPost,
   isShowCroppingPhotoPopup,
   setIsShowAddPhotoPopup,
   setIsShowCroppingPhotoPopup,
   setIsShowFilterPopup,
 }: ICroppingPhotoPopupProps) => {
+  const dispatch = useAppDispatch()
+  const originalImages = useAppSelector((state) => state.createPostReducer.originalImages)
+  const croppingParameters = useAppSelector((state) => state.createPostReducer.croppingParameters)
+  const activeImage = useAppSelector((state) => state.createPostReducer.activeImage)
+
   const [croppedArea, setCroppedArea] = useState<CroppedAreaType>({ width: 0, height: 0, x: 0, y: 0 })
-  const [crop, setCrop] = useState({ x: 0, y: 0 })
+  const [crop, setCrop] = useState<ICrop>({ x: 0, y: 0 })
   const [zoom, setZoom] = useState(1)
   const [aspect, setAspect] = useState(1)
 
   useEffect(() => {
-    if (post.croppingParameters[post.activeImage]) {
-      setCrop(post.croppingParameters[post.activeImage].crop)
-      setZoom(post.croppingParameters[post.activeImage].zoom)
-      setAspect(post.croppingParameters[post.activeImage].aspect)
+    if (croppingParameters[activeImage]) {
+      setCrop(croppingParameters[activeImage].crop)
+      setCroppedArea(croppingParameters[activeImage].croppedArea)
+      setZoom(croppingParameters[activeImage].zoom)
+      setAspect(croppingParameters[activeImage].aspect)
     }
-  }, [post.croppingParameters, post.activeImage])
+  }, [activeImage])
 
   const onCropComplete = (croppedAreaPercentage: Area, croppedAreaPixels: Area) => {
     setCroppedArea(croppedAreaPixels)
   }
 
-  const getImages = (file: File) => {
-    const url = URL.createObjectURL(file)
-    setPost({ ...post, images: [url] })
-  }
-
   const prevStep = () => {
-    // setPost({ ...post, images: [] })
-    setPost(postInitial)
+    dispatch(setInitialPostState())
+    setCrop({ x: 0, y: 0 })
+    setZoom(1)
+    setAspect(1)
     setIsShowCroppingPhotoPopup(false)
     setIsShowAddPhotoPopup(true)
   }
 
-  // const nextStep = (images: string[], croppedArea: CroppedAreaType, getImages: (file: File) => void) => {
-  //   generateDownload(images[0], croppedArea, getImages)
-  // }
-
   const nextStep = async (images: string[], croppingParameters: ICroppingParameters[]) => {
-    if (images.length !== croppingParameters.length) {
-      const cropImages = await generateImages(images, [...croppingParameters, { crop, croppedArea, aspect, zoom }])
-      setPost({ ...post, images: cropImages })
-    } else {
-      const cropImages = await generateImages(images, croppingParameters)
-      setPost({ ...post, images: cropImages })
-    }
+    const cropImages = await generateImages(images, croppingParameters, croppedArea, activeImage)
+    dispatch(addImages(cropImages))
     setIsShowCroppingPhotoPopup(false)
     setIsShowFilterPopup(true)
   }
+
   return (
     <Popup
       title="Cropping"
       show={isShowCroppingPhotoPopup}
-      modalOnClick={() => nextStep(post.originalImages, post.croppingParameters)}
+      modalOnClick={() => nextStep(originalImages, croppingParameters)}
       modalOnClickPrevStep={prevStep}
       onclickContent={'Next'}
       className={styles.croppingPopup}
     >
       <div className={styles.croppingImages}>
-        <SliderControlElements
-          direction={'back'}
-          post={post}
-          setPost={setPost}
-          crop={crop}
-          zoom={zoom}
-          aspect={aspect}
-          croppedArea={croppedArea}
-        />
-        {post.originalImages?.map((img, i) => {
-          const position = (i - post.activeImage) * 100
+        <SliderControlElements direction={'back'} crop={crop} zoom={zoom} aspect={aspect} croppedArea={croppedArea} />
+        {originalImages?.map((img, i) => {
+          const position = (i - activeImage) * 100
           return (
             <div
               key={i}
-              className={post.activeImage ? `${styles.croppingImage} ${styles.active}` : styles.croppingImage}
+              className={activeImage ? `${styles.croppingImage} ${styles.active}` : styles.croppingImage}
               style={{ left: `${position}%` }}
             >
               <Cropper
@@ -116,8 +100,6 @@ export const CroppingPhotoPopup = ({
         })}
         <SliderControlElements
           direction={'forward'}
-          post={post}
-          setPost={setPost}
           crop={crop}
           zoom={zoom}
           aspect={aspect}
@@ -130,40 +112,9 @@ export const CroppingPhotoPopup = ({
           <ControlSlider zoom={zoom} setZoom={setZoom} />
         </ControlElement>
         <ControlElement icon={'image-outline'} elementClass={'gallery'}>
-          <GalleryControl
-            post={post}
-            setPost={setPost}
-            crop={crop}
-            setCrop={setCrop}
-            zoom={zoom}
-            setZoom={setZoom}
-            aspect={aspect}
-            setAspect={setAspect}
-            croppedArea={croppedArea}
-          />
+          <GalleryControl crop={crop} zoom={zoom} aspect={aspect} croppedArea={croppedArea} />
         </ControlElement>
       </div>
     </Popup>
   )
 }
-//
-//   {post.images?.map((img, i) => {
-//           return (
-//             <Cropper
-//               key={i}
-//               image={img}
-//               crop={crop}
-//               zoom={zoom}
-//               aspect={aspect}
-//               cropShape="rect"
-//               onCropChange={setCrop}
-//               onZoomChange={setZoom}
-//               onCropComplete={onCropComplete}
-//             />
-//           )
-//         })}
-//       </div>
-//     </Popup>
-//   )
-// }
-//

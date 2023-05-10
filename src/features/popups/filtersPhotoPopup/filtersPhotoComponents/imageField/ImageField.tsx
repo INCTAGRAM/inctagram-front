@@ -28,9 +28,10 @@ type ImageFieldPropsType = {
   imageFile: string
 }
 
-const Image = (props: ImageFieldPropsType, ref: Ref<HTMLImageElement>) => {
+const Image = ({ imageFile }: ImageFieldPropsType, ref: Ref<HTMLImageElement>) => {
   const { filterClass, customFilter } = useContext(FilterContext)
-
+  console.log('filterClass', filterClass)
+  console.log('customFilter', customFilter)
   return (
     <Grid item xs={12} md={7}>
       <StyleBox>
@@ -38,7 +39,7 @@ const Image = (props: ImageFieldPropsType, ref: Ref<HTMLImageElement>) => {
           <StyledImage
             customFilter={!filterClass ? customFilter : {}}
             className={style[filterClass]}
-            src={props.imageFile}
+            src={imageFile}
             alt=""
             ref={ref}
           />

@@ -7,6 +7,9 @@ import domtoimage from 'dom-to-image'
 import { ImageField } from '@/features/popups/filtersPhotoPopup/filtersPhotoComponents/imageField/ImageField'
 import styles from './FilterPhotoPopup.module.scss'
 import { CustomFilterType, IFiltersPhotoPopup, ValueType } from '@/features/popups/filtersPhotoPopup/types'
+import { useAppDispatch, useAppSelector } from '@/utils/reduxUtils'
+import { addImagesAfterFilters, changeImageAfterFilters } from '@/services/redux/createPostReducer'
+import { SliderForFilterPhoto } from '@/features/popups/filtersPhotoPopup/sliderControlElement/SliderForFilterPhoto'
 
 export const FilterContext = createContext<ValueType>({} as ValueType)
 
@@ -14,19 +17,26 @@ export const FiltersPhotoPopup = ({
   isShowFilterPopup,
   setIsShowFilterPopup,
   setIsShowCroppingPhotoPopup,
-  post,
-  setPost,
 }: IFiltersPhotoPopup) => {
-  const { originalImages: images } = post
-  const imageFileFromCropping = images[0]
+  const images = useAppSelector((state) => state.createPostReducer.images)
+  const imagesAfterFilters = useAppSelector((state) => state.createPostReducer.imagesAfterFilters)
+  const activeIndexImage = useAppSelector((state) => state.createPostReducer.activeImage)
+  const dispatch = useAppDispatch()
+  const activeFilterImage = imagesAfterFilters[activeIndexImage]
+
   const [tabFilter, setTabFilter] = useState('instaFilter')
   const [filterClass, setFilterClass] = useState('')
-  const [imageFile, setImageFile] = useState(imageFileFromCropping)
+
+  // const [imageFile, setImageFile] = useState(activeFilterImage)
   const imgResultRef = useRef(null)
 
+  // useLayoutEffect(() => {
+  //   setImageFile(activeFilterImage)
+  // }, [activeFilterImage])
+
   useLayoutEffect(() => {
-    setImageFile(imageFileFromCropping)
-  }, [imageFileFromCropping])
+    dispatch(addImagesAfterFilters(images))
+  }, [dispatch, images, imagesAfterFilters])
 
   const [customFilter, setCustomFilter] = useState<CustomFilterType>({
     contrast: 100,
@@ -46,9 +56,9 @@ export const FiltersPhotoPopup = ({
   }
 
   const prevStep = () => {
-    setPost({ ...post, images: [] })
     setIsShowFilterPopup(false)
     setIsShowCroppingPhotoPopup(true)
+    dispatch(addImagesAfterFilters([]))
   }
 
   const handleDownloadImage = async () => {
@@ -59,7 +69,8 @@ export const FiltersPhotoPopup = ({
         .then(function (blob) {
           // saveAs(blob, 'result.png')
           const url = URL.createObjectURL(blob)
-          setPost({ ...post, images: [...images, url] })
+          // setPost({ ...post, images: [...images, url] })
+          dispatch(changeImageAfterFilters({ imageIndex: activeIndexImage, urlImage: url }))
         })
         .catch(function (error) {
           console.error('ooops, something went wrong!', error)
@@ -73,6 +84,10 @@ export const FiltersPhotoPopup = ({
     })
   }
 
+  const setImage = async () => {
+    await handleDownloadImage()
+  }
+
   return (
     <FilterContext.Provider value={value}>
       <Popup
@@ -83,9 +98,11 @@ export const FiltersPhotoPopup = ({
         modalOnClickPrevStep={prevStep}
       >
         <div className={styles.container}>
+          <SliderForFilterPhoto direction={'back'} setImage={setImage} />
           <div className={styles.containerImg}>
-            <ImageField imageFile={imageFile} ref={imgResultRef} />
+            <ImageField imageFile={activeFilterImage} ref={imgResultRef} />
           </div>
+          <SliderForFilterPhoto direction={'forward'} setImage={setImage} />
           <div className={styles.containerSelect}>
             <FilterTabs />
             {tabFilter === 'instaFilter' ? <InstaFitler /> : <CustomFilter />}

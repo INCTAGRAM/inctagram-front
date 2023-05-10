@@ -19,6 +19,11 @@ export interface IConfirmationData {
   path: string
 }
 
+export interface IRecoveryData {
+  email: string
+  recaptchaToken: string
+}
+
 export interface INewPasswordData {
   newPassword: string
   recoveryCode: string

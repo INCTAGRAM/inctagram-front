@@ -3,15 +3,21 @@ import { NextPage } from 'next'
 import { PropsWithChildren, ReactElement } from 'react'
 import Header from '@/common/header/Header'
 import Navbar from '@/common/navbar/Navbar'
+import { wrapper } from '@/services/redux/store'
+import { Provider } from 'react-redux'
 
-const NavbarLayout: NextPage<PropsWithChildren> = ({ children }) => {
+const NavbarLayout: NextPage<PropsWithChildren> = ({ children, ...rest }) => {
+  const { store } = wrapper.useWrappedStore(rest)
+
   return (
     <>
-      <Header logout={false} />
-      <div className={`${styles.content_center} ${styles.navbar_and_content}`}>
-        <Navbar />
-        <main>{children}</main>
-      </div>
+      <Provider store={store}>
+        <Header logout={false} />
+        <div className={`${styles.content_center} ${styles.navbar_and_content}`}>
+          <Navbar />
+          <main>{children}</main>
+        </div>
+      </Provider>
     </>
   )
 }

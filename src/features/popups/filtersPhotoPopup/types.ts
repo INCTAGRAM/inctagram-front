@@ -1,8 +1,4 @@
-import { IPost } from '@/features/popups/createPostPopup/types'
-
 export interface IFiltersPhotoPopup {
-  post: IPost
-  setPost: (images: IPost) => void
   isShowFilterPopup: boolean
   setIsShowFilterPopup: (arg: boolean) => void
   setIsShowCroppingPhotoPopup: (arg: boolean) => void
