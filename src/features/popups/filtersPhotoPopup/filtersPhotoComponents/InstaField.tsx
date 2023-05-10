@@ -1,11 +1,18 @@
 import { FormControl, InputLabel, MenuItem, Select, SelectChangeEvent } from '@mui/material'
 import { Box } from '@mui/system'
-import { useContext } from 'react'
+import { useContext, useEffect } from 'react'
 import { filterValues } from '@/constants/filterValues'
 import { FilterContext } from '@/features/popups/filtersPhotoPopup/FiltersPhotoPopup'
+import { useAppSelector } from '@/utils/reduxUtils'
 
 export const InstaFitler = () => {
   const { filterClass, setFilterClass } = useContext(FilterContext)
+  const activeIndexImage = useAppSelector((state) => state.createPostReducer.activeImage)
+  console.log('activeIndexImage', activeIndexImage)
+
+  useEffect(() => {
+    setFilterClass('')
+  }, [activeIndexImage])
 
   const handleChange = (e: SelectChangeEvent) => setFilterClass(e.target.value)
 

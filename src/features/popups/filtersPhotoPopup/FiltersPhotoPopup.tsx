@@ -67,10 +67,7 @@ export const FiltersPhotoPopup = ({
       domtoimage
         .toBlob(imgResultRef.current)
         .then(function (blob) {
-          // saveAs(blob, 'result.png')
           const url = URL.createObjectURL(blob)
-          // setPost({ ...post, images: [...images, url] })
-          debugger
           dispatch(changeImageAfterFilters({ imageIndex: activeIndexImage, urlImage: url }))
         })
         .catch(function (error) {
