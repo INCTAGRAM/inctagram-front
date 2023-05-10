@@ -38,6 +38,7 @@ export const createPostSlice = createSlice({
       state.imagesAfterFilters = action.payload
     },
     changeImageAfterFilters(state, action: PayloadAction<IChangeImageAfterFilters>) {
+      debugger
       state.imagesAfterFilters[action.payload.imageIndex] = action.payload.urlImage
     },
     setInitialPostState() {

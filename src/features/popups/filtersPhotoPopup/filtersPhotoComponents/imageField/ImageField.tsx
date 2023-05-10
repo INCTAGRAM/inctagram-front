@@ -14,7 +14,6 @@ const StyleBox = styled(Box)({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
-  cursor: 'pointer',
 })
 
 const StyledImage = styled('img')((props: { customFilter: Partial<CustomFilterType> }) => ({

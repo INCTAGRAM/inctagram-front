@@ -1,4 +1,4 @@
-import styles from '../../createPostPopup/croppingPhotoPopup/CroppingPhotoPopup.module.scss'
+import styles from '../FilterPhotoPopup.module.scss'
 import IcomoonReact from 'icomoon-react'
 import iconSet from '@/assets/icons/selection.json'
 import React from 'react'

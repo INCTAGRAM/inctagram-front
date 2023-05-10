@@ -36,7 +36,7 @@ export const FiltersPhotoPopup = ({
 
   useLayoutEffect(() => {
     dispatch(addImagesAfterFilters(images))
-  }, [dispatch, images, imagesAfterFilters])
+  }, [dispatch, images])
 
   const [customFilter, setCustomFilter] = useState<CustomFilterType>({
     contrast: 100,
@@ -70,6 +70,7 @@ export const FiltersPhotoPopup = ({
           // saveAs(blob, 'result.png')
           const url = URL.createObjectURL(blob)
           // setPost({ ...post, images: [...images, url] })
+          debugger
           dispatch(changeImageAfterFilters({ imageIndex: activeIndexImage, urlImage: url }))
         })
         .catch(function (error) {
@@ -98,11 +99,11 @@ export const FiltersPhotoPopup = ({
         modalOnClickPrevStep={prevStep}
       >
         <div className={styles.container}>
-          <SliderForFilterPhoto direction={'back'} setImage={setImage} />
           <div className={styles.containerImg}>
+            <SliderForFilterPhoto direction={'back'} setImage={setImage} />
             <ImageField imageFile={activeFilterImage} ref={imgResultRef} />
+            <SliderForFilterPhoto direction={'forward'} setImage={setImage} />
           </div>
-          <SliderForFilterPhoto direction={'forward'} setImage={setImage} />
           <div className={styles.containerSelect}>
             <FilterTabs />
             {tabFilter === 'instaFilter' ? <InstaFitler /> : <CustomFilter />}
