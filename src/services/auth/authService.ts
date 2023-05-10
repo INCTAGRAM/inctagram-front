@@ -1,11 +1,25 @@
 import { ILoginData, ITokenResponse, INewPasswordData, IRegistrationData, IRecoveryData } from '@/services/auth/types'
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { HYDRATE } from 'next-redux-wrapper'
+import { AppState } from '@/services/redux/store'
 
 export const authService = createApi({
   reducerPath: 'authApi',
   tagTypes: ['Auth'],
-  baseQuery: fetchBaseQuery({ baseUrl: process.env.NEXT_PUBLIC_API_URL, credentials: 'include' }),
+  baseQuery: fetchBaseQuery({
+    baseUrl: process.env.NEXT_PUBLIC_API_URL,
+    credentials: 'include',
+    prepareHeaders: (headers, { getState, endpoint }) => {
+      const accessToken = (getState() as AppState).tokenReducer.accessToken
+
+      console.log(endpoint)
+
+      if (accessToken) {
+        headers.set('Authorization', `Bearer ${accessToken}`)
+      }
+      return headers
+    },
+  }),
   extractRehydrationInfo(action, { reducerPath }) {
     if (action.type === HYDRATE) {
       return action.payload[reducerPath]
