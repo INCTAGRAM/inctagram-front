@@ -29,8 +29,6 @@ export const CroppingPhotoPopup = ({
   const croppingParameters = useAppSelector((state) => state.createPostReducer.croppingParameters)
   const activeImage = useAppSelector((state) => state.createPostReducer.activeImage)
 
-  const images = useAppSelector((state) => state.createPostReducer.images)
-
   const [croppedArea, setCroppedArea] = useState<CroppedAreaType>({ width: 0, height: 0, x: 0, y: 0 })
   const [crop, setCrop] = useState<ICrop>({ x: 0, y: 0 })
   const [zoom, setZoom] = useState(1)
@@ -59,7 +57,7 @@ export const CroppingPhotoPopup = ({
   }
 
   const nextStep = async (images: string[], croppingParameters: ICroppingParameters[]) => {
-    const cropImages = await generateImages(images, croppingParameters, croppedArea)
+    const cropImages = await generateImages(images, croppingParameters, croppedArea, activeImage)
     dispatch(addImages(cropImages))
   }
 
@@ -113,9 +111,6 @@ export const CroppingPhotoPopup = ({
           <GalleryControl crop={crop} zoom={zoom} aspect={aspect} croppedArea={croppedArea} />
         </ControlElement>
       </div>
-      {images?.map((img, i) => {
-        return <img key={i} src={img} alt={''} />
-      })}
     </Popup>
   )
 }

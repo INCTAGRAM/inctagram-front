@@ -5,11 +5,11 @@ import { ICroppingParameters } from '@/features/popups/createPostPopup/types'
 export const generateImages = (
   images: string[],
   croppingParameters: ICroppingParameters[],
-  croppedArea: CroppedAreaType
+  croppedArea: CroppedAreaType,
+  activeImage: number
 ) => {
   const croppedAreas = croppingParameters.map((crop, i) => {
-    console.log(i)
-    if (i === croppingParameters.length - 1) {
+    if (activeImage === i) {
       return croppedArea
     }
     return crop.croppedArea
