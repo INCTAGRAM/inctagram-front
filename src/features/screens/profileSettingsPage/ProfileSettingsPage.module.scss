@@ -6,14 +6,6 @@
   grid-template-columns: 192px calc(100% - 242px);
   gap: 50px;
 
-  .button {
-    text-align: center;
-    padding: 6px 10px;
-    background-color: transparent;
-    color: $primary_500;
-    border: 1px solid $primary_500;
-  }
-
   .form p {
     margin-bottom: 20px;
   }
@@ -25,21 +17,7 @@
   flex-direction: column;
   gap: 48px;
 
-  .Image {
-    border-radius: 50%;
-    margin: 25px 0;
-  }
-
-  .aboutMeTextFieldStyle {
-    label {
-      color: $light_100;
-    }
-
-    textarea {
-      width: 100%;
-      color: $light_100;
-      background: $dark_300;
-    }
-
+  .aboutMeTitle {
+    color: #4c4c4c;
   }
 }

@@ -3,7 +3,6 @@ import { Button } from '@/common/ui/button/Button'
 import s from './ProfileSettingsPage.module.scss'
 import { InputText } from '@/common/ui/inputText/InputText'
 import DatePicker from '@/features/profileSettings/datePicker/DatePicker'
-import { TextField } from '@mui/material'
 import { RouteNames } from '@/constants/routes'
 import { useForm } from 'react-hook-form'
 import { useRouter } from 'next/router'
@@ -16,6 +15,7 @@ import moment from 'moment'
 import { ErrorSnackbar } from '@/common/alertSnackbar/ErrorSnackbar'
 import { IErrorResponse } from '@/services/auth/types'
 import { AddAvatar } from '@/features/profileSettings/addAvatar/AddAvatar'
+import { Textarea } from '@/common/ui/textarea/Textarea'
 
 export type SetProfileType = yup.InferType<typeof changeProfileSchema>
 
@@ -103,18 +103,15 @@ export const ProfileSettingsPage = () => {
                 error={errors.city?.message ? errors.city.message : ''}
               />
             </p>
-            <TextField
-              fullWidth={true}
-              multiline
-              rows={3}
-              label={'About me'}
-              {...register('aboutMe')}
-              defaultValue={profileData?.aboutMe ?? ''}
-              className={s.aboutMeTextFieldStyle}
-              error={!!errors.aboutMe?.message}
-              helperText={errors.aboutMe?.message ? errors.aboutMe.message : ''}
-              sx={{ background: '#333' }}
-            />
+            <p>
+              <span className={s.aboutMeTitle}>About Me</span>
+              <Textarea
+                className={s.aboutMeText}
+                value={profileData?.aboutMe ?? ''}
+                error={errors.aboutMe?.message}
+                {...register('aboutMe')}
+              />
+            </p>
             <Button type={'submit'}>Save Changes</Button>
           </form>
         </div>
