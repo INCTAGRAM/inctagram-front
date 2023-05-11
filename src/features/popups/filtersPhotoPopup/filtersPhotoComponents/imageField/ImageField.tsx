@@ -1,9 +1,8 @@
 import { Box, Grid } from '@mui/material'
 import { styled } from '@mui/system'
-import { forwardRef, Ref, useContext } from 'react'
-import { FilterContext } from '@/features/popups/filtersPhotoPopup/FiltersPhotoPopup'
+import { forwardRef, Ref } from 'react'
 import style from './Instagram.module.css'
-import { CustomFilterType } from '@/features/popups/filtersPhotoPopup/types'
+import { useAppSelector } from '@/utils/reduxUtils'
 
 const StyleBox = styled(Box)({
   background: '#ddd',
@@ -16,11 +15,10 @@ const StyleBox = styled(Box)({
   justifyContent: 'center',
 })
 
-const StyledImage = styled('img')((props: { customFilter: Partial<CustomFilterType> }) => ({
+const StyledImage = styled('img')(() => ({
   width: '100%',
   height: '100%',
   objectFit: 'contain',
-  filter: `contrast(${props.customFilter.contrast}%) brightness(${props.customFilter.brightness}%) saturate(${props.customFilter.saturate}%) sepia(${props.customFilter.sepia}%) grayScale(${props.customFilter.gray}%)`,
 }))
 
 type ImageFieldPropsType = {
@@ -28,20 +26,16 @@ type ImageFieldPropsType = {
 }
 
 const Image = ({ imageFile }: ImageFieldPropsType, ref: Ref<HTMLImageElement>) => {
-  const { filterClass, customFilter } = useContext(FilterContext)
-  console.log('filterClass', filterClass)
-  console.log('customFilter', customFilter)
+  const activeIndexImage = useAppSelector((state) => state.createPostReducer.activeImage)
+  const filterParametrs = useAppSelector((state) => state.createPostReducer.filterParameters)
+
+  const filterClass = filterParametrs[activeIndexImage] || ''
+
   return (
     <Grid item xs={12} md={7}>
       <StyleBox>
         <figure style={{ width: '100%', height: '480px' }}>
-          <StyledImage
-            customFilter={!filterClass ? customFilter : {}}
-            className={style[filterClass]}
-            src={imageFile}
-            alt=""
-            ref={ref}
-          />
+          <StyledImage className={style[filterClass]} src={imageFile} alt="" ref={ref} />
         </figure>
       </StyleBox>
     </Grid>

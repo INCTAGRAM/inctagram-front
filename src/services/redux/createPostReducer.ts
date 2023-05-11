@@ -6,6 +6,7 @@ const initialPostState: IPost = {
   originalImages: [],
   croppingParameters: [],
   images: [],
+  filterParameters: [],
   imagesAfterFilters: [],
   activeImage: 0,
 }
@@ -37,6 +38,13 @@ export const createPostSlice = createSlice({
     addImagesAfterFilters(state, action: PayloadAction<string[]>) {
       state.imagesAfterFilters = action.payload
     },
+    addFilterParams(state, action: PayloadAction<IChangeFilters>) {
+      debugger
+      state.filterParameters[action.payload.imageIndex] = action.payload.filterClass
+    },
+    resetFilterParams(state) {
+      state.filterParameters = []
+    },
     changeImageAfterFilters(state, action: PayloadAction<IChangeImageAfterFilters>) {
       state.imagesAfterFilters[action.payload.imageIndex] = action.payload.urlImage
     },
@@ -55,6 +63,8 @@ export const {
   addImages,
   addImagesAfterFilters,
   changeImageAfterFilters,
+  addFilterParams,
+  resetFilterParams,
   setInitialPostState,
 } = createPostSlice.actions
 export const createPostReducer = createPostSlice.reducer
@@ -73,4 +83,9 @@ interface IChangeCroppingParamsImagePayload {
 interface IChangeImageAfterFilters {
   imageIndex: number
   urlImage: string
+}
+
+interface IChangeFilters {
+  imageIndex: number
+  filterClass: string
 }
