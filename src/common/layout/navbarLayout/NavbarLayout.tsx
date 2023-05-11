@@ -4,10 +4,10 @@ import { PropsWithChildren, ReactElement } from 'react'
 import Header from '@/common/header/Header'
 import Navbar from '@/common/navbar/Navbar'
 
-const NavbarLayout: NextPage<PropsWithChildren> = ({ children }) => {
+const NavbarLayout: NextPage<PropsWithChildren> = ({ children, ...rest }) => {
   return (
     <>
-      <Header logout={false} />
+      <Header showLogout={true} />
       <div className={`${styles.content_center} ${styles.navbar_and_content}`}>
         <Navbar />
         <main>{children}</main>

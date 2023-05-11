@@ -6,19 +6,21 @@ import { useRouter } from 'next/navigation'
 import * as yup from 'yup'
 import { loginSchema } from '@/validations/auth-schemes'
 import { SubmitHandler, useForm } from 'react-hook-form'
-import { useMutation } from '@tanstack/react-query'
-import { authService } from '@/services/auth/authService'
+import { useLoginMutation } from '@/services/auth/authService'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { RouteNames } from '@/constants/routes'
 import Form from '@/features/form/Form'
 import Link from 'next/link'
-import { AlertSnackbar } from '@/common/alertSnackbar/AlertSnackbar'
-import { errorHandler } from '@/hooks/errorsHandler'
-import { AxiosError } from 'axios'
+import { ErrorSnackbar } from '@/common/alertSnackbar/ErrorSnackbar'
+import { IErrorResponse } from '@/services/auth/types'
+import { addToken } from '@/services/redux/tokenReducer'
+import { useAppDispatch } from '@/services/redux/store'
 
 type LoginType = yup.InferType<typeof loginSchema>
 
 const LoginPage = () => {
+  const dispatch = useAppDispatch()
+  const [login, { data, isError, isSuccess, error }] = useLoginMutation()
   const { push } = useRouter()
 
   const {
@@ -31,26 +33,13 @@ const LoginPage = () => {
     resolver: yupResolver(loginSchema),
   })
 
-  const {
-    mutate: login,
-    isSuccess,
-    isError,
-    error,
-  } = useMutation({
-    mutationFn: authService.login,
-    onSuccess: (response) => {
-      const accessToken = response.accessToken
-      localStorage.setItem('accessToken', accessToken)
-    },
-  })
-
   useEffect(() => {
     isSuccess && push(RouteNames.PROFILE)
-  }, [isSuccess, push])
+    data && dispatch(addToken(data.accessToken))
+  }, [data, isSuccess, push])
 
   const onFormSubmit: SubmitHandler<LoginType> = ({ email, password }) => {
     if (!email || !password) return
-
     login({ email, password })
   }
 
@@ -85,7 +74,7 @@ const LoginPage = () => {
           Sign in
         </Button>
       </Form>
-      {isError && <AlertSnackbar type={'error'} message={errorHandler(error as AxiosError)} />}
+      {isError && <ErrorSnackbar error={error as IErrorResponse} />}
     </>
   )
 }

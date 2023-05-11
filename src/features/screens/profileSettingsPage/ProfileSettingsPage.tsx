@@ -1,33 +1,31 @@
 import React, { useEffect, useState } from 'react'
-import Image from 'next/image'
 import { Button } from '@/common/ui/button/Button'
 import s from './ProfileSettingsPage.module.scss'
-import Form from '@/features/profileSettings/form/Form'
-import { getBaseLayout } from '@/common/layout/baseLayout/BaseLayout'
 import { InputText } from '@/common/ui/inputText/InputText'
 import DatePicker from '@/features/profileSettings/datePicker/DatePicker'
-import { TextField } from '@mui/material'
 import { RouteNames } from '@/constants/routes'
 import { useForm } from 'react-hook-form'
 import { useRouter } from 'next/router'
-import { useMutation } from '@tanstack/react-query'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { changeProfileSchema } from '@/validations/profile-schemes'
 import * as yup from 'yup'
-import { IProfileData, IProfileSettingResponse } from '@/services/profile/types'
-
-import { AddPhotoPopup } from '@/features/popups/addPhotoPopup/AddPhotoPopup'
-import { profileService } from '@/services/profile/profileService'
+import { useCheckUserProfileQuery, useUpdateUserProfileMutation } from '@/services/profile/profileService'
 import TopPanel from '@/features/profileSettings/topPanel/TopPanel'
 import moment from 'moment'
+import { ErrorSnackbar } from '@/common/alertSnackbar/ErrorSnackbar'
+import { IErrorResponse } from '@/services/auth/types'
+import { AddAvatar } from '@/features/profileSettings/addAvatar/AddAvatar'
+import { Textarea } from '@/common/ui/textarea/Textarea'
 
 export type SetProfileType = yup.InferType<typeof changeProfileSchema>
 
-const ProfileSettingsPage = () => {
-  const [isShowPopup, setIsShowPopup] = useState(false)
-  const { mutate: createProfile, isSuccess } = useMutation<IProfileSettingResponse, unknown, IProfileData>({
-    mutationFn: profileService.updateUserProfile,
-  })
+export const ProfileSettingsPage = () => {
+  const { data: profileData } = useCheckUserProfileQuery()
+  const [createProfile, { isSuccess, isError, error }] = useUpdateUserProfileMutation()
+  const [username, setUsername] = useState(profileData?.username ?? '')
+  const [firstName, setFirstName] = useState(profileData?.name ?? '')
+  const [lastName, setLastName] = useState(profileData?.surname ?? '')
+  const [city, setCity] = useState(profileData?.city ?? '')
 
   const { push } = useRouter()
 
@@ -48,38 +46,51 @@ const ProfileSettingsPage = () => {
 
   const onFormSubmit = (data: SetProfileType) => {
     const birthday = data.birthday ? moment(data.birthday, 'DD.MM.YYYY').format('YYYY-MM-DD') : ''
-    createProfile({ ...data, birthday })
-  }
-
-  const onClickHandler = (boolean: boolean) => {
-    setIsShowPopup(boolean)
+    if (birthday === '') {
+      createProfile({
+        userName: data.username,
+        name: data.name,
+        surname: data.surname,
+        city: data.city,
+        aboutMe: data.aboutMe,
+      })
+    } else {
+      createProfile({ ...data, birthday })
+    }
   }
 
   return (
-    <div>
+    <>
       <div className={s.content}>
         <TopPanel />
         <div className={s.container}>
-          <div>
-            <Image src={''} alt={''} width={192} height={192} className={s.Image} />
-            <Button className={s.button} onClick={() => onClickHandler(true)}>
-              Add a Profile Photo
-            </Button>
-            <AddPhotoPopup isShowPopup={isShowPopup} setIsShowPopup={setIsShowPopup} />
-          </div>
-          <Form onSubmit={handleSubmit(onFormSubmit)}>
+          <AddAvatar previewUrl={profileData?.avatar.previewUrl ?? undefined} />
+          <form onSubmit={handleSubmit(onFormSubmit)} className={s.form}>
             <p>
               <InputText
-                fieldName={'Name'}
-                {...register('name')}
-                error={errors.name?.message ? errors.name.message : ''}
+                fieldName={'Username'}
+                {...register('username')}
+                value={username}
+                onChangeText={setUsername}
+                error={errors.username?.message ?? ''}
               />
             </p>
             <p>
               <InputText
-                fieldName={'Surname'}
+                fieldName={'First Name'}
+                {...register('name')}
+                value={firstName}
+                onChangeText={setFirstName}
+                error={errors.name?.message ?? ''}
+              />
+            </p>
+            <p>
+              <InputText
+                fieldName={'Last Name'}
                 {...register('surname')}
-                error={errors.surname?.message ? errors.surname.message : ''}
+                value={lastName}
+                onChangeText={setLastName}
+                error={errors.surname?.message ?? ''}
               />
             </p>
             <DatePicker register={register} name={'birthday'} control={control} />
@@ -87,25 +98,25 @@ const ProfileSettingsPage = () => {
               <InputText
                 fieldName={'City'}
                 {...register('city')}
+                value={city}
+                onChangeText={setCity}
                 error={errors.city?.message ? errors.city.message : ''}
               />
             </p>
-            <TextField
-              multiline
-              rows={3}
-              label={'About me'}
-              {...register('aboutMe')}
-              className={s.aboutMeTextFieldStyle}
-              error={!!errors.aboutMe?.message}
-              helperText={errors.aboutMe?.message ? errors.aboutMe.message : ''}
-            />
+            <p>
+              <span className={s.aboutMeTitle}>About Me</span>
+              <Textarea
+                className={s.aboutMeText}
+                value={profileData?.aboutMe ?? ''}
+                error={errors.aboutMe?.message}
+                {...register('aboutMe')}
+              />
+            </p>
             <Button type={'submit'}>Save Changes</Button>
-          </Form>
+          </form>
         </div>
       </div>
-    </div>
+      {isError && <ErrorSnackbar error={error as IErrorResponse} />}
+    </>
   )
 }
-ProfileSettingsPage.getBaseLayout = getBaseLayout
-
-export default ProfileSettingsPage

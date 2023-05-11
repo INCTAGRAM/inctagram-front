@@ -3,10 +3,10 @@ import { NextPage } from 'next'
 import { PropsWithChildren, ReactElement } from 'react'
 import Header from '@/common/header/Header'
 
-const BaseLayout: NextPage<PropsWithChildren> = ({ children }) => {
+const BaseLayout: NextPage<PropsWithChildren> = ({ children, ...rest }) => {
   return (
     <>
-      <Header logout={true} />
+      <Header showLogout={false} />
       <div className={styles.content_center}>
         <main>{children}</main>
       </div>

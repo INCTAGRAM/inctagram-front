@@ -1,40 +1,67 @@
-import { instance } from '@/services/config'
-import {
-  IConfirmationData,
-  ILoginData,
-  ILoginResponse,
-  INewPasswordData,
-  IRegistrationData,
-} from '@/services/auth/types'
-import axios from 'axios'
+import { ILoginData, ITokenResponse, INewPasswordData, IRegistrationData, IRecoveryData } from '@/services/auth/types'
+import { createApi } from '@reduxjs/toolkit/query/react'
+import { HYDRATE } from 'next-redux-wrapper'
+import { baseQueryWithReauth } from '@/services/config'
 
-export const authService = {
-  login: (payload: ILoginData) => {
-    return instance.post<ILoginResponse>('/auth/login', payload).then((response) => response.data)
+export const authService = createApi({
+  reducerPath: 'authApi',
+  tagTypes: ['Auth'],
+  baseQuery: baseQueryWithReauth,
+  extractRehydrationInfo(action, { reducerPath }) {
+    if (action.type === HYDRATE) {
+      return action.payload[reducerPath]
+    }
   },
-  logout: () => {
-    return instance.post('/auth/logout')
-  },
-  registration: (payload: IRegistrationData) => {
-    return instance.post('/auth/registration', payload).then((response) => response.data)
-  },
-  confirmation: (code: string) => {
-    return instance
-      .post<IConfirmationData>('/auth/registration-confirmation', { code })
-      .then((response) => response.data)
-  },
-  resendingConfirmation: (email: string) => {
-    return instance.post('/auth/registration-email-resending', { email }).then((response) => response.data)
-  },
-  passwordRecovery: (email: string) => {
-    return instance.post('/auth/password-recovery', { email }).then((response) => response.data)
-  },
-  createNewPassword: (payload: INewPasswordData) => {
-    return instance.post('/auth/new-password', payload).then((response) => response.data)
-  },
-  refreshToken: () => {
-    return axios
-      .post<ILoginResponse>('https://inctagram.herokuapp.com/api/auth/refresh-token', {}, { withCredentials: true })
-      .then((response) => response.data.accessToken)
-  },
-}
+  endpoints: (build) => ({
+    login: build.mutation<ITokenResponse, ILoginData>({
+      query: (body) => ({
+        url: '/auth/login',
+        method: 'POST',
+        body,
+      }),
+    }),
+    registration: build.mutation<unknown, IRegistrationData>({
+      query: (body) => ({
+        url: '/auth/registration',
+        method: 'POST',
+        body,
+      }),
+    }),
+    resendingConfirmation: build.mutation<unknown, { email: string }>({
+      query: (body) => ({
+        url: '/auth/registration-email-resending',
+        method: 'POST',
+        body,
+      }),
+    }),
+    passwordRecovery: build.mutation<unknown, IRecoveryData>({
+      query: (body) => ({
+        url: '/auth/password-recovery',
+        method: 'POST',
+        body,
+      }),
+    }),
+    createNewPassword: build.mutation<unknown, INewPasswordData>({
+      query: (body) => ({
+        url: '/auth/new-password',
+        method: 'POST',
+        body,
+      }),
+    }),
+    logout: build.mutation<unknown, void>({
+      query: () => ({
+        url: '/auth/logout',
+        method: 'POST',
+      }),
+    }),
+  }),
+})
+
+export const {
+  useLoginMutation,
+  useRegistrationMutation,
+  useResendingConfirmationMutation,
+  usePasswordRecoveryMutation,
+  useCreateNewPasswordMutation,
+  useLogoutMutation,
+} = authService

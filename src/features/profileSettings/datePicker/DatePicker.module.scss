@@ -1,7 +1,13 @@
+@import "src/assets/styles/variables";
+
 .picker {
   display: inline-block;
+  background: $dark_300;
+  border-radius: 5px;
+  margin-top: 10px;
+  margin-bottom: 20px;
 
   input, label, svg, fieldset {
-    color: #FFFFFF;
+    color: $light_100;
   }
 }
