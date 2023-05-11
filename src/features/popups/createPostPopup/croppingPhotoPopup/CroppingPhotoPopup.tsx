@@ -10,7 +10,7 @@ import { ControlSlider } from './controlElement/controlSlider/ControlSlider'
 import { GalleryControl } from './controlElement/galleryControl/GalleryControl'
 import { SliderControlElements } from './sliderControlElements/SliderControlElements'
 import { generateImages } from '@/features/popups/createPostPopup/utils/generateImages'
-import { useAppDispatch, useAppSelector } from '@/utils/reduxUtils'
+import { useAppDispatch, useAppSelector } from '@/services/redux/store'
 import { addImages, setInitialPostState } from '@/services/redux/createPostReducer'
 
 interface ICroppingPhotoPopupProps {

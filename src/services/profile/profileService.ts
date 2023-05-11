@@ -4,25 +4,14 @@ import {
   IProfileSettingResponse,
   IUploadAvatarResponse,
 } from '@/services/profile/types'
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/dist/query/react'
+import { createApi } from '@reduxjs/toolkit/dist/query/react'
 import { HYDRATE } from 'next-redux-wrapper'
-import { AppState } from '@/services/redux/store'
+import { baseQueryWithReauth } from '@/services/config'
 
 export const profileService = createApi({
   reducerPath: 'profileApi',
   tagTypes: ['Profile'],
-  baseQuery: fetchBaseQuery({
-    baseUrl: process.env.NEXT_PUBLIC_API_URL,
-    credentials: 'include',
-    prepareHeaders: (headers, { getState }) => {
-      const accessToken = (getState() as AppState).tokenReducer.accessToken
-
-      if (accessToken) {
-        headers.set('Authorization', `Bearer ${accessToken}`)
-      }
-      return headers
-    },
-  }),
+  baseQuery: baseQueryWithReauth,
   extractRehydrationInfo(action, { reducerPath }) {
     if (action.type === HYDRATE) {
       return action.payload[reducerPath]
@@ -55,15 +44,3 @@ export const profileService = createApi({
 })
 
 export const { useCheckUserProfileQuery, useUpdateUserProfileMutation, useUploadAvatarMutation } = profileService
-
-// export const profileService = {
-//   checkUserProfile: () => {
-//     return instance.get<IProfileResponse>(`/users/self/profile`).then((response) => response.data)
-//   },
-//   uploadAvatar: (payload: FormData) => {
-//     return instance.post<IUploadAvatarResponse>(`/users/self/images/avatar`, payload).then((response) => response.data)
-//   },
-//   updateUserProfile: (payload: IProfileData) => {
-//     return instance.put<IProfileSettingResponse>(`/users/self/profile`, payload).then((response) => response.data)
-//   },
-// }

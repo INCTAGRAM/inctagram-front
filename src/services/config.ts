@@ -1,44 +1,50 @@
-import axios, { AxiosError } from 'axios'
-import { getAccessToken } from '@/services/jwt/getAccessToken'
-import { logout } from '@/utils'
-
-export const instance = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_URL,
-  withCredentials: true,
-})
+import { fetchBaseQuery } from '@reduxjs/toolkit/query'
+import type { BaseQueryFn, FetchArgs, FetchBaseQueryError } from '@reduxjs/toolkit/query'
+import { AppState } from '@/services/redux/store'
+import { addToken } from '@/services/redux/tokenReducer'
 
 const urlsSkipAuth = [
-  '/auth/login',
-  '/auth/registration',
-  '/auth/registration-confirmation',
-  '/auth/registration-email-resending',
-  '/auth/password-recovery',
-  '/auth/new-password',
-  '/auth/logout',
+  'login',
+  'registration',
+  'resendingConfirmation',
+  'passwordRecovery',
+  'createNewPassword',
+  'logout',
 ]
 
-instance.interceptors.request.use(async (config) => {
-  if (config.url && urlsSkipAuth.includes(config.url)) {
-    return config
-  }
-  const accessToken = await getAccessToken()
-  if (accessToken) config.headers.Authorization = `Bearer ${accessToken}`
-  return config
+const baseQuery = fetchBaseQuery({
+  baseUrl: process.env.NEXT_PUBLIC_API_URL,
+  credentials: 'include',
+  prepareHeaders: (headers, { getState, endpoint }) => {
+    const accessToken = (getState() as AppState).tokenReducer.accessToken
+
+    if (accessToken && !urlsSkipAuth.find((url) => url === endpoint)) {
+      headers.set('Authorization', `Bearer ${accessToken}`)
+    }
+    return headers
+  },
 })
 
-instance.interceptors.response.use(
-  (res) => res,
-  (error: AxiosError) => {
-    if (typeof window !== 'undefined') {
-      const isLoggedIn = !!localStorage.getItem('accessToken')
-      if (
-        error.response?.status === 401 &&
-        isLoggedIn &&
-        error.request.responseURL !== 'https://inctagram.herokuapp.com/api/auth/logout'
-      ) {
-        logout()
+export const baseQueryWithReauth: BaseQueryFn<string | FetchArgs, unknown, FetchBaseQueryError> = async (
+  args,
+  api,
+  extraOptions
+) => {
+  let result = await baseQuery(args, api, extraOptions)
+  if (result.error && result.error.status === 401) {
+    // try to get a new token
+    const response = await baseQuery({ url: '/auth/refresh-token', method: 'POST' }, api, extraOptions)
+    const data = response.data
+    if (data) {
+      // store the new token
+      if (data instanceof Object && 'accessToken' in data && typeof data.accessToken === 'string') {
+        api.dispatch(addToken(data.accessToken))
       }
+      // retry the initial query
+      result = await baseQuery(args, api, extraOptions)
+    } else {
+      api.dispatch(addToken(null))
     }
-    return Promise.reject(error)
   }
-)
+  return result
+}

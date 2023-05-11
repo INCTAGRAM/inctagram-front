@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import Image from 'next/image'
 import { Button } from '@/common/ui/button/Button'
 import s from './ProfileSettingsPage.module.scss'
-import Form from '@/features/profileSettings/form/Form'
-import { getBaseLayout } from '@/common/layout/baseLayout/BaseLayout'
 import { InputText } from '@/common/ui/inputText/InputText'
 import DatePicker from '@/features/profileSettings/datePicker/DatePicker'
 import { TextField } from '@mui/material'
@@ -13,18 +10,22 @@ import { useRouter } from 'next/router'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { changeProfileSchema } from '@/validations/profile-schemes'
 import * as yup from 'yup'
-import { AddPhotoPopup } from '@/features/popups/addPhotoPopup/AddPhotoPopup'
-import { useUpdateUserProfileMutation } from '@/services/profile/profileService'
+import { useCheckUserProfileQuery, useUpdateUserProfileMutation } from '@/services/profile/profileService'
 import TopPanel from '@/features/profileSettings/topPanel/TopPanel'
 import moment from 'moment'
 import { ErrorSnackbar } from '@/common/alertSnackbar/ErrorSnackbar'
 import { IErrorResponse } from '@/services/auth/types'
+import { AddAvatar } from '@/features/profileSettings/addAvatar/AddAvatar'
 
 export type SetProfileType = yup.InferType<typeof changeProfileSchema>
 
-const ProfileSettingsPage = () => {
+export const ProfileSettingsPage = () => {
+  const { data: profileData } = useCheckUserProfileQuery()
   const [createProfile, { isSuccess, isError, error }] = useUpdateUserProfileMutation()
-  const [isShowPopup, setIsShowPopup] = useState(false)
+  const [username, setUsername] = useState(profileData?.username ?? '')
+  const [firstName, setFirstName] = useState(profileData?.name ?? '')
+  const [lastName, setLastName] = useState(profileData?.surname ?? '')
+  const [city, setCity] = useState(profileData?.city ?? '')
 
   const { push } = useRouter()
 
@@ -48,35 +49,38 @@ const ProfileSettingsPage = () => {
     createProfile({ ...data, birthday })
   }
 
-  const onClickHandler = (boolean: boolean) => {
-    setIsShowPopup(boolean)
-  }
-
   return (
-    <div>
+    <>
       <div className={s.content}>
         <TopPanel />
         <div className={s.container}>
-          <div>
-            <Image src={''} alt={''} width={192} height={192} className={s.Image} />
-            <Button className={s.button} onClick={() => onClickHandler(true)}>
-              Add a Profile Photo
-            </Button>
-            <AddPhotoPopup isShowPopup={isShowPopup} setIsShowPopup={setIsShowPopup} />
-          </div>
-          <Form onSubmit={handleSubmit(onFormSubmit)}>
+          <AddAvatar previewUrl={profileData?.avatar.previewUrl ?? undefined} />
+          <form onSubmit={handleSubmit(onFormSubmit)}>
             <p>
               <InputText
-                fieldName={'Name'}
-                {...register('name')}
-                error={errors.name?.message ? errors.name.message : ''}
+                fieldName={'Username'}
+                {...register('username')}
+                value={username}
+                onChangeText={setUsername}
+                error={errors.username?.message ?? ''}
               />
             </p>
             <p>
               <InputText
-                fieldName={'Surname'}
+                fieldName={'First Name'}
+                {...register('name')}
+                value={firstName}
+                onChangeText={setFirstName}
+                error={errors.name?.message ?? ''}
+              />
+            </p>
+            <p>
+              <InputText
+                fieldName={'Last Name'}
                 {...register('surname')}
-                error={errors.surname?.message ? errors.surname.message : ''}
+                value={lastName}
+                onChangeText={setLastName}
+                error={errors.surname?.message ?? ''}
               />
             </p>
             <DatePicker register={register} name={'birthday'} control={control} />
@@ -84,6 +88,8 @@ const ProfileSettingsPage = () => {
               <InputText
                 fieldName={'City'}
                 {...register('city')}
+                value={city}
+                onChangeText={setCity}
                 error={errors.city?.message ? errors.city.message : ''}
               />
             </p>
@@ -92,18 +98,16 @@ const ProfileSettingsPage = () => {
               rows={3}
               label={'About me'}
               {...register('aboutMe')}
+              defaultValue={profileData?.aboutMe ?? ''}
               className={s.aboutMeTextFieldStyle}
               error={!!errors.aboutMe?.message}
               helperText={errors.aboutMe?.message ? errors.aboutMe.message : ''}
             />
             <Button type={'submit'}>Save Changes</Button>
-          </Form>
+          </form>
         </div>
       </div>
       {isError && <ErrorSnackbar error={error as IErrorResponse} />}
-    </div>
+    </>
   )
 }
-ProfileSettingsPage.getBaseLayout = getBaseLayout
-
-export default ProfileSettingsPage

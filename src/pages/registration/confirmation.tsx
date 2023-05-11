@@ -3,13 +3,12 @@ import HeadMeta from '@/common/headMeta/HeadMeta'
 import RegistrationSuccessPage from '@/features/screens/feedbackPages/RegistrationSuccessPage'
 import ExpiredPage from '@/features/screens/feedbackPages/ExpiredPage'
 import { getBaseLayout } from '@/common/layout/baseLayout/BaseLayout'
-import { AxiosError } from 'axios'
+import axios, { AxiosError } from 'axios'
 import { ErrorSnackbar } from '@/common/alertSnackbar/ErrorSnackbar'
 import { errorHandler } from '@/hooks/errorsHandler'
 import { Button } from '@/common/ui/button/Button'
 import { useRouter } from 'next/router'
 import { RouteNames } from '@/constants/routes'
-import { instance } from '@/services/config'
 
 interface IConfirmation {
   isSuccess: boolean
@@ -27,7 +26,7 @@ interface IContext {
 
 export const getServerSideProps = async (context: IContext) => {
   try {
-    await instance.post('/auth/registration-confirmation', {
+    await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/auth/registration-confirmation`, {
       code: context.query.code ? context.query.code : '',
     })
     return {

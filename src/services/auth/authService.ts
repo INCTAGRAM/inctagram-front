@@ -2,24 +2,12 @@ import { ILoginData, ITokenResponse, INewPasswordData, IRegistrationData, IRecov
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { HYDRATE } from 'next-redux-wrapper'
 import { AppState } from '@/services/redux/store'
+import { baseQueryWithReauth } from '@/services/config'
 
 export const authService = createApi({
   reducerPath: 'authApi',
   tagTypes: ['Auth'],
-  baseQuery: fetchBaseQuery({
-    baseUrl: process.env.NEXT_PUBLIC_API_URL,
-    credentials: 'include',
-    prepareHeaders: (headers, { getState, endpoint }) => {
-      const accessToken = (getState() as AppState).tokenReducer.accessToken
-
-      console.log(endpoint)
-
-      if (accessToken) {
-        headers.set('Authorization', `Bearer ${accessToken}`)
-      }
-      return headers
-    },
-  }),
+  baseQuery: baseQueryWithReauth,
   extractRehydrationInfo(action, { reducerPath }) {
     if (action.type === HYDRATE) {
       return action.payload[reducerPath]
@@ -61,6 +49,12 @@ export const authService = createApi({
         body,
       }),
     }),
+    logout: build.mutation<unknown, void>({
+      query: () => ({
+        url: '/auth/logout',
+        method: 'POST',
+      }),
+    }),
   }),
 })
 
@@ -70,4 +64,5 @@ export const {
   useResendingConfirmationMutation,
   usePasswordRecoveryMutation,
   useCreateNewPasswordMutation,
+  useLogoutMutation,
 } = authService

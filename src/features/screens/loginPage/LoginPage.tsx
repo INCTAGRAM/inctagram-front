@@ -13,10 +13,13 @@ import Form from '@/features/form/Form'
 import Link from 'next/link'
 import { ErrorSnackbar } from '@/common/alertSnackbar/ErrorSnackbar'
 import { IErrorResponse } from '@/services/auth/types'
+import { addToken } from '@/services/redux/tokenReducer'
+import { useAppDispatch } from '@/services/redux/store'
 
 type LoginType = yup.InferType<typeof loginSchema>
 
 const LoginPage = () => {
+  const dispatch = useAppDispatch()
   const [login, { data, isError, isSuccess, error }] = useLoginMutation()
   const { push } = useRouter()
 
@@ -32,7 +35,7 @@ const LoginPage = () => {
 
   useEffect(() => {
     isSuccess && push(RouteNames.PROFILE)
-    data && localStorage.setItem('accessToken', data.accessToken)
+    data && dispatch(addToken(data.accessToken))
   }, [data, isSuccess, push])
 
   const onFormSubmit: SubmitHandler<LoginType> = ({ email, password }) => {

@@ -13,25 +13,11 @@
 }
 
 .content {
-  padding: 25px 0 0 244px;
+  padding: 42px 50px 50px 50px;
   position: relative;
   display: flex;
   flex-direction: column;
   gap: 48px;
-
-  button[type="submit"]::after {
-    content: "";
-    height: 1px;
-    width: 733px;
-    background: #333333;
-    position: absolute;
-    top: -24px;
-    right: 0;
-  }
-
-  span {
-    position: relative;
-  }
 
   .Image {
     border-radius: 50%;
