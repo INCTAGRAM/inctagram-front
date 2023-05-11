@@ -4,7 +4,7 @@ import { filterValues } from '@/constants/filterValues'
 import { useAppDispatch, useAppSelector } from '@/utils/reduxUtils'
 import { addFilterParams } from '@/services/redux/createPostReducer'
 
-export const InstaFitler = () => {
+export const InstaField = () => {
   const activeIndexImage = useAppSelector((state) => state.createPostReducer.activeImage)
   const arrFilterClass = useAppSelector((state) => state.createPostReducer.filterParameters)
   const changedFilterClass = arrFilterClass[activeIndexImage] || ''
@@ -12,7 +12,6 @@ export const InstaFitler = () => {
 
   const handleChange = (e: SelectChangeEvent) => {
     const filterClass = e.target.value
-    debugger
     dispatch(addFilterParams({ imageIndex: activeIndexImage, filterClass: filterClass }))
   }
 

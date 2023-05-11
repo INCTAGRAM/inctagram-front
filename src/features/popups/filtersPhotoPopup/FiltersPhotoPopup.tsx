@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react'
 import { FilterTabs } from '@/features/popups/filtersPhotoPopup/filtersPhotoComponents/FilterTabs'
-import { InstaFitler } from '@/features/popups/filtersPhotoPopup/filtersPhotoComponents/InstaField'
+import { InstaField } from '@/features/popups/filtersPhotoPopup/filtersPhotoComponents/InstaField'
 import { Popup } from '@/common/ui/popup/Popup'
 import domtoimage from 'dom-to-image'
 import { ImageField } from '@/features/popups/filtersPhotoPopup/filtersPhotoComponents/imageField/ImageField'
@@ -20,15 +20,16 @@ export const FiltersPhotoPopup = ({
   const imagesAfterFilters = useAppSelector((state) => state.createPostReducer.imagesAfterFilters)
   const activeIndexImage = useAppSelector((state) => state.createPostReducer.activeImage)
   const activeFilterImage = imagesAfterFilters[activeIndexImage]
+  const filterParametrs = useAppSelector((state) => state.createPostReducer.filterParameters)
 
-  const imgResultRef = useRef(null)
+  const filterClass = filterParametrs[activeIndexImage]
+  const imgResultRef = useRef<HTMLImageElement>(null)
 
   useEffect(() => {
     dispatch(addImagesAfterFilters(images))
   }, [dispatch, images])
 
   const prevStep = () => {
-    debugger
     setIsShowFilterPopup(false)
     setIsShowCroppingPhotoPopup(true)
     dispatch(addImagesAfterFilters([]))
@@ -57,7 +58,10 @@ export const FiltersPhotoPopup = ({
   }
 
   const setImage = async () => {
-    await handleDownloadImage()
+    if (imgResultRef.current && filterClass !== imgResultRef.current.dataset.filterclass) {
+      debugger
+      await handleDownloadImage()
+    }
   }
 
   return (
@@ -76,7 +80,7 @@ export const FiltersPhotoPopup = ({
         </div>
         <div className={styles.containerSelect}>
           <FilterTabs />
-          <InstaFitler />
+          <InstaField />
         </div>
       </div>
     </Popup>

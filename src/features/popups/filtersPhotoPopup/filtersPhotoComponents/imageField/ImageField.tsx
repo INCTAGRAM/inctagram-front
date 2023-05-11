@@ -35,7 +35,7 @@ const Image = ({ imageFile }: ImageFieldPropsType, ref: Ref<HTMLImageElement>) =
     <Grid item xs={12} md={7}>
       <StyleBox>
         <figure style={{ width: '100%', height: '480px' }}>
-          <StyledImage className={style[filterClass]} src={imageFile} alt="" ref={ref} />
+          <StyledImage className={style[filterClass]} src={imageFile} alt="" ref={ref} data-filterClass={filterClass} />
         </figure>
       </StyleBox>
     </Grid>

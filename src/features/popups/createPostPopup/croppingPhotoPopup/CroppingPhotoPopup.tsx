@@ -11,7 +11,7 @@ import { GalleryControl } from './controlElement/galleryControl/GalleryControl'
 import { SliderControlElements } from './sliderControlElements/SliderControlElements'
 import { generateImages } from '@/features/popups/createPostPopup/utils/generateImages'
 import { useAppDispatch, useAppSelector } from '@/utils/reduxUtils'
-import { addImages, setInitialPostState } from '@/services/redux/createPostReducer'
+import { addImages, changeCroppingParamsImage, setInitialPostState } from '@/services/redux/createPostReducer'
 
 interface ICroppingPhotoPopupProps {
   isShowCroppingPhotoPopup: boolean
@@ -59,6 +59,17 @@ export const CroppingPhotoPopup = ({
   }
 
   const nextStep = async (images: string[], croppingParameters: ICroppingParameters[]) => {
+    dispatch(
+      changeCroppingParamsImage({
+        imageIndex: activeImage,
+        croppingParameters: {
+          crop,
+          croppedArea,
+          zoom,
+          aspect,
+        },
+      })
+    )
     const cropImages = await generateImages(images, croppingParameters, croppedArea, activeImage)
     dispatch(addImages(cropImages))
     setIsShowCroppingPhotoPopup(false)

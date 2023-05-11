@@ -39,7 +39,6 @@ export const createPostSlice = createSlice({
       state.imagesAfterFilters = action.payload
     },
     addFilterParams(state, action: PayloadAction<IChangeFilters>) {
-      debugger
       state.filterParameters[action.payload.imageIndex] = action.payload.filterClass
     },
     resetFilterParams(state) {
