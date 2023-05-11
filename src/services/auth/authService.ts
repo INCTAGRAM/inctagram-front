@@ -1,7 +1,6 @@
 import { ILoginData, ITokenResponse, INewPasswordData, IRegistrationData, IRecoveryData } from '@/services/auth/types'
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
+import { createApi } from '@reduxjs/toolkit/query/react'
 import { HYDRATE } from 'next-redux-wrapper'
-import { AppState } from '@/services/redux/store'
 import { baseQueryWithReauth } from '@/services/config'
 
 export const authService = createApi({

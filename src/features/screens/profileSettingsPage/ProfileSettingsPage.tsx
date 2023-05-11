@@ -46,7 +46,17 @@ export const ProfileSettingsPage = () => {
 
   const onFormSubmit = (data: SetProfileType) => {
     const birthday = data.birthday ? moment(data.birthday, 'DD.MM.YYYY').format('YYYY-MM-DD') : ''
-    createProfile({ ...data, birthday })
+    if (birthday === '') {
+      createProfile({
+        userName: data.username,
+        name: data.name,
+        surname: data.surname,
+        city: data.city,
+        aboutMe: data.aboutMe,
+      })
+    } else {
+      createProfile({ ...data, birthday })
+    }
   }
 
   return (
@@ -55,7 +65,7 @@ export const ProfileSettingsPage = () => {
         <TopPanel />
         <div className={s.container}>
           <AddAvatar previewUrl={profileData?.avatar.previewUrl ?? undefined} />
-          <form onSubmit={handleSubmit(onFormSubmit)}>
+          <form onSubmit={handleSubmit(onFormSubmit)} className={s.form}>
             <p>
               <InputText
                 fieldName={'Username'}
@@ -94,6 +104,7 @@ export const ProfileSettingsPage = () => {
               />
             </p>
             <TextField
+              fullWidth={true}
               multiline
               rows={3}
               label={'About me'}
@@ -102,6 +113,7 @@ export const ProfileSettingsPage = () => {
               className={s.aboutMeTextFieldStyle}
               error={!!errors.aboutMe?.message}
               helperText={errors.aboutMe?.message ? errors.aboutMe.message : ''}
+              sx={{ background: '#333' }}
             />
             <Button type={'submit'}>Save Changes</Button>
           </form>

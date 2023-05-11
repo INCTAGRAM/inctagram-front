@@ -1,19 +1,25 @@
-.container {
-  display: flex;
-  flex-direction: row;
-  gap: 40px;
+@import "src/assets/styles/variables";
 
-  div {
-    .button {
-      background-color: transparent;
-      color: #397DF6;
-      border: 1px solid #397DF6;
-    }
+.container {
+  max-width: 800px;
+  display: grid;
+  grid-template-columns: 192px calc(100% - 242px);
+  gap: 50px;
+
+  .button {
+    text-align: center;
+    padding: 6px 10px;
+    background-color: transparent;
+    color: $primary_500;
+    border: 1px solid $primary_500;
+  }
+
+  .form p {
+    margin-bottom: 20px;
   }
 }
 
 .content {
-  padding: 42px 50px 50px 50px;
   position: relative;
   display: flex;
   flex-direction: column;
@@ -26,11 +32,13 @@
 
   .aboutMeTextFieldStyle {
     label {
-      color: #FFFFFF;
+      color: $light_100;
     }
 
     textarea {
-      color: #FFFFFF;
+      width: 100%;
+      color: $light_100;
+      background: $dark_300;
     }
 
   }
