@@ -1,0 +1,52 @@
+@import "src/assets/styles/variables";
+
+.button {
+  display: block;
+  width: 100%;
+  padding: 6px 24px;
+  background: $primary_500;
+  color: $light_100;
+  cursor: pointer;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 24px;
+  border: 0;
+  border-radius: 2px;
+  transition: 0.2s;
+
+  &:hover {
+    background: $primary_100;
+  }
+
+  &:disabled {
+    pointer-events: none;
+    opacity: 0.4;
+  }
+
+  &.secondary {
+    background: $light_100;
+    color: $dark_900;
+  }
+
+  &.outlined {
+    background: transparent;
+    border: 1px solid $primary_500;
+    color: $primary_500;
+  }
+
+  &.outlined:hover {
+    background: $primary_500;
+    color: $light_100;
+  }
+
+  &.secondary.outlined {
+    border: 1px solid $light_100;
+    color: $light_100;
+  }
+
+  &.secondary.outlined:hover {
+    background: $light_100;
+    color: $primary_500;
+  }
+}

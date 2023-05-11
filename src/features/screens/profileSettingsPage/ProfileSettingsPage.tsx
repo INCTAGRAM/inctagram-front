@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Button } from '@/common/ui/button/Button'
-import s from './ProfileSettingsPage.module.scss'
+import styles from './ProfileSettingsPage.module.scss'
 import { InputText } from '@/common/ui/inputText/InputText'
 import DatePicker from '@/features/profileSettings/datePicker/DatePicker'
 import { RouteNames } from '@/constants/routes'
@@ -61,11 +61,11 @@ export const ProfileSettingsPage = () => {
 
   return (
     <>
-      <div className={s.content}>
+      <div className={styles.content}>
         <TopPanel />
-        <div className={s.container}>
+        <div className={styles.container}>
           <AddAvatar previewUrl={profileData?.avatar.previewUrl ?? undefined} />
-          <form onSubmit={handleSubmit(onFormSubmit)} className={s.form}>
+          <form onSubmit={handleSubmit(onFormSubmit)} className={styles.form}>
             <p>
               <InputText
                 fieldName={'Username'}
@@ -104,15 +104,17 @@ export const ProfileSettingsPage = () => {
               />
             </p>
             <p>
-              <span className={s.aboutMeTitle}>About Me</span>
+              <span className={styles.aboutMeTitle}>About Me</span>
               <Textarea
-                className={s.aboutMeText}
+                className={styles.aboutMeText}
                 value={profileData?.aboutMe ?? ''}
                 error={errors.aboutMe?.message}
                 {...register('aboutMe')}
               />
             </p>
-            <Button type={'submit'}>Save Changes</Button>
+            <Button className={styles.saveBtn} type={'submit'}>
+              Save Changes
+            </Button>
           </form>
         </div>
       </div>
