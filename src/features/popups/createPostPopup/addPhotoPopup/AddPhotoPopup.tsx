@@ -4,7 +4,7 @@ import styles from './AddPhotoPopup.module.scss'
 import IcomoonReact from 'icomoon-react'
 import iconSet from '@/assets/icons/selection.json'
 import { Button } from '@/common/ui/button/Button'
-import { useAppDispatch } from '@/utils/reduxUtils'
+import { useAppDispatch } from '@/services/redux/store'
 import { setInitialPostState, addImageAndCropParameters } from '@/services/redux/createPostReducer'
 
 interface IAddPhotoPopupProps {

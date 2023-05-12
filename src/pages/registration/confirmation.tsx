@@ -1,11 +1,10 @@
 import { NextPageWithLayout } from '@/pages/_app'
-import { authService } from '@/services/auth/authService'
 import HeadMeta from '@/common/headMeta/HeadMeta'
 import RegistrationSuccessPage from '@/features/screens/feedbackPages/RegistrationSuccessPage'
 import ExpiredPage from '@/features/screens/feedbackPages/ExpiredPage'
 import { getBaseLayout } from '@/common/layout/baseLayout/BaseLayout'
-import { AxiosError } from 'axios'
-import { AlertSnackbar } from '@/common/alertSnackbar/AlertSnackbar'
+import axios, { AxiosError } from 'axios'
+import { ErrorSnackbar } from '@/common/alertSnackbar/ErrorSnackbar'
 import { errorHandler } from '@/hooks/errorsHandler'
 import { Button } from '@/common/ui/button/Button'
 import { useRouter } from 'next/router'
@@ -27,7 +26,9 @@ interface IContext {
 
 export const getServerSideProps = async (context: IContext) => {
   try {
-    await authService.confirmation(context.query.code ? context.query.code : '')
+    await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/auth/registration-confirmation`, {
+      code: context.query.code ? context.query.code : '',
+    })
     return {
       props: {
         isSuccess: true,
@@ -67,7 +68,7 @@ const Confirmation: NextPageWithLayout<IConfirmation> = ({ message, errorStatus,
         <br />
         <br />
         <Button onClick={() => push(RouteNames.REGISTER)}>Go to registration page</Button>
-        {!isSuccess && <AlertSnackbar type={'error'} error={message ? message : ''} />}
+        {!isSuccess && <ErrorSnackbar error={message ? message : ''} />}
       </HeadMeta>
     )
   }

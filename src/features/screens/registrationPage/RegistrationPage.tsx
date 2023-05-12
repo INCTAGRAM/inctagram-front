@@ -3,23 +3,26 @@ import { InputPassword } from '@/common/ui/inputPassword/InputPassword'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { Button } from '@/common/ui/button/Button'
-import { useMutation } from '@tanstack/react-query'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import EmailSendPopup from '@/features/popups/emailSendPopup/EmailSendPopup'
-import { authService } from '@/services/auth/authService'
+import { useRegistrationMutation } from '@/services/auth/authService'
 import { registrationSchema } from '@/validations/auth-schemes'
 import * as yup from 'yup'
 import Form from '@/features/form/Form'
 import { RouteNames } from '@/constants/routes'
-import { AlertSnackbar } from '@/common/alertSnackbar/AlertSnackbar'
-import { errorHandler } from '@/hooks/errorsHandler'
-import { AxiosError } from 'axios'
+import { ErrorSnackbar } from '@/common/alertSnackbar/ErrorSnackbar'
+import { IErrorResponse } from '@/services/auth/types'
 
 type RegistrationType = yup.InferType<typeof registrationSchema>
 
 export const RegistrationPage = () => {
+  const [registration, { isError, error, isSuccess }] = useRegistrationMutation()
   const [email, setEmail] = useState('')
   const [isShowPopup, setIsShowPopup] = useState(false)
+
+  useEffect(() => {
+    isSuccess && setIsShowPopup(true)
+  }, [isSuccess])
 
   const {
     register,
@@ -27,15 +30,6 @@ export const RegistrationPage = () => {
     handleSubmit,
     reset,
   } = useForm<RegistrationType>({ mode: 'onTouched', resolver: yupResolver(registrationSchema) })
-
-  const {
-    mutate: registration,
-    isError,
-    error,
-  } = useMutation({
-    mutationFn: authService.registration,
-    onSuccess: () => setIsShowPopup(true),
-  })
 
   const onFormSubmit: SubmitHandler<RegistrationType> = ({ username, email, password }) => {
     if (!email || !password || !username) return
@@ -90,7 +84,7 @@ export const RegistrationPage = () => {
         </Button>
       </Form>
       <EmailSendPopup email={email} isShowPopup={isShowPopup} setIsShowPopup={setIsShowPopup} />
-      {isError && <AlertSnackbar type={'error'} error={errorHandler(error as AxiosError)} />}
+      {isError && <ErrorSnackbar error={error as IErrorResponse} />}
     </>
   )
 }

@@ -2,8 +2,8 @@ import styles from '../FilterPhotoPopup.module.scss'
 import IcomoonReact from 'icomoon-react'
 import iconSet from '@/assets/icons/selection.json'
 import React from 'react'
-import { useAppDispatch, useAppSelector } from '@/utils/reduxUtils'
 import { changeActiveImage } from '@/services/redux/createPostReducer'
+import { useAppDispatch, useAppSelector } from '@/services/redux/store'
 
 interface SliderControlElementsProps {
   direction: 'back' | 'forward'

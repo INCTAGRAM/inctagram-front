@@ -1,17 +1,16 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { InputPassword } from '@/common/ui/inputPassword/InputPassword'
 import { Button } from '@/common/ui/button/Button'
-import { useMutation } from '@tanstack/react-query'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { newPasswordSchema } from '@/validations/auth-schemes'
 import * as yup from 'yup'
-import { authService } from '@/services/auth/authService'
+import { useCreateNewPasswordMutation } from '@/services/auth/authService'
 import Form from '@/features/form/Form'
 import { useRouter } from 'next/router'
 import { RouteNames } from '@/constants/routes'
-import { AxiosError } from 'axios'
-import { AlertSnackbar } from '@/common/alertSnackbar/AlertSnackbar'
+import { ErrorSnackbar } from '@/common/alertSnackbar/ErrorSnackbar'
+import { IErrorResponse } from '@/services/auth/types'
 
 type NewPassword = yup.InferType<typeof newPasswordSchema>
 
@@ -21,32 +20,27 @@ interface INewPasswordPage {
 }
 
 const NewPasswordPage = ({ code, email }: INewPasswordPage) => {
+  const [createNewPassword, { isSuccess, isError, error: error }] = useCreateNewPasswordMutation()
   const { push } = useRouter()
+
+  useEffect(() => {
+    if (isSuccess) {
+      push(RouteNames.NEW_PASSWORD_CONFIRMATION)
+    }
+
+    if (error && 'data' in error && error.status === 410) {
+      push({
+        pathname: RouteNames.RECOVERY_EXPIRED,
+        query: { email },
+      })
+    }
+  }, [isSuccess, error])
 
   const {
     register,
     handleSubmit,
     formState: { errors, isValid, isDirty },
   } = useForm<NewPassword>({ mode: 'onBlur', resolver: yupResolver(newPasswordSchema) })
-
-  const {
-    mutate: createNewPassword,
-    isError,
-    error,
-  } = useMutation({
-    mutationFn: authService.createNewPassword,
-    onSuccess: () => {
-      push(RouteNames.NEW_PASSWORD_CONFIRMATION)
-    },
-    onError: (err: AxiosError) => {
-      if (err.response?.status === 410) {
-        push({
-          pathname: RouteNames.RECOVERY_EXPIRED,
-          query: { email },
-        })
-      }
-    },
-  })
 
   const onFormSubmit: SubmitHandler<NewPassword> = ({ newPassword }) => {
     newPassword && createNewPassword({ newPassword, recoveryCode: code })
@@ -76,7 +70,7 @@ const NewPasswordPage = ({ code, email }: INewPasswordPage) => {
           Create new password
         </Button>
       </Form>
-      {isError && <AlertSnackbar type={'error'} error={error} />}
+      {isError && <ErrorSnackbar error={error as IErrorResponse} />}
     </>
   )
 }

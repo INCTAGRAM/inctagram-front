@@ -4,8 +4,8 @@ import IcomoonReact from 'icomoon-react'
 import iconSet from '@/assets/icons/selection.json'
 import React from 'react'
 import { CroppedAreaType } from '@/features/popups/addPhotoPopup/body/bodySavePhotoPopup/BodySavePhotoPopup'
-import { useAppDispatch, useAppSelector } from '@/utils/reduxUtils'
 import { changeActiveImage, changeCroppingParamsImage } from '@/services/redux/createPostReducer'
+import { useAppDispatch, useAppSelector } from '@/services/redux/store'
 
 interface SliderControlElementsProps {
   direction: 'back' | 'forward'

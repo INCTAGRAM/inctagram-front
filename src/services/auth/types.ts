@@ -1,4 +1,4 @@
-export interface ILoginResponse {
+export interface ITokenResponse {
   accessToken: string
 }
 
@@ -13,12 +13,6 @@ export interface IRegistrationData {
   password: string
 }
 
-export interface IConfirmationData {
-  statusCode: string
-  message: string[]
-  path: string
-}
-
 export interface IRecoveryData {
   email: string
   recaptchaToken: string
@@ -27,4 +21,15 @@ export interface IRecoveryData {
 export interface INewPasswordData {
   newPassword: string
   recoveryCode: string
+}
+
+export interface IErrorResponse {
+  status: number | string
+  data: IErrorResponseData
+}
+
+interface IErrorResponseData {
+  statusCode: number
+  message: string[]
+  path: string
 }

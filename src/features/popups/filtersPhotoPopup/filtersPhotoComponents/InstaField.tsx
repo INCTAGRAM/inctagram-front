@@ -1,8 +1,8 @@
 import { FormControl, InputLabel, MenuItem, Select, SelectChangeEvent } from '@mui/material'
 import { Box } from '@mui/system'
 import { filterValues } from '@/constants/filterValues'
-import { useAppDispatch, useAppSelector } from '@/utils/reduxUtils'
 import { addFilterParams } from '@/services/redux/createPostReducer'
+import { useAppDispatch, useAppSelector } from '@/services/redux/store'
 
 export const InstaField = () => {
   const activeIndexImage = useAppSelector((state) => state.createPostReducer.activeImage)

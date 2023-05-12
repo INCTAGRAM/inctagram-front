@@ -1,6 +1,7 @@
 import { Nullable } from '@/common/types/Nullable'
 
 export interface IProfileData {
+  userName?: string
   name?: string
   surname?: string
   birthday?: string

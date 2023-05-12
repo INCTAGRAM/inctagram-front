@@ -8,17 +8,12 @@ export const generateImages = (
   croppedArea: CroppedAreaType,
   activeImage: number
 ) => {
-  // const croppedAreas = croppingParameters.map((crop) => {
-  //   return crop.croppedArea
-  // })
   const croppedAreas = croppingParameters.map((crop, i) => {
     if (activeImage === i) {
       return croppedArea
     }
     return crop.croppedArea
   })
-
-  if (croppedArea) croppedAreas.push(croppedArea)
 
   const imageUrls = images.map(async (img, i) => {
     const url = async () => {

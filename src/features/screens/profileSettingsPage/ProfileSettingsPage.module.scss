@@ -1,51 +1,32 @@
-.container {
-  display: flex;
-  flex-direction: row;
-  gap: 40px;
+@import "src/assets/styles/variables";
 
-  div {
-    .button {
-      background-color: transparent;
-      color: #397DF6;
-      border: 1px solid #397DF6;
-    }
+.container {
+  max-width: 800px;
+  display: grid;
+  grid-template-columns: 192px calc(100% - 242px);
+  gap: 50px;
+
+  .form p {
+    margin-bottom: 20px;
   }
 }
 
 .content {
-  padding: 25px 0 0 244px;
   position: relative;
   display: flex;
   flex-direction: column;
   gap: 48px;
 
-  button[type="submit"]::after {
-    content: "";
-    height: 1px;
-    width: 733px;
-    background: #333333;
-    position: absolute;
-    top: -24px;
-    right: 0;
+  .aboutMeTitle {
+    color: #4c4c4c;
   }
 
-  span {
-    position: relative;
+  .aboutMeText {
+    margin: 7px 0 20px 0;
   }
 
-  .Image {
-    border-radius: 50%;
-    margin: 25px 0;
-  }
-
-  .aboutMeTextFieldStyle {
-    label {
-      color: #FFFFFF;
-    }
-
-    textarea {
-      color: #FFFFFF;
-    }
-
+  .saveBtn {
+    width: auto;
+    margin-left: auto;
   }
 }

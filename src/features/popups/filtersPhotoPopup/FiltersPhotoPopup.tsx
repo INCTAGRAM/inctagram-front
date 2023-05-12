@@ -6,7 +6,6 @@ import domtoimage from 'dom-to-image'
 import { ImageField } from '@/features/popups/filtersPhotoPopup/filtersPhotoComponents/imageField/ImageField'
 import styles from './FilterPhotoPopup.module.scss'
 import { IFiltersPhotoPopup } from '@/features/popups/filtersPhotoPopup/types'
-import { useAppDispatch, useAppSelector } from '@/utils/reduxUtils'
 import {
   addImagesAfterFilters,
   addPrevFilterParams,
@@ -14,6 +13,7 @@ import {
   resetFilterParams,
 } from '@/services/redux/createPostReducer'
 import { SliderForFilterPhoto } from '@/features/popups/filtersPhotoPopup/sliderControlElement/SliderForFilterPhoto'
+import { useAppDispatch, useAppSelector } from '@/services/redux/store'
 
 export const FiltersPhotoPopup = ({
   isShowFilterPopup,
@@ -49,7 +49,6 @@ export const FiltersPhotoPopup = ({
   useEffect(() => {
     filterParametrs.map((item) => {
       if (filterParametrs[activeIndexImage] === '') {
-        debugger
         dispatch(changeImageAfterFilters({ imageIndex: activeIndexImage, urlImage: images[activeIndexImage] }))
       }
     })
@@ -85,7 +84,6 @@ export const FiltersPhotoPopup = ({
 
   const setImage = async () => {
     if (imgResultRef.current && prevFilterParametrs[activeIndexImage] !== filterParametrs[activeIndexImage]) {
-      debugger
       await handleDownloadImage()
     }
   }

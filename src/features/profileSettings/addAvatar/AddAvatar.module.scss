@@ -1,0 +1,24 @@
+@import "src/assets/styles/variables";
+
+.upload_container {
+
+  .image {
+    border-radius: 50%;
+    margin-bottom: 20px;
+  }
+
+  .icon_container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 196px;
+    height: 196px;
+    background: $dark_500;
+    border-radius: 50%;
+    margin-bottom: 20px;
+  }
+
+  .button {
+    padding: 6px 10px;
+  }
+}

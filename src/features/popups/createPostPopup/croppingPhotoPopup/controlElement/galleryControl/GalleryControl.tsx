@@ -4,7 +4,7 @@ import iconSet from '@/assets/icons/selection.json'
 import IcomoonReact from 'icomoon-react'
 import { MouseEvent, ChangeEvent, useRef } from 'react'
 import { CroppedAreaType } from '@/features/popups/addPhotoPopup/body/bodySavePhotoPopup/BodySavePhotoPopup'
-import { useAppDispatch, useAppSelector } from '@/utils/reduxUtils'
+import { useAppDispatch, useAppSelector } from '@/services/redux/store'
 import {
   addImageAndCropParameters,
   removeImageAndCropParameters,

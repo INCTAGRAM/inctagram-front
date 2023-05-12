@@ -9,6 +9,14 @@
     margin: 0 auto;
     position: relative;
 
+    .iconClose {
+      position: absolute;
+      background: rgba(0, 0, 0, 0.4);
+      top: 0;
+      right: 0;
+      z-index: 999;
+    }
+
     .photo_subtract {
       position: absolute;
       width: 100%;
@@ -22,8 +30,8 @@
     }
   }
 
-  button {
-    width: 86px;
-    margin-left: auto;
+  .saveBtn {
+    max-width: 332px;
+    margin: 0 auto;
   }
 }

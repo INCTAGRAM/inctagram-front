@@ -2,7 +2,7 @@ import { Box, Grid } from '@mui/material'
 import { styled } from '@mui/system'
 import { forwardRef, Ref } from 'react'
 import style from './Instagram.module.css'
-import { useAppSelector } from '@/utils/reduxUtils'
+import { useAppSelector } from '@/services/redux/store'
 
 const StyleBox = styled(Box)({
   background: '#ddd',
