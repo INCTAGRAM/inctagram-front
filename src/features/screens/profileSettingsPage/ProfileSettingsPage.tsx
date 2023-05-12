@@ -93,7 +93,7 @@ export const ProfileSettingsPage = () => {
                 error={errors.surname?.message ?? ''}
               />
             </p>
-            <DatePicker register={register} name={'birthday'} control={control} />
+            <DatePicker register={register} name={'birthday'} control={control} defaultValue={profileData?.birthday} />
             <p>
               <InputText
                 fieldName={'City'}
@@ -107,9 +107,9 @@ export const ProfileSettingsPage = () => {
               <span className={styles.aboutMeTitle}>About Me</span>
               <Textarea
                 className={styles.aboutMeText}
+                {...register('aboutMe')}
                 value={profileData?.aboutMe ?? ''}
                 error={errors.aboutMe?.message}
-                {...register('aboutMe')}
               />
             </p>
             <Button className={styles.saveBtn} type={'submit'}>
