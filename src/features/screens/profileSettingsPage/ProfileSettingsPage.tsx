@@ -16,6 +16,7 @@ import { ErrorSnackbar } from '@/common/alertSnackbar/ErrorSnackbar'
 import { IErrorResponse } from '@/services/auth/types'
 import { AddAvatar } from '@/features/profileSettings/addAvatar/AddAvatar'
 import { Textarea } from '@/common/ui/textarea/Textarea'
+import { ObjectType } from '@sinclair/typebox/value/is'
 
 export type SetProfileType = yup.InferType<typeof changeProfileSchema>
 
@@ -26,6 +27,7 @@ export const ProfileSettingsPage = () => {
   const [firstName, setFirstName] = useState(profileData?.name ?? '')
   const [lastName, setLastName] = useState(profileData?.surname ?? '')
   const [city, setCity] = useState(profileData?.city ?? '')
+  const [aboutMe, setAboutMe] = useState(profileData?.aboutMe ?? '')
 
   const { push } = useRouter()
 
@@ -46,17 +48,15 @@ export const ProfileSettingsPage = () => {
 
   const onFormSubmit = (data: SetProfileType) => {
     const birthday = data.birthday ? moment(data.birthday, 'DD.MM.YYYY').format('YYYY-MM-DD') : ''
-    if (birthday === '') {
-      createProfile({
-        userName: data.username,
-        name: data.name,
-        surname: data.surname,
-        city: data.city,
-        aboutMe: data.aboutMe,
-      })
-    } else {
-      createProfile({ ...data, birthday })
+
+    const dataAbj: ObjectType = { ...data, birthday }
+    for (const key in dataAbj) {
+      if (dataAbj[key as keyof ObjectType] === '') {
+        delete dataAbj[key as keyof ObjectType]
+      }
     }
+
+    createProfile(dataAbj)
   }
 
   return (
@@ -108,7 +108,8 @@ export const ProfileSettingsPage = () => {
               <Textarea
                 className={styles.aboutMeText}
                 {...register('aboutMe')}
-                value={profileData?.aboutMe ?? ''}
+                value={aboutMe}
+                onChangeText={setAboutMe}
                 error={errors.aboutMe?.message}
               />
             </p>
