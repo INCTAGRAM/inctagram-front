@@ -11,7 +11,7 @@ export const InstaField = () => {
   const dispatch = useAppDispatch()
 
   const handleChange = (e: SelectChangeEvent) => {
-    const filterClass = e.target.value
+    const filterClass = e.target.value || ''
     dispatch(addFilterParams({ imageIndex: activeIndexImage, filterClass: filterClass }))
   }
 

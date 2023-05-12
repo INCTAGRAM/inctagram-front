@@ -7,7 +7,12 @@ import { ImageField } from '@/features/popups/filtersPhotoPopup/filtersPhotoComp
 import styles from './FilterPhotoPopup.module.scss'
 import { IFiltersPhotoPopup } from '@/features/popups/filtersPhotoPopup/types'
 import { useAppDispatch, useAppSelector } from '@/utils/reduxUtils'
-import { addImagesAfterFilters, changeImageAfterFilters, resetFilterParams } from '@/services/redux/createPostReducer'
+import {
+  addImagesAfterFilters,
+  addPrevFilterParams,
+  changeImageAfterFilters,
+  resetFilterParams,
+} from '@/services/redux/createPostReducer'
 import { SliderForFilterPhoto } from '@/features/popups/filtersPhotoPopup/sliderControlElement/SliderForFilterPhoto'
 
 export const FiltersPhotoPopup = ({
@@ -21,13 +26,34 @@ export const FiltersPhotoPopup = ({
   const activeIndexImage = useAppSelector((state) => state.createPostReducer.activeImage)
   const activeFilterImage = imagesAfterFilters[activeIndexImage]
   const filterParametrs = useAppSelector((state) => state.createPostReducer.filterParameters)
+  const prevFilterParametrs = useAppSelector((state) => state.createPostReducer.prevFilterParameters)
 
   const filterClass = filterParametrs[activeIndexImage]
   const imgResultRef = useRef<HTMLImageElement>(null)
 
+  const prevStateFilterClass = useRef<string | null>(null)
+  const prevFilterClass = prevStateFilterClass.current
+
+  useEffect(() => {
+    prevStateFilterClass.current = filterClass
+  }, [filterClass])
+
+  useEffect(() => {
+    dispatch(addPrevFilterParams({ imageIndex: activeIndexImage, filterClass: prevFilterClass as string }))
+  }, [activeIndexImage, prevFilterClass])
+
   useEffect(() => {
     dispatch(addImagesAfterFilters(images))
   }, [dispatch, images])
+
+  useEffect(() => {
+    filterParametrs.map((item) => {
+      if (filterParametrs[activeIndexImage] === '') {
+        debugger
+        dispatch(changeImageAfterFilters({ imageIndex: activeIndexImage, urlImage: images[activeIndexImage] }))
+      }
+    })
+  }, [filterClass])
 
   const prevStep = () => {
     setIsShowFilterPopup(false)
@@ -58,7 +84,7 @@ export const FiltersPhotoPopup = ({
   }
 
   const setImage = async () => {
-    if (imgResultRef.current && filterClass !== imgResultRef.current.dataset.filterclass) {
+    if (imgResultRef.current && prevFilterParametrs[activeIndexImage] !== filterParametrs[activeIndexImage]) {
       debugger
       await handleDownloadImage()
     }

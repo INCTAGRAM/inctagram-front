@@ -6,6 +6,7 @@ export interface IPost {
   croppingParameters: ICroppingParameters[]
   images: string[]
   filterParameters: string[]
+  prevFilterParameters: string[]
   imagesAfterFilters: string[]
   activeImage: number
 }
