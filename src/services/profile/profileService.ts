@@ -1,4 +1,5 @@
 import {
+  IAddPostResponse,
   IProfileData,
   IProfileResponse,
   IProfileSettingResponse,
@@ -40,7 +41,20 @@ export const profileService = createApi({
       }),
       invalidatesTags: ['Profile'],
     }),
+    addPostProfile: build.mutation<IAddPostResponse, FormData>({
+      query: (body) => ({
+        url: '/users/self/posts',
+        method: 'POST',
+        body,
+      }),
+      invalidatesTags: ['Profile'],
+    }),
   }),
 })
 
-export const { useCheckUserProfileQuery, useUpdateUserProfileMutation, useUploadAvatarMutation } = profileService
+export const {
+  useCheckUserProfileQuery,
+  useUpdateUserProfileMutation,
+  useUploadAvatarMutation,
+  useAddPostProfileMutation,
+} = profileService

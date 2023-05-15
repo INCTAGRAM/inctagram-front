@@ -19,6 +19,7 @@ export const FiltersPhotoPopup = ({
   isShowFilterPopup,
   setIsShowFilterPopup,
   setIsShowCroppingPhotoPopup,
+  setIsShowPublicationPopup,
 }: IFiltersPhotoPopup) => {
   const dispatch = useAppDispatch()
   const images = useAppSelector((state) => state.createPostReducer.images)
@@ -79,6 +80,7 @@ export const FiltersPhotoPopup = ({
   const setNextOnClick = () => {
     handleDownloadImage().then(() => {
       setIsShowFilterPopup(false)
+      setIsShowPublicationPopup(true)
     })
   }
 
