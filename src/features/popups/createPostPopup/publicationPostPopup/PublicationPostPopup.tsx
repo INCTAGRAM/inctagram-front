@@ -1,14 +1,14 @@
 import { Popup } from '@/common/ui/popup/Popup'
-import Image from 'next/image'
 import styles from './PublicationPostPopup.module.scss'
 import React, { FC } from 'react'
-import { TextArea } from './textArea/TextArea'
 import { useAppDispatch, useAppSelector } from '@/services/redux/store'
 import { addDescription, addImages, addImagesAfterFilters } from '@/services/redux/createPostReducer'
 import { useAddPostProfileMutation, useCheckUserProfileQuery } from '@/services/profile/profileService'
+import { TextareaWithLimit } from './textareaWithLimit/TextareaWithLimit'
+import { convertBlobToFile } from '@/utils/convertBlobToFile'
+import { UserInfo } from '@/features/popups/createPostPopup/publicationPostPopup/userInfo/UserInfo'
 import { PublicationPostSlider } from '@/features/popups/createPostPopup/publicationPostPopup/publicationPostSlider/PublicationPostSlider'
-import IcomoonReact from 'icomoon-react'
-import iconSet from '@/assets/icons/selection.json'
+import { BodySlider } from '@/features/popups/createPostPopup/publicationPostPopup/publicationPostSlider/bodySlider/BodySlider'
 
 export const PublicationPostPopup: FC<PropsType> = ({
   setIsShowFilterPopup,
@@ -29,16 +29,6 @@ export const PublicationPostPopup: FC<PropsType> = ({
     dispatch(addImagesAfterFilters([]))
   }
 
-  const convertBlobToFile = async (image: RequestInfo | URL, index: number) => {
-    try {
-      const response = await fetch(image)
-      const blob = await response.blob()
-      return new File([blob], `image${index + 1}.jpg`, { type: blob.type })
-    } catch (error) {
-      console.error(error)
-    }
-  }
-
   const appendFile = async (images: Array<RequestInfo | URL>, formData: FormData) => {
     for (let i = 0; i < images.length; i++) {
       const file = await convertBlobToFile(images[i], i)
@@ -51,9 +41,7 @@ export const PublicationPostPopup: FC<PropsType> = ({
     formData.append('description', description)
     await appendFile(images, formData)
 
-    console.log(formData.getAll('files'))
     addPostProfile(formData)
-
     stateCleanUp()
     setIsShowPublicationPopup(false)
   }
@@ -75,40 +63,12 @@ export const PublicationPostPopup: FC<PropsType> = ({
       <div className={styles.wrapperPopup}>
         <div className={styles.wrapperImages}>
           <PublicationPostSlider direction={'back'} />
-          {images?.map((image, index) => {
-            const position = (index - activeImage) * 100
-            return (
-              <div
-                key={index}
-                className={activeImage ? `${styles.croppingImage} ${styles.active}` : styles.croppingImage}
-                style={{ left: `${position}%` }}
-              >
-                <Image src={image} alt={'post'} width={500} height={500} />
-              </div>
-            )
-          })}
+          <BodySlider images={images} activeImage={activeImage} />
           <PublicationPostSlider direction={'forward'} />
         </div>
         <div className={styles.wrapperDescription}>
-          <div className={styles.userInfo}>
-            <div className={styles.avatar}>
-              {isSuccess && userData.avatar.previewUrl !== null ? (
-                <Image src={userData.avatar.previewUrl} fill alt="avatar" unoptimized priority />
-              ) : (
-                <div className={styles.imageOutline}>
-                  <IcomoonReact
-                    iconSet={iconSet}
-                    icon="image-outline"
-                    color={'white'}
-                    className={styles.icon}
-                    size={36}
-                  />
-                </div>
-              )}
-            </div>
-            <div className={styles.username}>{userData?.username}</div>
-          </div>
-          <TextArea inputValue={description} />
+          {isSuccess && <UserInfo userData={userData} />}
+          <TextareaWithLimit label={'Add publication descriptions'} inputValue={description} maxLength={500} />
         </div>
       </div>
     </Popup>

@@ -1,0 +1,21 @@
+.container {
+width: 433px;
+
+  .label {
+    font-family: 'Inter', serif;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 24px;
+    color: #BDC1C7;
+  }
+
+  .textarea {
+    height: 120px;
+    resize: none;
+  }
+
+  .characterLimit {
+    text-align: right;
+    color: #BDC1C7;
+  }
+}
