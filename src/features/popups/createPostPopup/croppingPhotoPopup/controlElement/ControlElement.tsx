@@ -18,7 +18,7 @@ export const ControlElement = ({ children, icon, elementClass }: PropsWithChildr
     const handleClick = (e: Event) => {
       if (!control.current) return
       if (!e.target) return
-      if (!control.current.contains(e.target as HTMLElement)) {
+      if (!control.current!.contains(e.target as HTMLElement)) {
         setOpen(false)
       }
     }

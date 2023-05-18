@@ -33,3 +33,38 @@ export interface IProfileSettingResponse {
   message: ['string']
   path: 'string'
 }
+
+export interface IAddPostResponse {
+  id: string
+  userId: string
+  description: string
+  createdAt: string
+  updatedAt: string
+  images: IImagesPost[]
+}
+
+export interface IPostsRequestData {
+  page: number
+  pageSize: number
+}
+
+export interface IPostsResponse {
+  count: number
+  posts: IPost[]
+}
+
+interface IPost {
+  id: string
+  imagesCount: number
+  previewUrl: string
+  createdAt: string
+}
+
+export interface IImagesPost {
+  id: string
+  postId: string
+  url: string
+  previewUrl: string
+  createdAt: string
+  updatedAt: string
+}

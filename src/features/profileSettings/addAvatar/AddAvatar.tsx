@@ -34,7 +34,7 @@ export const AddAvatar = ({ previewUrl }: IAddAvatarProps) => {
           <IcomoonReact iconSet={iconSet} icon="image-outline" color={'white'} className={styles.icon} size={48} />
         </div>
       )}
-      <Button className={styles.button} onClick={() => onClickHandler(true)}>
+      <Button className={styles.button} variant={'outlined'} onClick={() => onClickHandler(true)}>
         Add a Profile Photo
       </Button>
       <AddPhotoPopup isShowPopup={isShowPopup} setIsShowPopup={setIsShowPopup} />

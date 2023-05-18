@@ -1,0 +1,23 @@
+.controlIcon {
+  position: absolute;
+  cursor: pointer;
+  width: 36px;
+  height: 36px;
+  top: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transform: translate(0, -50%);
+  background: rgba(0, 0, 0, 0.8);
+  border-radius: 2px;
+  z-index: 10;
+
+
+  &.controlLeft {
+    left: 12px;
+  }
+
+  &.controlRight {
+    right: 12px;
+  }
+}

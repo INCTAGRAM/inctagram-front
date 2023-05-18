@@ -11,7 +11,6 @@ interface IAddPhotoPopup {
 
 export const AddPhotoPopup = ({ isShowPopup, setIsShowPopup }: IAddPhotoPopup) => {
   const inputRef = useRef<HTMLInputElement>(null)
-  const [isLoadingPhoto, setIsLoadingPhoto] = useState(false)
   const [file, setFile] = useState<string>('')
   const closePopup = () => setIsShowPopup(false)
 
@@ -21,7 +20,7 @@ export const AddPhotoPopup = ({ isShowPopup, setIsShowPopup }: IAddPhotoPopup) =
 
   const savePhoto = () => {
     closePopup()
-    setIsLoadingPhoto(false)
+    setFile('')
   }
 
   const uploadHandler = (e: ChangeEvent<HTMLInputElement>) => {
@@ -32,15 +31,14 @@ export const AddPhotoPopup = ({ isShowPopup, setIsShowPopup }: IAddPhotoPopup) =
       reader.addEventListener('load', () => {
         setFile(reader.result as string)
       })
-      setIsLoadingPhoto(true)
     }
   }
 
   return (
     <Popup title="Add profile photo" show={isShowPopup} modalOnClick={closePopup}>
       <div className={styles.container}>
-        {isLoadingPhoto ? (
-          <BodySavePhotoPopup savePhoto={savePhoto} file={file} />
+        {file ? (
+          <BodySavePhotoPopup savePhoto={savePhoto} file={file} setFile={setFile} />
         ) : (
           <BodyUploadPhotoPopup onClick={uploadPhoto} />
         )}

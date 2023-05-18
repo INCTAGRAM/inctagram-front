@@ -5,6 +5,9 @@ export interface IPost {
   originalImages: string[]
   croppingParameters: ICroppingParameters[]
   images: string[]
+  filterParameters: string[]
+  prevFilterParameters: string[]
+  imagesAfterFilters: string[]
   activeImage: number
 }
 
@@ -18,4 +21,9 @@ export interface ICroppingParameters {
 export interface ICrop {
   x: number
   y: number
+}
+
+export interface IPosts {
+  page: number
+  refetchWithSameParams: boolean
 }

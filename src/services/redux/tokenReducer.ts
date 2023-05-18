@@ -3,10 +3,12 @@ import { Nullable } from '@/common/types/Nullable'
 
 interface IInitialState {
   accessToken: Nullable<string>
+  stopRefresh: boolean
 }
 
 const initialState: IInitialState = {
   accessToken: null,
+  stopRefresh: false,
 }
 
 const tokenSlice = createSlice({
@@ -16,9 +18,12 @@ const tokenSlice = createSlice({
     addToken(state, action: PayloadAction<string | null>) {
       state.accessToken = action.payload
     },
+    stopRefresh(state, action: PayloadAction<boolean>) {
+      state.stopRefresh = action.payload
+    },
   },
 })
 
-export const { addToken } = tokenSlice.actions
+export const { addToken, stopRefresh } = tokenSlice.actions
 
 export const tokenReducer = tokenSlice.reducer

@@ -26,7 +26,7 @@ export const GalleryControl = ({ crop, zoom, aspect, croppedArea }: IGalleryCont
 
   const clearInputContent = () => {
     if (inpFile.current) {
-      inpFile.current.value = ''
+      inpFile.current!.value = ''
     }
   }
 

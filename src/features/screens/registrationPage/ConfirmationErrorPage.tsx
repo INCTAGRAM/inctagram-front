@@ -23,7 +23,6 @@ const ConfirmationErrorPage = () => {
     register,
     handleSubmit,
     formState: { errors, isValid, isDirty },
-    setError,
     reset,
   } = useForm<RecoveryType>({
     mode: 'onBlur',

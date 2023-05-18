@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Button } from '@/common/ui/button/Button'
-import s from './ProfileSettingsPage.module.scss'
+import styles from './ProfileSettingsPage.module.scss'
 import { InputText } from '@/common/ui/inputText/InputText'
 import DatePicker from '@/features/profileSettings/datePicker/DatePicker'
 import { RouteNames } from '@/constants/routes'
@@ -16,6 +16,7 @@ import { ErrorSnackbar } from '@/common/alertSnackbar/ErrorSnackbar'
 import { IErrorResponse } from '@/services/auth/types'
 import { AddAvatar } from '@/features/profileSettings/addAvatar/AddAvatar'
 import { Textarea } from '@/common/ui/textarea/Textarea'
+import { ObjectType } from '@sinclair/typebox/value/is'
 
 export type SetProfileType = yup.InferType<typeof changeProfileSchema>
 
@@ -26,6 +27,7 @@ export const ProfileSettingsPage = () => {
   const [firstName, setFirstName] = useState(profileData?.name ?? '')
   const [lastName, setLastName] = useState(profileData?.surname ?? '')
   const [city, setCity] = useState(profileData?.city ?? '')
+  const [aboutMe, setAboutMe] = useState(profileData?.aboutMe ?? '')
 
   const { push } = useRouter()
 
@@ -46,26 +48,24 @@ export const ProfileSettingsPage = () => {
 
   const onFormSubmit = (data: SetProfileType) => {
     const birthday = data.birthday ? moment(data.birthday, 'DD.MM.YYYY').format('YYYY-MM-DD') : ''
-    if (birthday === '') {
-      createProfile({
-        userName: data.username,
-        name: data.name,
-        surname: data.surname,
-        city: data.city,
-        aboutMe: data.aboutMe,
-      })
-    } else {
-      createProfile({ ...data, birthday })
+
+    const dataAbj: ObjectType = { ...data, birthday }
+    for (const key in dataAbj) {
+      if (dataAbj[key as keyof ObjectType] === '') {
+        delete dataAbj[key as keyof ObjectType]
+      }
     }
+
+    createProfile(dataAbj)
   }
 
   return (
     <>
-      <div className={s.content}>
+      <div className={styles.content}>
         <TopPanel />
-        <div className={s.container}>
+        <div className={styles.container}>
           <AddAvatar previewUrl={profileData?.avatar.previewUrl ?? undefined} />
-          <form onSubmit={handleSubmit(onFormSubmit)} className={s.form}>
+          <form onSubmit={handleSubmit(onFormSubmit)} className={styles.form}>
             <p>
               <InputText
                 fieldName={'Username'}
@@ -93,7 +93,7 @@ export const ProfileSettingsPage = () => {
                 error={errors.surname?.message ?? ''}
               />
             </p>
-            <DatePicker register={register} name={'birthday'} control={control} />
+            <DatePicker register={register} name={'birthday'} control={control} defaultValue={profileData?.birthday} />
             <p>
               <InputText
                 fieldName={'City'}
@@ -104,15 +104,18 @@ export const ProfileSettingsPage = () => {
               />
             </p>
             <p>
-              <span className={s.aboutMeTitle}>About Me</span>
+              <span className={styles.aboutMeTitle}>About Me</span>
               <Textarea
-                className={s.aboutMeText}
-                value={profileData?.aboutMe ?? ''}
-                error={errors.aboutMe?.message}
+                className={styles.aboutMeText}
                 {...register('aboutMe')}
+                value={aboutMe}
+                onChangeText={setAboutMe}
+                error={errors.aboutMe?.message}
               />
             </p>
-            <Button type={'submit'}>Save Changes</Button>
+            <Button className={styles.saveBtn} type={'submit'}>
+              Save Changes
+            </Button>
           </form>
         </div>
       </div>

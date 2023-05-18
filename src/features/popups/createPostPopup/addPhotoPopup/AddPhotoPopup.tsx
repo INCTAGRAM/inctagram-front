@@ -8,26 +8,26 @@ import { useAppDispatch } from '@/services/redux/store'
 import { setInitialPostState, addImageAndCropParameters } from '@/services/redux/createPostReducer'
 
 interface IAddPhotoPopupProps {
-  isShowAddPost: boolean
-  setIsShowAddPost: (arg: boolean) => void
+  isShowAddPhotoPopup: boolean
+  setIsShowAddPhotoPopup: (isShow: boolean) => void
   setIsShowCroppingPhotoPopup: (isShow: boolean) => void
 }
 export const AddPhotoPopup = ({
-  isShowAddPost,
-  setIsShowAddPost,
+  isShowAddPhotoPopup,
+  setIsShowAddPhotoPopup,
   setIsShowCroppingPhotoPopup,
 }: IAddPhotoPopupProps) => {
   const dispatch = useAppDispatch()
   const closePopup = () => {
     dispatch(setInitialPostState())
-    setIsShowAddPost(false)
+    setIsShowAddPhotoPopup(false)
   }
 
   const inpFile = useRef<HTMLInputElement | null>(null)
 
   const clearInputContent = () => {
     if (inpFile.current) {
-      inpFile.current.value = ''
+      inpFile.current!.value = ''
     }
   }
 
@@ -49,7 +49,7 @@ export const AddPhotoPopup = ({
               },
             })
           )
-          setIsShowAddPost(false)
+          setIsShowAddPhotoPopup(false)
           setIsShowCroppingPhotoPopup(true)
         }
       }
@@ -57,7 +57,7 @@ export const AddPhotoPopup = ({
   }
 
   return (
-    <Popup title="Add photo" show={isShowAddPost} modalOnClick={closePopup}>
+    <Popup title="Add photo" show={isShowAddPhotoPopup} modalOnClick={closePopup}>
       <div className={styles.upload_container}>
         <div className={styles.icon_container}>
           <IcomoonReact iconSet={iconSet} icon="image-outline" color={'white'} className={styles.icon} size={48} />

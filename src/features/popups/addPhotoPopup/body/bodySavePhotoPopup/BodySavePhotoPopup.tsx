@@ -1,47 +1,38 @@
 import styles from './BodySavePhotoPopup.module.scss'
 import { Button } from '@/common/ui/button/Button'
 import Cropper, { Area } from 'react-easy-crop'
-import { useState } from 'react'
-import { generateDownload, getCroppedImg } from '@/utils'
+import React, { useEffect, useState } from 'react'
+import { getCroppedImg } from '@/utils'
 import { useUploadAvatarMutation } from '@/services/profile/profileService'
-import axios, { AxiosError } from 'axios/index'
+import { ErrorSnackbar } from '@/common/alertSnackbar/ErrorSnackbar'
+import { IErrorResponse } from '@/services/auth/types'
+import IcomoonReact from 'icomoon-react'
+import iconSet from '@/assets/icons/selection.json'
 
 interface IBodySavePhotoPopup {
   savePhoto: () => void
   file: string
+  setFile: (file: string) => void
 }
 
 export type CroppedAreaType = { width: number; height: number; x: number; y: number }
 
-export const BodySavePhotoPopup = ({ savePhoto, file }: IBodySavePhotoPopup) => {
-  const [uploadAvatar, { isError, error }] = useUploadAvatarMutation()
+export const BodySavePhotoPopup = ({ savePhoto, setFile, file }: IBodySavePhotoPopup) => {
+  const [uploadAvatar, { isError, error, isSuccess }] = useUploadAvatarMutation()
   const [croppedArea, setCroppedArea] = useState<CroppedAreaType>({ width: 0, height: 0, x: 0, y: 0 })
   const [crop, setCrop] = useState({ x: 0, y: 0 })
   const [zoom, setZoom] = useState(1)
+  const [errorSize, setErrorSize] = useState(false)
+
+  useEffect(() => {
+    if (isSuccess) {
+      savePhoto()
+    }
+  }, [isSuccess])
 
   const onCropComplete = (croppedAreaPercentage: Area, croppedAreaPixels: Area) => {
     setCroppedArea(croppedAreaPixels)
   }
-
-  // export const addUserPhoto = async (file: File) => {
-  //   if (file.size < 2000000) {
-  //     try {
-  //       const formData = new FormData()
-  //       formData.append('file', file)
-  //       await profileService.uploadAvatar(formData)
-  //     } catch (error) {
-  //       const err = error as Error | AxiosError
-  //       if (axios.isAxiosError(err)) {
-  //         const error = err.response?.data ? err.response.data.message[0] : err.message
-  //         console.log(error)
-  //       } else {
-  //         console.log(`Native error ${err.message}`)
-  //       }
-  //     }
-  //   } else {
-  //     console.error('Error: ', 'Файл слишком большого размера')
-  //   }
-  // }
 
   const onClickHandler = async () => {
     const canvas = await getCroppedImg(file, croppedArea)
@@ -49,19 +40,31 @@ export const BodySavePhotoPopup = ({ savePhoto, file }: IBodySavePhotoPopup) => 
       const file = new File([blob as Blob], 'fileName.jpg', { type: 'image/jpeg' })
 
       if (file.size < 2000000) {
+        setErrorSize(false)
         const formData = new FormData()
         formData.append('file', file)
         uploadAvatar(formData)
       } else {
-        console.error('Error: ', 'Файл слишком большого размера')
+        setErrorSize(true)
       }
     }, 'image/jpeg')
-    // generateDownload(file, croppedArea, addUserPhoto).then(savePhoto)
+  }
+
+  const removeFileHandler = () => {
+    setFile('')
   }
 
   return (
     <div className={styles.container_content}>
       <div className={styles.container_photo}>
+        <IcomoonReact
+          className={styles.iconClose}
+          onClick={removeFileHandler}
+          iconSet={iconSet}
+          icon="close"
+          color={'white'}
+          size={35}
+        />
         <div className={styles.photo}>
           <Cropper
             image={file}
@@ -69,15 +72,18 @@ export const BodySavePhotoPopup = ({ savePhoto, file }: IBodySavePhotoPopup) => 
             zoom={zoom}
             aspect={1}
             cropShape="round"
+            showGrid={false}
             onCropChange={setCrop}
             onZoomChange={setZoom}
             onCropComplete={onCropComplete}
           />
         </div>
-        {/*<Image src={Subtract} width={332} height={340} alt={'subtract'} className={styles.photo_subtract} />*/}
-        {/*<Image src={file ? file : defaultAva} width={332} height={340} alt={'ava'} className={styles.photo} />*/}
       </div>
-      <Button onClick={onClickHandler}>Save</Button>
+      <Button className={styles.saveBtn} onClick={onClickHandler}>
+        Save
+      </Button>
+      {errorSize && <ErrorSnackbar error={'Image size is too big'} />}
+      {isError && <ErrorSnackbar error={error as IErrorResponse} />}
     </div>
   )
 }

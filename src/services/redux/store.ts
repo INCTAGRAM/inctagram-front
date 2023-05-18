@@ -5,12 +5,14 @@ import { authService } from '@/services/auth/authService'
 import { profileService } from '@/services/profile/profileService'
 import { tokenReducer } from '@/services/redux/tokenReducer'
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
+import { postsReducer } from '@/services/redux/postsReducer'
 
 const makeStore = () => {
   return configureStore({
     reducer: {
       tokenReducer,
       createPostReducer,
+      postsReducer,
       [authService.reducerPath]: authService.reducer,
       [profileService.reducerPath]: profileService.reducer,
     },

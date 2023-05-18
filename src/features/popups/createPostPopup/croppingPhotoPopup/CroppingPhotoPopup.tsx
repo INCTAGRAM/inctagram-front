@@ -15,14 +15,16 @@ import { addImages, changeCroppingParamsImage, setInitialPostState } from '@/ser
 
 interface ICroppingPhotoPopupProps {
   isShowCroppingPhotoPopup: boolean
-  setIsShowAddPost: (isShow: boolean) => void
   setIsShowCroppingPhotoPopup: (isShow: boolean) => void
+  setIsShowFilterPopup: (isShow: boolean) => void
+  setIsShowAddPhotoPopup: (isShow: boolean) => void
 }
 
 export const CroppingPhotoPopup = ({
   isShowCroppingPhotoPopup,
-  setIsShowAddPost,
+  setIsShowAddPhotoPopup,
   setIsShowCroppingPhotoPopup,
+  setIsShowFilterPopup,
 }: ICroppingPhotoPopupProps) => {
   const dispatch = useAppDispatch()
   const originalImages = useAppSelector((state) => state.createPostReducer.originalImages)
@@ -53,7 +55,7 @@ export const CroppingPhotoPopup = ({
     setZoom(1)
     setAspect(1)
     setIsShowCroppingPhotoPopup(false)
-    setIsShowAddPost(true)
+    setIsShowAddPhotoPopup(true)
   }
 
   const nextStep = async (images: string[], croppingParameters: ICroppingParameters[]) => {
@@ -70,6 +72,8 @@ export const CroppingPhotoPopup = ({
     )
     const cropImages = await generateImages(images, croppingParameters, croppedArea, activeImage)
     dispatch(addImages(cropImages))
+    setIsShowCroppingPhotoPopup(false)
+    setIsShowFilterPopup(true)
   }
 
   return (
