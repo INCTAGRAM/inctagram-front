@@ -1,0 +1,21 @@
+.popup {
+  left: 15%;
+  top: 12%;
+  position: absolute;
+  z-index: 1;
+  width: 80%;
+  height: 75%;
+  background: #4C4C4C;
+}
+
+.container {
+  display: flex;
+  flex-direction: row;
+}
+
+.image {
+  height: 30vh;
+  width: 25vw;
+}
+
+/*# sourceMappingURL=DisplayPostPopup.module.css.map */

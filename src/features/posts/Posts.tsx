@@ -5,6 +5,10 @@ import IcomoonReact from 'icomoon-react'
 import React, { useEffect, useRef } from 'react'
 import { useAppDispatch, useAppSelector } from '@/services/redux/store'
 import { changePage, refatchPosts } from '@/services/redux/postsReducer'
+import Modal from '@/features/modal/Modal'
+import DisplayPostPopup from '@/features/popups/displayPostPopup/DisplayPostPopup'
+import Link from 'next/link'
+import { useRouter } from 'next/router'
 
 export const Posts = () => {
   const dispatch = useAppDispatch()
@@ -12,6 +16,7 @@ export const Posts = () => {
   const pageSize = 12
   const refetchPosts = useAppSelector((state) => state.postsReducer.refetchWithSameParams)
   const { data, isLoading, isSuccess, refetch } = useGetPostsProfileQuery({ page, pageSize })
+  const router = useRouter()
 
   const postsRef = useRef<HTMLDivElement>(null)
 
@@ -55,21 +60,34 @@ export const Posts = () => {
     <div ref={postsRef} className={styles.posts}>
       {data.posts.map((post) => (
         <div className={styles.post} key={post.id}>
-          <img src={post.previewUrl} alt={''} />
-          <div className={styles.likesAndComments}>
-            <span>
-              <IcomoonReact iconSet={iconSet} icon="heart" color={'white'} className={styles.icon} size={22} />0
-            </span>
-            <span>
-              <IcomoonReact iconSet={iconSet} icon="message-circle" color={'white'} className={styles.icon} size={22} />
-              0
-            </span>
-          </div>
-          {post.imagesCount > 1 && (
-            <span className={styles.iconGallery}>
-              <IcomoonReact iconSet={iconSet} icon="image" color={'white'} className={styles.icon} size={27} />
-            </span>
+          {router.query.id && (
+            <Modal>
+              <DisplayPostPopup previewPost={post} />
+            </Modal>
           )}
+          <Link href={`/profile?id=${post.id}`}>
+            <img src={post.previewUrl} alt={''} />
+            <div className={styles.likesAndComments}>
+              <span>
+                <IcomoonReact iconSet={iconSet} icon="heart" color={'white'} className={styles.icon} size={22} />0
+              </span>
+              <span>
+                <IcomoonReact
+                  iconSet={iconSet}
+                  icon="message-circle"
+                  color={'white'}
+                  className={styles.icon}
+                  size={22}
+                />
+                0
+              </span>
+            </div>
+            {post.imagesCount > 1 && (
+              <span className={styles.iconGallery}>
+                <IcomoonReact iconSet={iconSet} icon="image" color={'white'} className={styles.icon} size={27} />
+              </span>
+            )}
+          </Link>
         </div>
       ))}
     </div>

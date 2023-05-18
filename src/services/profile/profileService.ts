@@ -13,7 +13,7 @@ import { baseQueryWithReauth } from '@/services/config'
 
 export const profileService = createApi({
   reducerPath: 'profileApi',
-  tagTypes: ['Profile', 'Posts'],
+  tagTypes: ['Profile', 'Posts', 'Post'],
   baseQuery: baseQueryWithReauth,
   extractRehydrationInfo(action, { reducerPath }) {
     if (action.type === HYDRATE) {
@@ -74,6 +74,18 @@ export const profileService = createApi({
         }
       },
     }),
+    getPostProfile: build.query<any, any>({
+      query: (params) => ({
+        url: `/users/self/posts/${params.postId}`,
+      }),
+      serializeQueryArgs: ({ endpointName }) => {
+        return endpointName
+      },
+      forceRefetch() {
+        return true
+      },
+      providesTags: ['Post'],
+    }),
   }),
 })
 
@@ -83,4 +95,5 @@ export const {
   useUploadAvatarMutation,
   useAddPostProfileMutation,
   useGetPostsProfileQuery,
+  useGetPostProfileQuery,
 } = profileService
