@@ -24,5 +24,6 @@ export interface ICrop {
 }
 
 export interface IPosts {
-  page: number | 'initialRefetch'
+  page: number
+  refetchWithSameParams: boolean
 }

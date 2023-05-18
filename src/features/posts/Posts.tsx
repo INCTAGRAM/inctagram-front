@@ -2,43 +2,59 @@ import styles from './Posts.module.scss'
 import { useGetPostsProfileQuery } from '@/services/profile/profileService'
 import iconSet from '@/assets/icons/selection.json'
 import IcomoonReact from 'icomoon-react'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { useAppDispatch, useAppSelector } from '@/services/redux/store'
-import { changePage } from '@/services/redux/postsReducer'
+import { changePage, refatchPosts } from '@/services/redux/postsReducer'
 
 export const Posts = () => {
   const dispatch = useAppDispatch()
   const page = useAppSelector((state) => state.postsReducer.page)
-  const [currentPage, setCurrentPage] = useState(1)
-  const { data, isSuccess, refetch } = useGetPostsProfileQuery({ page: currentPage, pageSize: 12 })
+  const pageSize = 12
+  const refetchPosts = useAppSelector((state) => state.postsReducer.refetchWithSameParams)
+  const { data, isSuccess, refetch } = useGetPostsProfileQuery({ page, pageSize })
+
+  const postsRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    if (currentPage === 1 && page === 'initialRefetch') {
-      refetch()
-    } else if (typeof page === 'number') {
-      setCurrentPage(page)
+    if (isSuccess) {
+      dispatch(refatchPosts(false))
     }
-  }, [page])
+  }, [isSuccess])
+
+  useEffect(() => {
+    if (refetchPosts && page === 1) {
+      refetch()
+    } else if (refetchPosts) {
+      dispatch(changePage(1))
+    }
+  }, [refetchPosts])
 
   useEffect(() => {
     document.addEventListener('scroll', scrollHandler)
     return () => {
       document.removeEventListener('scroll', scrollHandler)
     }
-  }, [])
+  }, [data?.count])
 
-  const scrollHandler = (e: Event) => {
-    // console.log('scroll')
-    dispatch(changePage(2))
+  const scrollHandler = () => {
+    if (!postsRef.current) return
+    if (!data) return
+    if (data.count / page < pageSize) return
+
+    const allScrollTop = window.scrollY + window.innerHeight
+
+    if (allScrollTop + 100 > postsRef.current.offsetTop + postsRef.current.scrollHeight) {
+      dispatch(changePage(page + 1))
+    }
   }
 
   if (!isSuccess || !data) return null
 
   return (
-    <div className={styles.posts}>
+    <div ref={postsRef} className={styles.posts}>
       {data.posts.map((post) => (
         <div className={styles.post} key={post.id}>
-          <img src={post.previewUrl} />
+          <img src={post.previewUrl} alt={''} />
           <div className={styles.likesAndComments}>
             <span>
               <IcomoonReact iconSet={iconSet} icon="heart" color={'white'} className={styles.icon} size={22} />0

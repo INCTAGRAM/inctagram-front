@@ -59,17 +59,20 @@ export const profileService = createApi({
         return endpointName
       },
       merge: (currentCache, newItems, otherArgs) => {
-        console.log(otherArgs)
         if (otherArgs.arg.page === 1) {
           currentCache.posts = [...newItems.posts]
         } else {
           currentCache.posts.push(...newItems.posts)
         }
       },
-      forceRefetch() {
-        return true
+      forceRefetch({ currentArg, previousArg }) {
+        // console.log(currentArg.page !== previousArg.page)
+        if (currentArg && previousArg) {
+          return currentArg.page !== previousArg.page
+        } else {
+          return false
+        }
       },
-      providesTags: ['Posts'],
     }),
   }),
 })
