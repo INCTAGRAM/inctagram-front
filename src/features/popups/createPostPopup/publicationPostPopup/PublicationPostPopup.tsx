@@ -1,8 +1,9 @@
 import { Popup } from '@/common/ui/popup/Popup'
 import styles from './PublicationPostPopup.module.scss'
-import React, { FC } from 'react'
+import React, { FC, useEffect } from 'react'
 import { useAppDispatch, useAppSelector } from '@/services/redux/store'
 import { addDescription, addImages, addImagesAfterFilters } from '@/services/redux/createPostReducer'
+import { changePage } from '@/services/redux/postsReducer'
 import { useAddPostProfileMutation, useCheckUserProfileQuery } from '@/services/profile/profileService'
 import { TextareaWithLimit } from './textareaWithLimit/TextareaWithLimit'
 import { convertBlobToFile } from '@/utils/convertBlobToFile'
@@ -15,13 +16,19 @@ export const PublicationPostPopup: FC<PropsType> = ({
   setIsShowPublicationPopup,
   isShowPublicationPopup,
 }) => {
-  const [addPostProfile] = useAddPostProfileMutation()
-  const { data: userData, isSuccess } = useCheckUserProfileQuery()
+  const [addPostProfile, { isSuccess }] = useAddPostProfileMutation()
+  const { data: userData, isSuccess: isSuccessUserData } = useCheckUserProfileQuery()
 
   const dispatch = useAppDispatch()
   const description = useAppSelector((state) => state.createPostReducer.description)
   const images = useAppSelector((state) => state.createPostReducer.imagesAfterFilters)
   const activeImage = useAppSelector((state) => state.createPostReducer.activeImage)
+
+  useEffect(() => {
+    if (isSuccess) {
+      dispatch(changePage('initialRefetch'))
+    }
+  }, [isSuccess])
 
   const stateCleanUp = () => {
     dispatch(addDescription(''))
@@ -67,7 +74,7 @@ export const PublicationPostPopup: FC<PropsType> = ({
           <PublicationPostSlider direction={'forward'} />
         </div>
         <div className={styles.wrapperDescription}>
-          {isSuccess && <UserInfo userData={userData} />}
+          {isSuccessUserData && <UserInfo userData={userData} />}
           <TextareaWithLimit label={'Add publication descriptions'} inputValue={description} maxLength={500} />
         </div>
       </div>

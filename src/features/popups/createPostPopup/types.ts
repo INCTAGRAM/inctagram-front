@@ -22,3 +22,7 @@ export interface ICrop {
   x: number
   y: number
 }
+
+export interface IPosts {
+  page: number | 'initialRefetch'
+}
