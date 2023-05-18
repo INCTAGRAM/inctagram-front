@@ -5,18 +5,23 @@ import React, { FC } from 'react'
 import { TextArea } from './textArea/TextArea'
 import { useAppDispatch, useAppSelector } from '@/services/redux/store'
 import { addDescription, addImages, addImagesAfterFilters } from '@/services/redux/createPostReducer'
-import { useAddPostProfileMutation } from '@/services/profile/profileService'
+import { useAddPostProfileMutation, useCheckUserProfileQuery } from '@/services/profile/profileService'
+import { PublicationPostSlider } from '@/features/popups/createPostPopup/publicationPostPopup/publicationPostSlider/PublicationPostSlider'
+import IcomoonReact from 'icomoon-react'
+import iconSet from '@/assets/icons/selection.json'
 
 export const PublicationPostPopup: FC<PropsType> = ({
   setIsShowFilterPopup,
   setIsShowPublicationPopup,
   isShowPublicationPopup,
 }) => {
-  const [addPostProfile, { isLoading }] = useAddPostProfileMutation()
+  const [addPostProfile] = useAddPostProfileMutation()
+  const { data: userData, isSuccess } = useCheckUserProfileQuery()
 
   const dispatch = useAppDispatch()
   const description = useAppSelector((state) => state.createPostReducer.description)
   const images = useAppSelector((state) => state.createPostReducer.imagesAfterFilters)
+  const activeImage = useAppSelector((state) => state.createPostReducer.activeImage)
 
   const stateCleanUp = () => {
     dispatch(addDescription(''))
@@ -46,6 +51,7 @@ export const PublicationPostPopup: FC<PropsType> = ({
     formData.append('description', description)
     await appendFile(images, formData)
 
+    console.log(formData.getAll('files'))
     addPostProfile(formData)
 
     stateCleanUp()
@@ -68,9 +74,40 @@ export const PublicationPostPopup: FC<PropsType> = ({
     >
       <div className={styles.wrapperPopup}>
         <div className={styles.wrapperImages}>
-          <Image src={images[0]} alt={'post'} width={500} height={500} />
+          <PublicationPostSlider direction={'back'} />
+          {images?.map((image, index) => {
+            const position = (index - activeImage) * 100
+            return (
+              <div
+                key={index}
+                className={activeImage ? `${styles.croppingImage} ${styles.active}` : styles.croppingImage}
+                style={{ left: `${position}%` }}
+              >
+                <Image src={image} alt={'post'} width={500} height={500} />
+              </div>
+            )
+          })}
+          <PublicationPostSlider direction={'forward'} />
         </div>
-        <div>
+        <div className={styles.wrapperDescription}>
+          <div className={styles.userInfo}>
+            <div className={styles.avatar}>
+              {isSuccess && userData.avatar.previewUrl !== null ? (
+                <Image src={userData.avatar.previewUrl} fill alt="avatar" unoptimized priority />
+              ) : (
+                <div className={styles.imageOutline}>
+                  <IcomoonReact
+                    iconSet={iconSet}
+                    icon="image-outline"
+                    color={'white'}
+                    className={styles.icon}
+                    size={36}
+                  />
+                </div>
+              )}
+            </div>
+            <div className={styles.username}>{userData?.username}</div>
+          </div>
           <TextArea inputValue={description} />
         </div>
       </div>

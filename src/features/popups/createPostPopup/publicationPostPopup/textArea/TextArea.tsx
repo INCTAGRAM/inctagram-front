@@ -46,5 +46,4 @@ const stylesTextField = {
   },
   width: '403px',
   background: '#171717',
-  margin: '24px 0 0 24px',
 }
