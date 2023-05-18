@@ -11,7 +11,7 @@ export const Posts = () => {
   const page = useAppSelector((state) => state.postsReducer.page)
   const pageSize = 12
   const refetchPosts = useAppSelector((state) => state.postsReducer.refetchWithSameParams)
-  const { data, isSuccess, refetch } = useGetPostsProfileQuery({ page, pageSize })
+  const { data, isLoading, isSuccess, refetch } = useGetPostsProfileQuery({ page, pageSize })
 
   const postsRef = useRef<HTMLDivElement>(null)
 
@@ -34,17 +34,18 @@ export const Posts = () => {
     return () => {
       document.removeEventListener('scroll', scrollHandler)
     }
-  }, [data?.count])
+  }, [data])
 
   const scrollHandler = () => {
     if (!postsRef.current) return
     if (!data) return
-    if (data.count / page < pageSize) return
+    console.log(data.count / page)
+    if (data.count / page <= pageSize) return
 
     const allScrollTop = window.scrollY + window.innerHeight
-
     if (allScrollTop + 100 > postsRef.current.offsetTop + postsRef.current.scrollHeight) {
       dispatch(changePage(page + 1))
+      document.removeEventListener('scroll', scrollHandler)
     }
   }
 
