@@ -1,0 +1,55 @@
+@import "src/assets/styles/variables";
+
+.posts {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  cursor: pointer;
+
+  .post {
+    position: relative;
+
+    img {
+      max-width: 100%;
+    }
+
+    .likesAndComments {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 15px;
+      background: rgba(0, 0, 0, 0.5);
+      opacity: 0;
+      pointer-events: none;
+      transition: 0.25s;
+
+      span {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        color: $light_100;
+        font-size: 15px;
+        font-weight: 600;
+      }
+    }
+
+    &:hover .likesAndComments {
+      opacity: 1;
+    }
+
+    .iconGallery {
+      position: absolute;
+      top: 5px;
+      right: 5px;
+    }
+  }
+
+
+
+
+}

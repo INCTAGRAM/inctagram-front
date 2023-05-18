@@ -1,5 +1,7 @@
 import {
   IAddPostResponse,
+  IPostsRequestData,
+  IPostsResponse,
   IProfileData,
   IProfileResponse,
   IProfileSettingResponse,
@@ -11,7 +13,7 @@ import { baseQueryWithReauth } from '@/services/config'
 
 export const profileService = createApi({
   reducerPath: 'profileApi',
-  tagTypes: ['Profile'],
+  tagTypes: ['Profile', 'Posts'],
   baseQuery: baseQueryWithReauth,
   extractRehydrationInfo(action, { reducerPath }) {
     if (action.type === HYDRATE) {
@@ -47,7 +49,27 @@ export const profileService = createApi({
         method: 'POST',
         body,
       }),
-      invalidatesTags: ['Profile'],
+    }),
+    getPostsProfile: build.query<IPostsResponse, IPostsRequestData>({
+      query: (params) => ({
+        url: '/users/self/posts',
+        params,
+      }),
+      serializeQueryArgs: ({ endpointName }) => {
+        return endpointName
+      },
+      merge: (currentCache, newItems, otherArgs) => {
+        console.log(otherArgs)
+        if (otherArgs.arg.page === 1) {
+          currentCache.posts = [...newItems.posts]
+        } else {
+          currentCache.posts.push(...newItems.posts)
+        }
+      },
+      forceRefetch() {
+        return true
+      },
+      providesTags: ['Posts'],
     }),
   }),
 })
@@ -57,4 +79,5 @@ export const {
   useUpdateUserProfileMutation,
   useUploadAvatarMutation,
   useAddPostProfileMutation,
+  useGetPostsProfileQuery,
 } = profileService

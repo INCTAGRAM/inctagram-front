@@ -66,10 +66,10 @@ export const FiltersPhotoPopup = ({
     return (
       imgResultRef.current !== null &&
       domtoimage
-        .toBlob(imgResultRef.current)
-        .then(function (blob) {
-          const url = URL.createObjectURL(blob)
-          dispatch(changeImageAfterFilters({ imageIndex: activeIndexImage, urlImage: url }))
+        .toJpeg(imgResultRef.current)
+        .then(function (dataUrl) {
+          // const url = URL.createObjectURL(blob)
+          dispatch(changeImageAfterFilters({ imageIndex: activeIndexImage, urlImage: dataUrl }))
         })
         .catch(function (error) {
           console.error('ooops, something went wrong!', error)

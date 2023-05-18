@@ -1,7 +1,7 @@
 import { fetchBaseQuery } from '@reduxjs/toolkit/query'
 import type { BaseQueryFn, FetchArgs, FetchBaseQueryError } from '@reduxjs/toolkit/query'
 import { AppState } from '@/services/redux/store'
-import { addToken } from '@/services/redux/tokenReducer'
+import { addToken, stopRefresh } from '@/services/redux/tokenReducer'
 
 const urlsSkipAuth = [
   'login',
@@ -32,19 +32,26 @@ export const baseQueryWithReauth: BaseQueryFn<string | FetchArgs, unknown, Fetch
 ) => {
   let result = await baseQuery(args, api, extraOptions)
   if (result.error && result.error.status === 401) {
-    // try to get a new token
-    const response = await baseQuery({ url: '/auth/refresh-token', method: 'POST' }, api, extraOptions)
-    const data = response.data
-    if (data) {
-      // store the new token
-      if (data instanceof Object && 'accessToken' in data && typeof data.accessToken === 'string') {
-        api.dispatch(addToken(data.accessToken))
+    const state = api.getState() as AppState
+    if (!state.tokenReducer.stopRefresh) {
+      api.dispatch(stopRefresh(true))
+
+      // try to get a new token
+      const response = await baseQuery({ url: '/auth/refresh-token', method: 'POST' }, api, extraOptions)
+      const data = response.data
+      if (data) {
+        // store the new token
+        if (data instanceof Object && 'accessToken' in data && typeof data.accessToken === 'string') {
+          api.dispatch(addToken(data.accessToken))
+        }
+        // retry the initial query
+        result = await baseQuery(args, api, extraOptions)
+      } else {
+        api.dispatch(addToken(null))
       }
-      // retry the initial query
-      result = await baseQuery(args, api, extraOptions)
-    } else {
-      api.dispatch(addToken(null))
     }
+
+    api.dispatch(stopRefresh(false))
   }
   return result
 }

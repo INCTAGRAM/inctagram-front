@@ -1,22 +1,28 @@
 import { Popup } from '@/common/ui/popup/Popup'
-import Image from 'next/image'
 import styles from './PublicationPostPopup.module.scss'
-import React, { FC } from 'react'
+import React, { FC, useEffect } from 'react'
 import { TextArea } from './textArea/TextArea'
 import { useAppDispatch, useAppSelector } from '@/services/redux/store'
 import { addDescription, addImages, addImagesAfterFilters } from '@/services/redux/createPostReducer'
 import { useAddPostProfileMutation } from '@/services/profile/profileService'
+import { changePage } from '@/services/redux/postsReducer'
 
 export const PublicationPostPopup: FC<PropsType> = ({
   setIsShowFilterPopup,
   setIsShowPublicationPopup,
   isShowPublicationPopup,
 }) => {
-  const [addPostProfile, { isLoading }] = useAddPostProfileMutation()
+  const [addPostProfile, { isSuccess }] = useAddPostProfileMutation()
 
   const dispatch = useAppDispatch()
   const description = useAppSelector((state) => state.createPostReducer.description)
   const images = useAppSelector((state) => state.createPostReducer.imagesAfterFilters)
+
+  useEffect(() => {
+    if (isSuccess) {
+      dispatch(changePage('initialRefetch'))
+    }
+  }, [isSuccess])
 
   const stateCleanUp = () => {
     dispatch(addDescription(''))
@@ -68,7 +74,7 @@ export const PublicationPostPopup: FC<PropsType> = ({
     >
       <div className={styles.wrapperPopup}>
         <div className={styles.wrapperImages}>
-          <Image src={images[0]} alt={'post'} width={500} height={500} />
+          <img src={images[0]} alt={'post'} width={500} height={500} />
         </div>
         <div>
           <TextArea inputValue={description} />
