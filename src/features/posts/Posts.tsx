@@ -1,5 +1,4 @@
 import styles from './Posts.module.scss'
-import { useGetPostsProfileQuery } from '@/services/profile/profileService'
 import iconSet from '@/assets/icons/selection.json'
 import IcomoonReact from 'icomoon-react'
 import React, { useEffect, useRef } from 'react'
@@ -15,6 +14,7 @@ import Modal from '@/features/modal/Modal'
 import DisplayPostPopup from '@/features/popups/displayPostPopup/DisplayPostPopup'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
+import { useGetPostsProfileQuery } from '@/services/posts/postService'
 
 export const Posts = () => {
   const dispatch = useAppDispatch()

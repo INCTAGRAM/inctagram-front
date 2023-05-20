@@ -1,9 +1,9 @@
 'use client'
 import React, { useEffect, useState } from 'react'
 import Image from 'next/image'
-import { useGetPostProfileQuery } from '@/services/profile/profileService'
 import s from './DisplayPostPopup.module.css'
 import { useRouter } from 'next/router'
+import { useGetPostProfileQuery } from '@/services/posts/postService'
 
 const DisplayPostPopup = ({ previewPost }: any) => {
   const router = useRouter()

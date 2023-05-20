@@ -5,7 +5,7 @@ import axios, { AxiosError } from 'axios'
 //     try {
 //       const formData = new FormData()
 //       formData.append('file', file)
-//       await profileService.uploadAvatar(formData)
+//       await postService.uploadAvatar(formData)
 //     } catch (error) {
 //       const err = error as Error | AxiosError
 //       if (axios.isAxiosError(err)) {
