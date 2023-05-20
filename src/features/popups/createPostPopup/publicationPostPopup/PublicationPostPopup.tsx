@@ -9,7 +9,7 @@ import { convertBlobToFile } from '@/utils/convertBlobToFile'
 import { UserInfo } from '@/features/popups/createPostPopup/publicationPostPopup/userInfo/UserInfo'
 import { PublicationPostSlider } from '@/features/popups/createPostPopup/publicationPostPopup/publicationPostSlider/PublicationPostSlider'
 import { BodySlider } from '@/features/popups/createPostPopup/publicationPostPopup/publicationPostSlider/bodySlider/BodySlider'
-import { refatchPosts } from '@/services/redux/postsReducer'
+import { refetchPosts } from '@/services/redux/postsReducer'
 
 export const PublicationPostPopup: FC<PropsType> = ({
   setIsShowFilterPopup,
@@ -26,7 +26,7 @@ export const PublicationPostPopup: FC<PropsType> = ({
 
   useEffect(() => {
     if (isSuccess) {
-      dispatch(refatchPosts(true))
+      dispatch(refetchPosts(true))
     }
   }, [isSuccess])
 

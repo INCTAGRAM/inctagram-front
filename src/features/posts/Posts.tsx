@@ -4,7 +4,13 @@ import iconSet from '@/assets/icons/selection.json'
 import IcomoonReact from 'icomoon-react'
 import React, { useEffect, useRef } from 'react'
 import { useAppDispatch, useAppSelector } from '@/services/redux/store'
-import { changePage, refatchPosts } from '@/services/redux/postsReducer'
+import {
+  changePage,
+  changePageSize,
+  changePostsCount,
+  initialPostsState,
+  refetchPosts,
+} from '@/services/redux/postsReducer'
 import Modal from '@/features/modal/Modal'
 import DisplayPostPopup from '@/features/popups/displayPostPopup/DisplayPostPopup'
 import Link from 'next/link'
@@ -13,26 +19,39 @@ import { useRouter } from 'next/router'
 export const Posts = () => {
   const dispatch = useAppDispatch()
   const page = useAppSelector((state) => state.postsReducer.page)
-  const pageSize = 12
-  const refetchPosts = useAppSelector((state) => state.postsReducer.refetchWithSameParams)
-  const { data, isLoading, isSuccess, refetch } = useGetPostsProfileQuery({ page, pageSize })
+  const pageSize = useAppSelector((state) => state.postsReducer.pageSize)
+  const postsCount = useAppSelector((state) => state.postsReducer.postsCount)
+  const isRefetchPosts = useAppSelector((state) => state.postsReducer.isRefetchPosts)
+  const { data, isSuccess, refetch } = useGetPostsProfileQuery({ page, pageSize })
   const router = useRouter()
 
   const postsRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    if (isSuccess) {
-      dispatch(refatchPosts(false))
-    }
-  }, [isSuccess])
+    dispatch(refetchPosts(false))
+  }, [data])
 
   useEffect(() => {
-    if (refetchPosts && page === 1) {
+    if (data && isRefetchPosts && page === 1 && pageSize === 12) {
       refetch()
-    } else if (refetchPosts) {
+    } else if (data && isRefetchPosts) {
       dispatch(changePage(1))
+      dispatch(changePageSize(data.posts.length))
     }
-  }, [refetchPosts])
+
+    if (data) dispatch(changePostsCount(data.count))
+  }, [isRefetchPosts, data?.count])
+
+  useEffect(() => {
+    if (isRefetchPosts) return
+
+    if (data && postsCount === null) {
+      dispatch(changePostsCount(data.count))
+    } else if (data && data.count !== postsCount) {
+      dispatch(changePage(1))
+      dispatch(changePageSize(data.posts.length + initialPostsState.pageSize))
+    }
+  }, [data?.count])
 
   useEffect(() => {
     document.addEventListener('scroll', scrollHandler)
@@ -44,12 +63,18 @@ export const Posts = () => {
   const scrollHandler = () => {
     if (!postsRef.current) return
     if (!data) return
-    console.log(data.count / page)
     if (data.count / page <= pageSize) return
 
     const allScrollTop = window.scrollY + window.innerHeight
     if (allScrollTop + 100 > postsRef.current.offsetTop + postsRef.current.scrollHeight) {
-      dispatch(changePage(page + 1))
+      if (data.count === data.posts.length) return
+      if (pageSize > 12) {
+        dispatch(changePage(Math.floor(pageSize / 12) + 1))
+        dispatch(changePageSize(12))
+      } else {
+        dispatch(changePage(page + 1))
+      }
+
       document.removeEventListener('scroll', scrollHandler)
     }
   }

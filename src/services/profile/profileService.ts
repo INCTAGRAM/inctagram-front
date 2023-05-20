@@ -60,13 +60,15 @@ export const profileService = createApi({
       },
       merge: (currentCache, newItems, otherArgs) => {
         if (otherArgs.arg.page === 1) {
-          currentCache.posts = [...newItems.posts]
+          currentCache.posts = newItems.posts
+          currentCache.count = newItems.count
+        } else if (currentCache.count !== newItems.count) {
+          currentCache.count = newItems.count
         } else {
           currentCache.posts.push(...newItems.posts)
         }
       },
       forceRefetch({ currentArg, previousArg }) {
-        // console.log(currentArg.page !== previousArg.page)
         if (currentArg && previousArg) {
           return currentArg.page !== previousArg.page
         } else {
