@@ -103,7 +103,7 @@ export const Posts = () => {
       </div>
       {isFetching && (
         <div className={styles.loading}>
-          <CircularProgress size={60} />
+          <CircularProgress size={45} />
         </div>
       )}
     </>

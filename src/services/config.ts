@@ -1,6 +1,6 @@
 import { fetchBaseQuery } from '@reduxjs/toolkit/query'
 import type { BaseQueryFn, FetchArgs, FetchBaseQueryError } from '@reduxjs/toolkit/query'
-import { AppState } from '@/services/redux/store'
+import { AppDispatch, AppState } from '@/services/redux/store'
 import { addToken, stopRefresh } from '@/services/redux/tokenReducer'
 import { setLoading } from '@/services/redux/appReducer'
 
@@ -14,6 +14,12 @@ const endpointsSkipAuth = [
 ]
 
 const endpointsSkipLoading = ['getPostsProfile']
+
+const setIsLoading = (dispatch: AppDispatch, endpoint: string, isTurnOn: boolean) => {
+  if (!endpointsSkipLoading.find((endpointName) => endpointName === endpoint)) {
+    dispatch(setLoading(isTurnOn))
+  }
+}
 
 const baseQuery = fetchBaseQuery({
   baseUrl: process.env.NEXT_PUBLIC_API_URL,
@@ -33,15 +39,9 @@ export const baseQueryWithReauth: BaseQueryFn<string | FetchArgs, unknown, Fetch
   api,
   extraOptions
 ) => {
-  if (!endpointsSkipLoading.find((endpoint) => endpoint === api.endpoint)) {
-    api.dispatch(setLoading(true))
-  }
-
+  setIsLoading(api.dispatch, api.endpoint, true)
   let result = await baseQuery(args, api, extraOptions)
-
-  if (!endpointsSkipLoading.find((endpoint) => endpoint === api.endpoint)) {
-    api.dispatch(setLoading(false))
-  }
+  setIsLoading(api.dispatch, api.endpoint, false)
 
   if (result.error && result.error.status === 401) {
     const state = api.getState() as AppState
@@ -59,15 +59,9 @@ export const baseQueryWithReauth: BaseQueryFn<string | FetchArgs, unknown, Fetch
           api.dispatch(addToken(data.accessToken))
         }
         // retry the initial query
-        if (!endpointsSkipLoading.find((endpoint) => endpoint === api.endpoint)) {
-          api.dispatch(setLoading(true))
-        }
-
+        setIsLoading(api.dispatch, api.endpoint, true)
         result = await baseQuery(args, api, extraOptions)
-
-        if (!endpointsSkipLoading.find((endpoint) => endpoint === api.endpoint)) {
-          api.dispatch(setLoading(false))
-        }
+        setIsLoading(api.dispatch, api.endpoint, false)
       } else {
         api.dispatch(addToken(null))
       }
