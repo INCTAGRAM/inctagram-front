@@ -6,6 +6,8 @@ import { profileService } from '@/services/profile/profileService'
 import { tokenReducer } from '@/services/redux/tokenReducer'
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
 import { postsReducer } from '@/services/redux/postsReducer'
+import { postService } from '@/services/posts/postService'
+import { appReducer } from '@/services/redux/appReducer'
 
 const makeStore = () => {
   return configureStore({
@@ -13,11 +15,13 @@ const makeStore = () => {
       tokenReducer,
       createPostReducer,
       postsReducer,
+      appReducer,
       [authService.reducerPath]: authService.reducer,
       [profileService.reducerPath]: profileService.reducer,
+      [postService.reducerPath]: postService.reducer,
     },
     middleware: (getDefaultMiddleware) =>
-      getDefaultMiddleware().concat([authService.middleware, profileService.middleware]),
+      getDefaultMiddleware().concat([authService.middleware, profileService.middleware, postService.middleware]),
   })
 }
 

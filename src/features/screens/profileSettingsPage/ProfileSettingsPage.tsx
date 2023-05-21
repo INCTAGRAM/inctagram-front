@@ -22,7 +22,7 @@ export type SetProfileType = yup.InferType<typeof changeProfileSchema>
 
 export const ProfileSettingsPage = () => {
   const { data: profileData } = useCheckUserProfileQuery()
-  const [createProfile, { isSuccess, isError, error }] = useUpdateUserProfileMutation()
+  const [updateProfile, { isSuccess, isError, error }] = useUpdateUserProfileMutation()
   const [username, setUsername] = useState(profileData?.username ?? '')
   const [firstName, setFirstName] = useState(profileData?.name ?? '')
   const [lastName, setLastName] = useState(profileData?.surname ?? '')
@@ -56,7 +56,7 @@ export const ProfileSettingsPage = () => {
       }
     }
 
-    createProfile(dataAbj)
+    updateProfile(dataAbj)
   }
 
   return (

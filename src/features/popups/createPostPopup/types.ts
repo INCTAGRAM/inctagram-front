@@ -1,4 +1,5 @@
 import { CroppedAreaType } from '@/features/popups/addPhotoPopup/body/bodySavePhotoPopup/BodySavePhotoPopup'
+import { Nullable } from '@/common/types/Nullable'
 
 export interface IPost {
   description: string
@@ -25,5 +26,7 @@ export interface ICrop {
 
 export interface IPosts {
   page: number
-  refetchWithSameParams: boolean
+  pageSize: number
+  postsCount: Nullable<number>
+  isRefetchingPosts: boolean
 }

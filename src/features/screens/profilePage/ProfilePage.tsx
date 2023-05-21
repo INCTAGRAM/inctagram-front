@@ -1,4 +1,4 @@
-import ProfileInfo from '@/features/profile/profileInfo/ProfileInfo'
+import { ProfileInfo } from '@/features/profile/profileInfo/ProfileInfo'
 import styles from './ProfilePage.module.scss'
 import { useCheckUserProfileQuery } from '@/services/profile/profileService'
 import { ErrorSnackbar } from '@/common/alertSnackbar/ErrorSnackbar'

@@ -2,7 +2,7 @@ import styles from './StatisticItem.module.scss'
 
 interface IStatisticItemProps {
   title: string
-  count: string
+  count: number
 }
 
 const StatisticItem = ({ title, count }: IStatisticItemProps) => {

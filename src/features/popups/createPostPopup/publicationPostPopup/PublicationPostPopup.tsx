@@ -3,13 +3,14 @@ import styles from './PublicationPostPopup.module.scss'
 import React, { FC, useEffect } from 'react'
 import { useAppDispatch, useAppSelector } from '@/services/redux/store'
 import { addDescription, addImages, addImagesAfterFilters } from '@/services/redux/createPostReducer'
-import { useAddPostProfileMutation, useCheckUserProfileQuery } from '@/services/profile/profileService'
+import { useCheckUserProfileQuery } from '@/services/profile/profileService'
 import { TextareaWithLimit } from './textareaWithLimit/TextareaWithLimit'
 import { convertBlobToFile } from '@/utils/convertBlobToFile'
 import { UserInfo } from '@/features/popups/createPostPopup/publicationPostPopup/userInfo/UserInfo'
 import { PublicationPostSlider } from '@/features/popups/createPostPopup/publicationPostPopup/publicationPostSlider/PublicationPostSlider'
 import { BodySlider } from '@/features/popups/createPostPopup/publicationPostPopup/publicationPostSlider/bodySlider/BodySlider'
-import { refatchPosts } from '@/services/redux/postsReducer'
+import { refetchPosts } from '@/services/redux/postsReducer'
+import { useAddPostProfileMutation } from '@/services/posts/postService'
 
 export const PublicationPostPopup: FC<PropsType> = ({
   setIsShowFilterPopup,
@@ -26,7 +27,7 @@ export const PublicationPostPopup: FC<PropsType> = ({
 
   useEffect(() => {
     if (isSuccess) {
-      dispatch(refatchPosts(true))
+      dispatch(refetchPosts(true))
     }
   }, [isSuccess])
 
