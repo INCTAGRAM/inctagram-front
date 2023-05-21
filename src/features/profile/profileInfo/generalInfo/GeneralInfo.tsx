@@ -5,6 +5,8 @@ import StatisticItem from '@/features/profile/profileInfo/statisticItem/Statisti
 import { useRouter } from 'next/router'
 import { RouteNames } from '@/constants/routes'
 import { Nullable } from '@/common/types/Nullable'
+import { useGetPostsProfileQuery } from '@/services/posts/postService'
+import { useAppSelector } from '@/services/redux/store'
 
 interface IGeneralInfoProps {
   username: string
@@ -18,6 +20,9 @@ interface IAvatar {
 }
 
 const GeneralInfo = ({ username, aboutMe, avatar }: IGeneralInfoProps) => {
+  const page = useAppSelector((state) => state.postsReducer.page)
+  const pageSize = useAppSelector((state) => state.postsReducer.pageSize)
+  const { data } = useGetPostsProfileQuery({ page, pageSize })
   const { push } = useRouter()
 
   const onSettingsBtnClick = () => push(RouteNames.PROFILE_SETTINGS)
@@ -35,9 +40,9 @@ const GeneralInfo = ({ username, aboutMe, avatar }: IGeneralInfoProps) => {
           </div>
         </div>
         <div className={styles.statistics}>
-          <StatisticItem title="Subscriptions" count="0" />
-          <StatisticItem title="Subscribers" count="0" />
-          <StatisticItem title="Publications" count="0" />
+          <StatisticItem title="Subscriptions" count={0} />
+          <StatisticItem title="Subscribers" count={0} />
+          <StatisticItem title="Publications" count={data?.count ?? 0} />
         </div>
         <div className={styles.description}>
           <div>{aboutMe}</div>

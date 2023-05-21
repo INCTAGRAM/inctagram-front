@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import AdditionalInfo from '@/features/profile/profileInfo/additionalInfo/AdditionalInfo'
 import GeneralInfo from '@/features/profile/profileInfo/generalInfo/GeneralInfo'
 import { Nullable } from '@/common/types/Nullable'
