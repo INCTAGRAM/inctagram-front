@@ -5,7 +5,7 @@ export const initialPostsState: IPosts = {
   page: 1,
   pageSize: 12,
   postsCount: null,
-  isRefetchPosts: false,
+  isRefetchingPosts: false,
 }
 
 const postsSlice = createSlice({
@@ -22,7 +22,7 @@ const postsSlice = createSlice({
       state.postsCount = action.payload
     },
     refetchPosts(state, action: PayloadAction<boolean>) {
-      state.isRefetchPosts = action.payload
+      state.isRefetchingPosts = action.payload
     },
   },
 })

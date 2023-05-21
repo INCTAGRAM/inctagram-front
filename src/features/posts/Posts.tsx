@@ -1,7 +1,5 @@
 import styles from './Posts.module.scss'
-import iconSet from '@/assets/icons/selection.json'
-import IcomoonReact from 'icomoon-react'
-import React, { useEffect, useRef } from 'react'
+import { useEffect, useRef } from 'react'
 import { useAppDispatch, useAppSelector } from '@/services/redux/store'
 import {
   changePage,
@@ -15,16 +13,19 @@ import DisplayPostPopup from '@/features/popups/displayPostPopup/DisplayPostPopu
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useGetPostsProfileQuery } from '@/services/posts/postService'
+import { LikesCommentsCount } from '@/features/posts/likesCommentsCount/LikesCommentsCount'
+import { GalleryIcon } from '@/features/posts/gallaryIcon/GalleryIcon'
 
 export const Posts = () => {
   const dispatch = useAppDispatch()
   const page = useAppSelector((state) => state.postsReducer.page)
   const pageSize = useAppSelector((state) => state.postsReducer.pageSize)
   const postsCount = useAppSelector((state) => state.postsReducer.postsCount)
-  const isRefetchPosts = useAppSelector((state) => state.postsReducer.isRefetchPosts)
-  const { data, isSuccess, refetch } = useGetPostsProfileQuery({ page, pageSize })
-  const router = useRouter()
+  const isRefetchingPosts = useAppSelector((state) => state.postsReducer.isRefetchingPosts)
 
+  const { data, isSuccess, refetch } = useGetPostsProfileQuery({ page, pageSize })
+
+  const router = useRouter()
   const postsRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -32,18 +33,18 @@ export const Posts = () => {
   }, [data])
 
   useEffect(() => {
-    if (data && isRefetchPosts && page === 1 && pageSize === 12) {
+    if (data && isRefetchingPosts && page === 1 && pageSize === 12) {
       refetch()
-    } else if (data && isRefetchPosts) {
+    } else if (data && isRefetchingPosts) {
       dispatch(changePage(1))
       dispatch(changePageSize(data.posts.length))
     }
 
     if (data) dispatch(changePostsCount(data.count))
-  }, [isRefetchPosts, data?.count])
+  }, [isRefetchingPosts, data?.count])
 
   useEffect(() => {
-    if (isRefetchPosts) return
+    if (isRefetchingPosts) return
 
     if (data && postsCount === null) {
       dispatch(changePostsCount(data.count))
@@ -92,26 +93,8 @@ export const Posts = () => {
           )}
           <Link href={`/profile?id=${post.id}`}>
             <img src={post.previewUrl} alt={''} />
-            <div className={styles.likesAndComments}>
-              <span>
-                <IcomoonReact iconSet={iconSet} icon="heart" color={'white'} className={styles.icon} size={22} />0
-              </span>
-              <span>
-                <IcomoonReact
-                  iconSet={iconSet}
-                  icon="message-circle"
-                  color={'white'}
-                  className={styles.icon}
-                  size={22}
-                />
-                0
-              </span>
-            </div>
-            {post.imagesCount > 1 && (
-              <span className={styles.iconGallery}>
-                <IcomoonReact iconSet={iconSet} icon="image" color={'white'} className={styles.icon} size={27} />
-              </span>
-            )}
+            <LikesCommentsCount likesCount={0} commentsCount={0} />
+            {post.imagesCount > 1 && <GalleryIcon />}
           </Link>
         </div>
       ))}

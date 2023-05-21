@@ -28,5 +28,5 @@ export interface IPosts {
   page: number
   pageSize: number
   postsCount: Nullable<number>
-  isRefetchPosts: boolean
+  isRefetchingPosts: boolean
 }
