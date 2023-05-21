@@ -15,6 +15,7 @@ import { useRouter } from 'next/router'
 import { useGetPostsProfileQuery } from '@/services/posts/postService'
 import { LikesCommentsCount } from '@/features/posts/likesCommentsCount/LikesCommentsCount'
 import { GalleryIcon } from '@/features/posts/gallaryIcon/GalleryIcon'
+import CircularProgress from '@mui/material/CircularProgress'
 
 export const Posts = () => {
   const dispatch = useAppDispatch()
@@ -23,7 +24,7 @@ export const Posts = () => {
   const postsCount = useAppSelector((state) => state.postsReducer.postsCount)
   const isRefetchingPosts = useAppSelector((state) => state.postsReducer.isRefetchingPosts)
 
-  const { data, isSuccess, refetch } = useGetPostsProfileQuery({ page, pageSize })
+  const { data, isSuccess, isFetching, refetch } = useGetPostsProfileQuery({ page, pageSize })
 
   const router = useRouter()
   const postsRef = useRef<HTMLDivElement>(null)
@@ -83,21 +84,28 @@ export const Posts = () => {
   if (!isSuccess || !data) return null
 
   return (
-    <div ref={postsRef} className={styles.posts}>
-      {data.posts.map((post) => (
-        <div className={styles.post} key={post.id}>
-          {router.query.id && (
-            <Modal>
-              <DisplayPostPopup previewPost={post} />
-            </Modal>
-          )}
-          <Link href={`/profile?id=${post.id}`}>
-            <img src={post.previewUrl} alt={''} />
-            <LikesCommentsCount likesCount={0} commentsCount={0} />
-            {post.imagesCount > 1 && <GalleryIcon />}
-          </Link>
+    <>
+      <div ref={postsRef} className={styles.posts}>
+        {data.posts.map((post) => (
+          <div className={styles.post} key={post.id}>
+            {router.query.id && (
+              <Modal>
+                <DisplayPostPopup previewPost={post} />
+              </Modal>
+            )}
+            <Link href={`/profile?id=${post.id}`}>
+              <img src={post.previewUrl} alt={''} />
+              <LikesCommentsCount likesCount={0} commentsCount={0} />
+              {post.imagesCount > 1 && <GalleryIcon />}
+            </Link>
+          </div>
+        ))}
+      </div>
+      {isFetching && (
+        <div className={styles.loading}>
+          <CircularProgress size={60} />
         </div>
-      ))}
-    </div>
+      )}
+    </>
   )
 }
