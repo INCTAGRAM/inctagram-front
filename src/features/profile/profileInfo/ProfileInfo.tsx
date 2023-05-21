@@ -59,7 +59,7 @@ export const ProfileInfo = ({ info }: IProfileInfoProps) => {
             <StatisticItem title="Subscribers" count={0} />
             <StatisticItem title="Publications" count={data?.count ?? 0} />
           </div>
-          <div className={styles.description}>{aboutMe}</div>
+          <p className={styles.description}>{aboutMe}</p>
         </div>
       </div>
     </div>

@@ -3,9 +3,7 @@ import { Button } from '@/common/ui/button/Button'
 import styles from './ProfileSettingsPage.module.scss'
 import { InputText } from '@/common/ui/inputText/InputText'
 import DatePicker from '@/features/profileSettings/datePicker/DatePicker'
-import { RouteNames } from '@/constants/routes'
 import { useForm } from 'react-hook-form'
-import { useRouter } from 'next/router'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { changeProfileSchema } from '@/validations/profile-schemes'
 import * as yup from 'yup'
@@ -17,6 +15,7 @@ import { IErrorResponse } from '@/services/auth/types'
 import { AddAvatar } from '@/features/profileSettings/addAvatar/AddAvatar'
 import { Textarea } from '@/common/ui/textarea/Textarea'
 import { ObjectType } from '@sinclair/typebox/value/is'
+import { SuccessSnackbar } from '@/common/alertSnackbar/SuccessSnackbar'
 
 export type SetProfileType = yup.InferType<typeof changeProfileSchema>
 
@@ -28,12 +27,6 @@ export const ProfileSettingsPage = () => {
   const [lastName, setLastName] = useState(profileData?.surname ?? '')
   const [city, setCity] = useState(profileData?.city ?? '')
   const [aboutMe, setAboutMe] = useState(profileData?.aboutMe ?? '')
-
-  const { push } = useRouter()
-
-  useEffect(() => {
-    isSuccess && push(RouteNames.PROFILE)
-  }, [isSuccess, push])
 
   const {
     register,
@@ -49,14 +42,14 @@ export const ProfileSettingsPage = () => {
   const onFormSubmit = (data: SetProfileType) => {
     const birthday = data.birthday ? moment(data.birthday, 'DD.MM.YYYY').format('YYYY-MM-DD') : ''
 
-    const dataAbj: ObjectType = { ...data, birthday }
-    for (const key in dataAbj) {
-      if (dataAbj[key as keyof ObjectType] === '') {
-        delete dataAbj[key as keyof ObjectType]
+    const dataObj: ObjectType = { ...data, birthday }
+    for (const key in dataObj) {
+      if (dataObj[key as keyof ObjectType] === '') {
+        delete dataObj[key as keyof ObjectType]
       }
     }
 
-    updateProfile(dataAbj)
+    updateProfile(dataObj)
   }
 
   return (
@@ -120,6 +113,7 @@ export const ProfileSettingsPage = () => {
         </div>
       </div>
       {isError && <ErrorSnackbar error={error as IErrorResponse} />}
+      {isSuccess && <SuccessSnackbar message={'Profile updated successfully'} />}
     </>
   )
 }
