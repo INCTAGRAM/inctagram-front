@@ -1,18 +1,20 @@
+@import "src/assets/styles/variables";
+
+
 .additionalInfo {
   display: flex;
-  flex-direction: column;
+  align-items: center;
   gap: 15px;
+  margin-top: 5px;
 
-  .additionalInfo_item {
-    color: #333333;
-
-    span {
-      color: #FFFFFF;
-      font-size: 14px;
-    }
+  .infoAndIcon {
+    display: flex;
+    align-items: center;
+    gap: 2px;
   }
-}
 
-.no_content {
-  text-align: center;
+  p {
+    font-size: 14px;
+    color: $light_900;
+  }
 }

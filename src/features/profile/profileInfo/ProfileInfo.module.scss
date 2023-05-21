@@ -1,3 +1,5 @@
+@import "src/assets/styles/variables";
+
 .block {
   width: 100%;
   display: flex;
@@ -5,4 +7,59 @@
   gap: 25px;
   color: #FFFFFF;
   margin-bottom: 35px;
+
+  .info_block {
+    display: flex;
+    align-items: flex-start;
+    gap: 38px;
+    color: $light_100;
+
+    .image_wrapper {
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+    }
+
+    .info {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 25px;
+
+      .info_header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+
+        .editBtn {
+          width: auto;
+        }
+
+        @media screen and (max-width: 896px) {
+          flex-direction: column-reverse;
+          align-items: center;
+          gap: 20px;
+        }
+      }
+
+      .statistics {
+        display: flex;
+        gap: 30px;
+      }
+
+      .description {
+        word-break: break-word;
+        word-wrap: break-word;
+      }
+
+      @media screen and (max-width: 896px) {
+        align-items: center;
+      }
+    }
+
+    @media screen and (max-width: 896px) {
+      flex-direction: column;
+      align-items: center;
+    }
+  }
 }
