@@ -1,7 +1,7 @@
 import Feedback from '@/common/ui/feedback/Feedback'
 import expiredImg from '../../../../public/auth/expired-link.png'
 import { useResendingConfirmationMutation } from '@/services/auth/authService'
-import { ErrorSnackbar } from '@/common/alertSnackbar/ErrorSnackbar'
+import { ErrorSnackbar } from '@/common/ui/alertSnackbar/ErrorSnackbar'
 import { IErrorResponse } from '@/services/auth/types'
 
 interface IExpiredPage {

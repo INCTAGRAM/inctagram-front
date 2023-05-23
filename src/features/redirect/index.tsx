@@ -1,7 +1,7 @@
 import { FC, PropsWithChildren, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import { RouteNames, PublicRoutes, PrivateRoutes } from '@/constants/routes'
-import { useAppSelector } from '@/services/redux/store'
+import { useAppSelector } from '@/store/store'
 
 const Redirect: FC<PropsWithChildren> = ({ children }) => {
   const accessToken = useAppSelector((state) => state.tokenReducer.accessToken)

@@ -4,12 +4,12 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { recoverySchema } from '@/validations/auth-schemes'
 import * as yup from 'yup'
 import { useResendingConfirmationMutation } from '@/services/auth/authService'
-import Form from '@/features/form/Form'
+import Form from '@/common/ui/form/Form'
 import { RouteNames } from '@/constants/routes'
 import { InputText } from '@/common/ui/inputText/InputText'
 import { Button } from '@/common/ui/button/Button'
 import EmailSendPopup from '@/features/popups/emailSendPopup/EmailSendPopup'
-import { ErrorSnackbar } from '@/common/alertSnackbar/ErrorSnackbar'
+import { ErrorSnackbar } from '@/common/ui/alertSnackbar/ErrorSnackbar'
 import { IErrorResponse } from '@/services/auth/types'
 
 type RecoveryType = yup.InferType<typeof recoverySchema>
@@ -29,16 +29,6 @@ const ConfirmationErrorPage = () => {
     reValidateMode: 'onChange',
     resolver: yupResolver(recoverySchema),
   })
-
-  // const {
-  //   mutate: sendEmail,
-  //   isError,
-  //   error,
-  // } = useMutation({
-  //   mutationFn: authService.resendingConfirmation,
-  //   onSuccess: () => setIsShowPopup(true),
-  //   onError: (error: ErrorOption) => setError('email', error),
-  // })
 
   const onFormSubmit: SubmitHandler<RecoveryType> = ({ email }) => {
     if (!email) return

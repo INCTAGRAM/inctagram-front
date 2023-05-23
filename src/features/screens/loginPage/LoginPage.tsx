@@ -9,12 +9,12 @@ import { SubmitHandler, useForm } from 'react-hook-form'
 import { useLoginMutation } from '@/services/auth/authService'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { RouteNames } from '@/constants/routes'
-import Form from '@/features/form/Form'
+import Form from '@/common/ui/form/Form'
 import Link from 'next/link'
-import { ErrorSnackbar } from '@/common/alertSnackbar/ErrorSnackbar'
+import { ErrorSnackbar } from '@/common/ui/alertSnackbar/ErrorSnackbar'
 import { IErrorResponse } from '@/services/auth/types'
-import { addToken } from '@/services/redux/tokenReducer'
-import { useAppDispatch } from '@/services/redux/store'
+import { addToken } from '@/store/tokenReducer'
+import { useAppDispatch } from '@/store/store'
 
 type LoginType = yup.InferType<typeof loginSchema>
 

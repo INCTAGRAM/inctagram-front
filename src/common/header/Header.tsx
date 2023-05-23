@@ -6,8 +6,8 @@ import { RouteNames } from '@/constants/routes'
 import IcomoonReact from 'icomoon-react'
 import LogOut from '@/assets/icons/selection.json'
 import { useLogoutMutation } from '@/services/auth/authService'
-import { useAppDispatch, useAppSelector } from '@/services/redux/store'
-import { addToken } from '@/services/redux/tokenReducer'
+import { useAppDispatch, useAppSelector } from '@/store/store'
+import { addToken } from '@/store/tokenReducer'
 import LinearProgress from '@mui/material/LinearProgress'
 
 interface IHeader {

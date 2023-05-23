@@ -7,9 +7,9 @@ import { SubmitHandler, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
 import { recoverySchema } from '@/validations/auth-schemes'
-import Form from '@/features/form/Form'
+import Form from '@/common/ui/form/Form'
 import { RouteNames } from '@/constants/routes'
-import { ErrorSnackbar } from '@/common/alertSnackbar/ErrorSnackbar'
+import { ErrorSnackbar } from '@/common/ui/alertSnackbar/ErrorSnackbar'
 import { IErrorResponse } from '@/services/auth/types'
 
 type RecoveryType = yup.InferType<typeof recoverySchema>

@@ -4,7 +4,7 @@ import IcomoonReact from 'icomoon-react'
 import { useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { CreatePostPopup } from '@/features/popups/createPostPopup/CreatePostPopup'
+import { CreatePostPopup } from '@/modules/createPost'
 import { INavbar, navbarPaths } from '@/common/navbar/navbarPaths'
 
 const Navbar = () => {

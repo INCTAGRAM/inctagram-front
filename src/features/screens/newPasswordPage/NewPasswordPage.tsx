@@ -6,10 +6,10 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { newPasswordSchema } from '@/validations/auth-schemes'
 import * as yup from 'yup'
 import { useCreateNewPasswordMutation } from '@/services/auth/authService'
-import Form from '@/features/form/Form'
+import Form from '@/common/ui/form/Form'
 import { useRouter } from 'next/router'
 import { RouteNames } from '@/constants/routes'
-import { ErrorSnackbar } from '@/common/alertSnackbar/ErrorSnackbar'
+import { ErrorSnackbar } from '@/common/ui/alertSnackbar/ErrorSnackbar'
 import { IErrorResponse } from '@/services/auth/types'
 
 type NewPassword = yup.InferType<typeof newPasswordSchema>

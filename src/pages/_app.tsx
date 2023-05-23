@@ -9,7 +9,7 @@ import { useLoader } from '@/hooks/useLoader'
 import '@/assets/styles/nprogress.css'
 import Redirect from '@/features/redirect'
 import { Provider } from 'react-redux'
-import { wrapper } from '@/services/redux/store'
+import { wrapper } from '@/store/store'
 
 export type NextPageWithLayout<P = {}> = NextPage<P> & {
   getLayout?: (page: ReactElement) => ReactNode
@@ -28,17 +28,17 @@ export default function App({ Component, pageProps, ...rest }: AppPropsWithLayou
   const { store } = wrapper.useWrappedStore(rest)
 
   return (
-    <Provider store={store}>
-      {getLayout(
-        <QueryClientProvider client={queryClient}>
-          <Hydrate state={pageProps.dehydratedState}>
+    <QueryClientProvider client={queryClient}>
+      <Hydrate state={pageProps.dehydratedState}>
+        <Provider store={store}>
+          {getLayout(
             <Redirect>
               <Component {...pageProps} />
             </Redirect>
-          </Hydrate>
-          <ReactQueryDevtools initialIsOpen={false} />
-        </QueryClientProvider>
-      )}
-    </Provider>
+          )}
+        </Provider>
+      </Hydrate>
+      <ReactQueryDevtools initialIsOpen={false} />
+    </QueryClientProvider>
   )
 }

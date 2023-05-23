@@ -4,7 +4,7 @@ import RegistrationSuccessPage from '@/features/screens/feedbackPages/Registrati
 import ExpiredPage from '@/features/screens/feedbackPages/ExpiredPage'
 import { getBaseLayout } from '@/common/layout/baseLayout/BaseLayout'
 import axios, { AxiosError } from 'axios'
-import { ErrorSnackbar } from '@/common/alertSnackbar/ErrorSnackbar'
+import { ErrorSnackbar } from '@/common/ui/alertSnackbar/ErrorSnackbar'
 import { errorHandler } from '@/hooks/errorsHandler'
 import { Button } from '@/common/ui/button/Button'
 import { useRouter } from 'next/router'
