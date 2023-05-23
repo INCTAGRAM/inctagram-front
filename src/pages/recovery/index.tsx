@@ -1,4 +1,4 @@
-import RecoveryPage from '@/features/screens/recoveryPage/RecoveryPage'
+import RecoveryPage from '@/modules/auth/components/recoveryPage/RecoveryPage'
 import { NextPageWithLayout } from '@/pages/_app'
 import HeadMeta from '@/common/headMeta/HeadMeta'
 import { getBaseLayout } from '@/common/layout/baseLayout/BaseLayout'

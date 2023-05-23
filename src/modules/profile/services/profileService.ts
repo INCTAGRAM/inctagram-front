@@ -1,7 +1,7 @@
 import { IProfileData, IProfileResponse, IUploadAvatarResponse } from '@/modules/profile/services/types'
 import { createApi } from '@reduxjs/toolkit/dist/query/react'
 import { HYDRATE } from 'next-redux-wrapper'
-import { baseQueryWithReauth } from '@/services/config'
+import { baseQueryWithReauth } from '@/helpers/config'
 
 export const profileService = createApi({
   reducerPath: 'profileApi',

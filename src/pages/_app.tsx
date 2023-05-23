@@ -7,7 +7,7 @@ import React, { ReactElement, ReactNode, useState } from 'react'
 import { NextPage } from 'next'
 import { useLoader } from '@/hooks/useLoader'
 import '@/assets/styles/nprogress.css'
-import Redirect from '@/features/redirect'
+import Redirect from '../common/layout/redirect'
 import { Provider } from 'react-redux'
 import { wrapper } from '@/store/store'
 

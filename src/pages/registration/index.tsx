@@ -1,4 +1,4 @@
-import { RegistrationPage } from '@/features/screens/registrationPage/RegistrationPage'
+import { RegistrationPage } from '@/modules/auth/components/registrationPage/RegistrationPage'
 import { NextPageWithLayout } from '@/pages/_app'
 import HeadMeta from '@/common/headMeta/HeadMeta'
 import { getBaseLayout } from '@/common/layout/baseLayout/BaseLayout'

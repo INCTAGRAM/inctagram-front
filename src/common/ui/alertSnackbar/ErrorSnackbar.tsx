@@ -1,7 +1,7 @@
 import { forwardRef, SyntheticEvent, useState } from 'react'
 import MuiAlert, { AlertProps } from '@mui/material/Alert'
 import Snackbar, { SnackbarCloseReason } from '@mui/material/Snackbar'
-import { IErrorResponse } from '@/services/auth/types'
+import { IErrorResponse } from '@/modules/auth/services/types'
 
 interface IAlertSnackbar {
   error: string | IErrorResponse | undefined

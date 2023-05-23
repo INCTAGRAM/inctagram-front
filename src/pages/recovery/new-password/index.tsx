@@ -1,5 +1,5 @@
 import React from 'react'
-import NewPasswordPage from '@/features/screens/newPasswordPage/NewPasswordPage'
+import NewPasswordPage from '@/modules/auth/components/newPasswordPage/NewPasswordPage'
 import { useRouter } from 'next/router'
 import { NextPageWithLayout } from '@/pages/_app'
 import HeadMeta from '@/common/headMeta/HeadMeta'

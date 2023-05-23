@@ -1,15 +1,15 @@
-export enum RouteNames {
-  LOGIN = '/login',
-  REGISTER = '/registration',
-  REGISTER_CONFIRMATION = '/registration/confirmation',
-  RECOVERY = '/recovery',
-  NEW_PASSWORD = '/recovery/new-password',
-  NEW_PASSWORD_CONFIRMATION = '/recovery/confirmation',
-  RECOVERY_EXPIRED = '/recovery/expired',
-  HOME = '/',
-  PROFILE = '/profile',
-  PROFILE_SETTINGS = '/profile/settings',
-}
+export const RouteNames = {
+  LOGIN: '/login',
+  REGISTER: '/registration',
+  REGISTER_CONFIRMATION: '/registration/confirmation',
+  RECOVERY: '/recovery',
+  NEW_PASSWORD: '/recovery/new-password',
+  NEW_PASSWORD_CONFIRMATION: '/recovery/confirmation',
+  RECOVERY_EXPIRED: '/recovery/expired',
+  HOME: '/',
+  PROFILE: '/profile',
+  PROFILE_SETTINGS: '/profile/settings',
+} as const
 
 export const PublicRoutes: string[] = [
   RouteNames.LOGIN,

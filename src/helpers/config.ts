@@ -1,8 +1,8 @@
 import { fetchBaseQuery } from '@reduxjs/toolkit/query'
 import type { BaseQueryFn, FetchArgs, FetchBaseQueryError } from '@reduxjs/toolkit/query'
 import { AppDispatch, AppState } from '@/store/store'
-import { addToken, stopRefresh } from '@/store/tokenReducer'
-import { setLoading } from '@/store/appReducer'
+import { addToken, stopRefresh } from '@/store/tokenSlice'
+import { setLoading } from '@/store/appSlice'
 
 const endpointsSkipAuth = [
   'login',
