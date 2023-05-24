@@ -1,25 +1,11 @@
 import { createApi } from '@reduxjs/toolkit/dist/query/react'
-import { HYDRATE } from 'next-redux-wrapper'
 import { baseQueryWithReauth } from '@/helpers/config'
-import { IAddPostResponse, IPostsRequestData, IPostsResponse } from '@/modules/posts/services/types'
+import { IPostsRequestData, IPostsResponse } from '@/modules/posts/services/types'
 
 export const postsService = createApi({
   reducerPath: 'postApi',
-  tagTypes: ['Posts', 'Post'],
   baseQuery: baseQueryWithReauth,
-  extractRehydrationInfo(action, { reducerPath }) {
-    if (action.type === HYDRATE) {
-      return action.payload[reducerPath]
-    }
-  },
   endpoints: (build) => ({
-    addPostProfile: build.mutation<IAddPostResponse, FormData>({
-      query: (body) => ({
-        url: '/users/self/posts',
-        method: 'POST',
-        body,
-      }),
-    }),
     getPostsProfile: build.query<IPostsResponse, IPostsRequestData>({
       query: (params) => ({
         url: '/users/self/posts',
@@ -54,4 +40,4 @@ export const postsService = createApi({
   }),
 })
 
-export const { useAddPostProfileMutation, useGetPostsProfileQuery, useGetPostProfileQuery } = postsService
+export const { useGetPostsProfileQuery, useGetPostProfileQuery } = postsService

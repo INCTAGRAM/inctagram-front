@@ -10,7 +10,7 @@ import { UserInfo } from '@/modules/createPost/components/publicationPostPopup/u
 import { PublicationPostSlider } from '@/modules/createPost/components/publicationPostPopup/publicationPostSlider/PublicationPostSlider'
 import { BodySlider } from '@/modules/createPost/components/publicationPostPopup/publicationPostSlider/bodySlider/BodySlider'
 import { refetchPosts } from '@/modules/posts/store/postsReducer'
-import { useAddPostProfileMutation } from '@/modules/posts/services/postsService'
+import { useAddPostProfileMutation } from '@/modules/createPost/services/createPostService'
 
 export const PublicationPostPopup: FC<PropsType> = ({
   setIsShowFilterPopup,

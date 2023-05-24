@@ -22,7 +22,10 @@ const makeStore = () => {
       [postsService.reducerPath]: postsService.reducer,
     },
     middleware: (getDefaultMiddleware) =>
-      getDefaultMiddleware().concat([authService.middleware, profileService.middleware, postsService.middleware]),
+      getDefaultMiddleware()
+        .concat([authService.middleware])
+        .concat([profileService.middleware])
+        .concat([postsService.middleware]),
   })
 }
 
