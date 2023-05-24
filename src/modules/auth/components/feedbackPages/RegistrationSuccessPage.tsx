@@ -1,9 +1,9 @@
-import successImg from '../../../../public/auth/bro.png'
+import successImg from '@/../public/auth/bro.png'
 import Feedback from '@/common/ui/feedback/Feedback'
 import { useRouter } from 'next/router'
 import { RouteNames } from '@/constants/routes'
 
-const RegistrationSuccessPage = () => {
+export const RegistrationSuccessPage = () => {
   const { push } = useRouter()
 
   const redirectToLogin = () => push(RouteNames.LOGIN)
@@ -18,5 +18,3 @@ const RegistrationSuccessPage = () => {
     />
   )
 }
-
-export default RegistrationSuccessPage

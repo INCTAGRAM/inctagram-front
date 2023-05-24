@@ -1,5 +1,5 @@
 import React from 'react'
-import LoginPage from '@/features/screens/loginPage/LoginPage'
+import LoginPage from '@/modules/auth/components/loginPage/LoginPage'
 import { NextPageWithLayout } from '@/pages/_app'
 import { getBaseLayout } from '@/common/layout/baseLayout/BaseLayout'
 import HeadMeta from '@/common/headMeta/HeadMeta'

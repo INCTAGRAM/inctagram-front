@@ -3,14 +3,14 @@ import { SubmitHandler, useForm } from 'react-hook-form'
 import { InputPassword } from '@/common/ui/inputPassword/InputPassword'
 import { Button } from '@/common/ui/button/Button'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { newPasswordSchema } from '@/validations/auth-schemes'
+import { newPasswordSchema } from '@/modules/auth/helpers/auth-schemes'
 import * as yup from 'yup'
-import { useCreateNewPasswordMutation } from '@/services/auth/authService'
+import { useCreateNewPasswordMutation } from '@/modules/auth/services/authService'
 import Form from '@/common/ui/form/Form'
 import { useRouter } from 'next/router'
 import { RouteNames } from '@/constants/routes'
 import { ErrorSnackbar } from '@/common/ui/alertSnackbar/ErrorSnackbar'
-import { IErrorResponse } from '@/services/auth/types'
+import { IErrorResponse } from '@/modules/auth/services/types'
 
 type NewPassword = yup.InferType<typeof newPasswordSchema>
 

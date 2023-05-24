@@ -1,6 +1,6 @@
 import { createApi } from '@reduxjs/toolkit/dist/query/react'
 import { HYDRATE } from 'next-redux-wrapper'
-import { baseQueryWithReauth } from '@/services/config'
+import { baseQueryWithReauth } from '@/helpers/config'
 import { IAddPostResponse, IPostsRequestData, IPostsResponse } from '@/modules/posts/services/types'
 
 export const postsService = createApi({

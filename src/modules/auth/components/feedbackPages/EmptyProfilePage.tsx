@@ -1,6 +1,6 @@
 import Feedback from '@/common/ui/feedback/Feedback'
 
-const EmptyProfilePage = () => {
+export const EmptyProfilePage = () => {
   return (
     <Feedback
       title="Oops! This place looks empty"
@@ -9,5 +9,3 @@ const EmptyProfilePage = () => {
     />
   )
 }
-
-export default EmptyProfilePage

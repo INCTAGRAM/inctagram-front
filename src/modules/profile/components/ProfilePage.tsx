@@ -2,7 +2,7 @@ import { ProfileInfo } from '@/modules/profile/components/profileInfo/ProfileInf
 import styles from './ProfilePage.module.scss'
 import { useCheckUserProfileQuery } from '@/modules/profile/services/profileService'
 import { ErrorSnackbar } from '@/common/ui/alertSnackbar/ErrorSnackbar'
-import { IErrorResponse } from '@/services/auth/types'
+import { IErrorResponse } from '@/modules/auth/services/types'
 import { PostsPage } from '@/modules/posts'
 
 export const ProfilePage = () => {

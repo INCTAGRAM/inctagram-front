@@ -1,23 +1,25 @@
 import React, { useState } from 'react'
-import { SubmitHandler, useForm } from 'react-hook-form'
-import { yupResolver } from '@hookform/resolvers/yup'
-import { recoverySchema } from '@/validations/auth-schemes'
-import * as yup from 'yup'
-import { useResendingConfirmationMutation } from '@/services/auth/authService'
-import Form from '@/common/ui/form/Form'
-import { RouteNames } from '@/constants/routes'
+import { usePasswordRecoveryMutation } from '@/modules/auth/services/authService'
 import { InputText } from '@/common/ui/inputText/InputText'
 import { Button } from '@/common/ui/button/Button'
-import EmailSendPopup from '@/features/popups/emailSendPopup/EmailSendPopup'
+import EmailSendPopup from '@/modules/auth/components/emailSendPopup/EmailSendPopup'
+import { SubmitHandler, useForm } from 'react-hook-form'
+import { yupResolver } from '@hookform/resolvers/yup'
+import * as yup from 'yup'
+import { recoverySchema } from '@/modules/auth/helpers/auth-schemes'
+import Form from '@/common/ui/form/Form'
+import { RouteNames } from '@/constants/routes'
 import { ErrorSnackbar } from '@/common/ui/alertSnackbar/ErrorSnackbar'
-import { IErrorResponse } from '@/services/auth/types'
+import { IErrorResponse } from '@/modules/auth/services/types'
 
 type RecoveryType = yup.InferType<typeof recoverySchema>
+import { useGoogleReCaptcha } from 'react-google-recaptcha-v3'
 
-const ConfirmationErrorPage = () => {
-  const [sendEmail, { isError, error }] = useResendingConfirmationMutation()
+const RecoveryPage = () => {
+  const [sendEmail, { isError, error }] = usePasswordRecoveryMutation()
   const [email, setEmail] = useState('')
   const [isShowPopup, setIsShowPopup] = useState(false)
+  const { executeRecaptcha } = useGoogleReCaptcha()
 
   const {
     register,
@@ -33,17 +35,24 @@ const ConfirmationErrorPage = () => {
   const onFormSubmit: SubmitHandler<RecoveryType> = ({ email }) => {
     if (!email) return
 
-    sendEmail({ email })
-    setEmail(email)
-    reset()
+    if (!executeRecaptcha) {
+      console.log('Execute recaptcha not yet available')
+      return
+    }
+
+    executeRecaptcha('enquiryFormSubmit').then((recaptchaToken) => {
+      sendEmail({ email: email, recaptchaToken: recaptchaToken })
+      setEmail(email)
+      reset()
+    })
   }
 
   return (
     <>
       <Form
-        title="Error, please enter email"
+        title="Forgot Password"
         onSubmit={handleSubmit(onFormSubmit)}
-        redirect={{ link: RouteNames.REGISTER, linkTitle: 'Back to Sign Up' }}
+        redirect={{ link: RouteNames.LOGIN, linkTitle: 'Back to Sign In' }}
       >
         <p>
           <InputText
@@ -53,10 +62,7 @@ const ConfirmationErrorPage = () => {
             {...register('email')}
           />
         </p>
-        <p>
-          An error occurred while registering, please re-enter your email address and we will send you further
-          instructions
-        </p>
+        <p>Enter your email address and we will send you further instructions</p>
         <Button type="submit" disabled={!isValid && !isDirty}>
           Send Instructions
         </Button>
@@ -67,4 +73,8 @@ const ConfirmationErrorPage = () => {
   )
 }
 
-export default ConfirmationErrorPage
+export default RecoveryPage
+
+// this keys for recaptcha we dont use, but it have to work
+// 6Lfoc-8lAAAAAASNlkyDs89G9ZGBrEGNmTJEwshp ---- Front
+// 6Lfoc-8lAAAAAE0QWBXTrwcayEBKoA6VUA0mfjLR --- Bek

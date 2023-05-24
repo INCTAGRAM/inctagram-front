@@ -1,13 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit'
 import { createPostReducer } from '@/modules/createPost/store/createPostReducer'
 import { createWrapper } from 'next-redux-wrapper'
-import { authService } from '@/services/auth/authService'
+import { authService } from '@/modules/auth/services/authService'
 import { profileService } from '@/modules/profile/services/profileService'
-import { tokenReducer } from '@/store/tokenReducer'
+import { tokenReducer } from '@/store/tokenSlice'
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
 import { postsReducer } from '@/modules/posts/store/postsReducer'
 import { postsService } from '@/modules/posts/services/postsService'
-import { appReducer } from '@/store/appReducer'
+import { appReducer } from '@/store/appSlice'
 
 const makeStore = () => {
   return configureStore({

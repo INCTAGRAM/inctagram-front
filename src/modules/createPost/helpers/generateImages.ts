@@ -1,6 +1,6 @@
 import { CroppedAreaType } from '@/modules/profileSettings/components/addPhotoPopup/body/bodySavePhotoPopup/BodySavePhotoPopup'
 import { ICroppingParameters } from '@/modules/createPost/components/types'
-import { getCroppedImg } from '@/utils/cropImage'
+import { getCroppedImg } from '@/helpers/cropImage'
 
 export const generateImages = (
   images: string[],
