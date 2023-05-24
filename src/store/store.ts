@@ -8,6 +8,7 @@ import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
 import { postsReducer } from '@/modules/posts/store/postsReducer'
 import { postsService } from '@/modules/posts/services/postsService'
 import { appReducer } from '@/store/appSlice'
+import { setupListeners } from '@reduxjs/toolkit/query'
 
 const makeStore = () => {
   return configureStore({
@@ -24,6 +25,8 @@ const makeStore = () => {
       getDefaultMiddleware().concat([authService.middleware, profileService.middleware, postsService.middleware]),
   })
 }
+
+setupListeners(makeStore().dispatch)
 
 export type AppStore = ReturnType<typeof makeStore>
 export type AppState = ReturnType<AppStore['getState']>
