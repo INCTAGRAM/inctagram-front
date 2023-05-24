@@ -4,8 +4,8 @@ import { baseQueryWithReauth } from '@/helpers/config'
 
 export const profileService = createApi({
   reducerPath: 'profileApi',
-  tagTypes: ['Profile', 'Posts', 'Post'],
   baseQuery: baseQueryWithReauth,
+  tagTypes: ['Profile'],
   endpoints: (build) => ({
     checkUserProfile: build.query<IProfileResponse, void>({
       query: () => ({

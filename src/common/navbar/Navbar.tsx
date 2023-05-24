@@ -7,7 +7,7 @@ import { useRouter } from 'next/router'
 import { CreatePostPopup } from '@/modules/createPost'
 import { INavbar, navbarPaths } from '@/common/navbar/navbarPaths'
 
-const Navbar = () => {
+export const Navbar = () => {
   const [isShowAddPost, setIsShowAddPost] = useState(false)
   const { pathname } = useRouter()
 
@@ -19,8 +19,13 @@ const Navbar = () => {
     <>
       <ul className={styles.navbar}>
         {navbarPaths.map((item: INavbar, index) => {
+          const finalClass =
+            pathname === item.path
+              ? `${styles.active} ${styles.navbar_link} ${item.class}`
+              : `${item.class} ${styles.navbar_link}`
+
           return (
-            <li key={index} className={pathname === item.path ? `${styles.active} ${item.class}` : item.class}>
+            <li key={index} className={finalClass}>
               {item.name === 'Create' ? (
                 <button onClick={() => onClickHandler(true)}>
                   <IcomoonReact
@@ -50,5 +55,3 @@ const Navbar = () => {
     </>
   )
 }
-
-export default Navbar
