@@ -7,7 +7,7 @@ import {
   changePostsCount,
   initialPostsState,
   refetchPosts,
-} from '@/modules/posts/store/postsReducer'
+} from '@/modules/posts/store/postsSlice'
 import Modal from '@/modules/posts/components/post/modal/Modal'
 import { DisplayPostPopup } from '@/modules/posts/components/post/DisplayPostPopup'
 import Link from 'next/link'

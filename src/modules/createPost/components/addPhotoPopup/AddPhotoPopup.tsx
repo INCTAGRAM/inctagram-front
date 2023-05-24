@@ -5,7 +5,7 @@ import IcomoonReact from 'icomoon-react'
 import iconSet from '@/assets/icons/selection.json'
 import { Button } from '@/common/ui/button/Button'
 import { useAppDispatch } from '@/store/store'
-import { setInitialPostState, addImageAndCropParameters } from '@/modules/createPost/store/createPostReducer'
+import { setInitialPostState, addImageAndCropParameters } from '@/modules/createPost/store/createPostSlice'
 
 interface IAddPhotoPopupProps {
   isShowAddPhotoPopup: boolean
@@ -27,7 +27,7 @@ export const AddPhotoPopup = ({
 
   const clearInputContent = () => {
     if (inpFile.current) {
-      inpFile.current!.value = ''
+      inpFile.current.value = ''
     }
   }
 

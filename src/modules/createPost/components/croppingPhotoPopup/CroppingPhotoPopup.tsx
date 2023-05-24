@@ -11,7 +11,7 @@ import { GalleryControl } from '@/modules/createPost/components/croppingPhotoPop
 import { SliderControlElements } from '@/modules/createPost/components/croppingPhotoPopup/sliderControlElements/SliderControlElements'
 import { generateImages } from '@/modules/createPost/helpers/generateImages'
 import { useAppDispatch, useAppSelector } from '@/store/store'
-import { addImages, changeCroppingParamsImage, setInitialPostState } from '@/modules/createPost/store/createPostReducer'
+import { addImages, changeCroppingParamsImage, setInitialPostState } from '@/modules/createPost/store/createPostSlice'
 
 interface ICroppingPhotoPopupProps {
   isShowCroppingPhotoPopup: boolean

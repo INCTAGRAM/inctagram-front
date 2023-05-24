@@ -4,7 +4,7 @@ import IcomoonReact from 'icomoon-react'
 import iconSet from '@/assets/icons/selection.json'
 import React from 'react'
 import { CroppedAreaType } from '@/modules/profileSettings/components/addPhotoPopup/body/bodySavePhotoPopup/BodySavePhotoPopup'
-import { changeActiveImage, changeCroppingParamsImage } from '@/modules/createPost/store/createPostReducer'
+import { changeActiveImage, changeCroppingParamsImage } from '@/modules/createPost/store/createPostSlice'
 import { useAppDispatch, useAppSelector } from '@/store/store'
 
 interface SliderControlElementsProps {

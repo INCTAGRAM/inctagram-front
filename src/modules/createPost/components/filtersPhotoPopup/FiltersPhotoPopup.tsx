@@ -11,7 +11,7 @@ import {
   addPrevFilterParams,
   changeImageAfterFilters,
   resetFilterParams,
-} from '@/modules/createPost/store/createPostReducer'
+} from '@/modules/createPost/store/createPostSlice'
 import { SliderForFilterPhoto } from '@/modules/createPost/components/filtersPhotoPopup/sliderControlElement/SliderForFilterPhoto'
 import { useAppDispatch, useAppSelector } from '@/store/store'
 

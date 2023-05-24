@@ -1,6 +1,6 @@
 import React, { FC } from 'react'
 import styles from './TextareaWithLimit.module.scss'
-import { addDescription } from '@/modules/createPost/store/createPostReducer'
+import { addDescription } from '@/modules/createPost/store/createPostSlice'
 import { useAppDispatch } from '@/store/store'
 import { Textarea } from '@/common/ui/textarea/Textarea'
 

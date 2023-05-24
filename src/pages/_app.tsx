@@ -7,7 +7,7 @@ import { useLoader } from '@/hooks/useLoader'
 import '@/assets/styles/nprogress.scss'
 import Redirect from '../common/layout/redirect'
 import { Provider } from 'react-redux'
-import { wrapper } from '@/store/store'
+import { store } from '@/store/store'
 
 export type NextPageWithLayout<P = {}> = NextPage<P> & {
   getLayout?: (page: ReactElement) => ReactNode
@@ -17,11 +17,10 @@ type AppPropsWithLayout = AppProps & {
   Component: NextPageWithLayout
 }
 
-export default function App({ Component, pageProps, ...rest }: AppPropsWithLayout) {
+export default function App({ Component, pageProps }: AppPropsWithLayout) {
   useLoader()
 
   const getLayout = Component.getLayout ?? ((page) => page)
-  const { store } = wrapper.useWrappedStore(rest)
 
   return (
     <Provider store={store}>

@@ -1,7 +1,7 @@
 import { FormControl, InputLabel, MenuItem, Select, SelectChangeEvent } from '@mui/material'
 import { Box } from '@mui/system'
 import { filterValues } from '@/modules/createPost/constants/filterValues'
-import { addFilterParams } from '@/modules/createPost/store/createPostReducer'
+import { addFilterParams } from '@/modules/createPost/store/createPostSlice'
 import { useAppDispatch, useAppSelector } from '@/store/store'
 
 export const InstaField = () => {

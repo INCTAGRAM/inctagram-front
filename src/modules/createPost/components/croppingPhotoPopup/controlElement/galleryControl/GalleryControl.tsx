@@ -10,7 +10,7 @@ import {
   removeImageAndCropParameters,
   changeActiveImage,
   changeCroppingParamsImage,
-} from '@/modules/createPost/store/createPostReducer'
+} from '@/modules/createPost/store/createPostSlice'
 
 interface IGalleryControlProps {
   crop: ICrop
@@ -26,7 +26,7 @@ export const GalleryControl = ({ crop, zoom, aspect, croppedArea }: IGalleryCont
 
   const clearInputContent = () => {
     if (inpFile.current) {
-      inpFile.current!.value = ''
+      inpFile.current.value = ''
     }
   }
 

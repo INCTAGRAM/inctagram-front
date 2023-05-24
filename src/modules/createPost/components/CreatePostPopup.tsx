@@ -6,7 +6,7 @@ import { FiltersPhotoPopup } from '@/modules/createPost/components/filtersPhotoP
 import { PublicationPostPopup } from '@/modules/createPost/components/publicationPostPopup/PublicationPostPopup'
 import { CloseDeletePopup } from '@/modules/createPost/components/closeDeletePopup/CloseDeletePopup'
 import { useAppDispatch } from '@/store/store'
-import { setInitialPostState } from '@/modules/createPost/store/createPostReducer'
+import { setInitialPostState } from '@/modules/createPost/store/createPostSlice'
 
 interface ICreatePostPopupProps {
   isShowAddPost: boolean
@@ -29,7 +29,7 @@ export const CreatePostPopup = ({ isShowAddPost, setIsShowAddPost }: ICreatePost
     const handleClick = (e: Event) => {
       if (!popupRef.current) return
       if (!e.target) return
-      if (!popupRef.current!.contains(e.target as HTMLElement)) {
+      if (!popupRef.current.contains(e.target as HTMLElement)) {
         setIsShowCloseDeletePopup(true)
       }
     }
