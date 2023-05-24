@@ -1,12 +1,12 @@
 import { InputText } from '@/common/ui/inputText/InputText'
 import { InputPassword } from '@/common/ui/inputPassword/InputPassword'
 import { Button } from '@/common/ui/button/Button'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import * as yup from 'yup'
 import { loginSchema } from '@/validations/auth-schemes'
 import { SubmitHandler, useForm } from 'react-hook-form'
-import { useLoginMutation } from '@/services/auth/authService'
+import { useLoginGoogleMutation, useLoginMutation } from '@/services/auth/authService'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { RouteNames } from '@/constants/routes'
 import Form from '@/features/form/Form'
@@ -15,13 +15,31 @@ import { ErrorSnackbar } from '@/common/alertSnackbar/ErrorSnackbar'
 import { IErrorResponse } from '@/services/auth/types'
 import { addToken } from '@/services/redux/tokenReducer'
 import { useAppDispatch } from '@/services/redux/store'
+import { useGoogleLogin } from '@react-oauth/google'
 
 type LoginType = yup.InferType<typeof loginSchema>
 
 const LoginPage = () => {
+  const [code, setCode] = useState('')
   const dispatch = useAppDispatch()
   const [login, { data, isError, isSuccess, error }] = useLoginMutation()
   const { push } = useRouter()
+  console.log(code)
+
+  const [loginGoogle, { data: googleData, isError: isGoogleError, isSuccess: isGoogleSuccess, error: googleError }] =
+    useLoginGoogleMutation()
+
+  useEffect(() => {
+    code && loginGoogle({ code })
+  }, [code])
+
+  const loginOauthGoogle = useGoogleLogin({
+    onSuccess: (codeResponse) => setCode(codeResponse.code),
+    flow: 'auth-code',
+    onError: () => {
+      console.log('Login Failed')
+    },
+  })
 
   const {
     register,
@@ -42,7 +60,6 @@ const LoginPage = () => {
     if (!email || !password) return
     login({ email, password })
   }
-
   return (
     <>
       <Form
@@ -50,6 +67,7 @@ const LoginPage = () => {
         isTopPanel={true}
         onSubmit={handleSubmit(onFormSubmit)}
         redirect={{ title: "Don't have an account?", link: RouteNames.REGISTER, linkTitle: 'Sign Up' }}
+        login={loginOauthGoogle}
       >
         <p>
           <InputText

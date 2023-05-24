@@ -20,6 +20,13 @@ export const authService = createApi({
         body,
       }),
     }),
+    loginGoogle: build.mutation<any, { code: string }>({
+      query: (body) => ({
+        url: '/auth/google/sign-in',
+        method: 'POST',
+        body,
+      }),
+    }),
     registration: build.mutation<unknown, IRegistrationData>({
       query: (body) => ({
         url: '/auth/registration',
@@ -59,6 +66,7 @@ export const authService = createApi({
 
 export const {
   useLoginMutation,
+  useLoginGoogleMutation,
   useRegistrationMutation,
   useResendingConfirmationMutation,
   usePasswordRecoveryMutation,

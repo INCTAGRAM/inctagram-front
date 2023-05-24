@@ -33,11 +33,12 @@ export const FiltersPhotoPopup = ({
   const imgResultRef = useRef<HTMLImageElement>(null)
 
   const prevStateFilterClass = useRef<string | null>(null)
-  const prevFilterClass = prevStateFilterClass.current
 
   useEffect(() => {
     prevStateFilterClass.current = filterClass
   }, [filterClass])
+
+  const prevFilterClass = prevStateFilterClass.current
 
   useEffect(() => {
     dispatch(addPrevFilterParams({ imageIndex: activeIndexImage, filterClass: prevFilterClass as string }))
