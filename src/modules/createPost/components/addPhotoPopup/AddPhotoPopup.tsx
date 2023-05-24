@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useRef } from 'react'
+import { ChangeEvent, useRef } from 'react'
 import { Popup } from '@/common/ui/popup/Popup'
 import styles from './AddPhotoPopup.module.scss'
 import IcomoonReact from 'icomoon-react'
@@ -18,12 +18,12 @@ export const AddPhotoPopup = ({
   setIsShowCroppingPhotoPopup,
 }: IAddPhotoPopupProps) => {
   const dispatch = useAppDispatch()
+  const inpFile = useRef<HTMLInputElement | null>(null)
+
   const closePopup = () => {
     dispatch(setInitialPostState())
     setIsShowAddPhotoPopup(false)
   }
-
-  const inpFile = useRef<HTMLInputElement | null>(null)
 
   const clearInputContent = () => {
     if (inpFile.current) {
@@ -57,7 +57,7 @@ export const AddPhotoPopup = ({
   }
 
   return (
-    <Popup title="Add photo" show={isShowAddPhotoPopup} modalOnClick={closePopup}>
+    <Popup className={styles.createPostPopup} title="Add photo" show={isShowAddPhotoPopup} modalOnClick={closePopup}>
       <div className={styles.upload_container}>
         <div className={styles.icon_container}>
           <IcomoonReact iconSet={iconSet} icon="image-outline" color={'white'} className={styles.icon} size={48} />
