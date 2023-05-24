@@ -1,5 +1,24 @@
 .croppingPopup {
+  position: relative;
   padding: 0;
+
+  & > div {
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  &:before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    pointer-events: none;
+  }
 
   .croppingImages {
     position: relative;

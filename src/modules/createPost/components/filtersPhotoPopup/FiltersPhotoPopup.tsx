@@ -92,6 +92,7 @@ export const FiltersPhotoPopup = ({
 
   return (
     <Popup
+      className={styles.createPostPopup}
       title="Filters"
       show={isShowFilterPopup}
       modalOnClick={setNextOnClick}

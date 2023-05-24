@@ -2,7 +2,7 @@ import { Popup } from '@/common/ui/popup/Popup'
 import styles from './PublicationPostPopup.module.scss'
 import React, { FC, useEffect } from 'react'
 import { useAppDispatch, useAppSelector } from '@/store/store'
-import { addDescription, addImages, addImagesAfterFilters } from '@/modules/createPost/store/createPostReducer'
+import { addDescription, setInitialPostState } from '@/modules/createPost/store/createPostReducer'
 import { useCheckUserProfileQuery } from '@/modules/profile/services/profileService'
 import { TextareaWithLimit } from '@/modules/createPost/components/publicationPostPopup/textareaWithLimit/TextareaWithLimit'
 import { convertBlobToFile } from '@/modules/createPost/helpers/convertBlobToFile'
@@ -32,9 +32,7 @@ export const PublicationPostPopup: FC<PropsType> = ({
   }, [isSuccess])
 
   const stateCleanUp = () => {
-    dispatch(addDescription(''))
-    dispatch(addImages([]))
-    dispatch(addImagesAfterFilters([]))
+    dispatch(setInitialPostState())
   }
 
   const appendFile = async (images: Array<RequestInfo | URL>, formData: FormData) => {
@@ -62,6 +60,7 @@ export const PublicationPostPopup: FC<PropsType> = ({
 
   return (
     <Popup
+      className={styles.createPostPopup}
       title={'Publication'}
       show={isShowPublicationPopup}
       onclickContent={'Publish'}

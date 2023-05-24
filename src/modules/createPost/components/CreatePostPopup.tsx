@@ -5,6 +5,8 @@ import { CroppingPhotoPopup } from './croppingPhotoPopup/CroppingPhotoPopup'
 import { FiltersPhotoPopup } from '@/modules/createPost/components/filtersPhotoPopup/FiltersPhotoPopup'
 import { PublicationPostPopup } from '@/modules/createPost/components/publicationPostPopup/PublicationPostPopup'
 import { CloseDeletePopup } from '@/modules/createPost/components/closeDeletePopup/CloseDeletePopup'
+import { useAppDispatch } from '@/store/store'
+import { setInitialPostState } from '@/modules/createPost/store/createPostReducer'
 
 interface ICreatePostPopupProps {
   isShowAddPost: boolean
@@ -12,6 +14,7 @@ interface ICreatePostPopupProps {
 }
 
 export const CreatePostPopup = ({ isShowAddPost, setIsShowAddPost }: ICreatePostPopupProps) => {
+  const dispatch = useAppDispatch()
   const [isShowCroppingPhotoPopup, setIsShowCroppingPhotoPopup] = useState(false)
   const [isShowFilterPopup, setIsShowFilterPopup] = useState(false)
   const [isShowPublicationPopup, setIsShowPublicationPopup] = useState(false)
@@ -22,7 +25,6 @@ export const CreatePostPopup = ({ isShowAddPost, setIsShowAddPost }: ICreatePost
   useEffect(() => {
     if (isShowCloseDeletePopup) return
     if (!isShowAddPost && !isShowCroppingPhotoPopup && !isShowFilterPopup && !isShowPublicationPopup) return
-    console.log(isShowAddPost)
 
     const handleClick = (e: Event) => {
       if (!popupRef.current) return
@@ -32,11 +34,13 @@ export const CreatePostPopup = ({ isShowAddPost, setIsShowAddPost }: ICreatePost
       }
     }
 
-    document.addEventListener('click', handleClick)
+    setTimeout(() => {
+      document.addEventListener('click', handleClick)
+    })
     return () => {
       document.removeEventListener('click', handleClick)
     }
-  }, [isShowAddPost, isShowCloseDeletePopup])
+  }, [isShowCloseDeletePopup, isShowAddPost, isShowCroppingPhotoPopup, isShowFilterPopup, isShowPublicationPopup])
 
   const closeAndDeleteHandler = () => {
     setIsShowAddPost(false)
@@ -44,6 +48,7 @@ export const CreatePostPopup = ({ isShowAddPost, setIsShowAddPost }: ICreatePost
     setIsShowFilterPopup(false)
     setIsShowPublicationPopup(false)
     setIsShowCloseDeletePopup(false)
+    dispatch(setInitialPostState())
   }
 
   return (
