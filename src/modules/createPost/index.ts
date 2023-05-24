@@ -1,3 +1,4 @@
 import { CreatePostPopup } from './components/CreatePostPopup'
+import { createPostService } from './services/createPostService'
 
-export { CreatePostPopup }
+export { CreatePostPopup, createPostService }
