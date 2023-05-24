@@ -1,3 +1,5 @@
+@import "src/assets/styles/variables";
+
 .container {
 width: 433px;
 
@@ -6,7 +8,7 @@ width: 433px;
     font-weight: 400;
     font-size: 14px;
     line-height: 24px;
-    color: #BDC1C7;
+    color: $light_900;
   }
 
   .textarea {
@@ -16,6 +18,6 @@ width: 433px;
 
   .characterLimit {
     text-align: right;
-    color: #BDC1C7;
+    color: $light_900;
   }
 }

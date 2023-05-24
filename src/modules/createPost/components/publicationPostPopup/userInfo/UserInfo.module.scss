@@ -1,3 +1,5 @@
+@import "src/assets/styles/variables";
+
 .userInfo {
   display: flex;
   padding-bottom: 30px;
@@ -17,7 +19,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #171717;
+    background-color: $dark_500;
     width: 36px;
     height: 36px;
   }
@@ -26,6 +28,6 @@
     font-family: 'Inter', serif;
     font-weight: 500;
     font-size: 16px;
-    color: #FFFFFF;
+    color: $light_100;
   }
 }

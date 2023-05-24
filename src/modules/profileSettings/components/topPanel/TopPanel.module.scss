@@ -1,3 +1,5 @@
+@import "src/assets/styles/variables";
+
 .top_panel {
   max-width: 800px;
   display: flex;
@@ -8,7 +10,7 @@
 
   & > div:nth-child(1) {
     .selected {
-      color: #397DF6;
+      color: $primary_500;
       transition: .5s;
     }
 
@@ -19,7 +21,7 @@
 
     h2 {
       position: relative;
-      color: #333333;
+      color: $dark_300;
       cursor: pointer;
     }
 
@@ -30,14 +32,14 @@
       width: $width;
       height: $height;
       display: inline-block;
-      background-color: #333333;
+      background-color: $dark_300;
 
     }
     display: flex;
     align-items: center;
     height: 1px;
     width: 100%;
-    background: #333333;
+    background: $dark_300;
     position: absolute;
     bottom: -4px;
     left: 0;
@@ -45,10 +47,10 @@
     div {
       width: 313px;
       height: 2px;
-      background: #333333;
+      background: $dark_300;
 
       .underline {
-        background: #397DF6;
+        background: $primary_500;
         position: relative;
         height: 2px;
         transition: .5s

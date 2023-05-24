@@ -24,7 +24,7 @@
         justify-content: space-between;
         align-items: center;
         min-width: 132px;
-        color: #fff;
+        color: $light_100;
         margin-bottom: 8px;
         cursor: pointer;
 
@@ -37,7 +37,7 @@
           display: inline-block;
           width: 18px;
           height: 18px;
-          border: 2px solid #fff;
+          border: 2px solid $light_100;
           border-radius: 3px;
         }
 

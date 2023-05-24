@@ -1,3 +1,5 @@
+@import "src/assets/styles/variables";
+
 .circle {
   width: 204px;
   height: 204px;
@@ -8,7 +10,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #171717;
+    background-color: $dark_500;
     width: 204px;
     height: 204px;
   }

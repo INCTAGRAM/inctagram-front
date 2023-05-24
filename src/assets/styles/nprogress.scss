@@ -1,9 +1,11 @@
+@import "src/assets/styles/variables";
+
 #nprogress {
     pointer-events: none;
 }
 
 #nprogress .bar {
-    background: #397DF6;
+    background: $primary_500;
     position: fixed;
     z-index: 1031;
     top: 0;
@@ -18,7 +20,7 @@
     right: 0;
     width: 100px;
     height: 100%;
-    box-shadow: 0 0 10px #BDC1C7, 0 0 5px #397DF6;
+    box-shadow: 0 0 10px $light_900, 0 0 5px $primary_500;
     opacity: 1.0;
     -webkit-transform: rotate(3deg) translate(0px, -4px);
     -ms-transform: rotate(3deg) translate(0px, -4px);

@@ -1,8 +1,10 @@
+@import "src/assets/styles/variables";
+
 .block {
   width: 378px;
   padding: 24px;
-  background: #171717;
-  border: 1px solid #333333;
+  background: $dark_500;
+  border: 1px solid $dark_300;
   border-radius: 2px;
   display: flex;
   flex-direction: column;
@@ -12,7 +14,7 @@
 
   h1 {
     line-height: 36px;
-    color: #FFFFFF;
+    color: $light_100;
   }
 
   .content {
@@ -32,7 +34,7 @@
     }
 
     p {
-      color: #BDC1C7;
+      color: $light_900;
       font-size: 14px;
     }
 

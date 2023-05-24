@@ -1,3 +1,5 @@
+@import "src/assets/styles/variables";
+
 .container_content {
   display: flex;
   flex-direction: column;
@@ -13,7 +15,7 @@
     justify-content: center;
     width: 222px;
     height: 228px;
-    background: #171717;
+    background: $dark_500;
   }
 
   .icon {
