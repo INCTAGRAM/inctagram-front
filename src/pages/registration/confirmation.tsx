@@ -64,11 +64,18 @@ const Confirmation: NextPageWithLayout<IConfirmation> = ({ message, errorStatus,
   } else {
     return (
       <HeadMeta title={'Error'}>
-        <Button onClick={() => push(RouteNames.LOGIN)}>Go to log in page</Button>
-        <br />
-        <br />
-        <Button onClick={() => push(RouteNames.REGISTER)}>Go to registration page</Button>
-        {!isSuccess && <ErrorSnackbar error={message ? message : ''} />}
+        <div
+          style={{
+            maxWidth: '380px',
+            margin: '0 auto',
+          }}
+        >
+          <Button onClick={() => push(RouteNames.LOGIN)}>Go to login page</Button>
+          <br />
+          <br />
+          <Button onClick={() => push(RouteNames.REGISTER)}>Go to registration page</Button>
+          {!isSuccess && <ErrorSnackbar error={message ? message : ''} />}
+        </div>
       </HeadMeta>
     )
   }

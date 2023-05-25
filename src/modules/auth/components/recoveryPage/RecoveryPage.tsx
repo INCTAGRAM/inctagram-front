@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { usePasswordRecoveryMutation } from '@/modules/auth/services/authService'
 import { InputText } from '@/common/ui/inputText/InputText'
 import { Button } from '@/common/ui/button/Button'
@@ -16,10 +16,14 @@ type RecoveryType = yup.InferType<typeof recoverySchema>
 import { useGoogleReCaptcha } from 'react-google-recaptcha-v3'
 
 const RecoveryPage = () => {
-  const [sendEmail, { isError, error }] = usePasswordRecoveryMutation()
+  const [sendEmail, { isError, error, isSuccess }] = usePasswordRecoveryMutation()
   const [email, setEmail] = useState('')
   const [isShowPopup, setIsShowPopup] = useState(false)
   const { executeRecaptcha } = useGoogleReCaptcha()
+
+  useEffect(() => {
+    isSuccess && setIsShowPopup(true)
+  }, [isSuccess])
 
   const {
     register,
