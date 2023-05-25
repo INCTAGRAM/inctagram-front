@@ -1,10 +1,10 @@
 import { NextPageWithLayout } from '@/pages/_app'
 import HeadMeta from '@/common/headMeta/HeadMeta'
-import RegistrationSuccessPage from '@/features/screens/feedbackPages/RegistrationSuccessPage'
-import ExpiredPage from '@/features/screens/feedbackPages/ExpiredPage'
+import { RegistrationSuccessPage } from '@/modules/auth/components/feedbackPages/RegistrationSuccessPage'
+import { ExpiredPage } from '@/modules/auth/components/feedbackPages/ExpiredPage'
 import { getBaseLayout } from '@/common/layout/baseLayout/BaseLayout'
 import axios, { AxiosError } from 'axios'
-import { ErrorSnackbar } from '@/common/alertSnackbar/ErrorSnackbar'
+import { ErrorSnackbar } from '@/common/ui/alertSnackbar/ErrorSnackbar'
 import { errorHandler } from '@/hooks/errorsHandler'
 import { Button } from '@/common/ui/button/Button'
 import { useRouter } from 'next/router'
@@ -64,11 +64,18 @@ const Confirmation: NextPageWithLayout<IConfirmation> = ({ message, errorStatus,
   } else {
     return (
       <HeadMeta title={'Error'}>
-        <Button onClick={() => push(RouteNames.LOGIN)}>Go to log in page</Button>
-        <br />
-        <br />
-        <Button onClick={() => push(RouteNames.REGISTER)}>Go to registration page</Button>
-        {!isSuccess && <ErrorSnackbar error={message ? message : ''} />}
+        <div
+          style={{
+            maxWidth: '380px',
+            margin: '0 auto',
+          }}
+        >
+          <Button onClick={() => push(RouteNames.LOGIN)}>Go to login page</Button>
+          <br />
+          <br />
+          <Button onClick={() => push(RouteNames.REGISTER)}>Go to registration page</Button>
+          {!isSuccess && <ErrorSnackbar error={message ? message : ''} />}
+        </div>
       </HeadMeta>
     )
   }

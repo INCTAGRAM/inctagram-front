@@ -1,0 +1,53 @@
+@import "src/assets/styles/variables";
+
+.block {
+  width: 378px;
+  padding: 24px;
+  background: $dark_500;
+  border: 1px solid $dark_300;
+  border-radius: 2px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  margin: 0 auto;
+
+  h1 {
+    line-height: 36px;
+    color: $light_100;
+  }
+
+  .content {
+    width: 100%;
+
+    .form_icons {
+      display: flex;
+      justify-content: center;
+      gap: 60px;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
+      padding: 25px 0;
+    }
+
+    p {
+      color: $light_900;
+      font-size: 14px;
+    }
+
+    div {
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    .form_footer {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+    }
+  }
+}

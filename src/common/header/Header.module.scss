@@ -1,9 +1,11 @@
+@import "src/assets/styles/variables";
+
 .headerContainer {
   height: 60px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-bottom: 1px solid #333333;
+  border-bottom: 1px solid $dark_300;
 
   .linerLoading {
     position: fixed;

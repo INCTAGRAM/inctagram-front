@@ -1,0 +1,74 @@
+@import "src/assets/styles/variables";
+
+.top_panel {
+  max-width: 800px;
+  display: flex;
+  flex-direction: row;
+  gap: 49px;
+  padding: 4px 0;
+  position: relative;
+
+  & > div:nth-child(1) {
+    .selected {
+      color: $primary_500;
+      transition: .5s;
+    }
+
+    display: flex;
+    flex-direction: row;
+    gap: 35px;
+    padding: 4px 13px;
+
+    h2 {
+      position: relative;
+      color: $dark_300;
+      cursor: pointer;
+    }
+
+  }
+
+  & > div:nth-child(2) {
+    @mixin segment($width, $height) {
+      width: $width;
+      height: $height;
+      display: inline-block;
+      background-color: $dark_300;
+
+    }
+    display: flex;
+    align-items: center;
+    height: 1px;
+    width: 100%;
+    background: $dark_300;
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+
+    div {
+      width: 313px;
+      height: 2px;
+      background: $dark_300;
+
+      .underline {
+        background: $primary_500;
+        position: relative;
+        height: 2px;
+        transition: .5s
+      }
+
+      @mixin segment($width, $left) {
+        @extend .underline;
+        width: $width;
+        left: $left;
+      }
+
+      .opt1 {
+        @include segment(202px, 0);
+      }
+
+      .opt2 {
+        @include segment(111px, 202px);
+      }
+    }
+  }
+}

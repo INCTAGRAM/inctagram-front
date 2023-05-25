@@ -1,0 +1,30 @@
+@import "src/assets/styles/variables";
+
+.images {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  column-gap: 30px;
+  row-gap: 10px;
+
+  .filterContainer {
+    text-align: center;
+
+    .imgWithFilter {
+      max-width: 100%;
+      max-height: 115px;
+    }
+
+    .filterName {
+      color: $light_900;
+      font-size: 14px;
+      line-height: 20px;
+      margin-top: 5px;
+    }
+
+    &.active .filterName {
+      color: $primary_500;
+    }
+  }
+
+
+}

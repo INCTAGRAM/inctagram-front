@@ -1,0 +1,32 @@
+@import "src/assets/styles/variables";
+
+.wrapperPopup {
+  width: 378px;
+  padding: 24px;
+
+  .wrapperChildren {
+    position: relative;
+    color: $light_100;
+    font-size: 16px;
+    margin-bottom: 20px;
+  }
+
+  .wrapperButton {
+    display: flex;
+    justify-content: flex-end;
+
+    .button {
+      width: 96px;
+      margin-left: 24px;
+      border: 1px solid $primary_500;
+
+      &.btnYes {
+        background: transparent;
+
+        &:hover {
+          background: $primary_500;
+        }
+      }
+    }
+  }
+}

@@ -17,7 +17,7 @@
 
   .popup {
     min-width: 378px;
-    background: #333333;
+    background: $dark_300;
     border: 1px solid #4C4C4C;
     border-radius: 2px;
 
@@ -29,7 +29,7 @@
       border-bottom: 1px solid #4C4C4C;
 
       p.title {
-        color: #FFFFFF;
+        color: $light_100;
         font-size: 20px;
         font-weight: 700;
       }
