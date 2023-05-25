@@ -1,5 +1,4 @@
 import React, { useEffect, useRef } from 'react'
-import { FilterTabs } from '@/modules/createPost/components/filtersPhotoPopup/filtersPhotoComponents/FilterTabs'
 import { InstaField } from '@/modules/createPost/components/filtersPhotoPopup/filtersPhotoComponents/InstaField'
 import { Popup } from '@/common/ui/popup/Popup'
 import domtoimage from 'dom-to-image'
@@ -25,7 +24,6 @@ export const FiltersPhotoPopup = ({
   const images = useAppSelector((state) => state.createPostReducer.images)
   const imagesAfterFilters = useAppSelector((state) => state.createPostReducer.imagesAfterFilters)
   const activeIndexImage = useAppSelector((state) => state.createPostReducer.activeImage)
-  const activeFilterImage = imagesAfterFilters[activeIndexImage]
   const filterParametrs = useAppSelector((state) => state.createPostReducer.filterParameters)
   const prevFilterParametrs = useAppSelector((state) => state.createPostReducer.prevFilterParameters)
 
@@ -48,7 +46,7 @@ export const FiltersPhotoPopup = ({
   }, [dispatch, images])
 
   useEffect(() => {
-    filterParametrs.map((item) => {
+    filterParametrs.map(() => {
       if (filterParametrs[activeIndexImage] === '') {
         dispatch(changeImageAfterFilters({ imageIndex: activeIndexImage, urlImage: images[activeIndexImage] }))
       }
@@ -68,7 +66,6 @@ export const FiltersPhotoPopup = ({
       domtoimage
         .toJpeg(imgResultRef.current)
         .then(function (dataUrl) {
-          // const url = URL.createObjectURL(blob)
           dispatch(changeImageAfterFilters({ imageIndex: activeIndexImage, urlImage: dataUrl }))
         })
         .catch(function (error) {
@@ -102,12 +99,18 @@ export const FiltersPhotoPopup = ({
       <div className={styles.container}>
         <div className={styles.containerImg}>
           <SliderForFilterPhoto direction={'back'} setImage={setImage} />
-          <ImageField imageFile={activeFilterImage} ref={imgResultRef} />
+          {imagesAfterFilters.map((img, i) => {
+            const position = (i - activeIndexImage) * 100
+            if (i === activeIndexImage) {
+              return <ImageField key={i} imageFile={img} position={position} ref={imgResultRef} />
+            } else {
+              return <ImageField key={i} imageFile={img} position={position} />
+            }
+          })}
           <SliderForFilterPhoto direction={'forward'} setImage={setImage} />
         </div>
         <div className={styles.containerSelect}>
-          <FilterTabs />
-          <InstaField />
+          <InstaField imgFile={images[activeIndexImage]} />
         </div>
       </div>
     </Popup>
