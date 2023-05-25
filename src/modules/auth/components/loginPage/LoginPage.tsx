@@ -1,12 +1,12 @@
 import { InputText } from '@/common/ui/inputText/InputText'
 import { InputPassword } from '@/common/ui/inputPassword/InputPassword'
 import { Button } from '@/common/ui/button/Button'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import * as yup from 'yup'
 import { loginSchema } from '@/modules/auth/helpers/auth-schemes'
 import { SubmitHandler, useForm } from 'react-hook-form'
-import { useLoginMutation, useLoginGoogleMutation } from '@/modules/auth/services/authService'
+import { useLoginMutation } from '@/modules/auth/services/authService'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { RouteNames } from '@/constants/routes'
 import Form from '@/common/ui/form/Form'
@@ -15,31 +15,15 @@ import { ErrorSnackbar } from '@/common/ui/alertSnackbar/ErrorSnackbar'
 import { IErrorResponse } from '@/modules/auth/services/types'
 import { addToken } from '@/store/tokenSlice'
 import { useAppDispatch } from '@/store/store'
-import { useGoogleLogin } from '@react-oauth/google'
+import { useLoginGoogleAuthMutation } from '@/modules/auth/hooks/useLoginGoogleAuthMutation'
 
 type LoginType = yup.InferType<typeof loginSchema>
 
 const LoginPage = () => {
-  const [code, setCode] = useState('')
   const dispatch = useAppDispatch()
   const [login, { data, isError, isSuccess, error }] = useLoginMutation()
   const { push } = useRouter()
-  console.log(code)
-
-  const [loginGoogle, { data: googleData, isError: isGoogleError, isSuccess: isGoogleSuccess, error: googleError }] =
-    useLoginGoogleMutation()
-
-  useEffect(() => {
-    code && loginGoogle({ code })
-  }, [code])
-
-  const loginOauthGoogle = useGoogleLogin({
-    onSuccess: (codeResponse) => setCode(codeResponse.code),
-    flow: 'auth-code',
-    onError: () => {
-      console.log('Login Failed')
-    },
-  })
+  const { loginOauthGoogle, isGoogleSuccess, googleData } = useLoginGoogleAuthMutation()
 
   const {
     register,
@@ -55,6 +39,11 @@ const LoginPage = () => {
     isSuccess && push(RouteNames.PROFILE)
     data && dispatch(addToken(data.accessToken))
   }, [data, isSuccess, push])
+
+  useEffect(() => {
+    isGoogleSuccess && push(RouteNames.PROFILE)
+    googleData && dispatch(addToken(googleData.accessToken))
+  }, [googleData, isGoogleSuccess, push])
 
   const onFormSubmit: SubmitHandler<LoginType> = ({ email, password }) => {
     if (!email || !password) return

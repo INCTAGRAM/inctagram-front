@@ -4,6 +4,7 @@ import {
   INewPasswordData,
   IRegistrationData,
   IRecoveryData,
+  ILoginGoogleResponse,
 } from '@/modules/auth/services/types'
 import { createApi } from '@reduxjs/toolkit/query/react'
 import { HYDRATE } from 'next-redux-wrapper'
@@ -26,7 +27,7 @@ export const authService = createApi({
         body,
       }),
     }),
-    loginGoogle: build.mutation<any, { code: string }>({
+    loginGoogle: build.mutation<ILoginGoogleResponse, { code: string }>({
       query: (body) => ({
         url: '/auth/google/sign-in',
         method: 'POST',
