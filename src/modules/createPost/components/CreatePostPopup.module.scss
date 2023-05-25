@@ -1,4 +1,21 @@
+@import "src/assets/styles/variables";
+
 .createPostPopup {
   position: fixed;
   z-index: 10;
+}
+
+.wrapperForPopup {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 0;
+  height: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1;
+
+  &.showWrapper {
+    width: 100%;
+    height: 100%;
+  }
 }
