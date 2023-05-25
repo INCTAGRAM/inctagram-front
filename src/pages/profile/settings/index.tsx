@@ -1,4 +1,4 @@
-import { ProfileSettingsPage } from '@/features/screens/profileSettingsPage/ProfileSettingsPage'
+import { ProfileSettingsPage } from '@/modules/profileSettings'
 import { NextPageWithLayout } from '@/pages/_app'
 import HeadMeta from '@/common/headMeta/HeadMeta'
 import { getNavbarLayout } from '@/common/layout/navbarLayout/NavbarLayout'

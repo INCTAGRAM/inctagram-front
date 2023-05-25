@@ -1,13 +1,14 @@
-import style from './Header.module.scss'
+import styles from './Header.module.scss'
 import Image from 'next/image'
-import Inctagram from './../../assets/image/Inctagram.svg'
+import Inctagram from '../../../public/logo/Inctagram.svg'
 import { useRouter } from 'next/navigation'
 import { RouteNames } from '@/constants/routes'
 import IcomoonReact from 'icomoon-react'
 import LogOut from '@/assets/icons/selection.json'
-import { useLogoutMutation } from '@/services/auth/authService'
-import { useAppDispatch } from '@/services/redux/store'
-import { addToken } from '@/services/redux/tokenReducer'
+import { useLogoutMutation } from '@/modules/auth/services/authService'
+import { useAppDispatch, useAppSelector } from '@/store/store'
+import { addToken } from '@/store/tokenSlice'
+import LinearProgress from '@mui/material/LinearProgress'
 
 interface IHeader {
   showLogout: boolean
@@ -16,6 +17,7 @@ interface IHeader {
 const Header = ({ showLogout }: IHeader) => {
   const [logout, { isSuccess }] = useLogoutMutation()
   const dispatch = useAppDispatch()
+  const isLoading = useAppSelector((state) => state.appReducer.isLoading)
   const { push } = useRouter()
   const handler = () => {
     logout()
@@ -27,11 +29,12 @@ const Header = ({ showLogout }: IHeader) => {
   }
 
   return (
-    <div className={style.headerContainer}>
-      <Image src={Inctagram} alt={'logo'} className={style.logo} />
+    <div className={styles.headerContainer}>
+      <div className={styles.linerLoading}>{isLoading && <LinearProgress />}</div>
+      <Image src={Inctagram} alt={'logo'} className={styles.logo} />
       {showLogout && (
-        <div onClick={handler} className={style.logout}>
-          <IcomoonReact iconSet={LogOut} icon={'log-out'} size={16} className={style.icon} color={'white'} />
+        <div onClick={handler} className={styles.logout}>
+          <IcomoonReact iconSet={LogOut} icon={'log-out'} size={16} className={styles.icon} color={'white'} />
           Log Out
         </div>
       )}

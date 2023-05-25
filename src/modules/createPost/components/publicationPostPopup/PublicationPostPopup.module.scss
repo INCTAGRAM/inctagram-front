@@ -1,0 +1,45 @@
+.createPostPopup {
+  position: relative;
+
+  & > div {
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  &:before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    pointer-events: none;
+  }
+}
+
+.wrapperPopup {
+  display: flex;
+  width: 972px;
+  height: 486px;
+
+  .wrapperImages {
+    position: relative;
+    width: 486px;
+    overflow: hidden;
+
+    .switchImage {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      transition: 0.25s;
+    }
+  }
+
+  .wrapperDescription {
+    margin: 24px 0 0 24px;
+  }
+}
+

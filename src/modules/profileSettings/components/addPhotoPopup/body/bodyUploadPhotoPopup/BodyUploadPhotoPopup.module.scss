@@ -1,0 +1,24 @@
+@import "src/assets/styles/variables";
+
+.container_content {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin: 0 auto;
+  width: 222px;
+  height: 100%;
+  padding: 72px 0 108px;
+
+  .container_icon {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 222px;
+    height: 228px;
+    background: $dark_500;
+  }
+
+  .icon {
+    margin: 0 auto;
+  }
+}

@@ -2,9 +2,9 @@ import styles from '../Layout.module.scss'
 import { NextPage } from 'next'
 import { PropsWithChildren, ReactElement } from 'react'
 import Header from '@/common/header/Header'
-import Navbar from '@/common/navbar/Navbar'
+import { Navbar } from '@/common/navbar/Navbar'
 
-const NavbarLayout: NextPage<PropsWithChildren> = ({ children, ...rest }) => {
+const NavbarLayout: NextPage<PropsWithChildren> = ({ children }) => {
   return (
     <>
       <Header showLogout={true} />

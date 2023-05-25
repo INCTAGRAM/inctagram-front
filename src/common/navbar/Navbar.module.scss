@@ -12,7 +12,7 @@
       display: flex;
       align-items: center;
       gap: 12px;
-      color: #fff;
+      color: $light_100;
       font-size: 14px;
       font-weight: 500;
       text-decoration: none;
@@ -22,14 +22,14 @@
       border: none;
     }
     &.active a {
-      color: #397DF6;
+      color: $primary_500;
       font-weight: 700;
     }
     &.margin_top_link a {
       margin-top: 60px;
     }
     &.no_active_link a {
-      color: #fff;
+      color: $light_100;
     }
   }
 }

@@ -1,0 +1,17 @@
+@import "src/assets/styles/variables";
+
+.circle {
+  width: 204px;
+  height: 204px;
+  overflow: hidden;
+  border-radius: 50%;
+
+  .block {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: $dark_500;
+    width: 204px;
+    height: 204px;
+  }
+}

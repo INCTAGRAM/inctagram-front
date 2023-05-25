@@ -1,0 +1,19 @@
+@import "src/assets/styles/variables";
+
+.additionalInfo {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-top: 5px;
+
+  .infoAndIcon {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+  }
+
+  p {
+    font-size: 14px;
+    color: $light_900;
+  }
+}

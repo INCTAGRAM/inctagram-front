@@ -1,0 +1,65 @@
+.createPostPopup {
+  position: relative;
+
+  & > div {
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  &:before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    pointer-events: none;
+  }
+}
+
+.container {
+  display: flex;
+  width: 972px;
+  height: 480px;
+
+  .containerImg {
+    width: 50%;
+    position: relative;
+    cursor: default;
+
+    .sliderControlIcon {
+      position: absolute;
+      top: 50%;
+      width: 36px;
+      height: 36px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transform: translate(0, -50%);
+      background: rgba(0, 0, 0, 0.8);
+      border-radius: 2px;
+      z-index: 10;
+      cursor: pointer;
+
+      &.sliderControlLeft {
+        left: 12px;
+      }
+
+      &.sliderControlRight {
+        right: 12px;
+      }
+    }
+  }
+
+  .containerSelect {
+    width: 50%;
+    padding: 15px;
+  }
+
+
+}
+
+
