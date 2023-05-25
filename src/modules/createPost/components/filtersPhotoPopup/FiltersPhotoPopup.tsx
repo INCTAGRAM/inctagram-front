@@ -22,7 +22,6 @@ export const FiltersPhotoPopup = ({
 }: IFiltersPhotoPopup) => {
   const dispatch = useAppDispatch()
   const images = useAppSelector((state) => state.createPostReducer.images)
-  const imagesAfterFilters = useAppSelector((state) => state.createPostReducer.imagesAfterFilters)
   const activeIndexImage = useAppSelector((state) => state.createPostReducer.activeImage)
   const filterParametrs = useAppSelector((state) => state.createPostReducer.filterParameters)
   const prevFilterParametrs = useAppSelector((state) => state.createPostReducer.prevFilterParameters)
@@ -99,7 +98,7 @@ export const FiltersPhotoPopup = ({
       <div className={styles.container}>
         <div className={styles.containerImg}>
           <SliderForFilterPhoto direction={'back'} setImage={setImage} />
-          {imagesAfterFilters.map((img, i) => {
+          {images.map((img, i) => {
             const position = (i - activeIndexImage) * 100
             if (i === activeIndexImage) {
               return <ImageField key={i} imageFile={img} position={position} ref={imgResultRef} />
