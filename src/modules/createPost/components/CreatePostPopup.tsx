@@ -20,23 +20,19 @@ export const CreatePostPopup = ({ isShowAddPost, setIsShowAddPost }: ICreatePost
   const [isShowPublicationPopup, setIsShowPublicationPopup] = useState(false)
   const [isShowCloseDeletePopup, setIsShowCloseDeletePopup] = useState(false)
 
-  const popupRef = useRef<HTMLDivElement>(null)
+  const popupWrapperRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    if (isShowCloseDeletePopup) return
+    if (!popupWrapperRef.current) return
     if (!isShowAddPost && !isShowCroppingPhotoPopup && !isShowFilterPopup && !isShowPublicationPopup) return
 
     const handleClick = (e: Event) => {
-      if (!popupRef.current) return
       if (!e.target) return
-      if (!popupRef.current.contains(e.target as HTMLElement)) {
+      if (popupWrapperRef.current === e.target) {
         setIsShowCloseDeletePopup(true)
       }
     }
-
-    setTimeout(() => {
-      document.addEventListener('click', handleClick)
-    })
+    popupWrapperRef.current.addEventListener('click', handleClick)
     return () => {
       document.removeEventListener('click', handleClick)
     }
@@ -51,35 +47,43 @@ export const CreatePostPopup = ({ isShowAddPost, setIsShowAddPost }: ICreatePost
     dispatch(setInitialPostState())
   }
 
+  const finalClassForPopupWrapper =
+    isShowAddPost || isShowCroppingPhotoPopup || isShowFilterPopup || isShowPublicationPopup
+      ? `${styles.wrapperForPopup} ${styles.showWrapper}`
+      : styles.wrapperForPopup
+
   return (
-    <div ref={popupRef} className={styles.createPostPopup}>
-      <AddPhotoPopup
-        isShowAddPhotoPopup={isShowAddPost}
-        setIsShowAddPhotoPopup={setIsShowAddPost}
-        setIsShowCroppingPhotoPopup={setIsShowCroppingPhotoPopup}
-      />
-      <CroppingPhotoPopup
-        setIsShowAddPhotoPopup={setIsShowAddPost}
-        isShowCroppingPhotoPopup={isShowCroppingPhotoPopup}
-        setIsShowCroppingPhotoPopup={setIsShowCroppingPhotoPopup}
-        setIsShowFilterPopup={setIsShowFilterPopup}
-      />
-      <FiltersPhotoPopup
-        setIsShowFilterPopup={setIsShowFilterPopup}
-        setIsShowCroppingPhotoPopup={setIsShowCroppingPhotoPopup}
-        isShowFilterPopup={isShowFilterPopup}
-        setIsShowPublicationPopup={setIsShowPublicationPopup}
-      />
-      <PublicationPostPopup
-        isShowPublicationPopup={isShowPublicationPopup}
-        setIsShowPublicationPopup={setIsShowPublicationPopup}
-        setIsShowFilterPopup={setIsShowFilterPopup}
-      />
-      <CloseDeletePopup
-        show={isShowCloseDeletePopup}
-        setIsShowCloseDeletePopup={setIsShowCloseDeletePopup}
-        closeAndDeleteHandler={closeAndDeleteHandler}
-      />
-    </div>
+    <>
+      <div className={styles.createPostPopup}>
+        <AddPhotoPopup
+          isShowAddPhotoPopup={isShowAddPost}
+          setIsShowAddPhotoPopup={setIsShowAddPost}
+          setIsShowCroppingPhotoPopup={setIsShowCroppingPhotoPopup}
+        />
+        <CroppingPhotoPopup
+          setIsShowAddPhotoPopup={setIsShowAddPost}
+          isShowCroppingPhotoPopup={isShowCroppingPhotoPopup}
+          setIsShowCroppingPhotoPopup={setIsShowCroppingPhotoPopup}
+          setIsShowFilterPopup={setIsShowFilterPopup}
+        />
+        <FiltersPhotoPopup
+          setIsShowFilterPopup={setIsShowFilterPopup}
+          setIsShowCroppingPhotoPopup={setIsShowCroppingPhotoPopup}
+          isShowFilterPopup={isShowFilterPopup}
+          setIsShowPublicationPopup={setIsShowPublicationPopup}
+        />
+        <PublicationPostPopup
+          isShowPublicationPopup={isShowPublicationPopup}
+          setIsShowPublicationPopup={setIsShowPublicationPopup}
+          setIsShowFilterPopup={setIsShowFilterPopup}
+        />
+        <CloseDeletePopup
+          show={isShowCloseDeletePopup}
+          setIsShowCloseDeletePopup={setIsShowCloseDeletePopup}
+          closeAndDeleteHandler={closeAndDeleteHandler}
+        />
+      </div>
+      <div ref={popupWrapperRef} className={finalClassForPopupWrapper}></div>
+    </>
   )
 }
