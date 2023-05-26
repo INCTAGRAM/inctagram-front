@@ -1,8 +1,7 @@
 import styles from './CroppingPhotoPopup.module.scss'
 import { Popup } from '@/common/ui/popup/Popup'
 import React, { useEffect, useState } from 'react'
-import { CroppedAreaType } from '@/modules/profileSettings/components/addPhotoPopup/body/bodySavePhotoPopup/BodySavePhotoPopup'
-import { ICrop, ICroppingParameters } from '@/modules/createPost/components/types'
+import { ICrop, ICroppedArea, ICroppingParameters } from '@/modules/createPost/components/types'
 import { ControlCroppingElements } from '@/modules/createPost/components/croppingPhotoPopup/controlCroppingElements/ControlCroppingElements'
 import { AspectControl } from '@/modules/createPost/components/croppingPhotoPopup/controlCroppingElements/aspectControl/AspectControl'
 import { ControlSlider } from '@/modules/createPost/components/croppingPhotoPopup/controlCroppingElements/controlSlider/ControlSlider'
@@ -31,7 +30,7 @@ export const CroppingPhotoPopup = ({
   const croppingParameters = useAppSelector((state) => state.createPostReducer.croppingParameters)
   const activeImage = useAppSelector((state) => state.createPostReducer.activeImage)
 
-  const [croppedArea, setCroppedArea] = useState<CroppedAreaType>({ width: 0, height: 0, x: 0, y: 0 })
+  const [croppedArea, setCroppedArea] = useState<ICroppedArea>({ width: 0, height: 0, x: 0, y: 0 })
   const [crop, setCrop] = useState<ICrop>({ x: 0, y: 0 })
   const [zoom, setZoom] = useState(1)
   const [aspect, setAspect] = useState(1)

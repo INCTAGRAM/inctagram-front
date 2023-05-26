@@ -1,6 +1,5 @@
 import { useAppSelector } from '@/store/store'
-import { ICrop } from '@/modules/createPost/components/types'
-import { CroppedAreaType } from '@/modules/profileSettings/components/addPhotoPopup/body/bodySavePhotoPopup/BodySavePhotoPopup'
+import { ICrop, ICroppedArea } from '@/modules/createPost/components/types'
 import styles from '@/modules/createPost/components/croppingPhotoPopup/CroppingPhotoPopup.module.scss'
 import Cropper, { Area } from 'react-easy-crop'
 import React from 'react'
@@ -12,7 +11,7 @@ interface IImagesInSlider {
   aspect: number
   setCrop: (crop: ICrop) => void
   setZoom: (zoom: number) => void
-  setCroppedArea: (croppedArea: CroppedAreaType) => void
+  setCroppedArea: (croppedArea: ICroppedArea) => void
 }
 export const ImagesInSlider = ({
   originalImages,

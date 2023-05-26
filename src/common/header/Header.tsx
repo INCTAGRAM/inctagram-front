@@ -9,15 +9,19 @@ import { useLogoutMutation } from '@/modules/auth/services/authService'
 import { useAppDispatch, useAppSelector } from '@/store/store'
 import { addToken } from '@/store/tokenSlice'
 import LinearProgress from '@mui/material/LinearProgress'
+import { SuccessSnackbar } from '@/common/ui/alertSnackbar/SuccessSnackbar'
+import { ErrorSnackbar } from '@/common/ui/alertSnackbar/ErrorSnackbar'
 
 interface IHeader {
   showLogout: boolean
 }
 
-const Header = ({ showLogout }: IHeader) => {
+export const Header = ({ showLogout }: IHeader) => {
   const [logout, { isSuccess }] = useLogoutMutation()
   const dispatch = useAppDispatch()
   const isLoading = useAppSelector((state) => state.appReducer.isLoading)
+  const successAlert = useAppSelector((state) => state.appReducer.successAlert)
+  const errorAlert = useAppSelector((state) => state.appReducer.errorAlert)
   const { push } = useRouter()
   const handler = () => {
     logout()
@@ -38,8 +42,8 @@ const Header = ({ showLogout }: IHeader) => {
           Log Out
         </div>
       )}
+      {successAlert && <SuccessSnackbar message={successAlert} />}
+      {errorAlert && <ErrorSnackbar error={errorAlert} />}
     </div>
   )
 }
-
-export default Header
