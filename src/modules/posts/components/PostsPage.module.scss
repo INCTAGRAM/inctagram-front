@@ -4,10 +4,10 @@
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 20px;
-  cursor: pointer;
 
   .post {
     position: relative;
+    cursor: pointer;
 
     img {
       max-width: 100%;
