@@ -1,17 +1,17 @@
 import styles from './CroppingPhotoPopup.module.scss'
 import { Popup } from '@/common/ui/popup/Popup'
-import Cropper, { Area } from 'react-easy-crop'
 import React, { useEffect, useState } from 'react'
 import { CroppedAreaType } from '@/modules/profileSettings/components/addPhotoPopup/body/bodySavePhotoPopup/BodySavePhotoPopup'
 import { ICrop, ICroppingParameters } from '@/modules/createPost/components/types'
-import { ControlElement } from './controlElement/ControlElement'
-import { AspectControl } from '@/modules/createPost/components/croppingPhotoPopup/controlElement/aspectControl/AspectControl'
-import { ControlSlider } from '@/modules/createPost/components/croppingPhotoPopup/controlElement/controlSlider/ControlSlider'
-import { GalleryControl } from '@/modules/createPost/components/croppingPhotoPopup/controlElement/galleryControl/GalleryControl'
-import { SliderControlElements } from '@/modules/createPost/components/croppingPhotoPopup/sliderControlElements/SliderControlElements'
+import { ControlCroppingElements } from '@/modules/createPost/components/croppingPhotoPopup/controlCroppingElements/ControlCroppingElements'
+import { AspectControl } from '@/modules/createPost/components/croppingPhotoPopup/controlCroppingElements/aspectControl/AspectControl'
+import { ControlSlider } from '@/modules/createPost/components/croppingPhotoPopup/controlCroppingElements/controlSlider/ControlSlider'
+import { GalleryControl } from '@/modules/createPost/components/croppingPhotoPopup/controlCroppingElements/galleryControl/GalleryControl'
+import { ControlSliderElements } from '@/modules/createPost/components/croppingPhotoPopup/controlSliderElements/ControlSliderElements'
 import { generateImages } from '@/modules/createPost/helpers/generateImages'
 import { useAppDispatch, useAppSelector } from '@/store/store'
 import { addImages, changeCroppingParamsImage, setInitialPostState } from '@/modules/createPost/store/createPostSlice'
+import { ImagesInSlider } from '@/modules/createPost/components/croppingPhotoPopup/imagesInSlider/ImagesInSlider'
 
 interface ICroppingPhotoPopupProps {
   isShowCroppingPhotoPopup: boolean
@@ -44,10 +44,6 @@ export const CroppingPhotoPopup = ({
       setAspect(croppingParameters[activeImage].aspect)
     }
   }, [activeImage])
-
-  const onCropComplete = (croppedAreaPercentage: Area, croppedAreaPixels: Area) => {
-    setCroppedArea(croppedAreaPixels)
-  }
 
   const prevStep = () => {
     dispatch(setInitialPostState())
@@ -86,45 +82,32 @@ export const CroppingPhotoPopup = ({
       className={styles.croppingPopup}
     >
       <div className={styles.croppingImages}>
-        <SliderControlElements direction={'back'} crop={crop} zoom={zoom} aspect={aspect} croppedArea={croppedArea} />
-        {originalImages?.map((img, i) => {
-          const position = (i - activeImage) * 100
-          return (
-            <div
-              key={i}
-              className={activeImage ? `${styles.croppingImage} ${styles.active}` : styles.croppingImage}
-              style={{ left: `${position}%` }}
-            >
-              <Cropper
-                image={img}
-                crop={crop}
-                zoom={zoom}
-                aspect={aspect}
-                cropShape="rect"
-                onCropChange={setCrop}
-                onZoomChange={setZoom}
-                onCropComplete={onCropComplete}
-                showGrid={false}
-              />
-            </div>
-          )
-        })}
-        <SliderControlElements
+        <ControlSliderElements direction={'back'} crop={crop} zoom={zoom} aspect={aspect} croppedArea={croppedArea} />
+        <ImagesInSlider
+          originalImages={originalImages}
+          crop={crop}
+          zoom={zoom}
+          aspect={aspect}
+          setCrop={setCrop}
+          setZoom={setZoom}
+          setCroppedArea={setCroppedArea}
+        />
+        <ControlSliderElements
           direction={'forward'}
           crop={crop}
           zoom={zoom}
           aspect={aspect}
           croppedArea={croppedArea}
         />
-        <ControlElement icon={'expand-outline'} elementClass={'aspect'}>
+        <ControlCroppingElements icon={'expand-outline'} elementClass={'aspect'}>
           <AspectControl setAspect={setAspect} />
-        </ControlElement>
-        <ControlElement icon={'maximize-outline'} elementClass={'zoom'}>
+        </ControlCroppingElements>
+        <ControlCroppingElements icon={'maximize-outline'} elementClass={'zoom'}>
           <ControlSlider zoom={zoom} setZoom={setZoom} />
-        </ControlElement>
-        <ControlElement icon={'image-outline'} elementClass={'gallery'}>
+        </ControlCroppingElements>
+        <ControlCroppingElements icon={'image-outline'} elementClass={'gallery'}>
           <GalleryControl crop={crop} zoom={zoom} aspect={aspect} croppedArea={croppedArea} />
-        </ControlElement>
+        </ControlCroppingElements>
       </div>
     </Popup>
   )

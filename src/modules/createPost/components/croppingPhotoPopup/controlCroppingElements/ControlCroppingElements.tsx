@@ -1,5 +1,5 @@
 import React, { PropsWithChildren, useEffect, useRef, useState } from 'react'
-import styles from './ControlElement.module.scss'
+import styles from './ControlCroppingElements.module.scss'
 import iconSet from '@/assets/icons/selection.json'
 import IcomoonReact from 'icomoon-react'
 
@@ -8,7 +8,7 @@ interface IControlElementProps {
   elementClass: string
 }
 
-export const ControlElement = ({ children, icon, elementClass }: PropsWithChildren<IControlElementProps>) => {
+export const ControlCroppingElements = ({ children, icon, elementClass }: PropsWithChildren<IControlElementProps>) => {
   const [open, setOpen] = useState(true)
 
   const control = useRef(null as HTMLDivElement | null)
