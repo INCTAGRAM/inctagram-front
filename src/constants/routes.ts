@@ -1,3 +1,5 @@
+import { scopes } from '@/constants/scopes'
+
 export const RouteNames = {
   LOGIN: '/login',
   REGISTER: '/registration',
@@ -22,7 +24,9 @@ export const PublicRoutes: string[] = [
 ]
 
 export const externalLinks = {
-  github: `https://github.com/login/oauth/authorize?client_id=${process.env.GITHUB_CLIENT_ID}`,
+  github: `https://github.com/login/oauth/authorize?client_id=${process.env.GITHUB_CLIENT_ID}&scope=${scopes.join(
+    ' '
+  )}`,
 }
 
 export const PrivateRoutes: string[] = [RouteNames.HOME, RouteNames.PROFILE, RouteNames.PROFILE_SETTINGS]
