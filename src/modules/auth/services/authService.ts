@@ -61,6 +61,12 @@ export const authService = createApi({
         method: 'POST',
       }),
     }),
+    refreshToken: build.mutation<{ accessToken: string }, void>({
+      query: () => ({
+        url: '/auth/refresh-token',
+        method: 'POST',
+      }),
+    }),
   }),
 })
 
@@ -72,4 +78,5 @@ export const {
   useCreateNewPasswordMutation,
   useLogoutMutation,
   useSignInGitHubMutation,
+  useRefreshTokenMutation,
 } = authService
