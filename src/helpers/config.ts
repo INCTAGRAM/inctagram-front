@@ -66,7 +66,6 @@ export const baseQueryWithReauth: BaseQueryFn<string | FetchArgs, unknown, Fetch
         api.dispatch(addToken(null))
       }
     }
-
     api.dispatch(stopRefresh(false))
   }
   return result
