@@ -24,9 +24,9 @@ export const PublicRoutes: string[] = [
 ]
 
 export const externalLinks = {
-  github: `https://github.com/login/oauth/authorize?client_id=${process.env.GITHUB_CLIENT_ID}&scope=${scopes.join(
-    ' '
-  )}`,
+  github: `https://github.com/login/oauth/authorize?client_id=${
+    process.env.NEXT_PUBLIC_GITHUB_CLIENT_ID
+  }&scope=${scopes.join(' ')}`,
 }
 
 export const PrivateRoutes: string[] = [RouteNames.HOME, RouteNames.PROFILE, RouteNames.PROFILE_SETTINGS]
