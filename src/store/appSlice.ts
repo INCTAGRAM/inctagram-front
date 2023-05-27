@@ -3,12 +3,14 @@ import { Nullable } from '@/common/types/Nullable'
 
 interface IInitialState {
   isLoading: boolean
+  isGlobalLoading: boolean
   errorAlert: Nullable<string>
   successAlert: Nullable<string>
 }
 
 const initialState: IInitialState = {
   isLoading: false,
+  isGlobalLoading: false,
   errorAlert: null,
   successAlert: null,
 }
@@ -19,6 +21,9 @@ const appSlice = createSlice({
   reducers: {
     setLoading(state, action: PayloadAction<boolean>) {
       state.isLoading = action.payload
+    },
+    setIsGlobalLoading(state, action: PayloadAction<boolean>) {
+      state.isGlobalLoading = action.payload
     },
     setErrorAlert(state, action: PayloadAction<{ message: Nullable<string> }>) {
       state.errorAlert = action.payload.message
@@ -31,4 +36,4 @@ const appSlice = createSlice({
 
 export const appReducer = appSlice.reducer
 
-export const { setLoading, setErrorAlert, setSuccessAlert } = appSlice.actions
+export const { setLoading, setIsGlobalLoading, setErrorAlert, setSuccessAlert } = appSlice.actions

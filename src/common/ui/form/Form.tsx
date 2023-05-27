@@ -3,6 +3,7 @@ import iconSet from '@/assets/icons/selection.json'
 import Link from 'next/link'
 import React, { PropsWithChildren } from 'react'
 import styles from './Form.module.scss'
+import { externalLinks } from '@/constants/routes'
 
 interface IFormProps {
   title: string
@@ -25,7 +26,9 @@ const Form = ({ title, onSubmit, redirect, isTopPanel, children }: PropsWithChil
         {isTopPanel && (
           <div className={styles.form_icons}>
             <IcomoonReact icon={'google-svgrepo-com-1'} iconSet={iconSet} size={36} />
-            <IcomoonReact icon={'facebook-svgrepo-com-1-1'} iconSet={iconSet} size={36} />
+            <Link href={externalLinks.github}>
+              <IcomoonReact icon={'github-svgrepo-com-3-1'} iconSet={iconSet} color={'#fff'} size={36} />
+            </Link>
           </div>
         )}
         <form onSubmit={onSubmit}>{children}</form>

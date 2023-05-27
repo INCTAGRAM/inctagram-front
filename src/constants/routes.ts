@@ -21,4 +21,8 @@ export const PublicRoutes: string[] = [
   RouteNames.RECOVERY_EXPIRED,
 ]
 
+export const externalLinks = {
+  github: `https://github.com/login/oauth/authorize?client_id=${process.env.GITHUB_CLIENT_ID}`,
+}
+
 export const PrivateRoutes: string[] = [RouteNames.HOME, RouteNames.PROFILE, RouteNames.PROFILE_SETTINGS]
