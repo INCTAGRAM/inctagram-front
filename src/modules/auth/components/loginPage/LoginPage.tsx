@@ -18,7 +18,7 @@ import { useAppDispatch } from '@/store/store'
 
 type LoginType = yup.InferType<typeof loginSchema>
 
-const LoginPage = () => {
+export const LoginPage = () => {
   const dispatch = useAppDispatch()
   const [login, { data, isError, isSuccess, error }] = useLoginMutation()
   const { push } = useRouter()
@@ -78,5 +78,3 @@ const LoginPage = () => {
     </>
   )
 }
-
-export default LoginPage

@@ -19,7 +19,7 @@ interface INewPasswordPage {
   email: string
 }
 
-const NewPasswordPage = ({ code, email }: INewPasswordPage) => {
+export const NewPasswordPage = ({ code, email }: INewPasswordPage) => {
   const [createNewPassword, { isSuccess, isError, error: error }] = useCreateNewPasswordMutation()
   const { push } = useRouter()
 
@@ -74,5 +74,3 @@ const NewPasswordPage = ({ code, email }: INewPasswordPage) => {
     </>
   )
 }
-
-export default NewPasswordPage
