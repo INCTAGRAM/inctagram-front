@@ -4,7 +4,6 @@ import { SubmitHandler, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { Button } from '@/common/ui/button/Button'
 import React, { useEffect, useState } from 'react'
-import EmailSendPopup from '@/modules/auth/components/emailSendPopup/EmailSendPopup'
 import { useRegistrationMutation } from '@/modules/auth/services/authService'
 import { registrationSchema } from '@/modules/auth/helpers/auth-schemes'
 import * as yup from 'yup'
@@ -12,6 +11,7 @@ import Form from '@/common/ui/form/Form'
 import { RouteNames } from '@/constants/routes'
 import { ErrorSnackbar } from '@/common/ui/alertSnackbar/ErrorSnackbar'
 import { IErrorResponse } from '@/modules/auth/services/types'
+import { EmailSendPopup } from '@/modules/auth/components/emailSendPopup/EmailSendPopup'
 
 type RegistrationType = yup.InferType<typeof registrationSchema>
 

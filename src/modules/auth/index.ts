@@ -1,3 +1,3 @@
-import { authService } from './services/authService'
+import { authService, useLogoutMutation } from './services/authService'
 
-export { authService }
+export { authService, useLogoutMutation }
