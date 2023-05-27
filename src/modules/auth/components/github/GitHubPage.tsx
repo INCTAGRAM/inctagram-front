@@ -19,9 +19,11 @@ export const GitHubPage = () => {
   }, [query])
 
   useEffect(() => {
-    if (isSuccess && data) {
+    if (isSuccess && data && data.accessToken) {
       dispatch(addToken(data.accessToken))
       push(RouteNames.PROFILE)
+    } else {
+      console.log(data)
     }
   }, [isSuccess])
 
