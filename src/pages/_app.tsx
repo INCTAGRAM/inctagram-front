@@ -24,11 +24,7 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
 
   return (
     <Provider store={store}>
-      {getLayout(
-        <Redirect>
-          <Component {...pageProps} />
-        </Redirect>
-      )}
+      <Redirect>{getLayout(<Component {...pageProps} />)}</Redirect>
     </Provider>
   )
 }

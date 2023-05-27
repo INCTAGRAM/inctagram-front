@@ -1,21 +1,36 @@
-import { FC, PropsWithChildren, useEffect } from 'react'
+import { FC, PropsWithChildren, useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
-import { RouteNames, PublicRoutes, PrivateRoutes } from '@/constants/routes'
-import { useAppSelector } from '@/store/store'
+import { useRefreshTokenMutation } from '@/modules/auth/services/authService'
+import { RouteNames } from '@/constants/routes'
+import { useAppDispatch } from '@/store/store'
+import { addToken, stopRefresh } from '@/store/tokenSlice'
 
 const Redirect: FC<PropsWithChildren> = ({ children }) => {
-  const accessToken = useAppSelector((state) => state.tokenReducer.accessToken)
-  const { push, pathname } = useRouter()
+  const { push } = useRouter()
+  const dispath = useAppDispatch()
+  const [edit, setEdit] = useState(false)
 
-  const isPublicRouteValid = accessToken && PublicRoutes.includes(pathname)
-  const isPrivateRouteValid = !accessToken && PrivateRoutes.includes(pathname)
+  const [refresh, { isError, isLoading, data, isSuccess }] = useRefreshTokenMutation()
 
   useEffect(() => {
-    if (isPublicRouteValid) push(RouteNames.PROFILE)
-    if (isPrivateRouteValid) push(RouteNames.LOGIN)
-  }, [isPublicRouteValid, isPrivateRouteValid, push])
+    dispath(stopRefresh(true))
+    refresh()
+  }, [])
 
-  return <>{children}</>
+  useEffect(() => {
+    if (data && isSuccess) {
+      dispath(addToken(data.accessToken))
+      setEdit(true)
+    }
+  }, [data])
+
+  useEffect(() => {
+    if (isError) push(RouteNames.LOGIN).then(() => setEdit(true))
+  }, [isError])
+
+  if (isLoading) return <h1>louding</h1>
+
+  return edit ? <>{children}</> : null
 }
 
 export default Redirect
