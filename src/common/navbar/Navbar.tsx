@@ -6,10 +6,10 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { CreatePostPopup } from '@/modules/createPost'
 import { INavbar, navbarPaths } from '@/common/navbar/navbarPaths'
-import { useCheckUserProfileQuery } from '@/modules/profile/services/profileService'
+import { useGetSelfProfileQuery } from '@/modules/profile/services/profileService'
 
 export const Navbar = () => {
-  const { data } = useCheckUserProfileQuery()
+  const { data } = useGetSelfProfileQuery()
   const [isShowAddPost, setIsShowAddPost] = useState(false)
   const { asPath } = useRouter()
 

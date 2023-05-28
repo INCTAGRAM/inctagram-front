@@ -1,14 +1,14 @@
 import HeadMeta from '@/common/headMeta/HeadMeta'
 import { NextPageWithLayout } from '@/pages/_app'
 import { getNavbarLayout } from '@/common/layout/navbarLayout/NavbarLayout'
-import { ProfilePage } from '@/modules/profile'
-import { PostsPage } from '@/modules/posts'
+import { Profile } from '@/modules/profile'
+import { Posts } from '@/modules/posts'
 
 const UserProfile: NextPageWithLayout = () => {
   return (
     <HeadMeta title="Profile">
-      <ProfilePage />
-      <PostsPage />
+      <Profile />
+      <Posts />
     </HeadMeta>
   )
 }

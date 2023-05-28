@@ -3,13 +3,13 @@ import styles from './PublicationPostPopup.module.scss'
 import React, { FC, useEffect } from 'react'
 import { useAppDispatch, useAppSelector } from '@/store/store'
 import { addDescription, setInitialPostState } from '@/modules/createPost/store/createPostSlice'
-import { useCheckUserProfileQuery } from '@/modules/profile/services/profileService'
+import { useGetSelfProfileQuery } from '@/modules/profile/services/profileService'
 import { TextareaWithLimit } from '@/modules/createPost/components/publicationPostPopup/textareaWithLimit/TextareaWithLimit'
 import { convertBlobToFile } from '@/modules/createPost/helpers/convertBlobToFile'
 import { UserInfo } from '@/modules/createPost/components/publicationPostPopup/userInfo/UserInfo'
 import { PublicationPostSlider } from '@/modules/createPost/components/publicationPostPopup/publicationPostSlider/PublicationPostSlider'
 import { BodySlider } from '@/modules/createPost/components/publicationPostPopup/publicationPostSlider/bodySlider/BodySlider'
-import { refetchPosts } from '@/modules/posts/store/postsSlice'
+import { refetchSelfPosts } from '@/modules/posts/store/postsSlice'
 import { useAddPostProfileMutation } from '@/modules/createPost/services/createPostService'
 
 export const PublicationPostPopup: FC<PropsType> = ({
@@ -18,7 +18,7 @@ export const PublicationPostPopup: FC<PropsType> = ({
   isShowPublicationPopup,
 }) => {
   const [addPostProfile, { isSuccess }] = useAddPostProfileMutation()
-  const { data: userData, isSuccess: isSuccessUserData } = useCheckUserProfileQuery()
+  const { data: userData, isSuccess: isSuccessUserData } = useGetSelfProfileQuery()
 
   const dispatch = useAppDispatch()
   const description = useAppSelector((state) => state.createPostReducer.description)
@@ -27,7 +27,7 @@ export const PublicationPostPopup: FC<PropsType> = ({
 
   useEffect(() => {
     if (isSuccess) {
-      dispatch(refetchPosts(true))
+      dispatch(refetchSelfPosts(true))
     }
   }, [isSuccess])
 

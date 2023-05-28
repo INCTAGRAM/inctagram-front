@@ -1,13 +1,13 @@
 import React, { useState } from 'react'
 import { Button } from '@/common/ui/button/Button'
-import styles from './ProfileSettingsPage.module.scss'
+import styles from './ProfileSettings.module.scss'
 import { InputText } from '@/common/ui/inputText/InputText'
 import DatePicker from '@/modules/profileSettings/components/datePicker/DatePicker'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { changeProfileSchema } from '@/modules/profileSettings/helpers/profile-schemes'
 import * as yup from 'yup'
-import { useCheckUserProfileQuery, useUpdateUserProfileMutation } from '@/modules/profile/services/profileService'
+import { useGetSelfProfileQuery, useUpdateUserProfileMutation } from '@/modules/profile/services/profileService'
 import TopPanel from '@/modules/profileSettings/components/topPanel/TopPanel'
 import moment from 'moment'
 import { ErrorSnackbar } from '@/common/ui/alertSnackbar/ErrorSnackbar'
@@ -19,8 +19,8 @@ import { SuccessSnackbar } from '@/common/ui/alertSnackbar/SuccessSnackbar'
 
 export type SetProfileType = yup.InferType<typeof changeProfileSchema>
 
-export const ProfileSettingsPage = () => {
-  const { data: profileData } = useCheckUserProfileQuery()
+export const ProfileSettings = () => {
+  const { data: profileData } = useGetSelfProfileQuery()
   const [updateProfile, { isSuccess, isError, error }] = useUpdateUserProfileMutation()
   const [username, setUsername] = useState(profileData?.username ?? '')
   const [firstName, setFirstName] = useState(profileData?.name ?? '')
