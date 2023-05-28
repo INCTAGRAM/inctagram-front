@@ -1,7 +1,7 @@
 import { FC, PropsWithChildren, useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import { useRefreshTokenMutation } from '@/modules/auth/services/authService'
-import { alwaysAvailableRoutes, RouteNames } from '@/constants/routes'
+import { PublicRoutes, RouteNames } from '@/constants/routes'
 import { useAppDispatch } from '@/store/store'
 import { addToken, stopRefresh } from '@/store/tokenSlice'
 import styles from '@/common/header/Header.module.scss'
@@ -9,28 +9,28 @@ import CircularProgress from '@mui/material/CircularProgress'
 
 export const Redirect: FC<PropsWithChildren> = ({ children }) => {
   const { push, pathname } = useRouter()
-  const [blockContent, setBlockContent] = useState(false)
-  const dispath = useAppDispatch()
+  const [isBlockContent, setIsBlockContent] = useState(true)
+  const dispatch = useAppDispatch()
   const [refresh, { isError, isLoading, data, isSuccess }] = useRefreshTokenMutation()
 
   useEffect(() => {
-    if (alwaysAvailableRoutes.findIndex((route) => route === pathname)) {
-      dispath(stopRefresh(true))
+    if (!PublicRoutes.find((route) => route === pathname)) {
+      dispatch(stopRefresh(true))
       refresh()
     } else {
-      setBlockContent(true)
+      setIsBlockContent(false)
     }
   }, [])
 
   useEffect(() => {
     if (data && isSuccess) {
-      dispath(addToken(data.accessToken))
-      setBlockContent(true)
+      dispatch(addToken(data.accessToken))
+      setIsBlockContent(false)
     }
   }, [data])
 
   useEffect(() => {
-    if (isError) push(RouteNames.LOGIN).then(() => setBlockContent(true))
+    if (isError) push(RouteNames.LOGIN).then(() => setIsBlockContent(false))
   }, [isError])
 
   if (isLoading) {
@@ -41,5 +41,5 @@ export const Redirect: FC<PropsWithChildren> = ({ children }) => {
     )
   }
 
-  return blockContent ? <>{children}</> : <div></div>
+  return isBlockContent ? null : <>{children}</>
 }
