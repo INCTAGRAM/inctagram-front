@@ -30,3 +30,14 @@ export const ExternalLinks = {
     process.env.NEXT_PUBLIC_GITHUB_CLIENT_ID
   }&scope=${scopes.join(' ')}`,
 }
+
+export const endpointsSkipAuth = [
+  'login',
+  'registration',
+  'resendingConfirmation',
+  'passwordRecovery',
+  'createNewPassword',
+  'logout',
+]
+
+export const endpointsSkipLoading = ['getSelfPostsProfile', 'getUserPostsProfile']

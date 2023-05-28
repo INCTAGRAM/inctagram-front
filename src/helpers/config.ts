@@ -3,17 +3,7 @@ import type { BaseQueryFn, FetchArgs, FetchBaseQueryError } from '@reduxjs/toolk
 import { AppDispatch, AppState } from '@/store/store'
 import { addToken, stopRefresh } from '@/store/tokenSlice'
 import { setLoading } from '@/store/appSlice'
-
-const endpointsSkipAuth = [
-  'login',
-  'registration',
-  'resendingConfirmation',
-  'passwordRecovery',
-  'createNewPassword',
-  'logout',
-]
-
-const endpointsSkipLoading = ['getPostsProfile']
+import { endpointsSkipAuth, endpointsSkipLoading } from '@/constants/routes'
 
 const setIsLoading = (dispatch: AppDispatch, endpoint: string, isTurnOn: boolean) => {
   if (!endpointsSkipLoading.find((endpointName) => endpointName === endpoint)) {
