@@ -4,7 +4,7 @@ import { getNavbarLayout } from '@/common/layout/navbarLayout/NavbarLayout'
 import { ProfilePage } from '@/modules/profile'
 import { PostsPage } from '@/modules/posts'
 
-const Profile: NextPageWithLayout = () => {
+const UserProfile: NextPageWithLayout = () => {
   return (
     <HeadMeta title="Profile">
       <ProfilePage />
@@ -13,6 +13,6 @@ const Profile: NextPageWithLayout = () => {
   )
 }
 
-Profile.getLayout = getNavbarLayout
+UserProfile.getLayout = getNavbarLayout
 
-export default Profile
+export default UserProfile
