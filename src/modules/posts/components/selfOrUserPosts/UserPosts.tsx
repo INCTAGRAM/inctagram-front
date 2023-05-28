@@ -43,7 +43,7 @@ export const UserPosts = () => {
           <div className={styles.post} key={post.id}>
             {query.id && (
               <Modal>
-                <DisplayPostPopup previewPost={post} />
+                <DisplayPostPopup postId={post.id} />
               </Modal>
             )}
             <Link href={`/profile?id=${post.id}`}>
