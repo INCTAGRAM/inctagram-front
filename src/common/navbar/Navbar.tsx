@@ -6,10 +6,12 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { CreatePostPopup } from '@/modules/createPost'
 import { INavbar, navbarPaths } from '@/common/navbar/navbarPaths'
+import { useCheckUserProfileQuery } from '@/modules/profile/services/profileService'
 
 export const Navbar = () => {
+  const { data } = useCheckUserProfileQuery()
   const [isShowAddPost, setIsShowAddPost] = useState(false)
-  const { pathname } = useRouter()
+  const { asPath } = useRouter()
 
   const onClickHandler = (isShow: boolean) => {
     setIsShowAddPost(isShow)
@@ -19,31 +21,29 @@ export const Navbar = () => {
     <>
       <ul className={styles.navbar}>
         {navbarPaths.map((item: INavbar, index) => {
-          const finalClass =
-            pathname === item.path
-              ? `${styles.active} ${styles.navbar_link} ${item.class}`
-              : `${item.class} ${styles.navbar_link}`
+          let finalClass
+
+          switch (asPath) {
+            case item.path:
+              finalClass = `${styles.active} ${styles.navbar_link} ${item.class}`
+              break
+            case `${item.path}/${data?.username}`:
+              finalClass = `${styles.active} ${styles.navbar_link} ${item.class}`
+              break
+            default:
+              finalClass = `${styles.navbar_link} ${item.class}`
+          }
 
           return (
             <li key={index} className={finalClass}>
               {item.name === 'Create' ? (
                 <button onClick={() => onClickHandler(true)}>
-                  <IcomoonReact
-                    icon={item.icon}
-                    iconSet={iconSet}
-                    color={pathname === item.path ? '#397DF6' : '#fff'}
-                    size={20}
-                  />
+                  <IcomoonReact icon={item.icon} iconSet={iconSet} size={20} />
                   {item.name}
                 </button>
               ) : (
                 <Link href={item.path}>
-                  <IcomoonReact
-                    icon={item.icon}
-                    iconSet={iconSet}
-                    color={pathname === item.path ? '#397DF6' : '#fff'}
-                    size={20}
-                  />
+                  <IcomoonReact icon={item.icon} iconSet={iconSet} size={20} />
                   {item.name}
                 </Link>
               )}
