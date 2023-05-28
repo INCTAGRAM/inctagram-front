@@ -1,10 +1,11 @@
 import { createApi } from '@reduxjs/toolkit/dist/query/react'
 import { baseQueryWithReauth } from '@/helpers/config'
-import { IPostsRequestData, IPostsResponse } from '@/modules/posts/services/types'
+import { IPostPatchData, IPostResponse, IPostsRequestData, IPostsResponse } from '@/modules/posts/services/types'
 
 export const postsService = createApi({
   reducerPath: 'postApi',
   baseQuery: baseQueryWithReauth,
+  tagTypes: ['Posts'],
   endpoints: (build) => ({
     getPostsProfile: build.query<IPostsResponse, IPostsRequestData>({
       query: (params) => ({
@@ -31,13 +32,35 @@ export const postsService = createApi({
           return false
         }
       },
+      providesTags: ['Posts'],
     }),
-    getPostProfile: build.query<any, any>({
-      query: (params) => ({
-        url: `/users/self/posts/${params.postId}`,
+    getPostProfile: build.query<IPostResponse, string>({
+      query: (postId) => ({
+        url: `/users/self/posts/${postId}`,
       }),
+    }),
+    patchProfilePost: build.mutation<null, IPostPatchData>({
+      query: ({ body, id }) => ({
+        url: `/users/self/posts/${id}`,
+        method: 'PATCH',
+        body,
+      }),
+    }),
+    deleteProfilePost: build.mutation({
+      query(postId) {
+        return {
+          url: `/users/self/posts/${postId}`,
+          method: 'DELETE',
+        }
+      },
+      invalidatesTags: ['Posts'],
     }),
   }),
 })
 
-export const { useGetPostsProfileQuery, useGetPostProfileQuery } = postsService
+export const {
+  useGetPostsProfileQuery,
+  useGetPostProfileQuery,
+  usePatchProfilePostMutation,
+  useDeleteProfilePostMutation,
+} = postsService
