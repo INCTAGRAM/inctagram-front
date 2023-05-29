@@ -12,6 +12,7 @@ export const postsService = createApi({
   reducerPath: 'postApi',
   baseQuery: baseQueryWithReauth,
   tagTypes: ['Posts'],
+  keepUnusedDataFor: 60 * 60 * 24,
   endpoints: (build) => ({
     getSelfPostsProfile: build.query<IPostsResponse, ISelfPostsRequestData>({
       query: (params) => ({
@@ -36,6 +37,7 @@ export const postsService = createApi({
           return false
         }
       },
+      keepUnusedDataFor: 60 * 60 * 24,
     }),
     getUserPostsProfile: build.query<IPostsResponse, IUserPostsRequestData>({
       query: (params) => ({
@@ -63,7 +65,7 @@ export const postsService = createApi({
           return false
         }
       },
-      providesTags: ['Posts'],
+      keepUnusedDataFor: 60 * 60 * 24,
     }),
     getPostProfile: build.query<IPostResponse, string>({
       query: (postId) => ({
@@ -84,7 +86,6 @@ export const postsService = createApi({
           method: 'DELETE',
         }
       },
-      invalidatesTags: ['Posts'],
     }),
   }),
 })
