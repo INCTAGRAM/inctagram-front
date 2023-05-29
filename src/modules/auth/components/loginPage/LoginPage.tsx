@@ -34,8 +34,10 @@ export const LoginPage = () => {
   })
 
   useEffect(() => {
-    isSuccess && push(RouteNames.PROFILE)
-    data && dispatch(addToken(data.accessToken))
+    if (isSuccess && data) {
+      dispatch(addToken(data.accessToken))
+      push(RouteNames.PROFILE)
+    }
   }, [data, isSuccess, push])
 
   const onFormSubmit: SubmitHandler<LoginType> = ({ email, password }) => {
