@@ -1,3 +1,20 @@
+@import "src/assets/styles/variables";
+
+.popupContent {
+  padding: 24px;
+
+  p {
+    color: $light_100;
+  }
+
+  button {
+    width: auto;
+    padding: 6px 35px;
+    margin-left: auto;
+    margin-top: 20px;
+  }
+}
+
 .loading {
   display: flex;
   align-items: center;

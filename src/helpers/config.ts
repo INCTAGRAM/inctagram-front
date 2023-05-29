@@ -3,17 +3,11 @@ import type { BaseQueryFn, FetchArgs, FetchBaseQueryError } from '@reduxjs/toolk
 import { AppDispatch, AppState } from '@/store/store'
 import { addToken, stopRefresh } from '@/store/tokenSlice'
 import { setLoading } from '@/store/appSlice'
-
-const endpointsSkipAuth = [
-  'login',
-  'registration',
-  'resendingConfirmation',
-  'passwordRecovery',
-  'createNewPassword',
-  'logout',
-]
-
-const endpointsSkipLoading = ['getPostsProfile']
+import { endpointsSkipAuth, endpointsSkipLoading } from '@/constants/routes'
+import { authService } from '@/modules/auth'
+import { createPostService } from '@/modules/createPost'
+import { postsService } from '@/modules/posts'
+import { profileService } from '@/modules/profile'
 
 const setIsLoading = (dispatch: AppDispatch, endpoint: string, isTurnOn: boolean) => {
   if (!endpointsSkipLoading.find((endpointName) => endpointName === endpoint)) {
@@ -64,6 +58,10 @@ export const baseQueryWithReauth: BaseQueryFn<string | FetchArgs, unknown, Fetch
         setIsLoading(api.dispatch, api.endpoint, false)
       } else {
         api.dispatch(addToken(null))
+        // api.dispatch(authService.util.resetApiState())
+        // api.dispatch(createPostService.util.resetApiState())
+        // api.dispatch(postsService.util.resetApiState())
+        // api.dispatch(profileService.util.resetApiState())
       }
     }
     api.dispatch(stopRefresh(false))

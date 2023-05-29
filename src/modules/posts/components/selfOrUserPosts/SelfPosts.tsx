@@ -1,36 +1,31 @@
-import styles from './PostsPage.module.scss'
-import { useEffect, useRef } from 'react'
 import { useAppDispatch, useAppSelector } from '@/store/store'
-import {
-  changePage,
-  changePageSize,
-  changePostsCount,
-  initialPostsState,
-  refetchPosts,
-} from '@/modules/posts/store/postsSlice'
+import styles from './Posts.module.scss'
 import Modal from '@/modules/posts/components/post/modal/Modal'
 import { DisplayPostPopup } from '@/modules/posts/components/post/DisplayPostPopup'
 import Link from 'next/link'
-import { useRouter } from 'next/router'
-import { useGetPostsProfileQuery } from '@/modules/posts/services/postsService'
-import { LikesCommentsCount } from '@/modules/posts/components/likesCommentsCount/LikesCommentsCount'
-import { GalleryIcon } from '@/modules/posts/components/gallaryIcon/GalleryIcon'
+import { LikesCommentsCount } from '@/modules/posts/components/selfOrUserPosts/likesCommentsCount/LikesCommentsCount'
+import { GalleryIcon } from '@/modules/posts/components/selfOrUserPosts/gallaryIcon/GalleryIcon'
 import CircularProgress from '@mui/material/CircularProgress'
+import { useRouter } from 'next/router'
+import { useEffect, useRef } from 'react'
+import { changePage, changePageSize, refetchSelfPosts } from '@/modules/posts/store/postsSlice'
+import { useGettingNewPostsOnScroll } from '@/modules/posts/hooks/useGettingNewPostsOnScroll'
+import { useGetSelfPostsProfileQuery } from '@/modules/posts'
 
-export const PostsPage = () => {
+export const SelfPosts = () => {
   const dispatch = useAppDispatch()
   const page = useAppSelector((state) => state.postsReducer.page)
   const pageSize = useAppSelector((state) => state.postsReducer.pageSize)
-  const postsCount = useAppSelector((state) => state.postsReducer.postsCount)
   const isRefetchingPosts = useAppSelector((state) => state.postsReducer.isRefetchingPosts)
+  const { getPosts } = useGettingNewPostsOnScroll()
 
-  const { data, isSuccess, isFetching, refetch } = useGetPostsProfileQuery({ page, pageSize })
+  const { data, isSuccess, isFetching, refetch } = useGetSelfPostsProfileQuery({ page, pageSize })
 
   const router = useRouter()
   const postsRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    dispatch(refetchPosts(false))
+    dispatch(refetchSelfPosts(false))
   }, [data])
 
   useEffect(() => {
@@ -40,20 +35,7 @@ export const PostsPage = () => {
       dispatch(changePage(1))
       dispatch(changePageSize(data.posts.length))
     }
-
-    if (data) dispatch(changePostsCount(data.count))
-  }, [isRefetchingPosts, data?.count])
-
-  useEffect(() => {
-    if (isRefetchingPosts) return
-
-    if (data && postsCount === null) {
-      dispatch(changePostsCount(data.count))
-    } else if (data && data.count !== postsCount) {
-      dispatch(changePage(1))
-      dispatch(changePageSize(data.posts.length + initialPostsState.pageSize))
-    }
-  }, [data?.count])
+  }, [isRefetchingPosts])
 
   useEffect(() => {
     document.addEventListener('scroll', scrollHandler)
@@ -63,22 +45,7 @@ export const PostsPage = () => {
   }, [data])
 
   const scrollHandler = () => {
-    if (!postsRef.current) return
-    if (!data) return
-    if (data.count / page <= pageSize) return
-
-    const allScrollTop = window.scrollY + window.innerHeight
-    if (allScrollTop + 100 > postsRef.current.offsetTop + postsRef.current.scrollHeight) {
-      if (data.count === data.posts.length) return
-      if (pageSize > 12) {
-        dispatch(changePage(Math.floor(pageSize / 12) + 1))
-        dispatch(changePageSize(12))
-      } else {
-        dispatch(changePage(page + 1))
-      }
-
-      document.removeEventListener('scroll', scrollHandler)
-    }
+    data && getPosts(postsRef, data, page, pageSize, scrollHandler)
   }
 
   if (!isSuccess || !data) return null

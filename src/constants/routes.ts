@@ -3,6 +3,7 @@ export const RouteNames = {
   LOGIN: '/login',
   REGISTER: '/registration',
   REGISTER_CONFIRMATION: '/registration/confirmation',
+  MERGE_ACCOUNT: '/login/merge-account',
   GIT_HUB_REGISTRATION: '/registration/github',
   RECOVERY: '/recovery',
   NEW_PASSWORD: '/recovery/new-password',
@@ -17,11 +18,12 @@ export const PublicRoutes: string[] = [
   RouteNames.LOGIN,
   RouteNames.REGISTER,
   RouteNames.REGISTER_CONFIRMATION,
+  RouteNames.MERGE_ACCOUNT,
+  RouteNames.GIT_HUB_REGISTRATION,
   RouteNames.RECOVERY,
   RouteNames.NEW_PASSWORD_CONFIRMATION,
   RouteNames.NEW_PASSWORD,
   RouteNames.RECOVERY_EXPIRED,
-  RouteNames.GIT_HUB_REGISTRATION,
 ]
 
 export const ExternalLinks = {
@@ -29,3 +31,14 @@ export const ExternalLinks = {
     process.env.NEXT_PUBLIC_GITHUB_CLIENT_ID
   }&scope=${scopes.join(' ')}`,
 }
+
+export const endpointsSkipAuth = [
+  'login',
+  'registration',
+  'resendingConfirmation',
+  'passwordRecovery',
+  'createNewPassword',
+  'logout',
+]
+
+export const endpointsSkipLoading = ['getSelfPostsProfile', 'getUserPostsProfile']

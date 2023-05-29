@@ -1,5 +1,3 @@
-import { Nullable } from '@/common/types/Nullable'
-
 export interface IPost {
   description: string
   originalImages: string[]
@@ -28,11 +26,4 @@ export interface ICroppedArea {
 export interface ICrop {
   x: number
   y: number
-}
-
-export interface IPosts {
-  page: number
-  pageSize: number
-  postsCount: Nullable<number>
-  isRefetchingPosts: boolean
 }

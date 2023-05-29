@@ -10,10 +10,13 @@ interface IPost {
   createdAt: string
 }
 
-export interface IPostsRequestData {
+export interface IUserPostsRequestData {
+  username: string
   page: number
   pageSize: number
 }
+
+export type ISelfPostsRequestData = Omit<IUserPostsRequestData, 'username'>
 
 export interface IPostResponse {
   id: string

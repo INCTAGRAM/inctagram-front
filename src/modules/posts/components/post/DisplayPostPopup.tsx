@@ -9,7 +9,7 @@ import {
   usePatchProfilePostMutation,
 } from '@/modules/posts/services/postsService'
 import { PostType } from '@/modules/posts/components/post/types/PostType'
-import { useCheckUserProfileQuery } from '@/modules/profile/services/profileService'
+import { useGetSelfProfileQuery } from '@/modules/profile/services/profileService'
 import Avatar from '@/modules/posts/components/post/avatar/Avatar'
 import iconSet from '@/assets/icons/selection.json'
 import IcomoonReact from 'icomoon-react'
@@ -22,7 +22,7 @@ export const DisplayPostPopup = ({ postId }: DisplayPostPopupPropsType) => {
   const router = useRouter()
   const { isLoading, data, isFetching } = useGetPostProfileQuery(postId, { refetchOnMountOrArgChange: true })
   const [post, setPost] = useState<PostType | undefined>(undefined)
-  const { data: userData } = useCheckUserProfileQuery()
+  const { data: userData } = useGetSelfProfileQuery()
   const [showSettings, setShowSettings] = useState(false)
   const [isEditMode, setIsEditMode] = useState(false)
   const [showDeleteModal, setShowDeleteModal] = useState(false)

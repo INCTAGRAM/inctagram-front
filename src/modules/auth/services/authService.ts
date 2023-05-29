@@ -63,6 +63,15 @@ export const authService = createApi({
         body,
       }),
     }),
+    mergeAccount: build.mutation<{ accessToken: string }, { code: string }>({
+      query: (body) => ({
+        url: `/auth/merge-account/`,
+        method: 'POST',
+        params: {
+          code: body.code,
+        },
+      }),
+    }),
     logout: build.mutation<void, void>({
       query: () => ({
         url: '/auth/logout',
@@ -87,5 +96,6 @@ export const {
   useCreateNewPasswordMutation,
   useLogoutMutation,
   useSignInGitHubMutation,
+  useMergeAccountMutation,
   useRefreshTokenMutation,
 } = authService

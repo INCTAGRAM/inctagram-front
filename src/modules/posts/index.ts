@@ -1,6 +1,6 @@
-import { PostsPage } from './components/PostsPage'
+import { Posts } from './components/Posts'
 import { postsReducer } from './store/postsSlice'
 import { postsService } from './services/postsService'
-import { useGetPostsProfileQuery } from '@/modules/posts/services/postsService'
+import { useGetSelfPostsProfileQuery } from '@/modules/posts/services/postsService'
 
-export { PostsPage, useGetPostsProfileQuery, postsReducer, postsService }
+export { Posts, useGetSelfPostsProfileQuery, postsReducer, postsService }

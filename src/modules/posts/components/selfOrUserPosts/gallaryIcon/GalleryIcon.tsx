@@ -1,4 +1,4 @@
-import styles from '@/modules/posts/components/PostsPage.module.scss'
+import styles from '../Posts.module.scss'
 import IcomoonReact from 'icomoon-react'
 import iconSet from '@/assets/icons/selection.json'
 

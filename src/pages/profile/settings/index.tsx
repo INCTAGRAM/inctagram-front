@@ -1,16 +1,16 @@
-import { ProfileSettingsPage } from '@/modules/profileSettings'
+import { ProfileSettings } from '@/modules/profileSettings'
 import { NextPageWithLayout } from '@/pages/_app'
 import HeadMeta from '@/common/headMeta/HeadMeta'
 import { getNavbarLayout } from '@/common/layout/navbarLayout/NavbarLayout'
 
-const ProfileSettings: NextPageWithLayout = () => {
+const ProfileSettingsPage: NextPageWithLayout = () => {
   return (
     <HeadMeta title="Profile">
-      <ProfileSettingsPage />
+      <ProfileSettings />
     </HeadMeta>
   )
 }
 
-ProfileSettings.getLayout = getNavbarLayout
+ProfileSettingsPage.getLayout = getNavbarLayout
 
-export default ProfileSettings
+export default ProfileSettingsPage

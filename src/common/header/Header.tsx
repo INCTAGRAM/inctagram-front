@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation'
 import { RouteNames } from '@/constants/routes'
 import IcomoonReact from 'icomoon-react'
 import LogOut from '@/assets/icons/selection.json'
-import { useLogoutMutation } from '@/modules/auth/services/authService'
+import { authService, useLogoutMutation } from '@/modules/auth/services/authService'
 import { useAppDispatch, useAppSelector } from '@/store/store'
 import { addToken } from '@/store/tokenSlice'
 import LinearProgress from '@mui/material/LinearProgress'
@@ -13,6 +13,9 @@ import { SuccessSnackbar } from '@/common/ui/alertSnackbar/SuccessSnackbar'
 import { ErrorSnackbar } from '@/common/ui/alertSnackbar/ErrorSnackbar'
 import CircularProgress from '@mui/material/CircularProgress'
 import { useEffect } from 'react'
+import { createPostService } from '@/modules/createPost'
+import { postsService } from '@/modules/posts'
+import { profileService } from '@/modules/profile'
 
 interface IHeader {
   showLogout: boolean
@@ -29,6 +32,13 @@ export const Header = ({ showLogout }: IHeader) => {
   const handler = () => {
     logout()
   }
+
+  useEffect(() => {
+    dispatch(authService.util.resetApiState())
+    dispatch(createPostService.util.resetApiState())
+    dispatch(postsService.util.resetApiState())
+    dispatch(profileService.util.resetApiState())
+  }, [isSuccess])
 
   useEffect(() => {
     if (isSuccess) {
