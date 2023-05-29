@@ -16,7 +16,7 @@ import { useEffect } from 'react'
 import { createPostService } from '@/modules/createPost'
 import { postsService } from '@/modules/posts'
 import { profileService } from '@/modules/profile'
-import { clearCashRTKQuery } from '@/store/appSlice'
+import { clearState } from '@/store/appSlice'
 import { setInitialPostsState } from '@/modules/posts/store/postsSlice'
 
 interface IHeader {
@@ -28,7 +28,7 @@ export const Header = ({ showLogout }: IHeader) => {
   const dispatch = useAppDispatch()
   const isLoading = useAppSelector((state) => state.appReducer.isLoading)
   const isGlobalLoading = useAppSelector((state) => state.appReducer.isGlobalLoading)
-  const isClearCashRTKQuery = useAppSelector((state) => state.appReducer.isClearCashRTKQuery)
+  const isClearState = useAppSelector((state) => state.appReducer.isClearState)
   const successAlert = useAppSelector((state) => state.appReducer.successAlert)
   const errorAlert = useAppSelector((state) => state.appReducer.errorAlert)
   const { push } = useRouter()
@@ -38,19 +38,19 @@ export const Header = ({ showLogout }: IHeader) => {
   }
 
   useEffect(() => {
-    isSuccess && dispatch(clearCashRTKQuery(true))
+    isSuccess && dispatch(clearState(true))
   }, [isSuccess])
 
   useEffect(() => {
-    if (isClearCashRTKQuery) {
+    if (isClearState) {
       dispatch(authService.util.resetApiState())
       dispatch(createPostService.util.resetApiState())
       dispatch(postsService.util.resetApiState())
       dispatch(profileService.util.resetApiState())
       dispatch(setInitialPostsState())
-      dispatch(clearCashRTKQuery(false))
+      dispatch(clearState(false))
     }
-  }, [isClearCashRTKQuery])
+  }, [isClearState])
 
   useEffect(() => {
     if (isSuccess) {

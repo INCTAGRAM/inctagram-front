@@ -6,7 +6,7 @@ const initialState = {
   isGlobalLoading: false,
   errorAlert: null as null | string,
   successAlert: null as null | string,
-  isClearCashRTKQuery: false,
+  isClearState: false,
 }
 
 const appSlice = createSlice({
@@ -25,12 +25,12 @@ const appSlice = createSlice({
     setSuccessAlert(state, action: PayloadAction<{ message: Nullable<string> }>) {
       state.successAlert = action.payload.message
     },
-    clearCashRTKQuery(state, action: PayloadAction<boolean>) {
-      state.isClearCashRTKQuery = action.payload
+    clearState(state, action: PayloadAction<boolean>) {
+      state.isClearState = action.payload
     },
   },
 })
 
 export const appReducer = appSlice.reducer
 
-export const { setLoading, setIsGlobalLoading, setErrorAlert, setSuccessAlert, clearCashRTKQuery } = appSlice.actions
+export const { setLoading, setIsGlobalLoading, setErrorAlert, setSuccessAlert, clearState } = appSlice.actions
