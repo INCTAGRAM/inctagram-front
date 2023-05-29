@@ -12,17 +12,29 @@ import Form from '@/common/ui/form/Form'
 import { RouteNames } from '@/constants/routes'
 import { ErrorSnackbar } from '@/common/ui/alertSnackbar/ErrorSnackbar'
 import { IErrorResponse } from '@/modules/auth/services/types'
+import { useLoginGoogleAuthMutation } from '@/modules/auth/hooks/useLoginGoogleAuthMutation'
+import { addToken } from '@/store/tokenSlice'
+import { useAppDispatch } from '@/store/store'
+import { useRouter } from 'next/navigation'
 
 type RegistrationType = yup.InferType<typeof registrationSchema>
 
 export const RegistrationPage = () => {
+  const dispatch = useAppDispatch()
+  const { push } = useRouter()
   const [registration, { isError, error, isSuccess }] = useRegistrationMutation()
   const [email, setEmail] = useState('')
   const [isShowPopup, setIsShowPopup] = useState(false)
+  const { loginOauthGoogle, isGoogleSuccess, googleData } = useLoginGoogleAuthMutation()
 
   useEffect(() => {
     isSuccess && setIsShowPopup(true)
   }, [isSuccess])
+
+  useEffect(() => {
+    isGoogleSuccess && push(RouteNames.PROFILE)
+    googleData && dispatch(addToken(googleData.accessToken))
+  }, [googleData, isGoogleSuccess, push])
 
   const {
     register,
@@ -46,6 +58,7 @@ export const RegistrationPage = () => {
         isTopPanel={true}
         onSubmit={handleSubmit(onFormSubmit)}
         redirect={{ title: 'Do you have an account?', link: RouteNames.LOGIN, linkTitle: 'Sign In' }}
+        login={loginOauthGoogle}
       >
         <p>
           <InputText
