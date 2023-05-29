@@ -3,6 +3,7 @@ import iconSet from '@/assets/icons/selection.json'
 import Link from 'next/link'
 import React, { PropsWithChildren } from 'react'
 import styles from './Form.module.scss'
+import { ExternalLinks } from '@/constants/routes'
 
 interface IFormProps {
   title: string
@@ -32,7 +33,9 @@ const Form = ({ title, onSubmit, redirect, isTopPanel, children, login }: PropsW
               onClick={() => login && login()}
               style={{ cursor: 'pointer' }}
             />
-            <IcomoonReact icon={'facebook-svgrepo-com-1-1'} iconSet={iconSet} size={36} />
+            <Link href={ExternalLinks.github}>
+              <IcomoonReact icon={'github-svgrepo-com-3-1'} iconSet={iconSet} color={'#fff'} size={36} />
+            </Link>
           </div>
         )}
         <form onSubmit={onSubmit}>{children}</form>

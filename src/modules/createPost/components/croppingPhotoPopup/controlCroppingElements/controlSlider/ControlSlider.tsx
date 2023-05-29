@@ -1,6 +1,6 @@
 import Slider from '@mui/material/Slider'
 import React from 'react'
-import styles from '../ControlElement.module.scss'
+import styles from '@/modules/createPost/components/croppingPhotoPopup/controlCroppingElements/ControlCroppingElements.module.scss'
 
 interface IControlSliderProps {
   zoom: number

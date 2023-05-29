@@ -4,18 +4,23 @@ import { Button } from '@/common/ui/button/Button'
 import { Popup } from '@/common/ui/popup/Popup'
 
 interface IEmailSendPopup {
-  email: string
+  email?: string
   isShowPopup: boolean
   setIsShowPopup: (isShow: boolean) => void
+  withoutEmail?: boolean
 }
 
-const EmailSendPopup = ({ email, isShowPopup, setIsShowPopup }: IEmailSendPopup) => {
+export const EmailSendPopup = ({ email, isShowPopup, setIsShowPopup, withoutEmail }: IEmailSendPopup) => {
   const closePopup = () => setIsShowPopup(false)
 
   return (
     <Popup title="Email sent" show={isShowPopup} modalOnClick={closePopup}>
       <div className={styles.popup_content}>
-        <p>We have sent a link to confirm your email to {email}</p>
+        {withoutEmail ? (
+          <p>We have sent a link to your google email address for confirm</p>
+        ) : (
+          <p>We have sent a link to confirm your email to {email}</p>
+        )}
         <div>
           <Button onClick={closePopup}>OK</Button>
         </div>
@@ -23,5 +28,3 @@ const EmailSendPopup = ({ email, isShowPopup, setIsShowPopup }: IEmailSendPopup)
     </Popup>
   )
 }
-
-export default EmailSendPopup

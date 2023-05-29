@@ -4,7 +4,6 @@ import { SubmitHandler, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { Button } from '@/common/ui/button/Button'
 import React, { useEffect, useState } from 'react'
-import EmailSendPopup from '@/modules/auth/components/emailSendPopup/EmailSendPopup'
 import { useRegistrationMutation } from '@/modules/auth/services/authService'
 import { registrationSchema } from '@/modules/auth/helpers/auth-schemes'
 import * as yup from 'yup'
@@ -16,6 +15,7 @@ import { useLoginGoogleAuthMutation } from '@/modules/auth/hooks/useLoginGoogleA
 import { addToken } from '@/store/tokenSlice'
 import { useAppDispatch } from '@/store/store'
 import { useRouter } from 'next/navigation'
+import { EmailSendPopup } from '@/modules/auth/components/emailSendPopup/EmailSendPopup'
 
 type RegistrationType = yup.InferType<typeof registrationSchema>
 

@@ -1,8 +1,7 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { usePasswordRecoveryMutation } from '@/modules/auth/services/authService'
 import { InputText } from '@/common/ui/inputText/InputText'
 import { Button } from '@/common/ui/button/Button'
-import EmailSendPopup from '@/modules/auth/components/emailSendPopup/EmailSendPopup'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
@@ -14,12 +13,17 @@ import { IErrorResponse } from '@/modules/auth/services/types'
 
 type RecoveryType = yup.InferType<typeof recoverySchema>
 import { useGoogleReCaptcha } from 'react-google-recaptcha-v3'
+import { EmailSendPopup } from '@/modules/auth/components/emailSendPopup/EmailSendPopup'
 
-const RecoveryPage = () => {
-  const [sendEmail, { isError, error }] = usePasswordRecoveryMutation()
+export const RecoveryPage = () => {
+  const [sendEmail, { isError, error, isSuccess }] = usePasswordRecoveryMutation()
   const [email, setEmail] = useState('')
   const [isShowPopup, setIsShowPopup] = useState(false)
   const { executeRecaptcha } = useGoogleReCaptcha()
+
+  useEffect(() => {
+    isSuccess && setIsShowPopup(true)
+  }, [isSuccess])
 
   const {
     register,
@@ -74,7 +78,6 @@ const RecoveryPage = () => {
 }
 
 export default RecoveryPage
-
 // this keys for recaptcha we dont use, but it have to work
 // 6Lfoc-8lAAAAAASNlkyDs89G9ZGBrEGNmTJEwshp ---- Front
 // 6Lfoc-8lAAAAAE0QWBXTrwcayEBKoA6VUA0mfjLR --- Bek

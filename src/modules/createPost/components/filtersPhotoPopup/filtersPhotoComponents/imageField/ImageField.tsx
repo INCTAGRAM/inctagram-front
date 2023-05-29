@@ -1,44 +1,24 @@
-import { Box, Grid } from '@mui/material'
-import { styled } from '@mui/system'
 import { forwardRef, Ref } from 'react'
-import style from './Instagram.module.css'
+import styles from './ImageField.module.scss'
+import instagramStyles from './Instagram.module.css'
 import { useAppSelector } from '@/store/store'
-
-const StyleBox = styled(Box)({
-  background: '#ddd',
-  minHeight: '20rem',
-  maxHeight: '100vh',
-  marginBottom: '1rem',
-  borderRadius: '5px',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-})
-
-const StyledImage = styled('img')(() => ({
-  width: '100%',
-  height: '100%',
-  objectFit: 'contain',
-}))
+import { Nullable } from '@/common/types/Nullable'
 
 type ImageFieldPropsType = {
   imageFile: string
+  position: Nullable<number>
 }
 
-const Image = ({ imageFile }: ImageFieldPropsType, ref: Ref<HTMLImageElement>) => {
+const Image = ({ imageFile, position }: ImageFieldPropsType, ref: Ref<HTMLImageElement>) => {
   const activeIndexImage = useAppSelector((state) => state.createPostReducer.activeImage)
   const filterParametrs = useAppSelector((state) => state.createPostReducer.filterParameters)
 
   const filterClass = filterParametrs[activeIndexImage] || ''
 
   return (
-    <Grid item xs={12} md={7}>
-      <StyleBox>
-        <figure style={{ width: '100%', height: '480px' }}>
-          <StyledImage className={style[filterClass]} src={imageFile} alt="" ref={ref} />
-        </figure>
-      </StyleBox>
-    </Grid>
+    <div className={styles.filterImg} style={{ left: `${position}%` }}>
+      <img className={`${instagramStyles[filterClass]} ${styles.imageField}`} src={imageFile} alt="" ref={ref} />
+    </div>
   )
 }
 

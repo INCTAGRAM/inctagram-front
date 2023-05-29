@@ -90,7 +90,7 @@ export const PostsPage = () => {
           <div className={styles.post} key={post.id}>
             {router.query.id && (
               <Modal>
-                <DisplayPostPopup previewPost={post} />
+                <DisplayPostPopup postId={post.id} />
               </Modal>
             )}
             <Link href={`/profile?id=${post.id}`}>

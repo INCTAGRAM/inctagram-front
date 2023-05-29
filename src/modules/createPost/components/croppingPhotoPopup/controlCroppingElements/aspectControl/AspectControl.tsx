@@ -1,4 +1,4 @@
-import styles from '../ControlElement.module.scss'
+import styles from '@/modules/createPost/components/croppingPhotoPopup/controlCroppingElements/ControlCroppingElements.module.scss'
 
 interface IAspectControlProps {
   setAspect: (aspect: number) => void

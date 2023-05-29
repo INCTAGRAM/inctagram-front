@@ -7,18 +7,12 @@ import {
   ILoginGoogleResponse,
 } from '@/modules/auth/services/types'
 import { createApi } from '@reduxjs/toolkit/query/react'
-import { HYDRATE } from 'next-redux-wrapper'
 import { baseQueryWithReauth } from '@/helpers/config'
 
 export const authService = createApi({
   reducerPath: 'authApi',
   tagTypes: ['Auth'],
   baseQuery: baseQueryWithReauth,
-  extractRehydrationInfo(action, { reducerPath }) {
-    if (action.type === HYDRATE) {
-      return action.payload[reducerPath]
-    }
-  },
   endpoints: (build) => ({
     login: build.mutation<ITokenResponse, ILoginData>({
       query: (body) => ({
@@ -62,9 +56,22 @@ export const authService = createApi({
         body,
       }),
     }),
+    signInGitHub: build.mutation<{ accessToken: string }, { code: string }>({
+      query: (body) => ({
+        url: '/auth/github/sign-in',
+        method: 'POST',
+        body,
+      }),
+    }),
     logout: build.mutation<void, void>({
       query: () => ({
         url: '/auth/logout',
+        method: 'POST',
+      }),
+    }),
+    refreshToken: build.mutation<{ accessToken: string }, void>({
+      query: () => ({
+        url: '/auth/refresh-token',
         method: 'POST',
       }),
     }),
@@ -79,4 +86,6 @@ export const {
   usePasswordRecoveryMutation,
   useCreateNewPasswordMutation,
   useLogoutMutation,
+  useSignInGitHubMutation,
+  useRefreshTokenMutation,
 } = authService

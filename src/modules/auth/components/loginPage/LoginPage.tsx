@@ -1,7 +1,7 @@
 import { InputText } from '@/common/ui/inputText/InputText'
 import { InputPassword } from '@/common/ui/inputPassword/InputPassword'
 import { Button } from '@/common/ui/button/Button'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import * as yup from 'yup'
 import { loginSchema } from '@/modules/auth/helpers/auth-schemes'
@@ -16,14 +16,15 @@ import { IErrorResponse } from '@/modules/auth/services/types'
 import { addToken } from '@/store/tokenSlice'
 import { useAppDispatch } from '@/store/store'
 import { useLoginGoogleAuthMutation } from '@/modules/auth/hooks/useLoginGoogleAuthMutation'
+import { EmailSendPopup } from '@/modules/auth/components/emailSendPopup/EmailSendPopup'
 
 type LoginType = yup.InferType<typeof loginSchema>
 
-const LoginPage = () => {
+export const LoginPage = () => {
   const dispatch = useAppDispatch()
   const [login, { data, isError, isSuccess, error }] = useLoginMutation()
   const { push } = useRouter()
-  const { loginOauthGoogle, isGoogleSuccess, googleData } = useLoginGoogleAuthMutation()
+  const { loginOauthGoogle, isGoogleSuccess, googleData, displayPopup, setDisplayPopup } = useLoginGoogleAuthMutation()
 
   const {
     register,
@@ -82,8 +83,9 @@ const LoginPage = () => {
         </Button>
       </Form>
       {isError && <ErrorSnackbar error={error as IErrorResponse} />}
+      {displayPopup && (
+        <EmailSendPopup withoutEmail={true} isShowPopup={displayPopup} setIsShowPopup={setDisplayPopup} />
+      )}
     </>
   )
 }
-
-export default LoginPage
