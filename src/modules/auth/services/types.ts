@@ -9,6 +9,7 @@ export interface ILoginData {
 
 export interface ILoginGoogleResponse {
   accessToken: string
+  email?: string
 }
 
 export interface IRegistrationData {

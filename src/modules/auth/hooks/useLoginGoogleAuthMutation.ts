@@ -8,15 +8,18 @@ export const useLoginGoogleAuthMutation = () => {
   const [loginGoogle, { data: googleData, isError: isGoogleError, isSuccess: isGoogleSuccess, error: googleError }] =
     useLoginGoogleMutation()
   console.log(googleData, isGoogleError, isGoogleSuccess, googleError)
-  // useEffect(() => {
-  //   code && loginGoogle({ code })
-  // }, [code, loginGoogle])
 
   useEffect(() => {
-    if (googleError) {
-      if ('originalStatus' in googleError && googleError.originalStatus === 202) setDisplayPopup(true)
-    } else if (code) loginGoogle({ code })
-  }, [googleError, code, loginGoogle])
+    !!code && loginGoogle({ code })
+    debugger
+  }, [code, loginGoogle])
+
+  useEffect(() => {
+    if (googleData && googleData.email) {
+      setDisplayPopup(true)
+      debugger
+    }
+  }, [googleData?.email])
 
   const loginOauthGoogle = useGoogleLogin({
     onSuccess: (codeResponse) => setCode(codeResponse.code),

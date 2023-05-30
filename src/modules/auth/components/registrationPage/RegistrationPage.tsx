@@ -32,9 +32,10 @@ export const RegistrationPage = () => {
   }, [isSuccess])
 
   useEffect(() => {
-    isGoogleSuccess && push(RouteNames.PROFILE)
-    googleData && dispatch(addToken(googleData.accessToken))
-  }, [googleData, isGoogleSuccess, push])
+    googleData?.accessToken && !googleData?.email && dispatch(addToken(googleData.accessToken))
+    googleData?.accessToken && !googleData?.email && push(RouteNames.PROFILE)
+    debugger
+  }, [googleData?.accessToken, googleData?.email, push])
 
   const {
     register,

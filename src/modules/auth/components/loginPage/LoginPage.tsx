@@ -1,7 +1,7 @@
 import { InputText } from '@/common/ui/inputText/InputText'
 import { InputPassword } from '@/common/ui/inputPassword/InputPassword'
 import { Button } from '@/common/ui/button/Button'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import * as yup from 'yup'
 import { loginSchema } from '@/modules/auth/helpers/auth-schemes'
@@ -44,9 +44,10 @@ export const LoginPage = () => {
   }, [data, isSuccess, push])
 
   useEffect(() => {
-    isGoogleSuccess && push(RouteNames.PROFILE)
-    googleData && dispatch(addToken(googleData.accessToken))
-  }, [googleData, isGoogleSuccess, push])
+    googleData?.accessToken && !googleData?.email && dispatch(addToken(googleData.accessToken))
+    googleData?.accessToken && !googleData?.email && push(RouteNames.PROFILE)
+    debugger
+  }, [googleData?.accessToken, googleData?.email, push])
 
   const onFormSubmit: SubmitHandler<LoginType> = ({ email, password }) => {
     if (!email || !password) return
@@ -85,9 +86,7 @@ export const LoginPage = () => {
         </Button>
       </Form>
       {isError && <ErrorSnackbar error={error as IErrorResponse} />}
-      {displayPopup && (
-        <EmailSendPopup withoutEmail={true} isShowPopup={displayPopup} setIsShowPopup={setDisplayPopup} />
-      )}
+      <EmailSendPopup email={googleData?.email} isShowPopup={displayPopup} setIsShowPopup={setDisplayPopup} />
     </>
   )
 }
