@@ -16,6 +16,8 @@ import { useEffect } from 'react'
 import { createPostService } from '@/modules/createPost'
 import { postsService } from '@/modules/posts'
 import { profileService } from '@/modules/profile'
+import { clearState } from '@/store/appSlice'
+import { setInitialPostsState } from '@/modules/posts/store/postsSlice'
 
 interface IHeader {
   showLogout: boolean
@@ -26,19 +28,29 @@ export const Header = ({ showLogout }: IHeader) => {
   const dispatch = useAppDispatch()
   const isLoading = useAppSelector((state) => state.appReducer.isLoading)
   const isGlobalLoading = useAppSelector((state) => state.appReducer.isGlobalLoading)
+  const isClearState = useAppSelector((state) => state.appReducer.isClearState)
   const successAlert = useAppSelector((state) => state.appReducer.successAlert)
   const errorAlert = useAppSelector((state) => state.appReducer.errorAlert)
   const { push } = useRouter()
-  const handler = () => {
+
+  const logoutHandler = () => {
     logout()
   }
 
   useEffect(() => {
-    dispatch(authService.util.resetApiState())
-    dispatch(createPostService.util.resetApiState())
-    dispatch(postsService.util.resetApiState())
-    dispatch(profileService.util.resetApiState())
+    isSuccess && dispatch(clearState(true))
   }, [isSuccess])
+
+  useEffect(() => {
+    if (isClearState) {
+      dispatch(authService.util.resetApiState())
+      dispatch(createPostService.util.resetApiState())
+      dispatch(postsService.util.resetApiState())
+      dispatch(profileService.util.resetApiState())
+      dispatch(setInitialPostsState())
+      dispatch(clearState(false))
+    }
+  }, [isClearState])
 
   useEffect(() => {
     if (isSuccess) {
@@ -58,7 +70,7 @@ export const Header = ({ showLogout }: IHeader) => {
         <div className={styles.linerLoading}>{isLoading && <LinearProgress />}</div>
         <Image src={Inctagram} alt={'logo'} className={styles.logo} />
         {showLogout && (
-          <div onClick={handler} className={styles.logout}>
+          <div onClick={logoutHandler} className={styles.logout}>
             <IcomoonReact iconSet={LogOut} icon={'log-out'} size={16} className={styles.icon} color={'white'} />
             Log Out
           </div>

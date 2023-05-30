@@ -20,7 +20,7 @@ export const profileService = createApi({
     }),
     uploadAvatar: build.mutation<IUploadAvatarResponse, FormData>({
       query: (body) => ({
-        url: '/users/self/images/avatar',
+        url: '/users/self/profile/avatar',
         method: 'POST',
         body,
       }),

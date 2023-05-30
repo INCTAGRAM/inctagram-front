@@ -1,18 +1,12 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { Nullable } from '@/common/types/Nullable'
 
-interface IInitialState {
-  isLoading: boolean
-  isGlobalLoading: boolean
-  errorAlert: Nullable<string>
-  successAlert: Nullable<string>
-}
-
-const initialState: IInitialState = {
+const initialState = {
   isLoading: false,
   isGlobalLoading: false,
-  errorAlert: null,
-  successAlert: null,
+  errorAlert: null as null | string,
+  successAlert: null as null | string,
+  isClearState: false,
 }
 
 const appSlice = createSlice({
@@ -31,9 +25,12 @@ const appSlice = createSlice({
     setSuccessAlert(state, action: PayloadAction<{ message: Nullable<string> }>) {
       state.successAlert = action.payload.message
     },
+    clearState(state, action: PayloadAction<boolean>) {
+      state.isClearState = action.payload
+    },
   },
 })
 
 export const appReducer = appSlice.reducer
 
-export const { setLoading, setIsGlobalLoading, setErrorAlert, setSuccessAlert } = appSlice.actions
+export const { setLoading, setIsGlobalLoading, setErrorAlert, setSuccessAlert, clearState } = appSlice.actions

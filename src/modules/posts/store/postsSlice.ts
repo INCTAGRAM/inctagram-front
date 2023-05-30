@@ -19,8 +19,11 @@ const postsSlice = createSlice({
     refetchSelfPosts(state, action: PayloadAction<boolean>) {
       state.isRefetchingPosts = action.payload
     },
+    setInitialPostsState() {
+      return initialPostsState
+    },
   },
 })
 
 export const postsReducer = postsSlice.reducer
-export const { changePage, changePageSize, refetchSelfPosts } = postsSlice.actions
+export const { changePage, changePageSize, refetchSelfPosts, setInitialPostsState } = postsSlice.actions
