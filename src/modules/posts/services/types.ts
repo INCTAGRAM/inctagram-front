@@ -12,11 +12,12 @@ interface IPost {
 
 export interface IUserPostsRequestData {
   username: string
-  page: number
+  page?: number
   pageSize: number
+  id?: string
 }
 
-export type ISelfPostsRequestData = Omit<IUserPostsRequestData, 'username'>
+export type IPostsRequestData = Omit<IUserPostsRequestData, 'username'>
 
 export interface IPostResponse {
   id: string

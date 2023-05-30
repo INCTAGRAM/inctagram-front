@@ -1,13 +1,13 @@
 import styles from './Header.module.scss'
 import Image from 'next/image'
 import Inctagram from '../../../public/logo/Inctagram.svg'
-import { useRouter } from 'next/navigation'
+import { useRouter } from 'next/router'
 import { RouteNames } from '@/constants/routes'
 import IcomoonReact from 'icomoon-react'
 import LogOut from '@/assets/icons/selection.json'
 import { authService, useLogoutMutation } from '@/modules/auth/services/authService'
 import { useAppDispatch, useAppSelector } from '@/store/store'
-import { addToken } from '@/store/tokenSlice'
+import { setInitialTokenState, stopRefresh } from '@/store/tokenSlice'
 import LinearProgress from '@mui/material/LinearProgress'
 import { SuccessSnackbar } from '@/common/ui/alertSnackbar/SuccessSnackbar'
 import { ErrorSnackbar } from '@/common/ui/alertSnackbar/ErrorSnackbar'
@@ -24,7 +24,7 @@ interface IHeader {
 }
 
 export const Header = ({ showLogout }: IHeader) => {
-  const [logout, { isSuccess }] = useLogoutMutation()
+  const [logout, { isSuccess, isError }] = useLogoutMutation()
   const dispatch = useAppDispatch()
   const isLoading = useAppSelector((state) => state.appReducer.isLoading)
   const isGlobalLoading = useAppSelector((state) => state.appReducer.isGlobalLoading)
@@ -35,11 +35,12 @@ export const Header = ({ showLogout }: IHeader) => {
 
   const logoutHandler = () => {
     logout()
+    dispatch(stopRefresh(true))
   }
 
   useEffect(() => {
-    isSuccess && dispatch(clearState(true))
-  }, [isSuccess])
+    if (isSuccess || isError) push(RouteNames.LOGIN).then(() => dispatch(clearState(true)))
+  }, [isSuccess, isError])
 
   useEffect(() => {
     if (isClearState) {
@@ -48,16 +49,10 @@ export const Header = ({ showLogout }: IHeader) => {
       dispatch(postsService.util.resetApiState())
       dispatch(profileService.util.resetApiState())
       dispatch(setInitialPostsState())
+      dispatch(setInitialTokenState())
       dispatch(clearState(false))
     }
   }, [isClearState])
-
-  useEffect(() => {
-    if (isSuccess) {
-      push(RouteNames.LOGIN)
-      dispatch(addToken(null))
-    }
-  }, [isSuccess])
 
   return (
     <>

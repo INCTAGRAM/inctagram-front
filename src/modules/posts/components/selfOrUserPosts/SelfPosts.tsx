@@ -8,18 +8,17 @@ import { GalleryIcon } from '@/modules/posts/components/selfOrUserPosts/gallaryI
 import CircularProgress from '@mui/material/CircularProgress'
 import { useRouter } from 'next/router'
 import { useEffect, useRef } from 'react'
-import { changePage, changePageSize, refetchSelfPosts } from '@/modules/posts/store/postsSlice'
+import { changeQueryParameters, refetchSelfPosts } from '@/modules/posts/store/postsSlice'
 import { useGettingNewPostsOnScroll } from '@/modules/posts/hooks/useGettingNewPostsOnScroll'
 import { useGetSelfPostsProfileQuery } from '@/modules/posts'
 
 export const SelfPosts = () => {
   const dispatch = useAppDispatch()
-  const page = useAppSelector((state) => state.postsReducer.page)
-  const pageSize = useAppSelector((state) => state.postsReducer.pageSize)
+  const queryParameters = useAppSelector((state) => state.postsReducer.queryParameters)
   const isRefetchingPosts = useAppSelector((state) => state.postsReducer.isRefetchingPosts)
   const { getPosts } = useGettingNewPostsOnScroll()
 
-  const { data, isSuccess, isFetching, refetch } = useGetSelfPostsProfileQuery({ page, pageSize })
+  const { data, isSuccess, isFetching, refetch } = useGetSelfPostsProfileQuery(queryParameters)
 
   const router = useRouter()
   const postsRef = useRef<HTMLDivElement>(null)
@@ -29,11 +28,10 @@ export const SelfPosts = () => {
   }, [data])
 
   useEffect(() => {
-    if (data && isRefetchingPosts && page === 1 && pageSize === 12) {
+    if (data && isRefetchingPosts && queryParameters.page === 1 && queryParameters.pageSize === 12) {
       refetch()
     } else if (data && isRefetchingPosts) {
-      dispatch(changePage(1))
-      dispatch(changePageSize(data.posts.length))
+      dispatch(changeQueryParameters({ page: 1, pageSize: data.posts.length }))
     }
   }, [isRefetchingPosts])
 
@@ -45,7 +43,7 @@ export const SelfPosts = () => {
   }, [data])
 
   const scrollHandler = () => {
-    data && getPosts(postsRef, data, page, pageSize, scrollHandler)
+    data && getPosts(postsRef, data, queryParameters, scrollHandler)
   }
 
   if (!isSuccess || !data) return null

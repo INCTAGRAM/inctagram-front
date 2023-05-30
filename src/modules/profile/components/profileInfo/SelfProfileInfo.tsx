@@ -12,9 +12,8 @@ import { useGetSelfProfileQuery } from '@/modules/profile/services/profileServic
 export const SelfProfileInfo = () => {
   const { data } = useGetSelfProfileQuery()
 
-  const page = useAppSelector((state) => state.postsReducer.page)
-  const pageSize = useAppSelector((state) => state.postsReducer.pageSize)
-  const { data: dataPosts } = useGetSelfPostsProfileQuery({ page, pageSize })
+  const queryParameters = useAppSelector((state) => state.postsReducer.queryParameters)
+  const { data: dataPosts } = useGetSelfPostsProfileQuery(queryParameters)
   const { push } = useRouter()
 
   const onSettingsBtnClick = () => push(RouteNames.PROFILE_SETTINGS)
