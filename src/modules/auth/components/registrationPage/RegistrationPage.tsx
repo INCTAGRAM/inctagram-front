@@ -12,30 +12,19 @@ import { RouteNames } from '@/constants/routes'
 import { ErrorSnackbar } from '@/common/ui/alertSnackbar/ErrorSnackbar'
 import { IErrorResponse } from '@/modules/auth/services/types'
 import { useLoginGoogleAuthMutation } from '@/modules/auth/hooks/useLoginGoogleAuthMutation'
-import { addToken } from '@/store/tokenSlice'
-import { useAppDispatch } from '@/store/store'
-import { useRouter } from 'next/navigation'
 import { EmailSendPopup } from '@/modules/auth/components/emailSendPopup/EmailSendPopup'
 
 type RegistrationType = yup.InferType<typeof registrationSchema>
 
 export const RegistrationPage = () => {
-  const dispatch = useAppDispatch()
-  const { push } = useRouter()
   const [registration, { isError, error, isSuccess }] = useRegistrationMutation()
   const [email, setEmail] = useState('')
   const [isShowPopup, setIsShowPopup] = useState(false)
-  const { loginOauthGoogle, isGoogleSuccess, googleData } = useLoginGoogleAuthMutation()
+  const { loginOauthGoogle, googleData, displayPopup, setDisplayPopup } = useLoginGoogleAuthMutation()
 
   useEffect(() => {
     isSuccess && setIsShowPopup(true)
   }, [isSuccess])
-
-  useEffect(() => {
-    googleData?.accessToken && !googleData?.email && dispatch(addToken(googleData.accessToken))
-    googleData?.accessToken && !googleData?.email && push(RouteNames.PROFILE)
-    debugger
-  }, [googleData?.accessToken, googleData?.email, push])
 
   const {
     register,
@@ -98,6 +87,7 @@ export const RegistrationPage = () => {
         </Button>
       </Form>
       <EmailSendPopup email={email} isShowPopup={isShowPopup} setIsShowPopup={setIsShowPopup} />
+      <EmailSendPopup email={googleData?.email} isShowPopup={displayPopup} setIsShowPopup={setDisplayPopup} />
       {isError && <ErrorSnackbar error={error as IErrorResponse} />}
     </>
   )

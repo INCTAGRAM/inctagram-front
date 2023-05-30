@@ -7,12 +7,7 @@ import { GoogleOAuthProvider } from '@react-oauth/google'
 const Registration: NextPageWithLayout = () => {
   return (
     <HeadMeta title={'Registration'}>
-      <GoogleOAuthProvider
-        clientId={
-          process.env.NEXT_PUBLIC_GOOGLE_AUTH_CLIENT_ID ||
-          '69255349786-mko80m2qf2l9vvdqlburo4dictmj7br8.apps.googleusercontent.com'
-        }
-      >
+      <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_GOOGLE_AUTH_CLIENT_ID as string}>
         <RegistrationPage />
       </GoogleOAuthProvider>
     </HeadMeta>

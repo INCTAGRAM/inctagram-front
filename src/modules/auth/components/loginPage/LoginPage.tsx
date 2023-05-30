@@ -24,7 +24,7 @@ export const LoginPage = () => {
   const dispatch = useAppDispatch()
   const [login, { data, isError, isSuccess, error }] = useLoginMutation()
   const { push } = useRouter()
-  const { loginOauthGoogle, isGoogleSuccess, googleData, displayPopup, setDisplayPopup } = useLoginGoogleAuthMutation()
+  const { loginOauthGoogle, googleData, displayPopup, setDisplayPopup } = useLoginGoogleAuthMutation()
 
   const {
     register,
@@ -42,12 +42,6 @@ export const LoginPage = () => {
       push(RouteNames.PROFILE)
     }
   }, [data, isSuccess, push])
-
-  useEffect(() => {
-    googleData?.accessToken && !googleData?.email && dispatch(addToken(googleData.accessToken))
-    googleData?.accessToken && !googleData?.email && push(RouteNames.PROFILE)
-    debugger
-  }, [googleData?.accessToken, googleData?.email, push])
 
   const onFormSubmit: SubmitHandler<LoginType> = ({ email, password }) => {
     if (!email || !password) return
