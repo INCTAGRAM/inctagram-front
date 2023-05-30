@@ -15,7 +15,7 @@ interface IAvatar {
 }
 
 const Avatar = ({ avatar }: IAvatarProps) => {
-  const { url, previewUrl } = avatar
+  const { url, previewUrl } = avatar ?? {}
 
   return (
     <div className={styles.circle}>

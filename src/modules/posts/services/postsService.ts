@@ -6,6 +6,7 @@ import {
   IUserPostsRequestData,
   IPostPatchData,
   IPostResponse,
+  IUserPostRequestParams,
 } from '@/modules/posts/services/types'
 
 export const postsService = createApi({
@@ -72,6 +73,11 @@ export const postsService = createApi({
         url: `/users/self/posts/${postId}`,
       }),
     }),
+    getUserPostProfile: build.query<IPostResponse, IUserPostRequestParams>({
+      query: ({ username, postId }) => ({
+        url: `/users/${username}/posts/${postId}`,
+      }),
+    }),
     patchProfilePost: build.mutation<null, IPostPatchData>({
       query: ({ body, id }) => ({
         url: `/users/self/posts/${id}`,
@@ -94,6 +100,7 @@ export const {
   useGetSelfPostsProfileQuery,
   useGetUserPostsProfileQuery,
   useGetPostProfileQuery,
+  useGetUserPostProfileQuery,
   usePatchProfilePostMutation,
   useDeleteProfilePostMutation,
 } = postsService

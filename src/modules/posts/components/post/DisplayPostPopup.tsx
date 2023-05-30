@@ -3,24 +3,27 @@ import React, { ChangeEvent, useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
 import s from './DisplayPostPopup.module.scss'
 import { useRouter } from 'next/router'
-import {
-  useDeleteProfilePostMutation,
-  useGetPostProfileQuery,
-  usePatchProfilePostMutation,
-} from '@/modules/posts/services/postsService'
+import { useDeleteProfilePostMutation, usePatchProfilePostMutation } from '@/modules/posts/services/postsService'
 import { PostType } from '@/modules/posts/components/post/types/PostType'
 import { useGetSelfProfileQuery } from '@/modules/profile/services/profileService'
 import Avatar from '@/modules/posts/components/post/avatar/Avatar'
 import iconSet from '@/assets/icons/selection.json'
 import IcomoonReact from 'icomoon-react'
+import { PreviewPost } from '@/modules/posts/components/post/types/PreviewPost'
 
 type DisplayPostPopupPropsType = {
-  postId: string
+  previewPost: PreviewPost
+  isSelf: boolean
+  useGetPostProfileQuery: any
 }
 
-export const DisplayPostPopup = ({ postId }: DisplayPostPopupPropsType) => {
+export const DisplayPostPopup = ({ previewPost, isSelf, useGetPostProfileQuery }: DisplayPostPopupPropsType) => {
   const router = useRouter()
-  const { isLoading, data, isFetching } = useGetPostProfileQuery(postId, { refetchOnMountOrArgChange: true })
+  const pathArr = router.asPath.split(/[/?]/)
+  const username = pathArr[pathArr.length - 2]
+  const { isLoading, data, isFetching } = useGetPostProfileQuery(
+    isSelf ? previewPost.id : { postId: previewPost.id, username }
+  )
   const [post, setPost] = useState<PostType | undefined>(undefined)
   const { data: userData } = useGetSelfProfileQuery()
   const [showSettings, setShowSettings] = useState(false)
@@ -168,24 +171,52 @@ export const DisplayPostPopup = ({ postId }: DisplayPostPopupPropsType) => {
                     style={{ cursor: 'pointer' }}
                     onClick={onMoreClickHandler}
                   />
-                  {showSettings && (
-                    <div className={s.options} ref={settingsModalControl}>
-                      <div onClick={onEditOpnHandler}>
-                        <IcomoonReact icon={'edit-2-outline'} iconSet={iconSet} color={'#ccc'} size={24} />
-                        <span>Edit post</span>
+                  {showSettings &&
+                    (isSelf ? (
+                      <div className={s.options} ref={settingsModalControl}>
+                        <div onClick={onEditOpnHandler}>
+                          <IcomoonReact icon={'edit-2-outline'} iconSet={iconSet} color={'#ccc'} size={24} />
+                          <span>Edit post</span>
+                        </div>
+                        <div onClick={onDeleteOpnHandler}>
+                          <IcomoonReact
+                            icon={'trash-outline'}
+                            iconSet={iconSet}
+                            color={'#ccc'}
+                            size={24}
+                            ref={deleteIconControl}
+                          />
+                          <span>Delete post</span>
+                        </div>
                       </div>
-                      <div onClick={onDeleteOpnHandler}>
-                        <IcomoonReact
-                          icon={'trash-outline'}
-                          iconSet={iconSet}
-                          color={'#ccc'}
-                          size={24}
-                          ref={deleteIconControl}
-                        />
-                        <span>Delete post</span>
+                    ) : (
+                      <div className={s.user_options} ref={settingsModalControl}>
+                        <div>
+                          <IcomoonReact icon={'email-outline'} iconSet={iconSet} color={'#ccc'} size={24} />
+                          <span>Report</span>
+                        </div>
+                        <div>
+                          <IcomoonReact
+                            icon={'person-remove-outline'}
+                            iconSet={iconSet}
+                            color={'#ccc'}
+                            size={24}
+                            ref={deleteIconControl}
+                          />
+                          <span>Unsubscribe</span>
+                        </div>
+                        <div>
+                          <IcomoonReact
+                            icon={'copy-outline'}
+                            iconSet={iconSet}
+                            color={'#ccc'}
+                            size={24}
+                            ref={deleteIconControl}
+                          />
+                          <span>Copy Link</span>
+                        </div>
                       </div>
-                    </div>
-                  )}
+                    ))}
                 </div>
               )}
             </div>

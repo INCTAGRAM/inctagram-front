@@ -12,8 +12,9 @@ export const UserProfileInfo = () => {
   const pageSize = useAppSelector((state) => state.postsReducer.pageSize)
 
   const { asPath } = useRouter()
-  const pathArr = asPath.split('/')
-  const username = pathArr[pathArr.length - 1]
+  const pathArr = asPath.split(/[/?]/)
+  const index = asPath.includes('?') ? pathArr.length - 2 : pathArr.length - 1
+  const username = pathArr[index]
 
   const { data } = useGetUserProfileQuery({ username })
   const { data: dataPosts } = useGetUserPostsProfileQuery({ page, pageSize, username })

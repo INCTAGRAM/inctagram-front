@@ -9,7 +9,7 @@ import CircularProgress from '@mui/material/CircularProgress'
 import { useRouter } from 'next/router'
 import { useEffect, useRef } from 'react'
 import { useGettingNewPostsOnScroll } from '@/modules/posts/hooks/useGettingNewPostsOnScroll'
-import { useGetUserPostsProfileQuery } from '@/modules/posts/services/postsService'
+import { useGetUserPostProfileQuery, useGetUserPostsProfileQuery } from '@/modules/posts/services/postsService'
 
 export const UserPosts = () => {
   const page = useAppSelector((state) => state.postsReducer.page)
@@ -18,8 +18,9 @@ export const UserPosts = () => {
   const postsRef = useRef<HTMLDivElement>(null)
 
   const { query, asPath } = useRouter()
-  const pathArr = asPath.split('/')
-  const username = pathArr[pathArr.length - 1]
+  const pathArr = asPath.split(/[/?]/)
+  const index = asPath.includes('?') ? pathArr.length - 2 : pathArr.length - 1
+  const username = pathArr[index]
 
   const { data, isSuccess, isFetching } = useGetUserPostsProfileQuery({ page, pageSize, username })
 
@@ -41,12 +42,16 @@ export const UserPosts = () => {
       <div ref={postsRef} className={styles.posts}>
         {data.posts.map((post) => (
           <div className={styles.post} key={post.id}>
-            {query.id && (
+            {query.id === post.id && (
               <Modal>
-                <DisplayPostPopup postId={post.id} />
+                <DisplayPostPopup
+                  previewPost={post}
+                  isSelf={false}
+                  useGetPostProfileQuery={useGetUserPostProfileQuery}
+                />
               </Modal>
             )}
-            <Link href={`/profile?id=${post.id}`}>
+            <Link href={`/profile/${username}?id=${post.id}`}>
               <img src={post.previewUrl} alt={''} />
               <LikesCommentsCount likesCount={0} commentsCount={0} />
               {post.imagesCount > 1 && <GalleryIcon />}
