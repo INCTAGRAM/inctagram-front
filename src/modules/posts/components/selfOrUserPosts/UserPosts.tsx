@@ -12,8 +12,7 @@ import { useGettingNewPostsOnScroll } from '@/modules/posts/hooks/useGettingNewP
 import { useGetUserPostsProfileQuery } from '@/modules/posts/services/postsService'
 
 export const UserPosts = () => {
-  const page = useAppSelector((state) => state.postsReducer.page)
-  const pageSize = useAppSelector((state) => state.postsReducer.pageSize)
+  const queryParameters = useAppSelector((state) => state.postsReducer.queryParameters)
   const { getPosts } = useGettingNewPostsOnScroll()
   const postsRef = useRef<HTMLDivElement>(null)
 
@@ -21,7 +20,9 @@ export const UserPosts = () => {
   const pathArr = asPath.split('/')
   const username = pathArr[pathArr.length - 1]
 
-  const { data, isSuccess, isFetching } = useGetUserPostsProfileQuery({ page, pageSize, username })
+  console.log(queryParameters, username)
+
+  const { data, isSuccess, isFetching } = useGetUserPostsProfileQuery({ ...queryParameters, username })
 
   useEffect(() => {
     document.addEventListener('scroll', scrollHandler)
@@ -31,7 +32,7 @@ export const UserPosts = () => {
   }, [data])
 
   const scrollHandler = () => {
-    data && getPosts(postsRef, data, page, pageSize, scrollHandler)
+    data && getPosts(postsRef, data, queryParameters, scrollHandler)
   }
 
   if (!isSuccess || !data) return null
