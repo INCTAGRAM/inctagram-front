@@ -2,11 +2,14 @@ import { RegistrationPage } from '@/modules/auth/components/registrationPage/Reg
 import { NextPageWithLayout } from '@/pages/_app'
 import HeadMeta from '@/common/headMeta/HeadMeta'
 import { getBaseLayout } from '@/common/layout/baseLayout/BaseLayout'
+import { GoogleOAuthProvider } from '@react-oauth/google'
 
 const Registration: NextPageWithLayout = () => {
   return (
     <HeadMeta title={'Registration'}>
-      <RegistrationPage />
+      <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_GOOGLE_AUTH_CLIENT_ID as string}>
+        <RegistrationPage />
+      </GoogleOAuthProvider>
     </HeadMeta>
   )
 }

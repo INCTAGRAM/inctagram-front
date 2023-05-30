@@ -4,7 +4,7 @@ import { Button } from '@/common/ui/button/Button'
 import { Popup } from '@/common/ui/popup/Popup'
 
 interface IEmailSendPopup {
-  email: string
+  email?: string
   isShowPopup: boolean
   setIsShowPopup: (isShow: boolean) => void
 }

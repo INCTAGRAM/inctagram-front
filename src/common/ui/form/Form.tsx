@@ -10,6 +10,7 @@ interface IFormProps {
   isTopPanel?: boolean
   onSubmit: (e?: React.BaseSyntheticEvent) => Promise<void>
   redirect?: IRedirect
+  login?: any
 }
 
 interface IRedirect {
@@ -18,14 +19,20 @@ interface IRedirect {
   linkTitle: string
 }
 
-const Form = ({ title, onSubmit, redirect, isTopPanel, children }: PropsWithChildren<IFormProps>) => {
+const Form = ({ title, onSubmit, redirect, isTopPanel, children, login }: PropsWithChildren<IFormProps>) => {
   return (
     <div className={styles.block}>
       <h1>{title}</h1>
       <div className={styles.content}>
         {isTopPanel && (
           <div className={styles.form_icons}>
-            <IcomoonReact icon={'google-svgrepo-com-1'} iconSet={iconSet} size={36} />
+            <IcomoonReact
+              icon={'google-svgrepo-com-1'}
+              iconSet={iconSet}
+              size={36}
+              onClick={() => login && login()}
+              style={{ cursor: 'pointer' }}
+            />
             <Link href={ExternalLinks.github}>
               <IcomoonReact icon={'github-svgrepo-com-3-1'} iconSet={iconSet} color={'#fff'} size={36} />
             </Link>

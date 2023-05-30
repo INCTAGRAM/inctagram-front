@@ -21,9 +21,12 @@ const tokenSlice = createSlice({
     stopRefresh(state, action: PayloadAction<boolean>) {
       state.stopRefresh = action.payload
     },
+    setInitialTokenState() {
+      return initialState
+    },
   },
 })
 
-export const { addToken, stopRefresh } = tokenSlice.actions
+export const { addToken, stopRefresh, setInitialTokenState } = tokenSlice.actions
 
 export const tokenReducer = tokenSlice.reducer

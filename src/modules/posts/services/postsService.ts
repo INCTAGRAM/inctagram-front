@@ -2,7 +2,7 @@ import { createApi } from '@reduxjs/toolkit/dist/query/react'
 import { baseQueryWithReauth } from '@/helpers/config'
 import {
   IPostsResponse,
-  ISelfPostsRequestData,
+  IPostsRequestData,
   IUserPostsRequestData,
   IPostPatchData,
   IPostResponse,
@@ -15,7 +15,7 @@ export const postsService = createApi({
   tagTypes: ['Posts'],
   keepUnusedDataFor: 60 * 60 * 24,
   endpoints: (build) => ({
-    getSelfPostsProfile: build.query<IPostsResponse, ISelfPostsRequestData>({
+    getSelfPostsProfile: build.query<IPostsResponse, IPostsRequestData>({
       query: (params) => ({
         url: '/users/self/posts',
         params,
@@ -33,7 +33,7 @@ export const postsService = createApi({
       },
       forceRefetch({ currentArg, previousArg }) {
         if (currentArg && previousArg) {
-          return currentArg.page !== previousArg.page
+          return currentArg.id !== previousArg.id
         } else {
           return false
         }
@@ -46,6 +46,7 @@ export const postsService = createApi({
         params: {
           page: params.page,
           pageSize: params.pageSize,
+          id: params.id,
         },
       }),
       serializeQueryArgs: ({ endpointName }) => {
@@ -61,7 +62,7 @@ export const postsService = createApi({
       },
       forceRefetch({ currentArg, previousArg }) {
         if (currentArg && previousArg) {
-          return currentArg.page !== previousArg.page
+          return currentArg.id !== previousArg.id
         } else {
           return false
         }

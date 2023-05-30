@@ -11,6 +11,7 @@ import Form from '@/common/ui/form/Form'
 import { RouteNames } from '@/constants/routes'
 import { ErrorSnackbar } from '@/common/ui/alertSnackbar/ErrorSnackbar'
 import { IErrorResponse } from '@/modules/auth/services/types'
+import { useLoginGoogleAuthMutation } from '@/modules/auth/hooks/useLoginGoogleAuthMutation'
 import { EmailSendPopup } from '@/modules/auth/components/emailSendPopup/EmailSendPopup'
 
 type RegistrationType = yup.InferType<typeof registrationSchema>
@@ -19,6 +20,7 @@ export const RegistrationPage = () => {
   const [registration, { isError, error, isSuccess }] = useRegistrationMutation()
   const [email, setEmail] = useState('')
   const [isShowPopup, setIsShowPopup] = useState(false)
+  const { loginOauthGoogle, googleData, displayPopup, setDisplayPopup } = useLoginGoogleAuthMutation()
 
   useEffect(() => {
     isSuccess && setIsShowPopup(true)
@@ -46,6 +48,7 @@ export const RegistrationPage = () => {
         isTopPanel={true}
         onSubmit={handleSubmit(onFormSubmit)}
         redirect={{ title: 'Do you have an account?', link: RouteNames.LOGIN, linkTitle: 'Sign In' }}
+        login={loginOauthGoogle}
       >
         <p>
           <InputText
@@ -84,6 +87,7 @@ export const RegistrationPage = () => {
         </Button>
       </Form>
       <EmailSendPopup email={email} isShowPopup={isShowPopup} setIsShowPopup={setIsShowPopup} />
+      <EmailSendPopup email={googleData?.email} isShowPopup={displayPopup} setIsShowPopup={setDisplayPopup} />
       {isError && <ErrorSnackbar error={error as IErrorResponse} />}
     </>
   )

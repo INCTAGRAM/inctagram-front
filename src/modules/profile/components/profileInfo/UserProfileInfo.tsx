@@ -8,16 +8,14 @@ import { useRouter } from 'next/router'
 import { useGetUserPostsProfileQuery } from '@/modules/posts/services/postsService'
 
 export const UserProfileInfo = () => {
-  const page = useAppSelector((state) => state.postsReducer.page)
-  const pageSize = useAppSelector((state) => state.postsReducer.pageSize)
-
+  const queryParameters = useAppSelector((state) => state.postsReducer.queryParameters)
   const { asPath } = useRouter()
   const pathArr = asPath.split(/[/?]/)
   const index = asPath.includes('?') ? pathArr.length - 2 : pathArr.length - 1
   const username = pathArr[index]
 
   const { data } = useGetUserProfileQuery({ username })
-  const { data: dataPosts } = useGetUserPostsProfileQuery({ page, pageSize, username })
+  const { data: dataPosts } = useGetUserPostsProfileQuery({ ...queryParameters, username })
 
   if (!data) return null
 

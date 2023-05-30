@@ -53,7 +53,6 @@ export const baseQueryWithReauth: BaseQueryFn<string | FetchArgs, unknown, Fetch
         result = await baseQuery(args, api, extraOptions)
         setIsLoading(api.dispatch, api.endpoint, false)
       } else {
-        api.dispatch(addToken(null))
         api.dispatch(clearState(true))
       }
     }

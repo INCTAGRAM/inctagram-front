@@ -15,6 +15,8 @@ import { ErrorSnackbar } from '@/common/ui/alertSnackbar/ErrorSnackbar'
 import { IErrorResponse } from '@/modules/auth/services/types'
 import { addToken } from '@/store/tokenSlice'
 import { useAppDispatch } from '@/store/store'
+import { useLoginGoogleAuthMutation } from '@/modules/auth/hooks/useLoginGoogleAuthMutation'
+import { EmailSendPopup } from '@/modules/auth/components/emailSendPopup/EmailSendPopup'
 
 type LoginType = yup.InferType<typeof loginSchema>
 
@@ -22,6 +24,7 @@ export const LoginPage = () => {
   const dispatch = useAppDispatch()
   const [login, { data, isError, isSuccess, error }] = useLoginMutation()
   const { push } = useRouter()
+  const { loginOauthGoogle, googleData, displayPopup, setDisplayPopup } = useLoginGoogleAuthMutation()
 
   const {
     register,
@@ -44,7 +47,6 @@ export const LoginPage = () => {
     if (!email || !password) return
     login({ email, password })
   }
-
   return (
     <>
       <Form
@@ -52,6 +54,7 @@ export const LoginPage = () => {
         isTopPanel={true}
         onSubmit={handleSubmit(onFormSubmit)}
         redirect={{ title: "Don't have an account?", link: RouteNames.REGISTER, linkTitle: 'Sign Up' }}
+        login={loginOauthGoogle}
       >
         <p>
           <InputText
@@ -77,6 +80,7 @@ export const LoginPage = () => {
         </Button>
       </Form>
       {isError && <ErrorSnackbar error={error as IErrorResponse} />}
+      <EmailSendPopup email={googleData?.email} isShowPopup={displayPopup} setIsShowPopup={setDisplayPopup} />
     </>
   )
 }
