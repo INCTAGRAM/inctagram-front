@@ -33,8 +33,8 @@ export const GitHubPage = () => {
   useEffect(() => {
     if (error) {
       const err = error as FetchBaseQueryError
-      if (typeof err.data === 'string') {
-        setEmail(err.data)
+      if (err.data instanceof Object && 'email' in err.data && typeof err.data.email === 'string') {
+        setEmail(err.data.email)
       }
       setShowPopupAboutMerge(true)
     }
