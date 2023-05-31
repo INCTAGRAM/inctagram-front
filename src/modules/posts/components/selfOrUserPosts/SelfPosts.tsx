@@ -24,6 +24,9 @@ export const SelfPosts = () => {
   const router = useRouter()
   const postsRef = useRef<HTMLDivElement>(null)
 
+  const pathArr = router.asPath.split('/')
+  const username = pathArr[pathArr.length - 1]
+
   useEffect(() => {
     dispatch(refetchSelfPosts(false))
   }, [data])
@@ -59,7 +62,7 @@ export const SelfPosts = () => {
                 <DisplayPostPopup previewPost={post} isSelf={true} useGetPostProfileQuery={useGetPostProfileQuery} />
               </Modal>
             )}
-            <Link href={`/profile/String/?id=${post.id}`}>
+            <Link href={`/profile/${username}/?id=${post.id}`}>
               <img src={post.previewUrl} alt={''} />
               <LikesCommentsCount likesCount={0} commentsCount={0} />
               {post.imagesCount > 1 && <GalleryIcon />}
