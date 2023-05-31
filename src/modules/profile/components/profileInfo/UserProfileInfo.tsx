@@ -10,8 +10,9 @@ import { useGetUserPostsProfileQuery } from '@/modules/posts/services/postsServi
 export const UserProfileInfo = () => {
   const queryParameters = useAppSelector((state) => state.postsReducer.queryParameters)
   const { asPath } = useRouter()
-  const pathArr = asPath.split('/')
-  const username = pathArr[pathArr.length - 1]
+  const pathArr = asPath.split(/[/?]/)
+  const index = asPath.includes('?') ? pathArr.length - 2 : pathArr.length - 1
+  const username = pathArr[index]
 
   const { data } = useGetUserProfileQuery({ username })
   const { data: dataPosts } = useGetUserPostsProfileQuery({ ...queryParameters, username })

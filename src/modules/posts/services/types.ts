@@ -40,3 +40,8 @@ export interface IPostPatchData {
   }
   id: string | undefined
 }
+
+export interface IUserPostRequestParams {
+  username: string
+  postId: string
+}

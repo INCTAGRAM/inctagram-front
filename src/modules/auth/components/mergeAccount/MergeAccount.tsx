@@ -12,7 +12,6 @@ import { RouteNames } from '@/constants/routes'
 export const MergeAccount = () => {
   const dispatch = useAppDispatch()
   const [merge, { data, isSuccess }] = useMergeAccountMutation()
-
   const { query, push } = useRouter()
 
   useEffect(() => {
@@ -20,7 +19,7 @@ export const MergeAccount = () => {
       dispatch(addToken(data.accessToken))
       push(RouteNames.PROFILE)
     }
-  }, [data])
+  }, [data, isSuccess, push])
 
   const yesHandler = () => {
     if (typeof query.code === 'string') {

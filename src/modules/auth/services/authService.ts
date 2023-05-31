@@ -4,6 +4,7 @@ import {
   INewPasswordData,
   IRegistrationData,
   IRecoveryData,
+  ILoginGoogleResponse,
 } from '@/modules/auth/services/types'
 import { createApi } from '@reduxjs/toolkit/query/react'
 import { baseQueryWithReauth } from '@/helpers/config'
@@ -16,6 +17,13 @@ export const authService = createApi({
     login: build.mutation<ITokenResponse, ILoginData>({
       query: (body) => ({
         url: '/auth/login',
+        method: 'POST',
+        body,
+      }),
+    }),
+    loginGoogle: build.mutation<ILoginGoogleResponse, { code: string }>({
+      query: (body) => ({
+        url: '/auth/google/sign-in',
         method: 'POST',
         body,
       }),
@@ -81,6 +89,7 @@ export const authService = createApi({
 
 export const {
   useLoginMutation,
+  useLoginGoogleMutation,
   useRegistrationMutation,
   useResendingConfirmationMutation,
   usePasswordRecoveryMutation,

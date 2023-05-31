@@ -11,6 +11,7 @@ import { useEffect, useRef } from 'react'
 import { changeQueryParameters, refetchSelfPosts } from '@/modules/posts/store/postsSlice'
 import { useGettingNewPostsOnScroll } from '@/modules/posts/hooks/useGettingNewPostsOnScroll'
 import { useGetSelfPostsProfileQuery } from '@/modules/posts'
+import { useGetPostProfileQuery } from '@/modules/posts/services/postsService'
 
 export const SelfPosts = () => {
   const dispatch = useAppDispatch()
@@ -22,6 +23,9 @@ export const SelfPosts = () => {
 
   const router = useRouter()
   const postsRef = useRef<HTMLDivElement>(null)
+
+  const pathArr = router.asPath.split('/')
+  const username = pathArr[pathArr.length - 1]
 
   useEffect(() => {
     dispatch(refetchSelfPosts(false))
@@ -53,12 +57,12 @@ export const SelfPosts = () => {
       <div ref={postsRef} className={styles.posts}>
         {data.posts.map((post) => (
           <div className={styles.post} key={post.id}>
-            {router.query.id && (
+            {router.query.id === post.id && (
               <Modal>
-                <DisplayPostPopup postId={post.id} />
+                <DisplayPostPopup previewPost={post} isSelf={true} useGetPostProfileQuery={useGetPostProfileQuery} />
               </Modal>
             )}
-            <Link href={`/profile?id=${post.id}`}>
+            <Link href={`/profile/${username}/?id=${post.id}`}>
               <img src={post.previewUrl} alt={''} />
               <LikesCommentsCount likesCount={0} commentsCount={0} />
               {post.imagesCount > 1 && <GalleryIcon />}

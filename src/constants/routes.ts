@@ -1,5 +1,4 @@
 import { scopes } from '@/constants/scopes'
-
 export const RouteNames = {
   LOGIN: '/login',
   REGISTER: '/registration',

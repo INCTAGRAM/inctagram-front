@@ -233,7 +233,7 @@ $dark_100: #4C4C4C;
 .btn_and_options {
   position: relative;
 }
-.options {
+.options, .user_options {
   position: absolute;
   right: 0;
   top: 23px;
@@ -256,6 +256,11 @@ $dark_100: #4C4C4C;
   }
 
 }
+
+.user_options {
+  height: 121px;
+}
+
 .active {
   color: $primary_500;
 }
