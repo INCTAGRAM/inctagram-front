@@ -9,6 +9,7 @@ import { postsService } from '@/modules/posts'
 import { appReducer } from '@/store/appSlice'
 import { setupListeners } from '@reduxjs/toolkit/query'
 import { createPostService } from '@/modules/createPost'
+import { profileSettingsService } from '@/modules/profileSettings'
 
 const rootReducer = combineReducers({
   tokenReducer,
@@ -17,6 +18,7 @@ const rootReducer = combineReducers({
   appReducer,
   [authService.reducerPath]: authService.reducer,
   [profileService.reducerPath]: profileService.reducer,
+  [profileSettingsService.reducerPath]: profileSettingsService.reducer,
   [postsService.reducerPath]: postsService.reducer,
   [createPostService.reducerPath]: createPostService.reducer,
 })
@@ -27,6 +29,7 @@ export const store = configureStore({
     getDefaultMiddleware()
       .concat([authService.middleware])
       .concat([profileService.middleware])
+      .concat([profileSettingsService.middleware])
       .concat([postsService.middleware])
       .concat([createPostService.middleware]),
 })

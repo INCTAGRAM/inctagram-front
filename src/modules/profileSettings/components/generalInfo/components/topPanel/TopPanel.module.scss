@@ -69,6 +69,9 @@
       .opt2 {
         @include segment(111px, 202px);
       }
+      .opt3 {
+        @include segment(225px , 313px)
+      }
     }
   }
 }

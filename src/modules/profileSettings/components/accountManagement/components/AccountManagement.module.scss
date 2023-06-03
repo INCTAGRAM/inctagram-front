@@ -1,0 +1,59 @@
+@import "src/assets/styles/variables";
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 42px;
+  color: $light_100;
+  div {
+    h2 {
+      font-weight: 600;
+      font-size: 16px;
+    }
+
+  }
+}
+
+.container_item {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.block {
+  font-size: 14px;
+  width: 726px;
+  padding: 14px 0 0 26px;
+  background: $dark_500;
+  border: 1px solid $dark_300;
+  border-radius: 2px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  div {
+    display: flex;
+    gap: 14px;
+  }
+}
+
+.popup_content {
+  display: flex;
+  flex-direction: column;
+  gap: 42px;
+  align-items: center;
+  select, button {
+    width: 90%;
+  }
+}
+.payment_row {
+  display: flex;
+
+}
+
+.payment_btns {
+  display: flex;
+  align-items: center;
+  gap: 54px;
+  padding-left: 430px;
+}
+

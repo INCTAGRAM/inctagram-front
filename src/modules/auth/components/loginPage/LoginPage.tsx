@@ -24,7 +24,7 @@ export const LoginPage = () => {
   const dispatch = useAppDispatch()
   const [login, { data, isError, isSuccess, error }] = useLoginMutation()
   const { push } = useRouter()
-  const { loginOauthGoogle, googleData, displayPopup, setDisplayPopup } = useLoginGoogleAuthMutation()
+  //const { loginOauthGoogle, googleData, displayPopup, setDisplayPopup } = useLoginGoogleAuthMutation()
 
   const {
     register,
@@ -54,7 +54,7 @@ export const LoginPage = () => {
         isTopPanel={true}
         onSubmit={handleSubmit(onFormSubmit)}
         redirect={{ title: "Don't have an account?", link: RouteNames.REGISTER, linkTitle: 'Sign Up' }}
-        login={loginOauthGoogle}
+        //login={loginOauthGoogle}
       >
         <p>
           <InputText
@@ -80,7 +80,7 @@ export const LoginPage = () => {
         </Button>
       </Form>
       {isError && <ErrorSnackbar error={error as IErrorResponse} />}
-      <EmailSendPopup email={googleData?.email} isShowPopup={displayPopup} setIsShowPopup={setDisplayPopup} />
+      {/*<EmailSendPopup email={googleData?.email} isShowPopup={displayPopup} setIsShowPopup={setDisplayPopup} />*/}
     </>
   )
 }
