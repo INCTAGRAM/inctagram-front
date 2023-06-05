@@ -1,15 +1,8 @@
 import { fetchBaseQuery } from '@reduxjs/toolkit/query'
 import type { BaseQueryFn, FetchArgs, FetchBaseQueryError } from '@reduxjs/toolkit/query'
-import { AppDispatch, AppState } from '@/store/store'
+import { AppState } from '@/store/store'
 import { addToken, setInitialTokenState, stopRefresh } from '@/store/tokenSlice'
-import { clearState, setLoading } from '@/store/appSlice'
-import { endpointsSkipAuth, endpointsSkipLoading } from '@/constants/routes'
-
-const setIsLoading = (dispatch: AppDispatch, endpoint: string, isTurnOn: boolean) => {
-  if (!endpointsSkipLoading.find((endpointName) => endpointName === endpoint)) {
-    dispatch(setLoading(isTurnOn))
-  }
-}
+import { endpointsSkipAuth } from '@/constants/routes'
 
 const baseQuery = fetchBaseQuery({
   baseUrl: process.env.NEXT_PUBLIC_API_URL,
@@ -29,9 +22,7 @@ export const baseQueryWithReauth: BaseQueryFn<string | FetchArgs, unknown, Fetch
   api,
   extraOptions
 ) => {
-  setIsLoading(api.dispatch, api.endpoint, true)
   let result = await baseQuery(args, api, extraOptions)
-  setIsLoading(api.dispatch, api.endpoint, false)
 
   if (result.error && result.error.status === 401) {
     const state = api.getState() as AppState
@@ -39,9 +30,7 @@ export const baseQueryWithReauth: BaseQueryFn<string | FetchArgs, unknown, Fetch
       api.dispatch(stopRefresh(true))
 
       // try to get a new token
-      api.dispatch(setLoading(true))
       const response = await baseQuery({ url: '/auth/refresh-token', method: 'POST' }, api, extraOptions)
-      api.dispatch(setLoading(false))
       const data = response.data
       if (data) {
         // store the new token
@@ -49,9 +38,7 @@ export const baseQueryWithReauth: BaseQueryFn<string | FetchArgs, unknown, Fetch
           api.dispatch(addToken(data.accessToken))
         }
         // retry the initial query
-        setIsLoading(api.dispatch, api.endpoint, true)
         result = await baseQuery(args, api, extraOptions)
-        setIsLoading(api.dispatch, api.endpoint, false)
       } else {
         api.dispatch(setInitialTokenState())
         // api.dispatch(clearState(true))

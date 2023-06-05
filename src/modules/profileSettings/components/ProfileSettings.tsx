@@ -10,8 +10,6 @@ import * as yup from 'yup'
 import { useGetSelfProfileQuery, useUpdateUserProfileMutation } from '@/modules/profile/services/profileService'
 import TopPanel from '@/modules/profileSettings/components/topPanel/TopPanel'
 import moment from 'moment'
-import { ErrorSnackbar } from '@/common/ui/alertSnackbar/ErrorSnackbar'
-import { IErrorResponse } from '@/modules/auth/services/types'
 import { AddAvatar } from '@/modules/profileSettings/components/addAvatar/AddAvatar'
 import { Textarea } from '@/common/ui/textarea/Textarea'
 import { ObjectType } from '@sinclair/typebox/value/is'
@@ -21,7 +19,7 @@ export type SetProfileType = yup.InferType<typeof changeProfileSchema>
 
 export const ProfileSettings = () => {
   const { data: profileData } = useGetSelfProfileQuery()
-  const [updateProfile, { isSuccess, isError, error }] = useUpdateUserProfileMutation()
+  const [updateProfile, { isSuccess }] = useUpdateUserProfileMutation()
   const [username, setUsername] = useState(profileData?.username ?? '')
   const [firstName, setFirstName] = useState(profileData?.name ?? '')
   const [lastName, setLastName] = useState(profileData?.surname ?? '')
@@ -112,7 +110,6 @@ export const ProfileSettings = () => {
           </form>
         </div>
       </div>
-      {isError && <ErrorSnackbar error={error as IErrorResponse} />}
       {isSuccess && <SuccessSnackbar message={'Profile updated successfully'} />}
     </>
   )

@@ -11,8 +11,6 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { RouteNames } from '@/constants/routes'
 import Form from '@/common/ui/form/Form'
 import Link from 'next/link'
-import { ErrorSnackbar } from '@/common/ui/alertSnackbar/ErrorSnackbar'
-import { IErrorResponse } from '@/modules/auth/services/types'
 import { addToken } from '@/store/tokenSlice'
 import { useAppDispatch } from '@/store/store'
 import { useLoginGoogleAuthMutation } from '@/modules/auth/hooks/useLoginGoogleAuthMutation'
@@ -22,7 +20,7 @@ type LoginType = yup.InferType<typeof loginSchema>
 
 export const LoginPage = () => {
   const dispatch = useAppDispatch()
-  const [login, { data, isError, isSuccess, error }] = useLoginMutation()
+  const [login, { data, isSuccess }] = useLoginMutation()
   const { push } = useRouter()
   const { loginOauthGoogle, googleData, displayPopup, setDisplayPopup } = useLoginGoogleAuthMutation()
 
@@ -79,7 +77,6 @@ export const LoginPage = () => {
           Sign in
         </Button>
       </Form>
-      {isError && <ErrorSnackbar error={error as IErrorResponse} />}
       <EmailSendPopup email={googleData?.email} isShowPopup={displayPopup} setIsShowPopup={setDisplayPopup} />
     </>
   )

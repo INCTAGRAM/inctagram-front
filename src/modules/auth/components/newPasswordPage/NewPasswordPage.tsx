@@ -9,8 +9,6 @@ import { useCreateNewPasswordMutation } from '@/modules/auth/services/authServic
 import Form from '@/common/ui/form/Form'
 import { useRouter } from 'next/router'
 import { RouteNames } from '@/constants/routes'
-import { ErrorSnackbar } from '@/common/ui/alertSnackbar/ErrorSnackbar'
-import { IErrorResponse } from '@/modules/auth/services/types'
 
 type NewPassword = yup.InferType<typeof newPasswordSchema>
 
@@ -20,7 +18,7 @@ interface INewPasswordPage {
 }
 
 export const NewPasswordPage = ({ code, email }: INewPasswordPage) => {
-  const [createNewPassword, { isSuccess, isError, error: error }] = useCreateNewPasswordMutation()
+  const [createNewPassword, { isSuccess, error }] = useCreateNewPasswordMutation()
   const { push } = useRouter()
 
   useEffect(() => {
@@ -70,7 +68,6 @@ export const NewPasswordPage = ({ code, email }: INewPasswordPage) => {
           Create new password
         </Button>
       </Form>
-      {isError && <ErrorSnackbar error={error as IErrorResponse} />}
     </>
   )
 }

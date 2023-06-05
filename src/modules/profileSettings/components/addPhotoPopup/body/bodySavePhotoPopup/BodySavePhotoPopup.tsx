@@ -5,7 +5,6 @@ import React, { useEffect, useState } from 'react'
 import { getCroppedImg } from '@/helpers/cropImage'
 import { useUploadAvatarMutation } from '@/modules/profile/services/profileService'
 import { ErrorSnackbar } from '@/common/ui/alertSnackbar/ErrorSnackbar'
-import { IErrorResponse } from '@/modules/auth/services/types'
 import IcomoonReact from 'icomoon-react'
 import iconSet from '@/assets/icons/selection.json'
 
@@ -18,7 +17,7 @@ interface IBodySavePhotoPopup {
 export type CroppedAreaType = { width: number; height: number; x: number; y: number }
 
 export const BodySavePhotoPopup = ({ savePhoto, setFile, file }: IBodySavePhotoPopup) => {
-  const [uploadAvatar, { isError, error, isSuccess }] = useUploadAvatarMutation()
+  const [uploadAvatar, { isSuccess }] = useUploadAvatarMutation()
   const [croppedArea, setCroppedArea] = useState<CroppedAreaType>({ width: 0, height: 0, x: 0, y: 0 })
   const [crop, setCrop] = useState({ x: 0, y: 0 })
   const [zoom, setZoom] = useState(1)
@@ -83,7 +82,6 @@ export const BodySavePhotoPopup = ({ savePhoto, setFile, file }: IBodySavePhotoP
         Save
       </Button>
       {errorSize && <ErrorSnackbar error={'Image size is too big'} />}
-      {isError && <ErrorSnackbar error={error as IErrorResponse} />}
     </div>
   )
 }

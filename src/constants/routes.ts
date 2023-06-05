@@ -14,7 +14,7 @@ export const RouteNames = {
   PROFILE_SETTINGS: '/profile/settings',
 } as const
 
-export const PublicRoutes: string[] = [
+export const PublicRoutes = [
   RouteNames.LOGIN,
   RouteNames.REGISTER,
   RouteNames.REGISTER_CONFIRMATION,
@@ -24,13 +24,13 @@ export const PublicRoutes: string[] = [
   RouteNames.NEW_PASSWORD_CONFIRMATION,
   RouteNames.NEW_PASSWORD,
   RouteNames.RECOVERY_EXPIRED,
-]
+] as const
 
 export const ExternalLinks = {
   github: `https://github.com/login/oauth/authorize?client_id=${
     process.env.NEXT_PUBLIC_GITHUB_CLIENT_ID
   }&scope=${scopes.join(' ')}`,
-}
+} as const
 
 export const endpointsSkipAuth = [
   'login',
@@ -39,6 +39,8 @@ export const endpointsSkipAuth = [
   'passwordRecovery',
   'createNewPassword',
   'logout',
-]
+] as const
+
+export const endpointsSkipErrorHandling = ['logout', 'refreshToken'] as const
 
 export const endpointsSkipLoading = ['getSelfPostsProfile', 'getUserPostsProfile']
