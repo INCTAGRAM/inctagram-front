@@ -6,6 +6,7 @@ import { useAppDispatch } from '@/store/store'
 import { addToken, stopRefresh } from '@/store/tokenSlice'
 import styles from '@/common/header/Header.module.scss'
 import CircularProgress from '@mui/material/CircularProgress'
+import { clearState } from '@/store/appSlice'
 
 export const Redirect: FC<PropsWithChildren> = ({ children }) => {
   const { push, pathname } = useRouter()
@@ -30,7 +31,11 @@ export const Redirect: FC<PropsWithChildren> = ({ children }) => {
   }, [data])
 
   useEffect(() => {
-    if (isError) push(RouteNames.LOGIN).then(() => setIsBlockContent(false))
+    if (isError)
+      push(RouteNames.LOGIN).then(() => {
+        dispatch(clearState(true))
+        setIsBlockContent(false)
+      })
   }, [isError])
 
   if (isLoading) {
