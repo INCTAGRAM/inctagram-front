@@ -1,3 +1,1 @@
-import { ProfileSettings } from './components/ProfileSettings'
-
-export { ProfileSettings }
+export { ProfileSettings } from './components/ProfileSettings'
