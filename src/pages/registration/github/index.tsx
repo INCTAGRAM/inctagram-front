@@ -1,4 +1,4 @@
-import { GitHubPage } from '@/modules/auth/components/github/GitHubPage'
+import { GitHubPage } from '@/modules/auth'
 
 const Github = () => {
   return (

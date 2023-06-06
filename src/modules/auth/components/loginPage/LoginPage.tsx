@@ -14,7 +14,7 @@ import Link from 'next/link'
 import { addToken } from '@/store/tokenSlice'
 import { useAppDispatch } from '@/store/store'
 import { useLoginGoogleAuthMutation } from '@/modules/auth/hooks/useLoginGoogleAuthMutation'
-import { EmailSendPopup } from '@/modules/auth/components/emailSendPopup/EmailSendPopup'
+import { EmailSendPopup } from '@/modules/auth'
 
 type LoginType = yup.InferType<typeof loginSchema>
 

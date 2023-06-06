@@ -11,7 +11,7 @@ import { RouteNames } from '@/constants/routes'
 
 type RecoveryType = yup.InferType<typeof recoverySchema>
 import { useGoogleReCaptcha } from 'react-google-recaptcha-v3'
-import { EmailSendPopup } from '@/modules/auth/components/emailSendPopup/EmailSendPopup'
+import { EmailSendPopup } from '@/modules/auth'
 
 export const RecoveryPage = () => {
   const [sendEmail, { isSuccess }] = usePasswordRecoveryMutation()

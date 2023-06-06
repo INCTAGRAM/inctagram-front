@@ -1,6 +1,6 @@
 import { NextPageWithLayout } from '@/pages/_app'
 import HeadMeta from '@/common/headMeta/HeadMeta'
-import { RegistrationSuccessPage } from '@/modules/auth/components/feedbackPages/RegistrationSuccessPage'
+import { RegistrationSuccessPage } from '@/modules/auth'
 import { getBaseLayout } from '@/common/layout/baseLayout/BaseLayout'
 
 const Confirmation: NextPageWithLayout = () => {

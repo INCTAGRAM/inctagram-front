@@ -1,3 +1,11 @@
-import { authService, useLogoutMutation } from './services/authService'
-
-export { authService, useLogoutMutation }
+export { EmailSendPopup } from './components/emailSendPopup/EmailSendPopup'
+export { EmptyProfilePage } from './components/feedbackPages/EmptyProfilePage'
+export { ExpiredPage } from './components/feedbackPages/ExpiredPage'
+export { RegistrationSuccessPage } from './components/feedbackPages/RegistrationSuccessPage'
+export { GitHubPage } from './components/github/GitHubPage'
+export { LoginPage } from './components/loginPage/LoginPage'
+export { MergeAccount } from './components/mergeAccount/MergeAccount'
+export { NewPasswordPage } from './components/newPasswordPage/NewPasswordPage'
+export { RecoveryPage } from './components/recoveryPage/RecoveryPage'
+export { RegistrationPage } from './components/registrationPage/RegistrationPage'
+export { authService, useLogoutMutation } from './services/authService'

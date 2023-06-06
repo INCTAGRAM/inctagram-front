@@ -1,5 +1,5 @@
 import React from 'react'
-import { ExpiredPage } from '@/modules/auth/components/feedbackPages/ExpiredPage'
+import { ExpiredPage } from '@/modules/auth'
 import { NextPageWithLayout } from '@/pages/_app'
 import HeadMeta from '@/common/headMeta/HeadMeta'
 import { getBaseLayout } from '@/common/layout/baseLayout/BaseLayout'

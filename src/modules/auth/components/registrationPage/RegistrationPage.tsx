@@ -10,7 +10,7 @@ import * as yup from 'yup'
 import Form from '@/common/ui/form/Form'
 import { RouteNames } from '@/constants/routes'
 import { useLoginGoogleAuthMutation } from '@/modules/auth/hooks/useLoginGoogleAuthMutation'
-import { EmailSendPopup } from '@/modules/auth/components/emailSendPopup/EmailSendPopup'
+import { EmailSendPopup } from '@/modules/auth'
 
 type RegistrationType = yup.InferType<typeof registrationSchema>
 

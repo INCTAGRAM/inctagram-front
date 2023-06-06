@@ -1,4 +1,4 @@
-import { EmptyProfilePage } from '@/modules/auth/components/feedbackPages/EmptyProfilePage'
+import { EmptyProfilePage } from '@/modules/auth'
 import HeadMeta from '@/common/headMeta/HeadMeta'
 import { NextPageWithLayout } from '@/pages/_app'
 import { getBaseLayout } from '@/common/layout/baseLayout/BaseLayout'
