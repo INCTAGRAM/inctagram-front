@@ -33,13 +33,9 @@ export const PreviewsForGalleryControl = ({ originalImages, croppingParameters }
         return (
           <div className={styles.preview} key={i} onClick={() => switchPhotoHandler(i)}>
             <img src={img} alt={''} />
-            {originalImages.length > 1 ? (
-              <span className={styles.delPhoto} onClick={(e) => removePhotoHandler(e, i)}>
-                <IcomoonReact iconSet={iconSet} color={'#fff'} icon={'close-outline'} size={14} />
-              </span>
-            ) : (
-              ''
-            )}
+            <span className={styles.delPhoto} onClick={(e) => removePhotoHandler(e, i)}>
+              <IcomoonReact iconSet={iconSet} color={'#fff'} icon={'close-outline'} size={14} />
+            </span>
           </div>
         )
       })}
