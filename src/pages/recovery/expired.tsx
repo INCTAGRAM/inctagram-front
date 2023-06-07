@@ -1,20 +1,20 @@
 import React from 'react'
-import { ExpiredPage } from '@/modules/auth'
+import { Expired } from '@/modules/auth'
 import { NextPageWithLayout } from '@/pages/_app'
 import HeadMeta from '@/common/headMeta/HeadMeta'
 import { getBaseLayout } from '@/common/layout/baseLayout/BaseLayout'
 import { useRouter } from 'next/router'
 
-const Expired: NextPageWithLayout = () => {
+const ExpiredPage: NextPageWithLayout = () => {
   const router = useRouter()
 
   return (
     <HeadMeta title={'Expired'}>
-      <ExpiredPage email={router.query.email as string} />
+      <Expired email={router.query.email as string} />
     </HeadMeta>
   )
 }
 
-Expired.getLayout = getBaseLayout
+ExpiredPage.getLayout = getBaseLayout
 
-export default Expired
+export default ExpiredPage

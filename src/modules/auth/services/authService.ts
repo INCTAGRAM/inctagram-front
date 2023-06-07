@@ -35,6 +35,13 @@ export const authService = createApi({
         body,
       }),
     }),
+    confirmation: build.mutation<void, { code: string }>({
+      query: (body) => ({
+        url: '/auth/registration-confirmation',
+        method: 'POST',
+        body,
+      }),
+    }),
     resendingConfirmation: build.mutation<void, { email: string }>({
       query: (body) => ({
         url: '/auth/registration-email-resending',
@@ -91,6 +98,7 @@ export const {
   useLoginMutation,
   useLoginGoogleMutation,
   useRegistrationMutation,
+  useConfirmationMutation,
   useResendingConfirmationMutation,
   usePasswordRecoveryMutation,
   useCreateNewPasswordMutation,

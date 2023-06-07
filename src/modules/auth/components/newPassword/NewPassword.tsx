@@ -10,14 +10,14 @@ import Form from '@/common/ui/form/Form'
 import { useRouter } from 'next/router'
 import { RouteNames } from '@/constants/routes'
 
-type NewPassword = yup.InferType<typeof newPasswordSchema>
+type NewPasswordType = yup.InferType<typeof newPasswordSchema>
 
 interface INewPasswordPage {
   code: string
   email: string
 }
 
-export const NewPasswordPage = ({ code, email }: INewPasswordPage) => {
+export const NewPassword = ({ code, email }: INewPasswordPage) => {
   const [createNewPassword, { isSuccess, error }] = useCreateNewPasswordMutation()
   const { push } = useRouter()
 
@@ -38,9 +38,9 @@ export const NewPasswordPage = ({ code, email }: INewPasswordPage) => {
     register,
     handleSubmit,
     formState: { errors, isValid, isDirty },
-  } = useForm<NewPassword>({ mode: 'onBlur', resolver: yupResolver(newPasswordSchema) })
+  } = useForm<NewPasswordType>({ mode: 'onBlur', resolver: yupResolver(newPasswordSchema) })
 
-  const onFormSubmit: SubmitHandler<NewPassword> = ({ newPassword }) => {
+  const onFormSubmit: SubmitHandler<NewPasswordType> = ({ newPassword }) => {
     newPassword && createNewPassword({ newPassword, recoveryCode: code })
   }
 

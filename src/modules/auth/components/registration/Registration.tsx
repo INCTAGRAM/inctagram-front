@@ -14,7 +14,7 @@ import { EmailSendPopup } from '@/modules/auth'
 
 type RegistrationType = yup.InferType<typeof registrationSchema>
 
-export const RegistrationPage = () => {
+export const Registration = () => {
   const [registration, { isSuccess }] = useRegistrationMutation()
   const [email, setEmail] = useState('')
   const [isShowPopup, setIsShowPopup] = useState(false)

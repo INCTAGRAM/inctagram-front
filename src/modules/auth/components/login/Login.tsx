@@ -18,7 +18,7 @@ import { EmailSendPopup } from '@/modules/auth'
 
 type LoginType = yup.InferType<typeof loginSchema>
 
-export const LoginPage = () => {
+export const Login = () => {
   const dispatch = useAppDispatch()
   const [login, { data, isSuccess }] = useLoginMutation()
   const { push } = useRouter()

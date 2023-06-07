@@ -6,7 +6,7 @@ interface IExpiredPage {
   email: string
 }
 
-export const ExpiredPage = ({ email }: IExpiredPage) => {
+export const Expired = ({ email }: IExpiredPage) => {
   const [sendEmail] = useResendingConfirmationMutation()
 
   const redirectToRecovery = () => {

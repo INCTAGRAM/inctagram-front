@@ -13,7 +13,7 @@ type RecoveryType = yup.InferType<typeof recoverySchema>
 import { useGoogleReCaptcha } from 'react-google-recaptcha-v3'
 import { EmailSendPopup } from '@/modules/auth'
 
-export const RecoveryPage = () => {
+export const Recovery = () => {
   const [sendEmail, { isSuccess }] = usePasswordRecoveryMutation()
   const [email, setEmail] = useState('')
   const [isShowPopup, setIsShowPopup] = useState(false)
@@ -74,7 +74,7 @@ export const RecoveryPage = () => {
   )
 }
 
-export default RecoveryPage
+export default Recovery
 // this keys for recaptcha we dont use, but it have to work
 // 6Lfoc-8lAAAAAASNlkyDs89G9ZGBrEGNmTJEwshp ---- Front
 // 6Lfoc-8lAAAAAE0QWBXTrwcayEBKoA6VUA0mfjLR --- Bek

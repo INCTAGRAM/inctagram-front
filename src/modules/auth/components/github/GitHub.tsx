@@ -1,4 +1,4 @@
-import styles from './GitHubPage.module.scss'
+import styles from './GitHub.module.scss'
 import { useSignInGitHubMutation } from '@/modules/auth/services/authService'
 import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
@@ -10,7 +10,7 @@ import { FetchBaseQueryError } from '@reduxjs/toolkit/query'
 import { Popup } from '@/common/ui/popup/Popup'
 import { Button } from '@/common/ui/button/Button'
 
-export const GitHubPage = () => {
+export const GitHub = () => {
   const dispatch = useAppDispatch()
   const [showPopupAboutMerge, setShowPopupAboutMerge] = useState(false)
   const [email, setEmail] = useState('')
