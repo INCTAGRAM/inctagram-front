@@ -8,15 +8,13 @@ import * as yup from 'yup'
 import { recoverySchema } from '@/modules/auth/helpers/auth-schemes'
 import Form from '@/common/ui/form/Form'
 import { RouteNames } from '@/constants/routes'
-import { ErrorSnackbar } from '@/common/ui/alertSnackbar/ErrorSnackbar'
-import { IErrorResponse } from '@/modules/auth/services/types'
 
 type RecoveryType = yup.InferType<typeof recoverySchema>
 import { useGoogleReCaptcha } from 'react-google-recaptcha-v3'
-import { EmailSendPopup } from '@/modules/auth/components/emailSendPopup/EmailSendPopup'
+import { EmailSendPopup } from '@/modules/auth'
 
-export const RecoveryPage = () => {
-  const [sendEmail, { isError, error, isSuccess }] = usePasswordRecoveryMutation()
+export const Recovery = () => {
+  const [sendEmail, { isSuccess }] = usePasswordRecoveryMutation()
   const [email, setEmail] = useState('')
   const [isShowPopup, setIsShowPopup] = useState(false)
   const { executeRecaptcha } = useGoogleReCaptcha()
@@ -72,12 +70,11 @@ export const RecoveryPage = () => {
         </Button>
       </Form>
       <EmailSendPopup email={email} isShowPopup={isShowPopup} setIsShowPopup={setIsShowPopup} />
-      {isError && <ErrorSnackbar error={error as IErrorResponse} />}
     </>
   )
 }
 
-export default RecoveryPage
+export default Recovery
 // this keys for recaptcha we dont use, but it have to work
 // 6Lfoc-8lAAAAAASNlkyDs89G9ZGBrEGNmTJEwshp ---- Front
 // 6Lfoc-8lAAAAAE0QWBXTrwcayEBKoA6VUA0mfjLR --- Bek

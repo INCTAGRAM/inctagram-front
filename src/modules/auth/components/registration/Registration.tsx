@@ -9,15 +9,13 @@ import { registrationSchema } from '@/modules/auth/helpers/auth-schemes'
 import * as yup from 'yup'
 import Form from '@/common/ui/form/Form'
 import { RouteNames } from '@/constants/routes'
-import { ErrorSnackbar } from '@/common/ui/alertSnackbar/ErrorSnackbar'
-import { IErrorResponse } from '@/modules/auth/services/types'
 import { useLoginGoogleAuthMutation } from '@/modules/auth/hooks/useLoginGoogleAuthMutation'
-import { EmailSendPopup } from '@/modules/auth/components/emailSendPopup/EmailSendPopup'
+import { EmailSendPopup } from '@/modules/auth'
 
 type RegistrationType = yup.InferType<typeof registrationSchema>
 
-export const RegistrationPage = () => {
-  const [registration, { isError, error, isSuccess }] = useRegistrationMutation()
+export const Registration = () => {
+  const [registration, { isSuccess }] = useRegistrationMutation()
   const [email, setEmail] = useState('')
   const [isShowPopup, setIsShowPopup] = useState(false)
   const { loginOauthGoogle, googleData, displayPopup, setDisplayPopup } = useLoginGoogleAuthMutation()
@@ -88,7 +86,6 @@ export const RegistrationPage = () => {
       </Form>
       <EmailSendPopup email={email} isShowPopup={isShowPopup} setIsShowPopup={setIsShowPopup} />
       <EmailSendPopup email={googleData?.email} isShowPopup={displayPopup} setIsShowPopup={setDisplayPopup} />
-      {isError && <ErrorSnackbar error={error as IErrorResponse} />}
     </>
   )
 }

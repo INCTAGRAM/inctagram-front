@@ -1,4 +1,2 @@
-import { Profile } from './components/Profile'
-import { profileService } from './services/profileService'
-
-export { Profile, profileService }
+export { Profile } from './components/Profile'
+export { profileService } from './services/profileService'

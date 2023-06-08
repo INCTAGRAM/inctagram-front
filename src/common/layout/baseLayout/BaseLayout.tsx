@@ -17,5 +17,3 @@ const BaseLayout: NextPage<PropsWithChildren> = ({ children }) => {
 export const getBaseLayout = (page: ReactElement) => {
   return <BaseLayout>{page}</BaseLayout>
 }
-
-export default BaseLayout

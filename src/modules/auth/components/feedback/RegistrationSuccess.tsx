@@ -3,7 +3,7 @@ import Feedback from '@/common/ui/feedback/Feedback'
 import { useRouter } from 'next/router'
 import { RouteNames } from '@/constants/routes'
 
-export const RegistrationSuccessPage = () => {
+export const RegistrationSuccess = () => {
   const { push } = useRouter()
 
   const redirectToLogin = () => push(RouteNames.LOGIN)

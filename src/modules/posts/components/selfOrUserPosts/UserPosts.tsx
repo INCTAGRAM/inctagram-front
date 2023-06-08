@@ -21,8 +21,6 @@ export const UserPosts = () => {
   const index = asPath.includes('?') ? pathArr.length - 2 : pathArr.length - 1
   const username = pathArr[index]
 
-  console.log(queryParameters, username)
-
   const { data, isSuccess, isFetching } = useGetUserPostsProfileQuery({ ...queryParameters, username })
 
   useEffect(() => {

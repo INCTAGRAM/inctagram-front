@@ -1,4 +1,3 @@
-import { getNavbarLayout } from '@/common/layout/navbarLayout/NavbarLayout'
 import { useRouter } from 'next/router'
 
 const Index = () => {

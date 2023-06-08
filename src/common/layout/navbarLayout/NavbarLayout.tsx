@@ -19,5 +19,3 @@ const NavbarLayout: NextPage<PropsWithChildren> = ({ children }) => {
 export const getNavbarLayout = (page: ReactElement) => {
   return <NavbarLayout>{page}</NavbarLayout>
 }
-
-export default NavbarLayout

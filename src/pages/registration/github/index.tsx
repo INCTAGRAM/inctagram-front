@@ -1,11 +1,11 @@
-import { GitHubPage } from '@/modules/auth/components/github/GitHubPage'
+import { GitHub } from '@/modules/auth'
 
-const Github = () => {
+const GithubPage = () => {
   return (
     <div>
-      <GitHubPage />
+      <GitHub />
     </div>
   )
 }
 
-export default Github
+export default GithubPage

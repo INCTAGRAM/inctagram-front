@@ -1,6 +1,6 @@
 import React from 'react'
 import { getBaseLayout } from '@/common/layout/baseLayout/BaseLayout'
-import { MergeAccount } from '@/modules/auth/components/mergeAccount/MergeAccount'
+import { MergeAccount } from '@/modules/auth'
 
 const MergeAccountPage = () => {
   return <MergeAccount />
