@@ -4,14 +4,14 @@ import IcomoonReact from 'icomoon-react'
 import iconSet from '@/assets/icons/selection.json'
 
 type PaymentBtnsPropsType = {
-  setPaymentSystem: (system: string) => void
-  setShowPaymentPopup: (bool: boolean) => void
+  priceId: string
+  makeSubscription: any
+  count: number
 }
 
-export const PaymentBtns = ({ setPaymentSystem, setShowPaymentPopup }: PaymentBtnsPropsType) => {
+export const PaymentBtns = ({ makeSubscription, priceId, count }: PaymentBtnsPropsType) => {
   const onBtnClickHandler = (system: string) => {
-    setPaymentSystem(system)
-    setShowPaymentPopup(true)
+    makeSubscription({ priceId, renew: count !== 0, paymentSystem: system })
   }
   return (
     <div className={s.payment_btns}>

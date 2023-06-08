@@ -3,14 +3,19 @@ import TopPanel from '@/modules/profileSettings/components/generalInfo/component
 import { GeneralInfo } from '@/modules/profileSettings/components/generalInfo'
 import s from './ProfileSettings.module.scss'
 import { AccountManagement } from '@/modules/profileSettings/components/accountManagement/components/AccountManagement'
+import { useRouter } from 'next/router'
 
 const ProfileSettings = () => {
-  const [selected, setSelected] = useState('General information')
+  const { push, query } = useRouter()
+
+  const sectionName =
+    query.section ?? push('/profile/settings?section=general_information', '/profile/settings/general_information')
 
   return (
     <div className={s.container}>
-      <TopPanel selected={selected} setSelected={setSelected} />
-      {selected === 'Account Management' ? <AccountManagement /> : <GeneralInfo />}
+      <TopPanel sectionName={sectionName} />
+      {sectionName === 'account_management' && <AccountManagement />}
+      {sectionName === 'general_information' && <GeneralInfo />}
     </div>
   )
 }

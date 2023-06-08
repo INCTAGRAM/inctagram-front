@@ -8,10 +8,10 @@ type SubscriptionListPropsType = {
 
 export const SubscriptionList = ({ payments }: SubscriptionListPropsType) => {
   return (
-    <div className={s.block}>
+    <div className={s.block} style={{ height: `${84 + 38 * (payments.length - 1)}px` }}>
       <div className={s.payment_row} style={{ gap: '32px' }}>
         <span>Date of payment</span>
-        <span>End date of subscription</span>
+        <span className={s.second_column_title}>End date of subscription</span>
       </div>
       {payments.map((p, i) => (
         <div className={s.payment_row} style={{ gap: '69px', fontWeight: '600' }} key={i}>

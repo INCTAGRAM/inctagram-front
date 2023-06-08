@@ -10,10 +10,15 @@ type OptionBlockPropsType = {
 
 export const PriceList = ({ priceList, priceId, setPriceId }: OptionBlockPropsType) => {
   return (
-    <div className={s.block}>
+    <div className={`${s.block} ${s.price_list_block}`}>
       {priceList.map((p, i) => (
         <div key={i}>
-          <input type={'checkbox'} checked={i === 0 || p.id === priceId} onChange={() => setPriceId(p.id)} />
+          <input
+            type={'checkbox'}
+            className={s.checkbox}
+            checked={(i === 0 && !priceId) || p.id === priceId}
+            onChange={() => setPriceId(p.id)}
+          />
           <span>{`${p.value}${p.currency} for ${p.period} ${p.periodType}`}</span>
         </div>
       ))}

@@ -1,8 +1,8 @@
 import { Popup } from '@/common/ui/popup/Popup'
 import React, { ChangeEvent, useRef, useState } from 'react'
 import styles from './AddFhotoPopup.module.scss'
-import { BodyUploadPhotoPopup } from '@/modules/profileSettings/components/addPhotoPopup/body/bodyUploadPhotoPopup/BodyUploadPhotoPopup'
-import { BodySavePhotoPopup } from '@/modules/profileSettings/components/addPhotoPopup/body/bodySavePhotoPopup/BodySavePhotoPopup'
+import { BodySavePhotoPopup } from './body/bodySavePhotoPopup/BodySavePhotoPopup'
+import { BodyUploadPhotoPopup } from './body/bodyUploadPhotoPopup/BodyUploadPhotoPopup'
 
 interface IAddPhotoPopup {
   isShowPopup: boolean

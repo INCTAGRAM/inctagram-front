@@ -5,22 +5,23 @@ import {
   useGetPriceListQuery,
   useMakeSubscriptionMutation,
 } from '../services/profileSettingsService'
-import { PaymentPopup } from '@/modules/profileSettings/components/accountManagement/components/paymentPopup/PaymentPopup'
 import { ErrorPopup } from '@/modules/profileSettings/components/accountManagement/components/errorPopup/ErrorPopup'
 import { SuccessPopup } from '@/modules/profileSettings/components/accountManagement/components/successPopup/SuccessPopup'
 import { Subscriptions } from '@/modules/profileSettings/components/accountManagement/components/subscriptions/Subscriptions'
 import { AccountTypes } from '@/modules/profileSettings/components/accountManagement/components/accounts/Accounts'
 import { SubscriptionPrices } from '@/modules/profileSettings/components/accountManagement/components/prices/Prices'
+import { PaymentBtns } from '@/modules/profileSettings/components/accountManagement/components/paymentBtns/PaymentBtns'
+import { useRouter } from 'next/router'
 
 export const AccountManagement = () => {
   const [makeSubscription, { data: paymentUrl, isError }] = useMakeSubscriptionMutation()
   const { data: priceList, isFetching } = useGetPriceListQuery()
   const { data: paymentData, isFetching: isPaymentFetching } = useGetPaymentsQuery({ page: 1, pageSize: 10 })
 
-  const [accountType, setAccountType] = useState('Personal')
+  const { query } = useRouter()
+
+  const [accountType, setAccountType] = useState(paymentData?.payments.length === 0 ? 'Personal' : 'Business')
   const [priceId, setPriceId] = useState('')
-  const [paymentSystem, setPaymentSystem] = useState('')
-  const [showPaymentPopup, setShowPaymentPopup] = useState(false)
 
   useEffect(() => {
     priceList && setPriceId(priceList[0].id)
@@ -34,11 +35,12 @@ export const AccountManagement = () => {
     if (isError) setShowErrorPopup(true)
   }, [isError])
 
-  const [showSuccessPopup, setShowSuccessPopup] = useState(false)
-  const [showErrorPopup, setShowErrorPopup] = useState(false)
+  const [showSuccessPopup, setShowSuccessPopup] = useState(query.success === 'true')
+  const [showErrorPopup, setShowErrorPopup] = useState(query.success === 'false')
   const closeErrorPopup = () => setShowErrorPopup(false)
   const closeSuccessPopup = () => setShowSuccessPopup(false)
-  const closePopup = () => setShowPaymentPopup(false)
+
+  console.log(accountType)
 
   if (isFetching || isPaymentFetching || paymentData === undefined) return null
 
@@ -47,24 +49,17 @@ export const AccountManagement = () => {
       {paymentData.count !== 0 && <Subscriptions payments={paymentData.payments} />}
       <AccountTypes setAccountType={setAccountType} accountType={accountType} />
       {accountType === 'Business' && (
-        <SubscriptionPrices
-          priceId={priceId}
-          setPriceId={setPriceId}
-          priceList={priceList!}
-          setPaymentSystem={setPaymentSystem}
-          setShowPaymentPopup={setShowPaymentPopup}
-        />
+        <div>
+          <SubscriptionPrices
+            priceId={priceId}
+            setPriceId={setPriceId}
+            priceList={priceList!}
+            payments={paymentData.payments}
+          />
+          <PaymentBtns count={paymentData.count} priceId={priceId} makeSubscription={makeSubscription} />
+        </div>
       )}
-      <PaymentPopup
-        setShowPaymentPopup={setShowPaymentPopup}
-        showPaymentPopup={showPaymentPopup}
-        paymentData={paymentData}
-        paymentSystem={paymentSystem}
-        setPaymentSystem={setPaymentSystem}
-        closePopup={closePopup}
-        priceId={priceId}
-        makeSubscription={makeSubscription}
-      />
+
       <ErrorPopup closeErrorPopup={closeErrorPopup} showErrorPopup={showErrorPopup} />
       <SuccessPopup closeSuccessPopup={closeSuccessPopup} showSuccessPopup={showSuccessPopup} />
     </div>

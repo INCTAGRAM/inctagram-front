@@ -3,10 +3,11 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import styles from './DatePicker.module.scss'
 import { FieldValues, useController, UseFormRegister } from 'react-hook-form'
-import { SetProfileType } from '@/modules/profileSettings/components/ProfileSettings'
+
 import { DatePicker } from '@mui/x-date-pickers'
 import { Control } from 'react-hook-form/dist/types/form'
 import dayjs from 'dayjs'
+import { SetProfileType } from '@/modules/profileSettings/components/generalInfo/components/GeneralInfo'
 
 interface IDatePickerProps {
   register: UseFormRegister<SetProfileType>

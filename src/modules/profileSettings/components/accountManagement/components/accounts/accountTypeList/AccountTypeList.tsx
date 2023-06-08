@@ -8,13 +8,23 @@ type AccountTypeListPropsType = {
 
 export const AccountTypeList = ({ accountType, setAccountType }: AccountTypeListPropsType) => {
   return (
-    <div className={s.block}>
+    <div className={`${s.block} ${s.account_type_list_block}`}>
       <div>
-        <input type={'checkbox'} checked={accountType === 'Personal'} onChange={() => setAccountType('Personal')} />
+        <input
+          type={'checkbox'}
+          className={s.checkbox}
+          checked={accountType === 'Personal'}
+          onChange={() => setAccountType('Personal')}
+        />
         <span>Personal</span>
       </div>
       <div>
-        <input type={'checkbox'} checked={accountType === 'Business'} onChange={() => setAccountType('Business')} />
+        <input
+          type={'checkbox'}
+          className={s.checkbox}
+          checked={accountType === 'Business'}
+          onChange={() => setAccountType('Business')}
+        />
         <span>Business</span>
       </div>
     </div>

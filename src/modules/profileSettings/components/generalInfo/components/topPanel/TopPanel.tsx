@@ -1,45 +1,55 @@
 import React, { useState } from 'react'
 import s from './TopPanel.module.scss'
+import { useRouter } from 'next/router'
 
 type TopPanelPropsType = {
-  selected: string
-  setSelected: (v: string) => void
+  sectionName: string | string[] | Promise<boolean>
 }
 
-const TopPanel = ({ selected, setSelected }: TopPanelPropsType) => {
-  //const [selected, setSelected] = useState('General information')
+const TopPanel = ({ sectionName }: TopPanelPropsType) => {
+  const isDevicesSelected = sectionName === 'devices'
+  const isGeneralInformationSelected = sectionName === 'general_information'
+  const isAccountManagementSelected = sectionName === 'account_management'
+  const isPaymentsSelected = sectionName === 'payments'
 
-  const isDevicesSelected = selected === 'Devices'
-  const isGeneralInformationSelected = selected === 'General information'
-  const isAccountManagementSelected = selected === 'Account Management'
+  const { push } = useRouter()
 
   const underlineClassName = `
-    ${selected === 'Devices' ? s.opt2 : ''}
-    ${selected === 'General information' ? s.opt1 : ''}
-    ${selected === 'Account Management' ? s.opt3 : ''}
+    ${sectionName === 'devices' ? s.opt2 : ''}
+    ${sectionName === 'general_information' ? s.opt1 : ''}
+    ${sectionName === 'account_management' ? s.opt3 : ''}
+    ${sectionName === 'payments' ? s.opt4 : ''}
     `
+
+  const onClickHandler = (sectionUrl: string) => {
+    push(`/profile/settings?section=${sectionUrl}`, `/profile/settings/${sectionUrl}`)
+  }
+
   return (
     <div className={s.top_panel}>
       <div>
         <h2
           className={`${isGeneralInformationSelected && s.selected}`}
-          onClick={() => setSelected('General information')}
+          onClick={() => onClickHandler('general_information')}
         >
           General information
         </h2>
-        <h2 className={`${isDevicesSelected && s.selected}`} onClick={() => setSelected('Devices')}>
+        <h2 className={`${isDevicesSelected && s.selected}`} onClick={() => onClickHandler('devices')}>
           Devices
         </h2>
         <h2
           className={`${isAccountManagementSelected && s.selected}`}
-          onClick={() => setSelected('Account Management')}
+          onClick={() => onClickHandler('account_management')}
         >
           Account Management
+        </h2>
+        <h2 className={`${isPaymentsSelected && s.selected}`} onClick={() => onClickHandler('payments')}>
+          Payments
         </h2>
       </div>
       <div>
         <div>
-          <div className={/*selected === 'Devices' ? s.opt2 : s.opt1*/ underlineClassName}></div>
+          <div className={underlineClassName}></div>
         </div>
       </div>
     </div>

@@ -43,7 +43,7 @@ export const UserPosts = () => {
       <div ref={postsRef} className={styles.posts}>
         {data.posts.map((post) => (
           <div className={styles.post} key={post.id}>
-            {query.id === post.id && (
+            {query.post_id === post.id && (
               <Modal>
                 <DisplayPostPopup
                   previewPost={post}
@@ -52,7 +52,7 @@ export const UserPosts = () => {
                 />
               </Modal>
             )}
-            <Link href={`/profile/${username}?id=${post.id}`}>
+            <Link href={`/profile/${username}?post_id=${post.id}`}>
               <img src={post.previewUrl} alt={''} />
               <LikesCommentsCount likesCount={0} commentsCount={0} />
               {post.imagesCount > 1 && <GalleryIcon />}

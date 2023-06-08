@@ -4,7 +4,7 @@ import styles from './AddAvatar.module.scss'
 import IcomoonReact from 'icomoon-react'
 import iconSet from '@/assets/icons/selection.json'
 import { Button } from '@/common/ui/button/Button'
-import { AddPhotoPopup } from '@/modules/profileSettings/components/addPhotoPopup/AddPhotoPopup'
+import { AddPhotoPopup } from '../addPhotoPopup/AddPhotoPopup'
 
 interface IAddAvatarProps {
   previewUrl: string | undefined
