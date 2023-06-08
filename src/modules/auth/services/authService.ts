@@ -4,20 +4,15 @@ import {
   INewPasswordData,
   IRegistrationData,
   IRecoveryData,
+  ILoginGoogleResponse,
 } from '@/modules/auth/services/types'
 import { createApi } from '@reduxjs/toolkit/query/react'
-import { HYDRATE } from 'next-redux-wrapper'
 import { baseQueryWithReauth } from '@/helpers/config'
 
 export const authService = createApi({
   reducerPath: 'authApi',
   tagTypes: ['Auth'],
   baseQuery: baseQueryWithReauth,
-  extractRehydrationInfo(action, { reducerPath }) {
-    if (action.type === HYDRATE) {
-      return action.payload[reducerPath]
-    }
-  },
   endpoints: (build) => ({
     login: build.mutation<ITokenResponse, ILoginData>({
       query: (body) => ({
@@ -26,9 +21,23 @@ export const authService = createApi({
         body,
       }),
     }),
+    loginGoogle: build.mutation<ILoginGoogleResponse, { code: string }>({
+      query: (body) => ({
+        url: '/auth/google/sign-in',
+        method: 'POST',
+        body,
+      }),
+    }),
     registration: build.mutation<void, IRegistrationData>({
       query: (body) => ({
         url: '/auth/registration',
+        method: 'POST',
+        body,
+      }),
+    }),
+    confirmation: build.mutation<void, { code: string }>({
+      query: (body) => ({
+        url: '/auth/registration-confirmation',
         method: 'POST',
         body,
       }),
@@ -54,9 +63,31 @@ export const authService = createApi({
         body,
       }),
     }),
+    signInGitHub: build.mutation<{ accessToken: string }, { code: string }>({
+      query: (body) => ({
+        url: '/auth/github/sign-in',
+        method: 'POST',
+        body,
+      }),
+    }),
+    mergeAccount: build.mutation<{ accessToken: string }, { code: string }>({
+      query: (body) => ({
+        url: `/auth/merge-account/`,
+        method: 'POST',
+        params: {
+          code: body.code,
+        },
+      }),
+    }),
     logout: build.mutation<void, void>({
       query: () => ({
         url: '/auth/logout',
+        method: 'POST',
+      }),
+    }),
+    refreshToken: build.mutation<{ accessToken: string }, void>({
+      query: () => ({
+        url: '/auth/refresh-token',
         method: 'POST',
       }),
     }),
@@ -65,9 +96,14 @@ export const authService = createApi({
 
 export const {
   useLoginMutation,
+  useLoginGoogleMutation,
   useRegistrationMutation,
+  useConfirmationMutation,
   useResendingConfirmationMutation,
   usePasswordRecoveryMutation,
   useCreateNewPasswordMutation,
   useLogoutMutation,
+  useSignInGitHubMutation,
+  useMergeAccountMutation,
+  useRefreshTokenMutation,
 } = authService

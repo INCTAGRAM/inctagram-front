@@ -7,6 +7,11 @@ export interface ILoginData {
   password: string
 }
 
+export interface ILoginGoogleResponse {
+  accessToken: string
+  email?: string
+}
+
 export interface IRegistrationData {
   username: string
   email: string

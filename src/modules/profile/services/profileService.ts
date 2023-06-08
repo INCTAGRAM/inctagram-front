@@ -7,15 +7,20 @@ export const profileService = createApi({
   baseQuery: baseQueryWithReauth,
   tagTypes: ['Profile'],
   endpoints: (build) => ({
-    checkUserProfile: build.query<IProfileResponse, void>({
+    getSelfProfile: build.query<IProfileResponse, void>({
       query: () => ({
         url: '/users/self/profile',
       }),
       providesTags: ['Profile'],
     }),
+    getUserProfile: build.query<IProfileResponse, { username: string }>({
+      query: (params) => ({
+        url: `/users/${params.username}/profile`,
+      }),
+    }),
     uploadAvatar: build.mutation<IUploadAvatarResponse, FormData>({
       query: (body) => ({
-        url: '/users/self/images/avatar',
+        url: '/users/self/profile/avatar',
         method: 'POST',
         body,
       }),
@@ -32,4 +37,5 @@ export const profileService = createApi({
   }),
 })
 
-export const { useCheckUserProfileQuery, useUpdateUserProfileMutation, useUploadAvatarMutation } = profileService
+export const { useGetSelfProfileQuery, useGetUserProfileQuery, useUpdateUserProfileMutation, useUploadAvatarMutation } =
+  profileService

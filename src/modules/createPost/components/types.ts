@@ -1,6 +1,3 @@
-import { CroppedAreaType } from '@/modules/profileSettings/components/addPhotoPopup/body/bodySavePhotoPopup/BodySavePhotoPopup'
-import { Nullable } from '@/common/types/Nullable'
-
 export interface IPost {
   description: string
   originalImages: string[]
@@ -14,19 +11,19 @@ export interface IPost {
 
 export interface ICroppingParameters {
   crop: ICrop
-  croppedArea: CroppedAreaType
+  croppedArea: ICroppedArea
   zoom: number
   aspect: number
+}
+
+export interface ICroppedArea {
+  width: number
+  height: number
+  x: number
+  y: number
 }
 
 export interface ICrop {
   x: number
   y: number
-}
-
-export interface IPosts {
-  page: number
-  pageSize: number
-  postsCount: Nullable<number>
-  isRefetchingPosts: boolean
 }

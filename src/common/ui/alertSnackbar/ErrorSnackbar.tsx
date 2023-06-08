@@ -2,6 +2,8 @@ import { forwardRef, SyntheticEvent, useState } from 'react'
 import MuiAlert, { AlertProps } from '@mui/material/Alert'
 import Snackbar, { SnackbarCloseReason } from '@mui/material/Snackbar'
 import { IErrorResponse } from '@/modules/auth/services/types'
+import { useAppDispatch } from '@/store/store'
+import { setErrorAlert } from '@/store/appSlice'
 
 interface IAlertSnackbar {
   error: string | IErrorResponse | undefined
@@ -13,6 +15,7 @@ const Alert = forwardRef<HTMLDivElement, AlertProps>(function Alert(props, ref) 
 })
 
 export function ErrorSnackbar({ error, time }: IAlertSnackbar) {
+  const dispatch = useAppDispatch()
   const [open, setOpen] = useState(true)
   let message
 
@@ -25,6 +28,7 @@ export function ErrorSnackbar({ error, time }: IAlertSnackbar) {
   }
 
   const handleClose = (event: Event | SyntheticEvent, reason?: SnackbarCloseReason) => {
+    dispatch(setErrorAlert({ message: null }))
     if (reason === 'clickaway') {
       return
     }

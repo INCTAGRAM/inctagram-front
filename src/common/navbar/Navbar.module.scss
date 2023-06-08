@@ -17,13 +17,17 @@
       font-weight: 500;
       text-decoration: none;
     }
-    button {
-      background: transparent;
-      border: none;
+    & svg {
+      fill: $light_100;
     }
-    &.active a {
-      color: $primary_500;
-      font-weight: 700;
+    &.active {
+      a {
+        color: $primary_500;
+        font-weight: 700;
+      }
+      svg {
+        fill: $primary_500;
+      }
     }
     &.margin_top_link a {
       margin-top: 60px;

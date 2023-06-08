@@ -1,16 +1,19 @@
 import React from 'react'
-import LoginPage from '@/modules/auth/components/loginPage/LoginPage'
 import { NextPageWithLayout } from '@/pages/_app'
 import { getBaseLayout } from '@/common/layout/baseLayout/BaseLayout'
 import HeadMeta from '@/common/headMeta/HeadMeta'
+import { GoogleOAuthProvider } from '@react-oauth/google'
+import { Login } from '@/modules/auth'
 
-const Login: NextPageWithLayout = () => {
+const LoginPage: NextPageWithLayout = () => {
   return (
     <HeadMeta title={'Login'}>
-      <LoginPage />
+      <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_GOOGLE_AUTH_CLIENT_ID as string}>
+        <Login />
+      </GoogleOAuthProvider>
     </HeadMeta>
   )
 }
 
-Login.getLayout = getBaseLayout
-export default Login
+LoginPage.getLayout = getBaseLayout
+export default LoginPage

@@ -1,3 +1,11 @@
-import { authService } from './services/authService'
-
-export { authService }
+export { EmailSendPopup } from './components/emailSendPopup/EmailSendPopup'
+export { EmptyProfile } from '@/modules/auth/components/feedback/EmptyProfile'
+export { Expired } from '@/modules/auth/components/feedback/Expired'
+export { RegistrationSuccess } from '@/modules/auth/components/feedback/RegistrationSuccess'
+export { GitHub } from './components/github/GitHub'
+export { Login } from '@/modules/auth/components/login/Login'
+export { MergeAccount } from './components/mergeAccount/MergeAccount'
+export { NewPassword } from '@/modules/auth/components/newPassword/NewPassword'
+export { Recovery } from '@/modules/auth/components/recovery/Recovery'
+export { Registration } from '@/modules/auth/components/registration/Registration'
+export { authService, useLogoutMutation } from './services/authService'

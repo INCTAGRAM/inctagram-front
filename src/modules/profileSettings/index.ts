@@ -1,3 +1,1 @@
-import { ProfileSettingsPage } from './components/ProfileSettingsPage'
-
-export { ProfileSettingsPage }
+export { ProfileSettings } from './components/ProfileSettings'

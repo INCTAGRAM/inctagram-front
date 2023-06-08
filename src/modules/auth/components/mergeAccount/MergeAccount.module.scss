@@ -1,0 +1,25 @@
+@import "src/assets/styles/variables";
+
+.mergeBlock {
+  text-align: center;
+
+  h1 {
+    color: $light_100;
+    margin-bottom: 20px;
+  }
+
+  p {
+    color: $light_100;
+    max-width: 300px;
+    margin: 0 auto 30px auto;
+  }
+
+  button {
+    max-width: 210px;
+    margin: 0 auto 25px auto;
+  }
+
+  img {
+    margin-top: 10px;
+  }
+}

@@ -1,10 +1,8 @@
-import { IPosts } from '@/modules/createPost/components/types'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { IPostsRequestData } from '@/modules/posts/services/types'
 
-export const initialPostsState: IPosts = {
-  page: 1,
-  pageSize: 12,
-  postsCount: null,
+export const initialPostsState = {
+  queryParameters: { page: 1, pageSize: 12 } as IPostsRequestData,
   isRefetchingPosts: false,
 }
 
@@ -12,20 +10,17 @@ const postsSlice = createSlice({
   name: 'posts',
   initialState: initialPostsState,
   reducers: {
-    changePage(state, action: PayloadAction<number>) {
-      state.page = action.payload
+    changeQueryParameters(state, action: PayloadAction<IPostsRequestData>) {
+      state.queryParameters = action.payload
     },
-    changePageSize(state, action: PayloadAction<number>) {
-      state.pageSize = action.payload
-    },
-    changePostsCount(state, action: PayloadAction<number>) {
-      state.postsCount = action.payload
-    },
-    refetchPosts(state, action: PayloadAction<boolean>) {
+    refetchSelfPosts(state, action: PayloadAction<boolean>) {
       state.isRefetchingPosts = action.payload
+    },
+    setInitialPostsState() {
+      return initialPostsState
     },
   },
 })
 
 export const postsReducer = postsSlice.reducer
-export const { changePage, changePageSize, changePostsCount, refetchPosts } = postsSlice.actions
+export const { changeQueryParameters, refetchSelfPosts, setInitialPostsState } = postsSlice.actions

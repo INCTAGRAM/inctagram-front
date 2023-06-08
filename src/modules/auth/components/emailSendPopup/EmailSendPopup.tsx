@@ -4,12 +4,12 @@ import { Button } from '@/common/ui/button/Button'
 import { Popup } from '@/common/ui/popup/Popup'
 
 interface IEmailSendPopup {
-  email: string
+  email?: string
   isShowPopup: boolean
   setIsShowPopup: (isShow: boolean) => void
 }
 
-const EmailSendPopup = ({ email, isShowPopup, setIsShowPopup }: IEmailSendPopup) => {
+export const EmailSendPopup = ({ email, isShowPopup, setIsShowPopup }: IEmailSendPopup) => {
   const closePopup = () => setIsShowPopup(false)
 
   return (
@@ -23,5 +23,3 @@ const EmailSendPopup = ({ email, isShowPopup, setIsShowPopup }: IEmailSendPopup)
     </Popup>
   )
 }
-
-export default EmailSendPopup

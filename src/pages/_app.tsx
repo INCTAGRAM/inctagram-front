@@ -5,9 +5,9 @@ import React, { ReactElement, ReactNode } from 'react'
 import { NextPage } from 'next'
 import { useLoader } from '@/hooks/useLoader'
 import '@/assets/styles/nprogress.scss'
-import Redirect from '../common/layout/redirect'
 import { Provider } from 'react-redux'
 import { store } from '@/store/store'
+import { Redirect } from '@/common/layout/redirect/Redirect'
 
 export type NextPageWithLayout<P = {}> = NextPage<P> & {
   getLayout?: (page: ReactElement) => ReactNode
@@ -24,11 +24,7 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
 
   return (
     <Provider store={store}>
-      {getLayout(
-        <Redirect>
-          <Component {...pageProps} />
-        </Redirect>
-      )}
+      <Redirect>{getLayout(<Component {...pageProps} />)}</Redirect>
     </Provider>
   )
 }

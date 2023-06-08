@@ -1,9 +1,9 @@
 import styles from '../Layout.module.scss'
 import { NextPage } from 'next'
 import { PropsWithChildren, ReactElement } from 'react'
-import Header from '@/common/header/Header'
+import { Header } from '@/common/header/Header'
 
-const BaseLayout: NextPage<PropsWithChildren> = ({ children, ...rest }) => {
+const BaseLayout: NextPage<PropsWithChildren> = ({ children }) => {
   return (
     <>
       <Header showLogout={false} />
@@ -17,5 +17,3 @@ const BaseLayout: NextPage<PropsWithChildren> = ({ children, ...rest }) => {
 export const getBaseLayout = (page: ReactElement) => {
   return <BaseLayout>{page}</BaseLayout>
 }
-
-export default BaseLayout

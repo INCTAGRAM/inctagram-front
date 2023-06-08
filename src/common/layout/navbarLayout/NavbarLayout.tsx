@@ -1,7 +1,7 @@
 import styles from '../Layout.module.scss'
 import { NextPage } from 'next'
 import { PropsWithChildren, ReactElement } from 'react'
-import Header from '@/common/header/Header'
+import { Header } from '@/common/header/Header'
 import { Navbar } from '@/common/navbar/Navbar'
 
 const NavbarLayout: NextPage<PropsWithChildren> = ({ children }) => {
@@ -19,5 +19,3 @@ const NavbarLayout: NextPage<PropsWithChildren> = ({ children }) => {
 export const getNavbarLayout = (page: ReactElement) => {
   return <NavbarLayout>{page}</NavbarLayout>
 }
-
-export default NavbarLayout
