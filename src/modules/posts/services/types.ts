@@ -3,7 +3,7 @@ export interface IPostsResponse {
   posts: IPost[]
 }
 
-interface IPost {
+export interface IPost {
   id: string
   imagesCount: number
   previewUrl: string

@@ -1,22 +1,19 @@
 import { useAppSelector } from '@/store/store'
 import styles from './Posts.module.scss'
-import Modal from '@/modules/posts/components/post/modal/Modal'
-import { DisplayPostPopup } from '@/modules/posts/components/post/DisplayPostPopup'
-import Link from 'next/link'
 import { LikesCommentsCount } from '@/modules/posts/components/selfOrUserPosts/likesCommentsCount/LikesCommentsCount'
 import { GalleryIcon } from '@/modules/posts/components/selfOrUserPosts/gallaryIcon/GalleryIcon'
 import CircularProgress from '@mui/material/CircularProgress'
 import { useRouter } from 'next/router'
 import { useEffect, useRef } from 'react'
 import { useGettingNewPostsOnScroll } from '@/modules/posts/hooks/useGettingNewPostsOnScroll'
-import { useGetUserPostProfileQuery, useGetUserPostsProfileQuery } from '@/modules/posts/services/postsService'
+import { useGetUserPostsProfileQuery } from '@/modules/posts/services/postsService'
 
 export const UserPosts = () => {
   const queryParameters = useAppSelector((state) => state.postsReducer.queryParameters)
   const { getPosts } = useGettingNewPostsOnScroll()
   const postsRef = useRef<HTMLDivElement>(null)
 
-  const { query, asPath } = useRouter()
+  const { asPath } = useRouter()
   const pathArr = asPath.split(/[/?]/)
   const index = asPath.includes('?') ? pathArr.length - 2 : pathArr.length - 1
   const username = pathArr[index]
@@ -41,20 +38,18 @@ export const UserPosts = () => {
       <div ref={postsRef} className={styles.posts}>
         {data.posts.map((post) => (
           <div className={styles.post} key={post.id}>
-            {query.id === post.id && (
-              <Modal>
-                <DisplayPostPopup
-                  previewPost={post}
-                  isSelf={false}
-                  useGetPostProfileQuery={useGetUserPostProfileQuery}
-                />
-              </Modal>
-            )}
-            <Link href={`/profile/${username}?id=${post.id}`}>
-              <img src={post.previewUrl} alt={''} />
-              <LikesCommentsCount likesCount={0} commentsCount={0} />
-              {post.imagesCount > 1 && <GalleryIcon />}
-            </Link>
+            {/*{query.id === post.id && (*/}
+            {/*  <Modal>*/}
+            {/*    <DisplayPostPopup*/}
+            {/*      previewPost={post}*/}
+            {/*      isSelf={false}*/}
+            {/*      useGetPostProfileQuery={useGetUserPostProfileQuery}*/}
+            {/*    />*/}
+            {/*  </Modal>*/}
+            {/*)}*/}
+            <img src={post.previewUrl} alt={''} />
+            <LikesCommentsCount likesCount={0} commentsCount={0} />
+            {post.imagesCount > 1 && <GalleryIcon />}
           </div>
         ))}
       </div>
