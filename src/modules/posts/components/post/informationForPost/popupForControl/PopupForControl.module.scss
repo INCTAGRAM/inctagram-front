@@ -1,0 +1,35 @@
+@import "src/assets/styles/variables";
+
+.topPanel {
+  position: relative;
+
+  & > svg {
+    cursor: pointer;
+  }
+
+  .controlElements {
+    position: absolute;
+    top: 32px;
+    right: 0;
+    width: max-content;
+    padding: 12px;
+    background: $dark_500;
+    border: 1px solid $dark_100;
+
+    button {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px;
+
+      span {
+        color: $light_100;
+        font-size: 14px;
+      }
+
+      &:last-of-type {
+        margin-bottom: 0;
+      }
+    }
+  }
+}

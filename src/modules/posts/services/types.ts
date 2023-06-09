@@ -3,7 +3,7 @@ export interface IPostsResponse {
   posts: IPost[]
 }
 
-interface IPost {
+export interface IPost {
   id: string
   imagesCount: number
   previewUrl: string
@@ -22,16 +22,18 @@ export type IPostsRequestData = Omit<IUserPostsRequestData, 'username'>
 export interface IPostResponse {
   id: string
   description: string
-  images: Array<{
-    url: string
-    previewUrl: string
-    metadata: {
-      width: number
-      height: number
-    }
-  }>
+  images: ImagesPost[]
   createdAt: string
   updatedAt: string
+}
+
+export type ImagesPost = {
+  url: string
+  previewUrl: string
+  metadata: {
+    width: number
+    height: number
+  }
 }
 
 export interface IPostPatchData {

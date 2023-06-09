@@ -1,29 +1,29 @@
 import { useAppDispatch, useAppSelector } from '@/store/store'
 import styles from './Posts.module.scss'
-import Link from 'next/link'
-import { LikesCommentsCount } from '@/modules/posts/components/selfOrUserPosts/likesCommentsCount/LikesCommentsCount'
-import { GalleryIcon } from '@/modules/posts/components/selfOrUserPosts/gallaryIcon/GalleryIcon'
 import CircularProgress from '@mui/material/CircularProgress'
-import { useRouter } from 'next/router'
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { changeQueryParameters, refetchSelfPosts } from '@/modules/posts/store/postsSlice'
 import { useGettingNewPostsOnScroll } from '@/modules/posts/hooks/useGettingNewPostsOnScroll'
 import { useGetSelfPostsProfileQuery } from '@/modules/posts'
-import { useGetPostProfileQuery } from '@/modules/posts/services/postsService'
+import { PostPopup } from '@/modules/posts/components/post/PostPopup'
+import { PostPreview } from '@/modules/posts/components/selfOrUserPosts/post/PostPreview'
+import { useScrollEvent } from '@/hooks/useScrollEvent'
 
-export const SelfPosts = () => {
+type Props = {
+  usernameInPath: string
+  avatar: string
+}
+
+export const SelfPosts = ({ usernameInPath, avatar }: Props) => {
   const dispatch = useAppDispatch()
+  const [postIdForPopup, setPostIdForPopup] = useState<string | null>(null)
   const queryParameters = useAppSelector((state) => state.postsReducer.queryParameters)
   const isRefetchingPosts = useAppSelector((state) => state.postsReducer.isRefetchingPosts)
   const { getPosts } = useGettingNewPostsOnScroll()
 
   const { data, isSuccess, isFetching, refetch } = useGetSelfPostsProfileQuery(queryParameters)
 
-  const router = useRouter()
   const postsRef = useRef<HTMLDivElement>(null)
-
-  const pathArr = router.asPath.split('/')
-  const username = pathArr[pathArr.length - 1]
 
   useEffect(() => {
     dispatch(refetchSelfPosts(false))
@@ -37,16 +37,11 @@ export const SelfPosts = () => {
     }
   }, [isRefetchingPosts])
 
-  useEffect(() => {
-    document.addEventListener('scroll', scrollHandler)
-    return () => {
-      document.removeEventListener('scroll', scrollHandler)
-    }
-  }, [data])
-
   const scrollHandler = () => {
     data && getPosts(postsRef, data, queryParameters, scrollHandler)
   }
+
+  useScrollEvent(scrollHandler, [data])
 
   if (!isSuccess || !data) return null
 
@@ -54,15 +49,17 @@ export const SelfPosts = () => {
     <>
       <div ref={postsRef} className={styles.posts}>
         {data.posts.map((post) => (
-          <div className={styles.post} key={post.id}>
-            <Link href={`/profile/${username}/?id=${post.id}`}>
-              <img src={post.previewUrl} alt={''} />
-              <LikesCommentsCount likesCount={0} commentsCount={0} />
-              {post.imagesCount > 1 && <GalleryIcon />}
-            </Link>
-          </div>
+          <PostPreview post={post} key={post.id} />
         ))}
       </div>
+      <PostPopup
+        isSelfPost={true}
+        postId={postIdForPopup}
+        setPostId={setPostIdForPopup}
+        posts={data.posts}
+        usernameInPath={usernameInPath}
+        avatar={avatar}
+      />
       {isFetching && (
         <div className={styles.loading}>
           <CircularProgress size={45} />

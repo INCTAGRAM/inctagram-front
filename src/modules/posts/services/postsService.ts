@@ -69,7 +69,7 @@ export const postsService = createApi({
       },
       keepUnusedDataFor: 60 * 60 * 24,
     }),
-    getPostProfile: build.query<IPostResponse, string>({
+    getSelfPostProfile: build.query<IPostResponse, string>({
       query: (postId) => ({
         url: `/users/self/posts/${postId}`,
       }),
@@ -100,8 +100,8 @@ export const postsService = createApi({
 export const {
   useGetSelfPostsProfileQuery,
   useGetUserPostsProfileQuery,
-  useGetPostProfileQuery,
-  useGetUserPostProfileQuery,
+  useLazyGetSelfPostProfileQuery,
+  useLazyGetUserPostProfileQuery,
   usePatchProfilePostMutation,
   useDeleteProfilePostMutation,
 } = postsService
