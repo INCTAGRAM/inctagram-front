@@ -1,7 +1,5 @@
 import { useAppDispatch, useAppSelector } from '@/store/store'
 import styles from './Posts.module.scss'
-import Modal from '@/modules/posts/components/post/modal/Modal'
-import { DisplayPostPopup } from '@/modules/posts/components/post/DisplayPostPopup'
 import Link from 'next/link'
 import { LikesCommentsCount } from '@/modules/posts/components/selfOrUserPosts/likesCommentsCount/LikesCommentsCount'
 import { GalleryIcon } from '@/modules/posts/components/selfOrUserPosts/gallaryIcon/GalleryIcon'
@@ -57,11 +55,6 @@ export const SelfPosts = () => {
       <div ref={postsRef} className={styles.posts}>
         {data.posts.map((post) => (
           <div className={styles.post} key={post.id}>
-            {router.query.id === post.id && (
-              <Modal>
-                <DisplayPostPopup previewPost={post} isSelf={true} useGetPostProfileQuery={useGetPostProfileQuery} />
-              </Modal>
-            )}
             <Link href={`/profile/${username}/?id=${post.id}`}>
               <img src={post.previewUrl} alt={''} />
               <LikesCommentsCount likesCount={0} commentsCount={0} />
