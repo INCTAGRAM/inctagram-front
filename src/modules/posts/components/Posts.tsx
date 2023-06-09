@@ -1,7 +1,7 @@
 import { SelfPosts } from '@/modules/posts/components/selfOrUserPosts/SelfPosts'
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
-import { useGetSelfProfileQuery } from '@/modules/profile/services/profileService'
+import { useGetSelfProfileQuery } from '@/modules/profile'
 import { UserPosts } from '@/modules/posts/components/selfOrUserPosts/UserPosts'
 
 export const Posts = () => {
