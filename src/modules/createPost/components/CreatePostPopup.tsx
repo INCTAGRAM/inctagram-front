@@ -1,12 +1,13 @@
 import styles from './CreatePostPopup.module.scss'
 import { AddPhotoPopup } from '@/modules/createPost/components/addPhotoPopup/AddPhotoPopup'
-import { useEffect, useRef, useState } from 'react'
+import { useRef, useState } from 'react'
 import { CroppingPhotoPopup } from './croppingPhotoPopup/CroppingPhotoPopup'
 import { FiltersPhotoPopup } from '@/modules/createPost/components/filtersPhotoPopup/FiltersPhotoPopup'
 import { PublicationPostPopup } from '@/modules/createPost/components/publicationPostPopup/PublicationPostPopup'
-import { CloseDeletePopup } from '@/modules/createPost/components/closeDeletePopup/CloseDeletePopup'
 import { useAppDispatch } from '@/store/store'
 import { setInitialPostState } from '@/modules/createPost/store/createPostSlice'
+import { useClosePopupClickEl } from '@/hooks/useClosePopupClickEl'
+import { ConfirmActionPopup } from '@/common/ui/popup/confirmActionPopup/ConfirmActionPopup'
 
 interface ICreatePostPopupProps {
   isShowAddPost: boolean
@@ -22,21 +23,12 @@ export const CreatePostPopup = ({ isShowAddPost, setIsShowAddPost }: ICreatePost
 
   const popupWrapperRef = useRef<HTMLDivElement>(null)
 
-  useEffect(() => {
-    if (!popupWrapperRef.current) return
-    if (!isShowAddPost && !isShowCroppingPhotoPopup && !isShowFilterPopup && !isShowPublicationPopup) return
-
-    const handleClick = (e: Event) => {
-      if (!e.target) return
-      if (popupWrapperRef.current === e.target) {
-        setIsShowCloseDeletePopup(true)
-      }
-    }
-    popupWrapperRef.current.addEventListener('click', handleClick)
-    return () => {
-      document.removeEventListener('click', handleClick)
-    }
-  }, [isShowCloseDeletePopup, isShowAddPost, isShowCroppingPhotoPopup, isShowFilterPopup, isShowPublicationPopup])
+  useClosePopupClickEl(
+    popupWrapperRef,
+    isShowAddPost || isShowCroppingPhotoPopup || isShowFilterPopup || isShowPublicationPopup,
+    () => setIsShowCloseDeletePopup(true),
+    [isShowCloseDeletePopup, isShowAddPost, isShowCroppingPhotoPopup, isShowFilterPopup, isShowPublicationPopup]
+  )
 
   const closeAndDeleteHandler = () => {
     setIsShowAddPost(false)
@@ -77,10 +69,13 @@ export const CreatePostPopup = ({ isShowAddPost, setIsShowAddPost }: ICreatePost
           setIsShowPublicationPopup={setIsShowPublicationPopup}
           setIsShowFilterPopup={setIsShowFilterPopup}
         />
-        <CloseDeletePopup
+
+        <ConfirmActionPopup
           show={isShowCloseDeletePopup}
-          setIsShowCloseDeletePopup={setIsShowCloseDeletePopup}
-          closeAndDeleteHandler={closeAndDeleteHandler}
+          title={'Close'}
+          text={'Do you really want to close the creation of a publication? If you close everything will be deleted'}
+          setIsShowConfirmActionPopup={setIsShowCloseDeletePopup}
+          confirmActionHandler={closeAndDeleteHandler}
         />
       </div>
       <div ref={popupWrapperRef} className={finalClassForPopupWrapper}></div>

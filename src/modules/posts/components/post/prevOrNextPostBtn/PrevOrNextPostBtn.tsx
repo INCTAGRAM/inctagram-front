@@ -16,13 +16,13 @@ export const PrevOrNextPostBtn = ({ isShow, isNext, prevOrNextCallback }: Props)
   if (isNext) {
     return (
       <button className={`${styles.prevOrNextBtn} ${styles.nextBtn}`} onClick={() => prevOrNextCallback(true)}>
-        <IcomoonReact iconSet={iconSet} color={'#fff'} icon="arrow-ios-forward" size={25} />
+        <IcomoonReact iconSet={iconSet} color={'#fff'} icon="arrow-ios-forward" size={30} />
       </button>
     )
   } else {
     return (
       <button className={`${styles.prevOrNextBtn} ${styles.prevBtn}`} onClick={() => prevOrNextCallback(false)}>
-        <IcomoonReact iconSet={iconSet} color={'#fff'} icon="arrow-ios-back" size={25} />
+        <IcomoonReact iconSet={iconSet} color={'#fff'} icon="arrow-ios-back" size={30} />
       </button>
     )
   }

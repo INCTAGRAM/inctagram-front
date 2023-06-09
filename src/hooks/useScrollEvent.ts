@@ -1,4 +1,4 @@
-import { DependencyList, RefObject, useEffect } from 'react'
+import { DependencyList, useEffect } from 'react'
 
 export const useScrollEvent = (callBack: () => void, deps?: DependencyList | undefined) => {
   useEffect(() => {

@@ -5,13 +5,18 @@ import { useEffect, useRef, useState } from 'react'
 import { changeQueryParameters, refetchSelfPosts } from '@/modules/posts/store/postsSlice'
 import { useGettingNewPostsOnScroll } from '@/modules/posts/hooks/useGettingNewPostsOnScroll'
 import { useGetSelfPostsProfileQuery } from '@/modules/posts'
-import { IPost } from '@/modules/posts/services/types'
-import { PostPopup } from '@/modules/posts/components/post/popup/PostPopup'
+import { PostPopup } from '@/modules/posts/components/post/PostPopup'
 import { PostPreview } from '@/modules/posts/components/selfOrUserPosts/post/PostPreview'
+import { useScrollEvent } from '@/hooks/useScrollEvent'
 
-export const SelfPosts = () => {
+type Props = {
+  usernameInPath: string
+  avatar: string
+}
+
+export const SelfPosts = ({ usernameInPath, avatar }: Props) => {
   const dispatch = useAppDispatch()
-  const [postForPopup, setPostForPopup] = useState<IPost | null>(null)
+  const [postIdForPopup, setPostIdForPopup] = useState<string | null>(null)
   const queryParameters = useAppSelector((state) => state.postsReducer.queryParameters)
   const isRefetchingPosts = useAppSelector((state) => state.postsReducer.isRefetchingPosts)
   const { getPosts } = useGettingNewPostsOnScroll()
@@ -32,16 +37,11 @@ export const SelfPosts = () => {
     }
   }, [isRefetchingPosts])
 
-  useEffect(() => {
-    document.addEventListener('scroll', scrollHandler)
-    return () => {
-      document.removeEventListener('scroll', scrollHandler)
-    }
-  }, [data])
-
   const scrollHandler = () => {
     data && getPosts(postsRef, data, queryParameters, scrollHandler)
   }
+
+  useScrollEvent(scrollHandler, [data])
 
   if (!isSuccess || !data) return null
 
@@ -52,7 +52,14 @@ export const SelfPosts = () => {
           <PostPreview post={post} key={post.id} />
         ))}
       </div>
-      <PostPopup post={postForPopup} setPost={setPostForPopup} />
+      <PostPopup
+        isSelfPost={true}
+        postId={postIdForPopup}
+        setPostId={setPostIdForPopup}
+        posts={data.posts}
+        usernameInPath={usernameInPath}
+        avatar={avatar}
+      />
       {isFetching && (
         <div className={styles.loading}>
           <CircularProgress size={45} />

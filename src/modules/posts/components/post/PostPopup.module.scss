@@ -1,0 +1,51 @@
+@import "src/assets/styles/variables";
+
+.popupWrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.85);
+}
+
+.postPopup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  max-width: 1096px;
+  width: 100%;
+  padding: 0 48px;
+  z-index: 10;
+
+  .closePostIcon {
+    position: absolute;
+    top: -35px;
+    right: 6px;
+  }
+
+  .prevOrNextBtn {
+    position: absolute;
+    top: 50%;
+    transform: translate(0, -50%);
+    width: 36px;
+    height: 36px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: $dark_300;
+    border-radius: 2px;
+
+    &.nextBtn {
+      right: 0;
+    }
+
+    &.prevBtn {
+      left: 0;
+    }
+  }
+}

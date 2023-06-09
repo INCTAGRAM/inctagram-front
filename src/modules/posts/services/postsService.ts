@@ -100,8 +100,8 @@ export const postsService = createApi({
 export const {
   useGetSelfPostsProfileQuery,
   useGetUserPostsProfileQuery,
-  useGetSelfPostProfileQuery,
-  useGetUserPostProfileQuery,
+  useLazyGetSelfPostProfileQuery,
+  useLazyGetUserPostProfileQuery,
   usePatchProfilePostMutation,
   useDeleteProfilePostMutation,
 } = postsService

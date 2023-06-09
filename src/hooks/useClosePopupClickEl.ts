@@ -1,6 +1,6 @@
 import { DependencyList, RefObject, useEffect } from 'react'
 
-export const useClosePopup = (
+export const useClosePopupClickEl = (
   ref: RefObject<HTMLDivElement>,
   isOpen: boolean,
   callBack: () => void,
@@ -23,6 +23,4 @@ export const useClosePopup = (
       ref.current.removeEventListener('click', handleClick)
     }
   }, deps)
-
-  return {}
 }

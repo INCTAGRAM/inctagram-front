@@ -9,15 +9,15 @@ export const Posts = () => {
   const { data } = useGetSelfProfileQuery()
 
   const { asPath } = useRouter()
+  const usernameInPath = asPath.split(/[/?]/)[2]
 
   useEffect(() => {
     if (data) {
-      const usernameInPath = asPath.split(/[/?]/)[2]
       usernameInPath === data.username ? setSelfOrUser('self') : setSelfOrUser('user')
     }
   }, [asPath, data])
 
-  if (selfOrUser === 'self') return <SelfPosts />
-  if (selfOrUser === 'user') return <UserPosts />
+  if (selfOrUser === 'self') return <SelfPosts usernameInPath={usernameInPath} avatar={data?.avatar.previewUrl ?? ''} />
+  if (selfOrUser === 'user') return <UserPosts usernameInPath={usernameInPath} />
   return null
 }

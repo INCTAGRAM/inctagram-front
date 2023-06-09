@@ -43,4 +43,10 @@ export const endpointsSkipAuth = [
 
 export const endpointsSkipErrorHandling = ['logout', 'refreshToken'] as const
 
-export const endpointsSkipLoading = ['getSelfPostsProfile', 'getUserPostsProfile']
+export const endpointsSkipLoading = [
+  'getSelfPostsProfile',
+  'getUserPostsProfile',
+  'getUserPostProfile',
+  'getSelfPostProfile',
+  'patchProfilePost',
+]

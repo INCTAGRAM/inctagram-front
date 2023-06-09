@@ -1,7 +1,8 @@
-import React, { PropsWithChildren, useEffect, useRef, useState } from 'react'
+import React, { PropsWithChildren, useRef, useState } from 'react'
 import styles from './ControlCroppingElements.module.scss'
 import iconSet from '@/assets/icons/selection.json'
 import IcomoonReact from 'icomoon-react'
+import { useClosePopupClickDocument } from '@/hooks/useClosePopupClickDocument'
 
 interface IControlElementProps {
   icon: string
@@ -9,31 +10,21 @@ interface IControlElementProps {
 }
 
 export const ControlCroppingElements = ({ children, icon, elementClass }: PropsWithChildren<IControlElementProps>) => {
-  const [open, setOpen] = useState(true)
+  const [isOpen, setIsOpen] = useState(true)
 
-  const control = useRef(null as HTMLDivElement | null)
+  const control = useRef<HTMLDivElement>(null)
 
-  useEffect(() => {
-    if (!open) return
-    const handleClick = (e: Event) => {
-      if (!control.current) return
-      if (!e.target) return
-      if (!control.current!.contains(e.target as HTMLElement)) {
-        setOpen(false)
-      }
-    }
+  const changeOpen = () => {
+    setIsOpen(!isOpen)
+  }
 
-    document.addEventListener('click', handleClick)
-    return () => {
-      document.removeEventListener('click', handleClick)
-    }
-  }, [open])
+  useClosePopupClickDocument(control, isOpen, changeOpen, [isOpen])
 
   return (
     <>
-      <div ref={control} className={`${styles.controlElement} ${styles[elementClass]}`} onClick={() => setOpen(true)}>
-        {open && children}
-        <IcomoonReact iconSet={iconSet} color={open ? '#397DF6' : '#fff'} icon={icon} size={24} />
+      <div ref={control} className={`${styles.controlElement} ${styles[elementClass]}`} onClick={() => setIsOpen(true)}>
+        {isOpen && children}
+        <IcomoonReact iconSet={iconSet} color={isOpen ? '#397DF6' : '#fff'} icon={icon} size={24} />
       </div>
     </>
   )

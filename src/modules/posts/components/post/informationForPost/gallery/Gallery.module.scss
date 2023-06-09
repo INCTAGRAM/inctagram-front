@@ -1,0 +1,35 @@
+.gallery {
+  position: relative;
+  overflow: hidden;
+
+  img {
+    position: absolute;
+    top: 50%;
+    transform: translate(0, -50%);
+    max-width: 500px;
+    width: 100%;
+    transition: 0.3s;
+  }
+
+  .controlElements {
+    position: absolute;
+    top: 50%;
+    transform: translate(0, -50%);
+    width: 35px;
+    height: 35px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.6);
+    border-radius: 3px;
+    z-index: 10;
+
+    &.backEl {
+      left: 5px;
+    }
+
+    &.nextEl {
+      right: 5px;
+    }
+  }
+}

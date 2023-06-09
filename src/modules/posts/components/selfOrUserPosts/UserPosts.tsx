@@ -4,11 +4,16 @@ import { LikesCommentsCount } from '@/modules/posts/components/selfOrUserPosts/l
 import { GalleryIcon } from '@/modules/posts/components/selfOrUserPosts/gallaryIcon/GalleryIcon'
 import CircularProgress from '@mui/material/CircularProgress'
 import { useRouter } from 'next/router'
-import { useEffect, useRef } from 'react'
+import { useRef } from 'react'
 import { useGettingNewPostsOnScroll } from '@/modules/posts/hooks/useGettingNewPostsOnScroll'
 import { useGetUserPostsProfileQuery } from '@/modules/posts/services/postsService'
+import { useScrollEvent } from '@/hooks/useScrollEvent'
 
-export const UserPosts = () => {
+type Props = {
+  usernameInPath: string
+}
+
+export const UserPosts = ({ usernameInPath }: Props) => {
   const queryParameters = useAppSelector((state) => state.postsReducer.queryParameters)
   const { getPosts } = useGettingNewPostsOnScroll()
   const postsRef = useRef<HTMLDivElement>(null)
@@ -20,16 +25,11 @@ export const UserPosts = () => {
 
   const { data, isSuccess, isFetching } = useGetUserPostsProfileQuery({ ...queryParameters, username })
 
-  useEffect(() => {
-    document.addEventListener('scroll', scrollHandler)
-    return () => {
-      document.removeEventListener('scroll', scrollHandler)
-    }
-  }, [data])
-
   const scrollHandler = () => {
     data && getPosts(postsRef, data, queryParameters, scrollHandler)
   }
+
+  useScrollEvent(scrollHandler, [data])
 
   if (!isSuccess || !data) return null
 
