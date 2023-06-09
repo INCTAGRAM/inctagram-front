@@ -1,0 +1,48 @@
+@import "src/assets/styles/variables";
+
+.device {
+  display: flex;
+  padding: 24px;
+  background: $dark_500;
+  border: 1px solid $dark_300;
+  margin: 12px 0;
+  gap: 12px;
+
+  .icon {
+    margin-top: 5px;
+  }
+
+  .deviceInfo {
+    .browserName{
+      padding-bottom: 13px;
+      font-weight: 700;
+      font-size: 16px;
+      line-height: 24px;
+    }
+    .ip {
+      font-weight: 400;
+      font-size: 14px;
+    }
+    span {
+      font-weight: 400;
+      font-size: 12px;
+      line-height: 16px;
+      span {
+        color: $primary_500;
+        font-weight: 500;
+        font-size: 14px;
+        line-height: 24px;
+      }
+    }
+
+  }
+
+  .logOut {
+
+    margin: auto 0 auto auto;
+
+    .logOutButton {
+      margin: 0;
+    }
+  }
+}

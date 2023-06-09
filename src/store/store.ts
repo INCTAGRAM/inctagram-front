@@ -10,6 +10,7 @@ import { appReducer } from '@/store/appSlice'
 import { setupListeners } from '@reduxjs/toolkit/query'
 import { createPostService } from '@/modules/createPost'
 import { profileSettingsService } from '@/modules/profileSettings'
+import { devicesService } from '@/modules/profileSettings/services/devicesService'
 
 const rootReducer = combineReducers({
   tokenReducer,
@@ -21,6 +22,7 @@ const rootReducer = combineReducers({
   [profileSettingsService.reducerPath]: profileSettingsService.reducer,
   [postsService.reducerPath]: postsService.reducer,
   [createPostService.reducerPath]: createPostService.reducer,
+  [devicesService.reducerPath]: devicesService.reducer,
 })
 
 export const store = configureStore({
@@ -31,7 +33,8 @@ export const store = configureStore({
       .concat([profileService.middleware])
       .concat([profileSettingsService.middleware])
       .concat([postsService.middleware])
-      .concat([createPostService.middleware]),
+      .concat([createPostService.middleware])
+      .concat([devicesService.middleware]),
 })
 
 setupListeners(store.dispatch)
