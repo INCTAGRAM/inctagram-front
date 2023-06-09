@@ -1,4 +1,4 @@
-import { PaymentType } from '../types/PaymentType'
+import { PaymentType } from '../../../types/PaymentType'
 
 export interface IMakeSubscriptionRequestBody {
   priceId: string

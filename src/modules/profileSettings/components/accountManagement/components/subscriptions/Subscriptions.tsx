@@ -1,7 +1,7 @@
 import s from '@/modules/profileSettings/components/accountManagement/components/AccountManagement.module.scss'
 import React from 'react'
 import { SubscriptionList } from './subscriptionList/SubscriptionList'
-import { PaymentType } from '@/modules/profileSettings/components/accountManagement/types/PaymentType'
+import { PaymentType } from '@/modules/profileSettings/types/PaymentType'
 
 type SubscriptionsPropsType = {
   payments: PaymentType[]

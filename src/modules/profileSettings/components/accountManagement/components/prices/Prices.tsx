@@ -1,9 +1,8 @@
 import s from '@/modules/profileSettings/components/accountManagement/components/AccountManagement.module.scss'
-import { PaymentBtns } from '@/modules/profileSettings/components/accountManagement/components/paymentBtns/PaymentBtns'
 import React from 'react'
 import { PriceList } from './priceList/PriceList'
 import { PriceListItemType } from '@/modules/profileSettings/components/accountManagement/types/PriceListItemType'
-import { PaymentType } from '@/modules/profileSettings/components/accountManagement/types/PaymentType'
+import { PaymentType } from '@/modules/profileSettings/types/PaymentType'
 
 type SubscriptionPricesPropsType = {
   setPriceId: (priceId: string) => void
