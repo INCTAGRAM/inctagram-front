@@ -1,7 +1,7 @@
 import { fetchBaseQuery } from '@reduxjs/toolkit/query'
 import type { BaseQueryFn, FetchArgs, FetchBaseQueryError } from '@reduxjs/toolkit/query'
 import { AppState } from '@/store/store'
-import { addToken, setInitialTokenState, stopRefresh } from '@/store/tokenSlice'
+import { addToken, stopRefresh } from '@/store/tokenSlice'
 import { endpointsSkipAuth } from '@/constants/routes'
 import { clearState } from '@/store/appSlice'
 
