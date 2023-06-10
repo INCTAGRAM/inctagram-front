@@ -7,7 +7,7 @@ import { FieldValues, useController, UseFormRegister } from 'react-hook-form'
 import { DatePicker } from '@mui/x-date-pickers'
 import { Control } from 'react-hook-form/dist/types/form'
 import dayjs from 'dayjs'
-import { SetProfileType } from '@/modules/profileSettings/components/generalInfo/components/GeneralInfo'
+import { SetProfileType } from '@/modules/profileSettings/components/generalInfo/GeneralInfo'
 
 interface IDatePickerProps {
   register: UseFormRegister<SetProfileType>

@@ -12,9 +12,9 @@ import { IErrorResponse } from '@/modules/auth/services/types'
 import { Textarea } from '@/common/ui/textarea/Textarea'
 import { ObjectType } from '@sinclair/typebox/value/is'
 import { SuccessSnackbar } from '@/common/ui/alertSnackbar/SuccessSnackbar'
-import { changeProfileSchema } from '@/modules/profileSettings/components/generalInfo/helpers/profile-schemes'
-import { AddAvatar } from '@/modules/profileSettings/components/generalInfo/components/addAvatar/AddAvatar'
-import DatePicker from '@/modules/profileSettings/components/generalInfo/components/datePicker/DatePicker'
+import { changeProfileSchema } from '@/modules/profileSettings/helpers/profile-schemes'
+import { AddAvatar } from '@/modules/profileSettings/components/generalInfo/addAvatar/AddAvatar'
+import DatePicker from '@/modules/profileSettings/components/generalInfo/datePicker/DatePicker'
 
 export type SetProfileType = yup.InferType<typeof changeProfileSchema>
 
