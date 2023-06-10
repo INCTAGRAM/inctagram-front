@@ -104,7 +104,7 @@ export const GeneralInfo = () => {
                 error={errors.aboutMe?.message}
               />
             </p>
-            <Button className={styles.saveBtn} type={'submit'}>
+            <Button className={styles.saveBtn} type={'submit'} width={'auto'}>
               Save Changes
             </Button>
           </form>

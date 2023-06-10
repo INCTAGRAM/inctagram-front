@@ -13,9 +13,10 @@ type Props = {
   isSelfPost: boolean
   postId: string | null
   closePostPopup: () => void
+  editMode: () => void
 }
 
-export const PopupForControl = ({ isSelfPost, postId, closePostPopup }: Props) => {
+export const PopupForControl = ({ isSelfPost, postId, closePostPopup, editMode }: Props) => {
   const dispatch = useAppDispatch()
   const [isOpen, setIsOpen] = useState(false)
   const [isOpenDeletePostPopup, setIsOpenDeletePostPopup] = useState(false)
@@ -31,14 +32,15 @@ export const PopupForControl = ({ isSelfPost, postId, closePostPopup }: Props) =
     }
   }, [isSuccess])
 
-  const changeIsOpen = () => {
-    setIsOpen(!isOpen)
+  const closePopupForControl = () => {
+    setIsOpen(false)
   }
 
-  useClosePopupClickDocument(popupForControlRef, isOpen, changeIsOpen, [isOpen])
+  useClosePopupClickDocument(popupForControlRef, isOpen, closePopupForControl, [isOpen])
 
   const editPostHandler = () => {
-    console.log('Edit')
+    editMode()
+    setIsOpen(false)
   }
 
   const deletePostHandler = () => {
@@ -59,8 +61,16 @@ export const PopupForControl = ({ isSelfPost, postId, closePostPopup }: Props) =
   }
 
   return (
-    <div className={styles.topPanel} ref={popupForControlRef} onClick={() => setIsOpen(true)}>
-      <IcomoonReact iconSet={iconSet} color={'#397DF6'} icon="more-horizontal" size={30} />
+    <div className={styles.topPanel} ref={popupForControlRef}>
+      <button>
+        <IcomoonReact
+          onClick={() => setIsOpen(true)}
+          iconSet={iconSet}
+          color={'#397DF6'}
+          icon="more-horizontal"
+          size={30}
+        />
+      </button>
       {isOpen && (
         <div className={styles.controlElements}>
           {isSelfPost ? (

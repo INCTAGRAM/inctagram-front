@@ -32,7 +32,7 @@ export const SelfProfileInfo = () => {
               <h1>{data.username}</h1>
               <AdditionalInfo name={data.name} surname={data.surname} birthday={data.birthday} city={data.city} />
             </div>
-            <Button className={styles.editBtn} onClick={onSettingsBtnClick}>
+            <Button className={styles.editBtn} onClick={onSettingsBtnClick} width={'auto'}>
               Edit Profile
             </Button>
           </div>

@@ -3,10 +3,6 @@
 .topPanel {
   position: relative;
 
-  & > svg {
-    cursor: pointer;
-  }
-
   .controlElements {
     position: absolute;
     top: 32px;
