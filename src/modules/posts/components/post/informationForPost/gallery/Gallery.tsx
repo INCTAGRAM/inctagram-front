@@ -24,8 +24,8 @@ export const Gallery = ({ images }: Props) => {
         </button>
       )}
       {images?.map((image, index) => {
-        const position = (index - activeImg) * 100
-        return <img key={index} src={image.url} style={{ left: `${position}%` }} />
+        const position = (index - activeImg) * 100 + 50
+        return <img key={index} src={image.url} alt={''} style={{ left: `${position}%` }} />
       })}
       {activeImg < images.length - 1 && (
         <button className={`${styles.controlElements} ${styles.nextEl}`} onClick={() => changeImageHandler(false)}>
