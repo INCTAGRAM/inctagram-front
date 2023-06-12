@@ -39,18 +39,20 @@ export const Header = ({ showLogout }: IHeader) => {
   }
 
   useEffect(() => {
-    if (isSuccess || isError) push(RouteNames.LOGIN).then(() => dispatch(clearState(true)))
+    if (isSuccess || isError) dispatch(clearState(true))
   }, [isSuccess, isError])
 
   useEffect(() => {
     if (isClearState) {
-      dispatch(authService.util.resetApiState())
-      dispatch(createPostService.util.resetApiState())
-      dispatch(postsService.util.resetApiState())
-      dispatch(profileService.util.resetApiState())
-      dispatch(setInitialPostsState())
-      dispatch(setInitialTokenState())
-      dispatch(clearState(false))
+      push(RouteNames.LOGIN).then(() => {
+        dispatch(authService.util.resetApiState())
+        dispatch(createPostService.util.resetApiState())
+        dispatch(postsService.util.resetApiState())
+        dispatch(profileService.util.resetApiState())
+        dispatch(setInitialPostsState())
+        dispatch(setInitialTokenState())
+        dispatch(clearState(false))
+      })
     }
   }, [isClearState])
 

@@ -66,6 +66,7 @@ export const FiltersPhotoPopup = ({
       domtoimage
         .toJpeg(imgResultRef.current)
         .then(function (dataUrl) {
+          console.log(dataUrl)
           dispatch(changeImageAfterFilters({ imageIndex: activeIndexImage, urlImage: dataUrl }))
         })
         .catch(function (error) {

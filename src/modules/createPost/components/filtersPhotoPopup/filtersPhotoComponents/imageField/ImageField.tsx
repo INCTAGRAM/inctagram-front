@@ -17,7 +17,8 @@ const Image = ({ imageFile, position }: ImageFieldPropsType, ref: Ref<HTMLImageE
 
   return (
     <div className={styles.filterImg} style={{ left: `${position}%` }}>
-      <img className={`${instagramStyles[filterClass]} ${styles.imageField}`} src={imageFile} alt="" ref={ref} />
+      <img className={`${instagramStyles[filterClass]} ${styles.imageField}`} src={imageFile} alt="" />
+      <img className={`${instagramStyles[filterClass]} ${styles.imageFieldHide}`} src={imageFile} alt="" ref={ref} />
     </div>
   )
 }

@@ -1,0 +1,18 @@
+@import "src/assets/styles/variables";
+
+.container {
+  color: $light_100;
+  width: 726px;
+
+  .button {
+    width: 257px;
+    height: 36px;
+    font-family: 'Inter', serif;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 24px;
+    font-style: normal;
+    padding: 0;
+    margin: 24px 0 18px auto;
+  }
+}

@@ -12,7 +12,13 @@ import { BodySlider } from '@/modules/createPost/components/publicationPostPopup
 import { refetchSelfPosts } from '@/modules/posts/store/postsSlice'
 import { useAddPostProfileMutation } from '@/modules/createPost/services/createPostService'
 
-export const PublicationPostPopup: FC<PropsType> = ({
+type Props = {
+  setIsShowFilterPopup: (arg: boolean) => void
+  setIsShowPublicationPopup: (arg: boolean) => void
+  isShowPublicationPopup: boolean
+}
+
+export const PublicationPostPopup: FC<Props> = ({
   setIsShowFilterPopup,
   setIsShowPublicationPopup,
   isShowPublicationPopup,
@@ -80,10 +86,4 @@ export const PublicationPostPopup: FC<PropsType> = ({
       </div>
     </Popup>
   )
-}
-
-type PropsType = {
-  setIsShowFilterPopup: (arg: boolean) => void
-  setIsShowPublicationPopup: (arg: boolean) => void
-  isShowPublicationPopup: boolean
 }

@@ -1,24 +1,23 @@
 import { SelfPosts } from '@/modules/posts/components/selfOrUserPosts/SelfPosts'
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
-import { RouteNames } from '@/constants/routes'
-import { useGetSelfProfileQuery } from '@/modules/profile/services/profileService'
+import { useGetSelfProfileQuery } from '@/modules/profile'
 import { UserPosts } from '@/modules/posts/components/selfOrUserPosts/UserPosts'
 
 export const Posts = () => {
   const [selfOrUser, setSelfOrUser] = useState<'self' | 'user' | null>(null)
+  const { data } = useGetSelfProfileQuery()
 
   const { asPath } = useRouter()
-
-  const { data } = useGetSelfProfileQuery()
+  const usernameInPath = asPath.split(/[/?]/)[2]
 
   useEffect(() => {
     if (data) {
-      asPath === `${RouteNames.PROFILE}/${data.username}` ? setSelfOrUser('self') : setSelfOrUser('user')
+      usernameInPath === data.username ? setSelfOrUser('self') : setSelfOrUser('user')
     }
   }, [asPath, data])
 
-  if (selfOrUser === 'self') return <SelfPosts />
-  if (selfOrUser === 'user') return <UserPosts />
+  if (selfOrUser === 'self') return <SelfPosts usernameInPath={usernameInPath} avatar={data?.avatar.previewUrl ?? ''} />
+  if (selfOrUser === 'user') return <UserPosts usernameInPath={usernameInPath} />
   return null
 }

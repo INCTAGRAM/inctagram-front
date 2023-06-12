@@ -1,0 +1,36 @@
+@import "src/assets/styles/variables";
+
+.editMode {
+  position: relative;
+  padding: 19px 25px 70px 25px;
+
+  .usernameAndAvatar {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 20px;
+
+    img {
+      max-width: 40px;
+      max-height: 40px;
+      border-radius: 50%;
+    }
+
+    p {
+      color: $light_100;
+    }
+  }
+
+  .chengeDesc {
+    p {
+      color: $light_100;
+      margin-bottom: 5px;
+    }
+  }
+
+  button {
+    position: absolute;
+    right: 25px;
+    bottom: 19px;
+  }
+}

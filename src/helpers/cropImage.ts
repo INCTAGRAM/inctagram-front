@@ -1,4 +1,4 @@
-import { CroppedAreaType } from '@/modules/profileSettings/components/addPhotoPopup/body/bodySavePhotoPopup/BodySavePhotoPopup'
+import { CroppedAreaType } from '@/modules/profileSettings/components/generalInfo/addPhotoPopup/body/bodySavePhotoPopup/BodySavePhotoPopup'
 
 const createImage = (url: string) =>
   new Promise((resolve, reject) => {
