@@ -34,7 +34,9 @@ export const Registration = () => {
   const onFormSubmit: SubmitHandler<RegistrationType> = ({ username, email, password }) => {
     if (!email || !password || !username) return
 
-    registration({ username, email, password })
+    const usernameLowerCase = username.toLowerCase()
+
+    registration({ username: usernameLowerCase, email, password })
     setEmail(email)
     reset()
   }
