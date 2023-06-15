@@ -7,31 +7,31 @@ type CloseDeletePopupType = {
   show: boolean
   title: string
   text: string
-  setIsShowConfirmActionPopup: (isShow: boolean) => void
   confirmActionHandler: () => void
+  closeActionHandler: () => void
+  confirmTextButton?: string
+  closeTextButton?: string
 }
 
 export const ConfirmActionPopup = ({
   show,
   title,
   text,
-  setIsShowConfirmActionPopup,
+  closeActionHandler,
   confirmActionHandler,
+  confirmTextButton,
+  closeTextButton,
 }: CloseDeletePopupType) => {
-  const closeHandler = () => {
-    setIsShowConfirmActionPopup(false)
-  }
-
   return (
-    <Popup title={title} show={show} modalOnClick={closeHandler}>
+    <Popup title={title} show={show} modalOnClick={closeActionHandler}>
       <div className={styles.wrapperPopup}>
         <p className={styles.wrapperChildren}>{text}</p>
         <div className={styles.wrapperButton}>
           <Button onClick={confirmActionHandler} className={`${styles.button} ${styles.btnYes}`}>
-            Yes
+            {confirmTextButton ? confirmTextButton : 'Yes'}
           </Button>
-          <Button onClick={closeHandler} className={styles.button}>
-            No
+          <Button onClick={closeActionHandler} className={styles.button}>
+            {closeTextButton ? closeTextButton : 'No'}
           </Button>
         </div>
       </div>

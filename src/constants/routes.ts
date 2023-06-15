@@ -11,7 +11,7 @@ export const RouteNames = {
   RECOVERY_EXPIRED: '/recovery/expired',
   HOME: '/',
   PROFILE: '/profile',
-  PROFILE_SETTINGS: '/profile/settings',
+  PROFILE_SETTINGS: '/profile/settings/',
 } as const
 
 export const PublicRoutes = [

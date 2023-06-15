@@ -1,13 +1,20 @@
 import styles from './CreatePostPopup.module.scss'
 import { AddPhotoPopup } from '@/modules/createPost/components/addPhotoPopup/AddPhotoPopup'
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { CroppingPhotoPopup } from './croppingPhotoPopup/CroppingPhotoPopup'
 import { FiltersPhotoPopup } from '@/modules/createPost/components/filtersPhotoPopup/FiltersPhotoPopup'
 import { PublicationPostPopup } from '@/modules/createPost/components/publicationPostPopup/PublicationPostPopup'
-import { useAppDispatch } from '@/store/store'
+import { useAppDispatch, useAppSelector } from '@/store/store'
 import { setInitialPostState } from '@/modules/createPost/store/createPostSlice'
 import { useClosePopupClickEl } from '@/hooks/useClosePopupClickEl'
 import { ConfirmActionPopup } from '@/common/ui/popup/confirmActionPopup/ConfirmActionPopup'
+import {
+  addIndexedDBData,
+  checkDataInIndexedDB,
+  initIndexedDB,
+  postDraftDBConfig,
+} from '@/modules/createPost/helpers/indexedDBHelpers'
+import { IDataIndexedDB } from '@/modules/createPost/components/types'
 
 interface ICreatePostPopupProps {
   isShowAddPost: boolean
@@ -20,23 +27,65 @@ export const CreatePostPopup = ({ isShowAddPost, setIsShowAddPost }: ICreatePost
   const [isShowFilterPopup, setIsShowFilterPopup] = useState(false)
   const [isShowPublicationPopup, setIsShowPublicationPopup] = useState(false)
   const [isShowCloseDeletePopup, setIsShowCloseDeletePopup] = useState(false)
+  const [isDataInIndexedDB, setIsDataInIndexedDB] = useState(false)
+  const [isShowSaveDraftPopup, setIsShowSaveDraftPopup] = useState(false)
+
+  useEffect(() => {
+    const checkData = async () => {
+      await initIndexedDB()
+      const result = await checkDataInIndexedDB()
+      setIsDataInIndexedDB(result)
+    }
+
+    checkData().then()
+  }, [isShowAddPost])
+
+  const data = useAppSelector((state) => state.createPostReducer)
 
   const popupWrapperRef = useRef<HTMLDivElement>(null)
 
   useClosePopupClickEl(
     popupWrapperRef,
-    isShowAddPost || isShowCroppingPhotoPopup || isShowFilterPopup || isShowPublicationPopup,
+    isShowAddPost || isShowCroppingPhotoPopup || isShowFilterPopup,
     () => setIsShowCloseDeletePopup(true),
-    [isShowCloseDeletePopup, isShowAddPost, isShowCroppingPhotoPopup, isShowFilterPopup, isShowPublicationPopup]
+    [isShowCloseDeletePopup, isShowAddPost, isShowCroppingPhotoPopup, isShowFilterPopup]
   )
 
-  const closeAndDeleteHandler = () => {
+  useClosePopupClickEl(popupWrapperRef, isShowPublicationPopup, () => setIsShowSaveDraftPopup(true), [
+    isShowPublicationPopup,
+  ]) //hook for popup responsible for saving information about the publication to the draft
+
+  const closeAllPopup = () => {
     setIsShowAddPost(false)
     setIsShowCroppingPhotoPopup(false)
     setIsShowFilterPopup(false)
     setIsShowPublicationPopup(false)
+    setIsShowSaveDraftPopup(false)
     setIsShowCloseDeletePopup(false)
+  }
+
+  const closePopupDeleteHandler = () => {
+    setIsShowCloseDeletePopup(false)
+  }
+
+  const closeAndDeleteHandler = () => {
+    closeAllPopup()
     dispatch(setInitialPostState())
+  }
+
+  const closePopupPublicationHandler = () => {
+    closeAllPopup()
+    dispatch(setInitialPostState())
+  }
+
+  const saveDraftHandler = async () => {
+    await addIndexedDBData<IDataIndexedDB>(postDraftDBConfig.storeName, {
+      ...data,
+      postId: postDraftDBConfig.keyPath,
+    }).then(() => {
+      closeAllPopup()
+      dispatch(setInitialPostState())
+    })
   }
 
   const finalClassForPopupWrapper =
@@ -51,6 +100,8 @@ export const CreatePostPopup = ({ isShowAddPost, setIsShowAddPost }: ICreatePost
           isShowAddPhotoPopup={isShowAddPost}
           setIsShowAddPhotoPopup={setIsShowAddPost}
           setIsShowCroppingPhotoPopup={setIsShowCroppingPhotoPopup}
+          setIsShowPublicationPopup={setIsShowPublicationPopup}
+          isDataInIndexedDB={isDataInIndexedDB}
         />
         <CroppingPhotoPopup
           setIsShowAddPhotoPopup={setIsShowAddPost}
@@ -63,6 +114,7 @@ export const CreatePostPopup = ({ isShowAddPost, setIsShowAddPost }: ICreatePost
           setIsShowCroppingPhotoPopup={setIsShowCroppingPhotoPopup}
           isShowFilterPopup={isShowFilterPopup}
           setIsShowPublicationPopup={setIsShowPublicationPopup}
+          isShowCroppingPhotoPopup={isShowCroppingPhotoPopup}
         />
         <PublicationPostPopup
           isShowPublicationPopup={isShowPublicationPopup}
@@ -74,8 +126,17 @@ export const CreatePostPopup = ({ isShowAddPost, setIsShowAddPost }: ICreatePost
           show={isShowCloseDeletePopup}
           title={'Close'}
           text={'Do you really want to close the creation of a publication? If you close everything will be deleted'}
-          setIsShowConfirmActionPopup={setIsShowCloseDeletePopup}
+          closeActionHandler={closePopupDeleteHandler}
           confirmActionHandler={closeAndDeleteHandler}
+        />
+        <ConfirmActionPopup
+          show={isShowSaveDraftPopup}
+          title={'Close'}
+          text={'Do you really want to close the creation of a publication? If you close everything will be deleted'}
+          confirmActionHandler={saveDraftHandler}
+          closeActionHandler={closePopupPublicationHandler}
+          confirmTextButton={'Save draft'}
+          closeTextButton={'discard'}
         />
       </div>
       <div ref={popupWrapperRef} className={finalClassForPopupWrapper}></div>

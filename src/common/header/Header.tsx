@@ -18,6 +18,7 @@ import { postsService } from '@/modules/posts'
 import { profileService } from '@/modules/profile'
 import { clearState } from '@/store/appSlice'
 import { setInitialPostsState } from '@/modules/posts/store/postsSlice'
+import { devicesService, profileSettingsService } from '@/modules/profileSettings'
 
 interface IHeader {
   showLogout: boolean
@@ -49,6 +50,8 @@ export const Header = ({ showLogout }: IHeader) => {
         dispatch(createPostService.util.resetApiState())
         dispatch(postsService.util.resetApiState())
         dispatch(profileService.util.resetApiState())
+        dispatch(profileSettingsService.util.resetApiState())
+        dispatch(devicesService.util.resetApiState())
         dispatch(setInitialPostsState())
         dispatch(setInitialTokenState())
         dispatch(clearState(false))

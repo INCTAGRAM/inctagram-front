@@ -20,6 +20,7 @@ export const TextareaWithLimit: FC<PropsType> = ({ label, inputValue, maxLength 
       </label>
       <Textarea
         id={'inputField'}
+        value={inputValue}
         onChangeText={handleChange}
         className={styles.textarea}
         placeholder={'some description...'}

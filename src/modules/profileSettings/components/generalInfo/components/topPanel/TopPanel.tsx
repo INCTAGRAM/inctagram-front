@@ -1,4 +1,3 @@
-import React, { useState } from 'react'
 import s from './TopPanel.module.scss'
 import { useRouter } from 'next/router'
 
@@ -9,7 +8,7 @@ type TopPanelPropsType = {
 const TopPanel = ({ sectionName }: TopPanelPropsType) => {
   const isDevicesSelected = sectionName === 'devices'
   const isGeneralInformationSelected = sectionName === 'general_information'
-  const isAccountManagementSelected = sectionName === 'account_management'
+  const isAccountManagementSelected = sectionName === 'account-management'
   const isPaymentsSelected = sectionName === 'payments'
 
   const { push } = useRouter()
@@ -17,7 +16,7 @@ const TopPanel = ({ sectionName }: TopPanelPropsType) => {
   const underlineClassName = `
     ${sectionName === 'devices' ? s.opt2 : ''}
     ${sectionName === 'general_information' ? s.opt1 : ''}
-    ${sectionName === 'account_management' ? s.opt3 : ''}
+    ${sectionName === 'account-management' ? s.opt3 : ''}
     ${sectionName === 'payments' ? s.opt4 : ''}
     `
 
@@ -39,7 +38,7 @@ const TopPanel = ({ sectionName }: TopPanelPropsType) => {
         </h2>
         <h2
           className={`${isAccountManagementSelected && s.selected}`}
-          onClick={() => onClickHandler('account_management')}
+          onClick={() => onClickHandler('account-management')}
         >
           Account Management
         </h2>

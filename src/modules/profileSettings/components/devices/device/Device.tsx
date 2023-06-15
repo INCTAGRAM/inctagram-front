@@ -1,7 +1,7 @@
 import { FC } from 'react'
 import styles from './Device.module.scss'
 import { LogOut } from '@/common/ui/logOut/LogOut'
-import { useTerminateSessionMutation } from '@/modules/profileSettings/services/devicesService'
+import { useTerminateSessionMutation } from '@/modules/profileSettings/services/devices/devicesService'
 import { getBrowser } from '@/modules/profileSettings/helpers/getBrowser'
 import { checkIPAddress } from '@/modules/profileSettings/helpers/checkIPAddress '
 import { getFormattedDate } from '@/modules/profileSettings/helpers/getFormattedDate'

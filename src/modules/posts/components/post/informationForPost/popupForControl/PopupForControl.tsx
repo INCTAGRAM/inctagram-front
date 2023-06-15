@@ -43,6 +43,10 @@ export const PopupForControl = ({ isSelfPost, postId, closePostPopup, editMode }
     setIsOpen(false)
   }
 
+  const closeDeletePostPopup = () => {
+    setIsOpenDeletePostPopup(false)
+  }
+
   const deletePostHandler = () => {
     postId && deletePost(postId)
   }
@@ -106,7 +110,7 @@ export const PopupForControl = ({ isSelfPost, postId, closePostPopup, editMode }
         show={isOpenDeletePostPopup}
         title={'Delete Post'}
         text={'Are you sure you want to delete this post?'}
-        setIsShowConfirmActionPopup={setIsOpenDeletePostPopup}
+        closeActionHandler={closeDeletePostPopup}
         confirmActionHandler={deletePostHandler}
       />
     </div>

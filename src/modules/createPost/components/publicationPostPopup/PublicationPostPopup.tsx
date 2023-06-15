@@ -2,7 +2,7 @@ import { Popup } from '@/common/ui/popup/Popup'
 import styles from './PublicationPostPopup.module.scss'
 import React, { FC, useEffect } from 'react'
 import { useAppDispatch, useAppSelector } from '@/store/store'
-import { addDescription, setInitialPostState } from '@/modules/createPost/store/createPostSlice'
+import { setInitialPostState } from '@/modules/createPost/store/createPostSlice'
 import { useGetSelfProfileQuery } from '@/modules/profile/services/profileService'
 import { TextareaWithLimit } from '@/modules/createPost/components/publicationPostPopup/textareaWithLimit/TextareaWithLimit'
 import { convertBlobToFile } from '@/modules/createPost/helpers/convertBlobToFile'
@@ -11,6 +11,8 @@ import { PublicationPostSlider } from '@/modules/createPost/components/publicati
 import { BodySlider } from '@/modules/createPost/components/publicationPostPopup/publicationPostSlider/bodySlider/BodySlider'
 import { refetchSelfPosts } from '@/modules/posts/store/postsSlice'
 import { useAddPostProfileMutation } from '@/modules/createPost/services/createPostService'
+import { deleteIndexedDBData, postDraftDBConfig } from '@/modules/createPost/helpers/indexedDBHelpers'
+import { useRouter } from 'next/router'
 
 type Props = {
   setIsShowFilterPopup: (arg: boolean) => void
@@ -30,6 +32,8 @@ export const PublicationPostPopup: FC<Props> = ({
   const description = useAppSelector((state) => state.createPostReducer.description)
   const images = useAppSelector((state) => state.createPostReducer.imagesAfterFilters)
   const activeImage = useAppSelector((state) => state.createPostReducer.activeImage)
+
+  const { push } = useRouter()
 
   useEffect(() => {
     if (isSuccess) {
@@ -55,13 +59,16 @@ export const PublicationPostPopup: FC<Props> = ({
 
     addPostProfile(formData)
     stateCleanUp()
+
+    await deleteIndexedDBData(postDraftDBConfig.storeName, postDraftDBConfig.keyPath)
     setIsShowPublicationPopup(false)
+
+    await push('/profile')
   }
 
   const prevStep = () => {
     setIsShowPublicationPopup(false)
     setIsShowFilterPopup(true)
-    dispatch(addDescription(''))
   }
 
   return (

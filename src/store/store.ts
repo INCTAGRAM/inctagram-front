@@ -10,7 +10,7 @@ import { appReducer } from '@/store/appSlice'
 import { setupListeners } from '@reduxjs/toolkit/query'
 import { createPostService } from '@/modules/createPost'
 import { profileSettingsService } from '@/modules/profileSettings'
-import { devicesService } from '@/modules/profileSettings/services/devicesService'
+import { devicesService } from '@/modules/profileSettings/services/devices/devicesService'
 
 const rootReducer = combineReducers({
   tokenReducer,

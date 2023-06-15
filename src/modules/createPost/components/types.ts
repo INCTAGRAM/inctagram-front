@@ -27,3 +27,7 @@ export interface ICrop {
   x: number
   y: number
 }
+
+export interface IDataIndexedDB extends IPost {
+  postId: string
+}

@@ -3,7 +3,7 @@ import styles from './Devices.module.scss'
 import {
   useGetDevicesQuery,
   useTerminateAllOtherSessionsMutation,
-} from '@/modules/profileSettings/services/devicesService'
+} from '@/modules/profileSettings/services/devices/devicesService'
 import { SkeletonDevice } from '@/modules/profileSettings/components/devices/skeleton/SkeletonDevice'
 import { Device } from '@/modules/profileSettings/components/devices/device/Device'
 
