@@ -20,7 +20,8 @@ export const AccountManagement = () => {
 
   const { push, query } = useRouter()
 
-  const [accountType, setAccountType] = useState(paymentData?.payments.length === 0 ? 'Personal' : 'Business')
+  const [accountType, setAccountType] = useState('Personal')
+  const [isDisabledPersonal, setIsDisabledPersonal] = useState(false)
   const [priceId, setPriceId] = useState('')
   const [showSuccessPopup, setShowSuccessPopup] = useState(query.success === 'true')
   const [showErrorPopup, setShowErrorPopup] = useState(query.success === 'false')
@@ -28,6 +29,14 @@ export const AccountManagement = () => {
   useEffect(() => {
     priceListData && setPriceId(priceListData[0].id)
   }, [priceListData])
+
+  useEffect(() => {
+    if (paymentData) {
+      setIsDisabledPersonal(true)
+      setAccountType(paymentData.count === 0 ? 'Personal' : 'Business')
+    }
+    paymentData && paymentData.count > 0 ? setIsDisabledPersonal(true) : setIsDisabledPersonal(false)
+  }, [paymentData])
 
   useEffect(() => {
     if (paymentUrlData) push(paymentUrlData)
@@ -49,7 +58,7 @@ export const AccountManagement = () => {
   return (
     <div className={s.container}>
       {paymentData.count !== 0 && <Subscriptions payments={paymentData.payments} />}
-      <AccountTypes setAccountType={setAccountType} accountType={accountType} />
+      <AccountTypes setAccountType={setAccountType} accountType={accountType} isDisabledPersonal={isDisabledPersonal} />
       {accountType === 'Business' && (
         <div>
           <SubscriptionPrices

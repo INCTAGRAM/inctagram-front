@@ -4,21 +4,23 @@ import React from 'react'
 type AccountTypeListPropsType = {
   accountType: string
   setAccountType: (accountType: string) => void
+  isDisabledPersonal: boolean
 }
 
-export const AccountTypeList = ({ accountType, setAccountType }: AccountTypeListPropsType) => {
+export const AccountTypeList = ({ accountType, setAccountType, isDisabledPersonal }: AccountTypeListPropsType) => {
   return (
     <div className={`${s.block} ${s.account_type_list_block}`}>
-      <div>
+      <label className={isDisabledPersonal ? s.disabled : ''}>
         <input
           type={'checkbox'}
+          disabled={isDisabledPersonal}
           className={s.checkbox}
           checked={accountType === 'Personal'}
           onChange={() => setAccountType('Personal')}
         />
         <span>Personal</span>
-      </div>
-      <div>
+      </label>
+      <label>
         <input
           type={'checkbox'}
           className={s.checkbox}
@@ -26,7 +28,7 @@ export const AccountTypeList = ({ accountType, setAccountType }: AccountTypeList
           onChange={() => setAccountType('Business')}
         />
         <span>Business</span>
-      </div>
+      </label>
     </div>
   )
 }

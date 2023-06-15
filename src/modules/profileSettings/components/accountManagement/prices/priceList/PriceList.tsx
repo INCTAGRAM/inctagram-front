@@ -12,7 +12,7 @@ export const PriceList = ({ priceList, priceId, setPriceId }: OptionBlockPropsTy
   return (
     <div className={`${s.block} ${s.price_list_block}`}>
       {priceList.map((p, i) => (
-        <div key={i}>
+        <label key={i}>
           <input
             type={'checkbox'}
             className={s.checkbox}
@@ -21,7 +21,7 @@ export const PriceList = ({ priceList, priceId, setPriceId }: OptionBlockPropsTy
             onChange={() => setPriceId(p.id)}
           />
           <span>{`${p.value}${p.currency} for ${p.period} ${p.periodType}`}</span>
-        </div>
+        </label>
       ))}
     </div>
   )

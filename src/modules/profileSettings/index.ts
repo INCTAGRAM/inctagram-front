@@ -1,3 +1,2 @@
-import { profileSettingsService } from './services/profileSettings/profileSettingsService'
-
-export { profileSettingsService }
+export { profileSettingsService } from './services/profileSettings/profileSettingsService'
+export { devicesService } from './services/devices/devicesService'
