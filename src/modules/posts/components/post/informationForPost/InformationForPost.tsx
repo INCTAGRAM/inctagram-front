@@ -5,8 +5,6 @@ import { Gallery } from '@/modules/posts/components/post/informationForPost/gall
 import { IPostResponse } from '@/modules/posts/services/types'
 import CircularProgress from '@mui/material/CircularProgress'
 import { PopupForControl } from '@/modules/posts/components/post/informationForPost/popupForControl/PopupForControl'
-import iconSet from '@/assets/icons/selection.json'
-import IcomoonReact from 'icomoon-react'
 import { EditTopPanel } from '@/modules/posts/components/post/informationForPost/editTopPanel/EditTopPanel'
 import { DescAndComments } from '@/modules/posts/components/post/informationForPost/descAndComments/DescAndComments'
 import { EditMode } from '@/modules/posts/components/post/informationForPost/editMode/EditMode'
@@ -24,6 +22,9 @@ export const InformationForPost = ({ isSelfPost, postId, usernameInPath, avatar,
   const [getUserPost, { data: userPostData, isFetching: userIsFetching }] = useLazyGetUserPostProfileQuery()
   const [postData, setPostData] = useState<IPostResponse | null>(null)
   const [isEditMode, setIsEditMode] = useState(false)
+  const [isLoadingUpdatePost, setIsLoadingUpdatePost] = useState(false)
+
+  console.log(isLoadingUpdatePost)
 
   useEffect(() => {
     if (isSelfPost) {
@@ -44,7 +45,7 @@ export const InformationForPost = ({ isSelfPost, postId, usernameInPath, avatar,
     setIsEditMode(true)
   }
 
-  if (selfIsFetching || userIsFetching) {
+  if (selfIsFetching || userIsFetching || isLoadingUpdatePost) {
     return (
       <div className={styles.post}>
         <div className={styles.loading}>
@@ -80,6 +81,8 @@ export const InformationForPost = ({ isSelfPost, postId, usernameInPath, avatar,
           avatar={avatar}
           username={usernameInPath}
           description={postData?.description ?? ''}
+          setIsEditMode={setIsEditMode}
+          setIsLoadingUpdatePost={setIsLoadingUpdatePost}
         />
       )}
     </div>

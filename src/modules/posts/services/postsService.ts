@@ -12,7 +12,6 @@ import {
 export const postsService = createApi({
   reducerPath: 'postApi',
   baseQuery: baseQueryWithReauth,
-  tagTypes: ['Posts'],
   keepUnusedDataFor: 60 * 60 * 24,
   endpoints: (build) => ({
     getSelfPostsProfile: build.query<IPostsResponse, IPostsRequestData>({
@@ -79,7 +78,7 @@ export const postsService = createApi({
         url: `/users/${username}/posts/${postId}`,
       }),
     }),
-    patchProfilePost: build.mutation<null, IPostPatchData>({
+    patchProfilePost: build.mutation<void, IPostPatchData>({
       query: ({ body, id }) => ({
         url: `/users/self/posts/${id}`,
         method: 'PATCH',
