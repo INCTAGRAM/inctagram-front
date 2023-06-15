@@ -5,20 +5,40 @@ import IcomoonReact from 'icomoon-react'
 import iconSet from '@/assets/icons/selection.json'
 import { Button } from '@/common/ui/button/Button'
 import { useAppDispatch } from '@/store/store'
-import { setInitialPostState, addImageAndCropParameters } from '@/modules/createPost/store/createPostSlice'
+import {
+  addImageAndCropParameters,
+  setDraftPostState,
+  setInitialPostState,
+} from '@/modules/createPost/store/createPostSlice'
+import { getIndexedDBData, postDraftDBConfig } from '@/modules/createPost/helpers/indexedDBHelpers'
+import { IPost } from '@/modules/createPost/components/types'
 
 interface IAddPhotoPopupProps {
   isShowAddPhotoPopup: boolean
   setIsShowAddPhotoPopup: (isShow: boolean) => void
   setIsShowCroppingPhotoPopup: (isShow: boolean) => void
+  setIsShowPublicationPopup: (isShow: boolean) => void
+  isDataInIndexedDB: boolean
 }
+
 export const AddPhotoPopup = ({
   isShowAddPhotoPopup,
   setIsShowAddPhotoPopup,
   setIsShowCroppingPhotoPopup,
+  setIsShowPublicationPopup,
+  isDataInIndexedDB,
 }: IAddPhotoPopupProps) => {
   const dispatch = useAppDispatch()
   const inpFile = useRef<HTMLInputElement | null>(null)
+
+  const openDraftHandler = async () => {
+    const data = await getIndexedDBData<IPost>(postDraftDBConfig.storeName)
+    const post = data[0]
+    await dispatch(setDraftPostState(post))
+
+    setIsShowAddPhotoPopup(false)
+    setIsShowPublicationPopup(true)
+  }
 
   const closePopup = () => {
     dispatch(setInitialPostState())
@@ -73,6 +93,9 @@ export const AddPhotoPopup = ({
           />
           <Button>Select from computer</Button>
         </label>
+        <Button disabled={isDataInIndexedDB} onClick={openDraftHandler} variant={'outlined'}>
+          Open draft
+        </Button>
       </div>
     </Popup>
   )

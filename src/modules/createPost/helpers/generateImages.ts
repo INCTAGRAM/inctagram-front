@@ -17,16 +17,11 @@ export const generateImages = (
   const imageUrls = images.map(async (img, i) => {
     const url = async () => {
       const canvas = await getCroppedImg(img, croppedAreas[i])
-
-      const getUrl = new Promise<string>(function (resolve) {
-        canvas.toBlob((blob: Blob | null) => {
-          const file = new File([blob as Blob], 'fileName.jpg', { type: 'image/jpeg' })
-          const url = URL.createObjectURL(file)
-          resolve(url)
-        }, 'image/jpeg')
+      const getImg = new Promise<string>(function (resolve) {
+        const img = canvas.toDataURL('image/jpeg')
+        resolve(img)
       })
-
-      return getUrl.then((res) => res)
+      return getImg.then((res) => res)
     }
     return url()
   })
