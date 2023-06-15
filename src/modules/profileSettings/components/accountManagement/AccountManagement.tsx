@@ -14,35 +14,37 @@ import { PaymentBtns } from '@/modules/profileSettings/components/accountManagem
 import { useRouter } from 'next/router'
 
 export const AccountManagement = () => {
-  const [makeSubscription, { data: paymentUrl, isError }] = useMakeSubscriptionMutation()
-  const { data: priceList, isFetching } = useGetPriceListQuery()
-  const { data: paymentData, isFetching: isPaymentFetching } = useGetPaymentsQuery({ page: 1, pageSize: 10 })
+  const [makeSubscription, { data: paymentUrlData, isError }] = useMakeSubscriptionMutation()
+  const { data: priceListData } = useGetPriceListQuery()
+  const { data: paymentData } = useGetPaymentsQuery({ page: 1, pageSize: 10 })
 
   const { push, query } = useRouter()
 
   const [accountType, setAccountType] = useState(paymentData?.payments.length === 0 ? 'Personal' : 'Business')
   const [priceId, setPriceId] = useState('')
+  const [showSuccessPopup, setShowSuccessPopup] = useState(query.success === 'true')
+  const [showErrorPopup, setShowErrorPopup] = useState(query.success === 'false')
 
   useEffect(() => {
-    priceList && setPriceId(priceList[0].id)
-  }, [isFetching])
+    priceListData && setPriceId(priceListData[0].id)
+  }, [priceListData])
 
   useEffect(() => {
-    if (paymentUrl) {
-      push(paymentUrl)
-    }
-  }, [paymentUrl])
+    if (paymentUrlData) push(paymentUrlData)
+  }, [paymentUrlData])
 
   useEffect(() => {
     if (isError) setShowErrorPopup(true)
   }, [isError])
 
-  const [showSuccessPopup, setShowSuccessPopup] = useState(query.success === 'true')
-  const [showErrorPopup, setShowErrorPopup] = useState(query.success === 'false')
   const closeErrorPopup = () => setShowErrorPopup(false)
   const closeSuccessPopup = () => setShowSuccessPopup(false)
 
-  if (isFetching || isPaymentFetching || paymentData === undefined) return null
+  const paymentsBtnsHandler = (paymentSystem: string) => {
+    makeSubscription({ priceId, renew: paymentData?.count !== 0, paymentSystem })
+  }
+
+  if (!priceListData || !paymentData) return null
 
   return (
     <div className={s.container}>
@@ -53,10 +55,10 @@ export const AccountManagement = () => {
           <SubscriptionPrices
             priceId={priceId}
             setPriceId={setPriceId}
-            priceList={priceList!}
+            priceList={priceListData}
             payments={paymentData.payments}
           />
-          <PaymentBtns count={paymentData.count} priceId={priceId} makeSubscription={makeSubscription} />
+          <PaymentBtns paymentsBtnsCallBack={paymentsBtnsHandler} />
         </div>
       )}
 

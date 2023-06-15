@@ -4,14 +4,12 @@ import IcomoonReact from 'icomoon-react'
 import iconSet from '@/assets/icons/selection.json'
 
 type PaymentBtnsPropsType = {
-  priceId: string
-  makeSubscription: any // Зачем прокидывать?
-  count: number
+  paymentsBtnsCallBack: (paymentSystem: string) => void
 }
 
-export const PaymentBtns = ({ makeSubscription, priceId, count }: PaymentBtnsPropsType) => {
+export const PaymentBtns = ({ paymentsBtnsCallBack }: PaymentBtnsPropsType) => {
   const onBtnClickHandler = (system: string) => {
-    makeSubscription({ priceId, renew: count !== 0, paymentSystem: system })
+    paymentsBtnsCallBack(system)
   }
   return (
     <div className={s.payment_btns}>
