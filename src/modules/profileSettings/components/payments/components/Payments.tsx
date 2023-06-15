@@ -1,7 +1,7 @@
 import * as React from 'react'
-import { useGetPaymentsQuery } from '@/modules/profileSettings/components/accountManagement/services/profileSettingsService'
+import { useGetPaymentsQuery } from '@/modules/profileSettings/services/profileSettings/profileSettingsService'
 import { useState } from 'react'
-import { fillTable } from '@/modules/profileSettings/components/payments/fn/fillTable'
+import { fillTable } from '@/modules/profileSettings/helpers/fillTable'
 import { MuiTable } from './table/Table'
 import { NavigationPanel } from '@/modules/profileSettings/components/payments/components/navigationPanel/NavigationPanel'
 

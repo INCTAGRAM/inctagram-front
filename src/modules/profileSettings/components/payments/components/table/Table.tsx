@@ -7,7 +7,7 @@ import TableContainer from '@mui/material/TableContainer'
 import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
 import Paper from '@mui/material/Paper'
-import { RowType } from '@/modules/profileSettings/components/payments/types/rowType'
+import { RowType } from '@/modules/profileSettings/types/rowType'
 
 type TablePropsType = {
   rows: RowType[]
@@ -27,7 +27,6 @@ const StyledTableRow = styled(TableRow)(() => ({
 }))
 
 export const MuiTable = ({ rows }: TablePropsType) => {
-  debugger
   return (
     <TableContainer component={Paper}>
       <Table>

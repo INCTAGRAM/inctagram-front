@@ -1,3 +1,3 @@
-import { profileSettingsService } from './components/accountManagement/services/profileSettingsService'
+import { profileSettingsService } from './services/profileSettings/profileSettingsService'
 
 export { profileSettingsService }
