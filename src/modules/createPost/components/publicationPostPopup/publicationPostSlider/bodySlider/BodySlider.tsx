@@ -1,4 +1,4 @@
-import styles from '@/modules/createPost/components/publicationPostPopup/PublicationPostPopup.module.scss'
+import styles from './BodySlider.module.scss'
 import React, { FC } from 'react'
 
 export const BodySlider: FC<PropsType> = ({ images, activeImage }) => {

@@ -52,6 +52,9 @@ const createPostSlice = createSlice({
     changeImageAfterFilters(state, action: PayloadAction<ChangeImageAfterFiltersType>) {
       state.imagesAfterFilters[action.payload.imageIndex] = action.payload.urlImage
     },
+    setDraftPostState(state, action: PayloadAction<IPost>) {
+      return action.payload
+    },
     setInitialPostState() {
       return initialPostState
     },
@@ -70,6 +73,7 @@ export const {
   addFilterParams,
   addPrevFilterParams,
   resetFilterParams,
+  setDraftPostState,
   setInitialPostState,
 } = createPostSlice.actions
 export const createPostReducer = createPostSlice.reducer

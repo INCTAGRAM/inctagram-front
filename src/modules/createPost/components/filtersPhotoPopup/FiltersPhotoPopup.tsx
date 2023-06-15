@@ -19,14 +19,15 @@ export const FiltersPhotoPopup = ({
   setIsShowFilterPopup,
   setIsShowCroppingPhotoPopup,
   setIsShowPublicationPopup,
+  isShowCroppingPhotoPopup,
 }: IFiltersPhotoPopup) => {
   const dispatch = useAppDispatch()
   const images = useAppSelector((state) => state.createPostReducer.images)
   const activeIndexImage = useAppSelector((state) => state.createPostReducer.activeImage)
-  const filterParametrs = useAppSelector((state) => state.createPostReducer.filterParameters)
-  const prevFilterParametrs = useAppSelector((state) => state.createPostReducer.prevFilterParameters)
+  const filterParameters = useAppSelector((state) => state.createPostReducer.filterParameters)
+  const prevFilterParameters = useAppSelector((state) => state.createPostReducer.prevFilterParameters)
 
-  const filterClass = filterParametrs[activeIndexImage]
+  const filterClass = filterParameters[activeIndexImage]
   const imgResultRef = useRef<HTMLImageElement>(null)
 
   const prevStateFilterClass = useRef<string | null>(null)
@@ -43,11 +44,11 @@ export const FiltersPhotoPopup = ({
 
   useEffect(() => {
     dispatch(addImagesAfterFilters(images))
-  }, [dispatch, images])
+  }, [isShowCroppingPhotoPopup])
 
   useEffect(() => {
-    filterParametrs.map(() => {
-      if (filterParametrs[activeIndexImage] === '') {
+    filterParameters.map(() => {
+      if (filterParameters[activeIndexImage] === '') {
         dispatch(changeImageAfterFilters({ imageIndex: activeIndexImage, urlImage: images[activeIndexImage] }))
       }
     })
@@ -66,7 +67,6 @@ export const FiltersPhotoPopup = ({
       domtoimage
         .toJpeg(imgResultRef.current)
         .then(function (dataUrl) {
-          console.log(dataUrl)
           dispatch(changeImageAfterFilters({ imageIndex: activeIndexImage, urlImage: dataUrl }))
         })
         .catch(function (error) {
@@ -83,7 +83,7 @@ export const FiltersPhotoPopup = ({
   }
 
   const setImage = async () => {
-    if (imgResultRef.current && prevFilterParametrs[activeIndexImage] !== filterParametrs[activeIndexImage]) {
+    if (imgResultRef.current && prevFilterParameters[activeIndexImage] !== filterParameters[activeIndexImage]) {
       await handleDownloadImage()
     }
   }
