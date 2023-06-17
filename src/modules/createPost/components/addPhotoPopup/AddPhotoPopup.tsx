@@ -93,9 +93,11 @@ export const AddPhotoPopup = ({
           />
           <Button>Select from computer</Button>
         </label>
-        <Button disabled={isDataInIndexedDB} onClick={openDraftHandler} variant={'outlined'}>
-          Open draft
-        </Button>
+        {!isDataInIndexedDB && (
+          <Button onClick={openDraftHandler} variant={'outlined'}>
+            Open draft
+          </Button>
+        )}
       </div>
     </Popup>
   )
