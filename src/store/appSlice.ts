@@ -1,13 +1,33 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { AnyAction, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { Nullable } from '@/common/types/Nullable'
 import { endpointsSkipErrorHandling, endpointsSkipLoading } from '@/constants/routes'
+import { authService } from '@/modules/auth'
+import { createPostService } from '@/modules/createPost'
+import { postsService } from '@/modules/posts'
+import { profileService } from '@/modules/profile'
+import { devicesService, profileSettingsService } from '@/modules/profileSettings'
+import { setInitialPostsState } from '@/modules/posts/store/postsSlice'
+import { setInitialTokenState } from '@/store/tokenSlice'
+import { Dispatch } from 'react'
+
+export const clearAllState = () => (dispatch: Dispatch<AnyAction>) => {
+  dispatch(authService.util.resetApiState())
+  dispatch(createPostService.util.resetApiState())
+  dispatch(postsService.util.resetApiState())
+  dispatch(profileService.util.resetApiState())
+  dispatch(profileSettingsService.util.resetApiState())
+  dispatch(devicesService.util.resetApiState())
+  dispatch(setInitialPostsState())
+  dispatch(setInitialTokenState())
+  dispatch(clearStateAndRedirectLogin(false))
+}
 
 const initialState = {
   isLoading: false,
   isGlobalLoading: false,
   errorAlert: null as null | string,
   successAlert: null as null | string,
-  isClearState: false,
+  isClearStateAndRedirectLogin: false,
 }
 
 const appSlice = createSlice({
@@ -26,8 +46,8 @@ const appSlice = createSlice({
     setSuccessAlert(state, action: PayloadAction<{ message: Nullable<string> }>) {
       state.successAlert = action.payload.message
     },
-    clearState(state, action: PayloadAction<boolean>) {
-      state.isClearState = action.payload
+    clearStateAndRedirectLogin(state, action: PayloadAction<boolean>) {
+      state.isClearStateAndRedirectLogin = action.payload
     },
   },
   extraReducers: (builder) => {
@@ -68,4 +88,4 @@ const appSlice = createSlice({
 
 export const appReducer = appSlice.reducer
 
-export const { setIsGlobalLoading, setErrorAlert, setSuccessAlert, clearState } = appSlice.actions
+export const { setIsGlobalLoading, setErrorAlert, setSuccessAlert, clearStateAndRedirectLogin } = appSlice.actions
