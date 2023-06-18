@@ -9,10 +9,11 @@ import { convertBlobToFile } from '@/modules/createPost/helpers/convertBlobToFil
 import { UserInfo } from '@/modules/createPost/components/publicationPostPopup/userInfo/UserInfo'
 import { PublicationPostSlider } from '@/modules/createPost/components/publicationPostPopup/publicationPostSlider/PublicationPostSlider'
 import { BodySlider } from '@/modules/createPost/components/publicationPostPopup/publicationPostSlider/bodySlider/BodySlider'
-import { refetchSelfPosts } from '@/modules/posts/store/postsSlice'
 import { useAddPostProfileMutation } from '@/modules/createPost/services/createPostService'
 import { deleteIndexedDBData, postDraftDBConfig } from '@/modules/createPost/helpers/indexedDBHelpers'
 import { useRouter } from 'next/router'
+import { useLazyGetSelfPostsProfileQuery } from '@/modules/posts'
+import { RouteNames } from '@/constants/routes'
 
 type Props = {
   setIsShowFilterPopup: (arg: boolean) => void
@@ -25,6 +26,7 @@ export const PublicationPostPopup: FC<Props> = ({
   setIsShowPublicationPopup,
   isShowPublicationPopup,
 }) => {
+  const [getPosts] = useLazyGetSelfPostsProfileQuery()
   const [addPostProfile, { isSuccess }] = useAddPostProfileMutation()
   const { data: userData, isSuccess: isSuccessUserData } = useGetSelfProfileQuery()
 
@@ -37,7 +39,7 @@ export const PublicationPostPopup: FC<Props> = ({
 
   useEffect(() => {
     if (isSuccess) {
-      dispatch(refetchSelfPosts(true))
+      getPosts({ pageSize: 1 })
     }
   }, [isSuccess])
 
@@ -63,7 +65,7 @@ export const PublicationPostPopup: FC<Props> = ({
     await deleteIndexedDBData(postDraftDBConfig.storeName, postDraftDBConfig.keyPath)
     setIsShowPublicationPopup(false)
 
-    await push('/profile')
+    await push(RouteNames.PROFILE)
   }
 
   const prevStep = () => {

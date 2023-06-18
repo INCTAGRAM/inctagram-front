@@ -1,4 +1,4 @@
-import styles from '@/modules/posts/components/post/informationForPost/InformationForPost.module.scss'
+import styles from '@/modules/posts/components/selfOrUserPosts/postPopup/informationForPost/InformationForPost.module.scss'
 
 type Props = {
   avatar: string

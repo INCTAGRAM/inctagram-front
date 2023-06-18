@@ -4,9 +4,9 @@ import React, { useEffect, useRef } from 'react'
 import { RouteNames } from '@/constants/routes'
 import { useClosePopupClickEl } from '@/hooks/useClosePopupClickEl'
 import { IPost } from '@/modules/posts/services/types'
-import { PrevOrNextPostBtn } from '@/modules/posts/components/post/prevOrNextPostBtn/PrevOrNextPostBtn'
-import { ClosePostPopup } from '@/modules/posts/components/post/closePostPopup/ClosePostPopup'
-import { InformationForPost } from '@/modules/posts/components/post/informationForPost/InformationForPost'
+import { PrevOrNextPostBtn } from '@/modules/posts/components/selfOrUserPosts/postPopup/prevOrNextPostBtn/PrevOrNextPostBtn'
+import { ClosePostPopup } from '@/modules/posts/components/selfOrUserPosts/postPopup/closePostPopup/ClosePostPopup'
+import { InformationForPost } from '@/modules/posts/components/selfOrUserPosts/postPopup/informationForPost/InformationForPost'
 import { getIdNextOrPrevPost } from '@/modules/posts/helpers/getIdNextOrPrevPost'
 
 type Props = {

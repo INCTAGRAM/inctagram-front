@@ -1,13 +1,13 @@
 import styles from './InformationForPost.module.scss'
 import { useLazyGetSelfPostProfileQuery, useLazyGetUserPostProfileQuery } from '@/modules/posts/services/postsService'
 import React, { useEffect, useState } from 'react'
-import { Gallery } from '@/modules/posts/components/post/informationForPost/gallery/Gallery'
+import { Gallery } from '@/modules/posts/components/selfOrUserPosts/postPopup/informationForPost/gallery/Gallery'
 import { IPostResponse } from '@/modules/posts/services/types'
 import CircularProgress from '@mui/material/CircularProgress'
-import { PopupForControl } from '@/modules/posts/components/post/informationForPost/popupForControl/PopupForControl'
-import { EditTopPanel } from '@/modules/posts/components/post/informationForPost/editTopPanel/EditTopPanel'
-import { DescAndComments } from '@/modules/posts/components/post/informationForPost/descAndComments/DescAndComments'
-import { EditMode } from '@/modules/posts/components/post/informationForPost/editMode/EditMode'
+import { PopupForControl } from '@/modules/posts/components/selfOrUserPosts/postPopup/informationForPost/popupForControl/PopupForControl'
+import { EditTopPanel } from '@/modules/posts/components/selfOrUserPosts/postPopup/informationForPost/editTopPanel/EditTopPanel'
+import { DescAndComments } from '@/modules/posts/components/selfOrUserPosts/postPopup/informationForPost/descAndComments/DescAndComments'
+import { EditMode } from '@/modules/posts/components/selfOrUserPosts/postPopup/informationForPost/editMode/EditMode'
 
 type Props = {
   isSelfPost: boolean
@@ -23,8 +23,6 @@ export const InformationForPost = ({ isSelfPost, postId, usernameInPath, avatar,
   const [postData, setPostData] = useState<IPostResponse | null>(null)
   const [isEditMode, setIsEditMode] = useState(false)
   const [isLoadingUpdatePost, setIsLoadingUpdatePost] = useState(false)
-
-  console.log(isLoadingUpdatePost)
 
   useEffect(() => {
     if (isSelfPost) {

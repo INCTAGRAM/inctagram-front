@@ -1,5 +1,5 @@
 import React from 'react'
-import styles from '@/modules/posts/components/post/PostPopup.module.scss'
+import styles from '@/modules/posts/components/selfOrUserPosts/postPopup/PostPopup.module.scss'
 import iconSet from '@/assets/icons/selection.json'
 import IcomoonReact from 'icomoon-react'
 

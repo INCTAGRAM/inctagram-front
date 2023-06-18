@@ -5,8 +5,7 @@ import iconSet from '@/assets/icons/selection.json'
 import IcomoonReact from 'icomoon-react'
 import { useRouter } from 'next/router'
 import { ConfirmActionPopup } from '@/common/ui/popup/confirmActionPopup/ConfirmActionPopup'
-import { useDeleteProfilePostMutation } from '@/modules/posts/services/postsService'
-import { refetchSelfPosts } from '@/modules/posts/store/postsSlice'
+import { postsService, useDeleteProfilePostMutation } from '@/modules/posts/services/postsService'
 import { useAppDispatch } from '@/store/store'
 
 type Props = {
@@ -28,7 +27,15 @@ export const PopupForControl = ({ isSelfPost, postId, closePostPopup, editMode }
     if (isSuccess) {
       closePostPopup()
       setIsOpenDeletePostPopup(false)
-      dispatch(refetchSelfPosts(true))
+      dispatch(
+        postsService.util.updateQueryData('getSelfPostsProfile', { pageSize: 0 }, (draftPosts) => {
+          return {
+            ...draftPosts,
+            posts: draftPosts.posts.filter((post) => post.id !== postId),
+            count: draftPosts.count - 1,
+          }
+        })
+      )
     }
   }, [isSuccess])
 
@@ -109,7 +116,7 @@ export const PopupForControl = ({ isSelfPost, postId, closePostPopup, editMode }
       <ConfirmActionPopup
         show={isOpenDeletePostPopup}
         title={'Delete Post'}
-        text={'Are you sure you want to delete this post?'}
+        text={'Are you sure you want to delete this previewPost?'}
         closeActionHandler={closeDeletePostPopup}
         confirmActionHandler={deletePostHandler}
       />

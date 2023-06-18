@@ -1,13 +1,8 @@
-import { useAppDispatch, useAppSelector } from '@/store/store'
-import styles from './Posts.module.scss'
-import CircularProgress from '@mui/material/CircularProgress'
-import { useEffect, useRef, useState } from 'react'
-import { changeQueryParameters, refetchSelfPosts } from '@/modules/posts/store/postsSlice'
-import { useGettingNewPostsOnScroll } from '@/modules/posts/hooks/useGettingNewPostsOnScroll'
+import { useState } from 'react'
 import { useGetSelfPostsProfileQuery } from '@/modules/posts'
-import { PostPopup } from '@/modules/posts/components/post/PostPopup'
-import { PostPreview } from '@/modules/posts/components/selfOrUserPosts/post/PostPreview'
-import { useScrollEvent } from '@/hooks/useScrollEvent'
+import { PostPopup } from '@/modules/posts/components/selfOrUserPosts/postPopup/PostPopup'
+import { useAppSelector } from '@/store/store'
+import { PreviewPostsGrid } from '@/modules/posts/components/selfOrUserPosts/previewPostsGrid/PreviewPostsGrid'
 
 type Props = {
   usernameInPath: string
@@ -15,43 +10,16 @@ type Props = {
 }
 
 export const SelfPosts = ({ usernameInPath, avatar }: Props) => {
-  const dispatch = useAppDispatch()
   const [postIdForPopup, setPostIdForPopup] = useState<string | null>(null)
   const queryParameters = useAppSelector((state) => state.postsReducer.queryParameters)
-  const isRefetchingPosts = useAppSelector((state) => state.postsReducer.isRefetchingPosts)
-  const { getPosts } = useGettingNewPostsOnScroll()
 
-  const { data, isSuccess, isFetching, refetch } = useGetSelfPostsProfileQuery(queryParameters)
-
-  const postsRef = useRef<HTMLDivElement>(null)
-
-  useEffect(() => {
-    dispatch(refetchSelfPosts(false))
-  }, [data])
-
-  useEffect(() => {
-    if (data && isRefetchingPosts && queryParameters.page === 1 && queryParameters.pageSize === 12) {
-      refetch()
-    } else if (data && isRefetchingPosts) {
-      dispatch(changeQueryParameters({ page: 1, pageSize: data.posts.length }))
-    }
-  }, [isRefetchingPosts])
-
-  const scrollHandler = () => {
-    data && getPosts(postsRef, data, queryParameters, scrollHandler)
-  }
-
-  useScrollEvent(scrollHandler, [data])
+  const { data, isSuccess, isFetching } = useGetSelfPostsProfileQuery(queryParameters)
 
   if (!isSuccess || !data) return null
 
   return (
     <>
-      <div ref={postsRef} className={styles.posts}>
-        {data.posts.map((post) => (
-          <PostPreview post={post} key={post.id} />
-        ))}
-      </div>
+      <PreviewPostsGrid data={data} isFetching={isFetching} />
       <PostPopup
         isSelfPost={true}
         postId={postIdForPopup}
@@ -60,11 +28,6 @@ export const SelfPosts = ({ usernameInPath, avatar }: Props) => {
         usernameInPath={usernameInPath}
         avatar={avatar}
       />
-      {isFetching && (
-        <div className={styles.loading}>
-          <CircularProgress size={45} />
-        </div>
-      )}
     </>
   )
 }
