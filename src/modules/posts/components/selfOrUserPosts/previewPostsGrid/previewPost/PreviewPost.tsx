@@ -1,5 +1,5 @@
 import { RouteNames } from '@/constants/routes'
-import styles from '@/modules/posts/components/selfOrUserPosts/Posts.module.scss'
+import styles from '@/modules/posts/components/selfOrUserPosts/previewPostsGrid/PreviewPostsGrid.module.scss'
 import { LikesCommentsCount } from '@/modules/posts/components/selfOrUserPosts/likesCommentsCount/LikesCommentsCount'
 import { GalleryIcon } from '@/modules/posts/components/selfOrUserPosts/gallaryIcon/GalleryIcon'
 import Link from 'next/link'
@@ -10,7 +10,7 @@ type Props = {
   post: IPost
 }
 
-export const PostPreview = ({ post }: Props) => {
+export const PreviewPost = ({ post }: Props) => {
   const { asPath } = useRouter()
   const usernameInPath = asPath.split(/[/?]/)[2]
 

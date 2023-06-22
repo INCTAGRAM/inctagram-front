@@ -8,11 +8,11 @@ import {
   IPostResponse,
   IUserPostRequestParams,
 } from '@/modules/posts/services/types'
+import { timeConverter } from '@/helpers/timeConverter'
 
 export const postsService = createApi({
   reducerPath: 'postApi',
   baseQuery: baseQueryWithReauth,
-  keepUnusedDataFor: 60 * 60 * 24,
   endpoints: (build) => ({
     getSelfPostsProfile: build.query<IPostsResponse, IPostsRequestData>({
       query: (params) => ({
@@ -23,11 +23,12 @@ export const postsService = createApi({
         return endpointName
       },
       merge: (currentCache, newItems, otherArgs) => {
-        if (otherArgs.arg.page === 1) {
-          currentCache.posts = newItems.posts
+        if (otherArgs.arg.pageSize === 1) {
+          currentCache.posts.unshift(...newItems.posts)
           currentCache.count = newItems.count
         } else {
           currentCache.posts.push(...newItems.posts)
+          currentCache.count = newItems.count
         }
       },
       forceRefetch({ currentArg, previousArg }) {
@@ -37,7 +38,7 @@ export const postsService = createApi({
           return false
         }
       },
-      keepUnusedDataFor: 60 * 60 * 24,
+      keepUnusedDataFor: timeConverter.secondsFromDays(1),
     }),
     getUserPostsProfile: build.query<IPostsResponse, IUserPostsRequestData>({
       query: (params) => ({
@@ -51,13 +52,9 @@ export const postsService = createApi({
       serializeQueryArgs: ({ endpointName }) => {
         return endpointName
       },
-      merge: (currentCache, newItems, otherArgs) => {
-        if (otherArgs.arg.page === 1) {
-          currentCache.posts = newItems.posts
-          currentCache.count = newItems.count
-        } else {
-          currentCache.posts.push(...newItems.posts)
-        }
+      merge: (currentCache, newItems) => {
+        currentCache.posts.push(...newItems.posts)
+        currentCache.count = newItems.count
       },
       forceRefetch({ currentArg, previousArg }) {
         if (currentArg && previousArg) {
@@ -66,7 +63,7 @@ export const postsService = createApi({
           return false
         }
       },
-      keepUnusedDataFor: 60 * 60 * 24,
+      keepUnusedDataFor: timeConverter.secondsFromDays(1),
     }),
     getSelfPostProfile: build.query<IPostResponse, string>({
       query: (postId) => ({
@@ -98,6 +95,7 @@ export const postsService = createApi({
 
 export const {
   useGetSelfPostsProfileQuery,
+  useLazyGetSelfPostsProfileQuery,
   useGetUserPostsProfileQuery,
   useLazyGetSelfPostProfileQuery,
   useLazyGetUserPostProfileQuery,

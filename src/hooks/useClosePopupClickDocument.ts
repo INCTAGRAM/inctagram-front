@@ -4,7 +4,7 @@ export const useClosePopupClickDocument = (
   ref: RefObject<HTMLDivElement>,
   isOpen: boolean,
   callBack: () => void,
-  deps?: DependencyList | undefined
+  deps?: DependencyList
 ) => {
   useEffect(() => {
     if (!isOpen) return

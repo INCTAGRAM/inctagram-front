@@ -3,7 +3,7 @@ import type { BaseQueryFn, FetchArgs, FetchBaseQueryError } from '@reduxjs/toolk
 import { AppState } from '@/store/store'
 import { addToken, stopRefresh } from '@/store/tokenSlice'
 import { endpointsSkipAuth } from '@/constants/routes'
-import { clearState } from '@/store/appSlice'
+import { clearStateAndRedirectLogin } from '@/store/appSlice'
 
 const baseQuery = fetchBaseQuery({
   baseUrl: process.env.NEXT_PUBLIC_API_URL,
@@ -41,7 +41,7 @@ export const baseQueryWithReauth: BaseQueryFn<string | FetchArgs, unknown, Fetch
         // retry the initial query
         result = await baseQuery(args, api, extraOptions)
       } else {
-        api.dispatch(clearState(true))
+        api.dispatch(clearStateAndRedirectLogin(true))
       }
     }
     api.dispatch(stopRefresh(false))
