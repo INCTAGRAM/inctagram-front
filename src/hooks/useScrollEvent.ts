@@ -3,7 +3,7 @@ import { DependencyList, RefObject, useEffect } from 'react'
 export const useScrollEvent = (
   scrollCallback: () => boolean,
   postsRef: RefObject<HTMLDivElement>,
-  deps?: DependencyList | undefined
+  deps?: DependencyList
 ) => {
   const scrollHandler = () => {
     if (!postsRef.current) return
