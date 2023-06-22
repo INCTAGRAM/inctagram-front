@@ -40,7 +40,7 @@ export const Header = ({ showLogout }: IHeader) => {
         </div>
       )}
       <div className={styles.headerContainer}>
-        <div className={styles.linerLoading}>{isLoading && <LinearProgress />}</div>
+        <div className={styles.linerLoading}>{isLoading ? <LinearProgress /> : ''}</div>
         <Image src={Inctagram} alt={'logo'} className={styles.logo} />
         {showLogout && (
           <div onClick={logoutHandler} className={styles.logout}>
