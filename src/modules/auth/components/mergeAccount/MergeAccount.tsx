@@ -6,8 +6,8 @@ import Image from 'next/image'
 import { useEffect } from 'react'
 import { useMergeAccountMutation } from '@/modules/auth/services/authService'
 import { useAppDispatch } from '@/store/store'
-import { addToken } from '@/store/tokenSlice'
 import { RouteNames } from '@/constants/routes'
+import { addToken } from '@/store/appSlice'
 
 export const MergeAccount = () => {
   const dispatch = useAppDispatch()

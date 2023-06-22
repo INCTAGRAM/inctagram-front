@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react'
 import { useLoginGoogleMutation } from '@/modules/auth/services/authService'
 import { useGoogleLogin } from '@react-oauth/google'
-import { addToken } from '@/store/tokenSlice'
 import { RouteNames } from '@/constants/routes'
 import { useAppDispatch } from '@/store/store'
 import { useRouter } from 'next/navigation'
+import { addToken } from '@/store/appSlice'
 
 export const useLoginGoogleAuthMutation = () => {
   const dispatch = useAppDispatch()

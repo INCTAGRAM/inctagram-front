@@ -7,7 +7,6 @@ import { postsService } from '@/modules/posts'
 import { profileService } from '@/modules/profile'
 import { devicesService, profileSettingsService } from '@/modules/profileSettings'
 import { setInitialPostsState } from '@/modules/posts/store/postsSlice'
-import { setInitialTokenState } from '@/store/tokenSlice'
 import { Dispatch } from 'react'
 
 export const clearAllState = () => (dispatch: Dispatch<AnyAction>) => {
@@ -18,13 +17,14 @@ export const clearAllState = () => (dispatch: Dispatch<AnyAction>) => {
   dispatch(profileSettingsService.util.resetApiState())
   dispatch(devicesService.util.resetApiState())
   dispatch(setInitialPostsState())
-  dispatch(setInitialTokenState())
+  dispatch(addToken(null))
   dispatch(clearStateAndRedirectLogin(false))
 }
 
 const initialState = {
   isLoading: false,
   isGlobalLoading: false,
+  accessToken: null as null | string,
   errorAlert: null as null | string,
   successAlert: null as null | string,
   isClearStateAndRedirectLogin: false,
@@ -39,6 +39,9 @@ const appSlice = createSlice({
     },
     setIsGlobalLoading(state, action: PayloadAction<boolean>) {
       state.isGlobalLoading = action.payload
+    },
+    addToken(state, action: PayloadAction<string | null>) {
+      state.accessToken = action.payload
     },
     setErrorAlert(state, action: PayloadAction<{ message: Nullable<string> }>) {
       state.errorAlert = action.payload.message
@@ -88,4 +91,5 @@ const appSlice = createSlice({
 
 export const appReducer = appSlice.reducer
 
-export const { setIsGlobalLoading, setErrorAlert, setSuccessAlert, clearStateAndRedirectLogin } = appSlice.actions
+export const { addToken, setIsGlobalLoading, setErrorAlert, setSuccessAlert, clearStateAndRedirectLogin } =
+  appSlice.actions

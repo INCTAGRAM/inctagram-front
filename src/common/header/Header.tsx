@@ -5,7 +5,6 @@ import IcomoonReact from 'icomoon-react'
 import LogOut from '@/assets/icons/selection.json'
 import { useLogoutMutation } from '@/modules/auth/services/authService'
 import { useAppDispatch, useAppSelector } from '@/store/store'
-import { stopRefresh } from '@/store/tokenSlice'
 import LinearProgress from '@mui/material/LinearProgress'
 import { SuccessSnackbar } from '@/common/ui/alertSnackbar/SuccessSnackbar'
 import { ErrorSnackbar } from '@/common/ui/alertSnackbar/ErrorSnackbar'
@@ -27,7 +26,6 @@ export const Header = ({ showLogout }: IHeader) => {
 
   const logoutHandler = () => {
     logout()
-    dispatch(stopRefresh(true))
   }
 
   useEffect(() => {

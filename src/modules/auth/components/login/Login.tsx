@@ -11,10 +11,10 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { RouteNames } from '@/constants/routes'
 import Form from '@/common/ui/form/Form'
 import Link from 'next/link'
-import { addToken } from '@/store/tokenSlice'
 import { useAppDispatch } from '@/store/store'
 import { useLoginGoogleAuthMutation } from '@/modules/auth/hooks/useLoginGoogleAuthMutation'
 import { EmailSendPopup } from '@/modules/auth'
+import { addToken } from '@/store/appSlice'
 
 type LoginType = yup.InferType<typeof loginSchema>
 

@@ -2,7 +2,6 @@ import { combineReducers, configureStore } from '@reduxjs/toolkit'
 import { createPostReducer } from '@/modules/createPost'
 import { authService } from '@/modules/auth'
 import { profileService } from '@/modules/profile'
-import { tokenReducer } from '@/store/tokenSlice'
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
 import { postsReducer } from '@/modules/posts'
 import { postsService } from '@/modules/posts'
@@ -13,7 +12,6 @@ import { profileSettingsService } from '@/modules/profileSettings'
 import { devicesService } from '@/modules/profileSettings/services/devices/devicesService'
 
 const rootReducer = combineReducers({
-  tokenReducer,
   createPostReducer,
   postsReducer,
   appReducer,

@@ -27,7 +27,7 @@ export const AccountManagement = () => {
   const [showErrorPopup, setShowErrorPopup] = useState(query.success === 'false')
 
   useEffect(() => {
-    priceListData && setPriceId(priceListData[0].id)
+    priceListData && setPriceId(priceListData[0]?.id)
   }, [priceListData])
 
   useEffect(() => {
