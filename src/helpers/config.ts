@@ -1,15 +1,14 @@
 import { fetchBaseQuery } from '@reduxjs/toolkit/query'
 import type { BaseQueryFn, FetchArgs, FetchBaseQueryError } from '@reduxjs/toolkit/query'
 import { AppState } from '@/store/store'
-import { addToken, stopRefresh } from '@/store/tokenSlice'
 import { endpointsSkipAuth } from '@/constants/routes'
-import { clearStateAndRedirectLogin } from '@/store/appSlice'
+import { addToken, clearStateAndRedirectLogin } from '@/store/appSlice'
 
 const baseQuery = fetchBaseQuery({
   baseUrl: process.env.NEXT_PUBLIC_API_URL,
   credentials: 'include',
   prepareHeaders: (headers, { getState, endpoint }) => {
-    const accessToken = (getState() as AppState).tokenReducer.accessToken
+    const accessToken = (getState() as AppState).appReducer.accessToken
 
     if (accessToken && !endpointsSkipAuth.find((url) => url === endpoint)) {
       headers.set('Authorization', `Bearer ${accessToken}`)
@@ -26,10 +25,7 @@ export const baseQueryWithReauth: BaseQueryFn<string | FetchArgs, unknown, Fetch
   let result = await baseQuery(args, api, extraOptions)
 
   if (result.error && result.error.status === 401) {
-    const state = api.getState() as AppState
-    if (!state.tokenReducer.stopRefresh) {
-      api.dispatch(stopRefresh(true))
-
+    if (api.endpoint !== 'refreshToken') {
       // try to get a new token
       const response = await baseQuery({ url: '/auth/refresh-token', method: 'POST' }, api, extraOptions)
       const data = response.data
@@ -44,7 +40,6 @@ export const baseQueryWithReauth: BaseQueryFn<string | FetchArgs, unknown, Fetch
         api.dispatch(clearStateAndRedirectLogin(true))
       }
     }
-    api.dispatch(stopRefresh(false))
   }
   return result
 }

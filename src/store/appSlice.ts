@@ -7,7 +7,6 @@ import { postsService } from '@/modules/posts'
 import { profileService } from '@/modules/profile'
 import { devicesService, profileSettingsService } from '@/modules/profileSettings'
 import { setInitialPostsState } from '@/modules/posts/store/postsSlice'
-import { setInitialTokenState } from '@/store/tokenSlice'
 import { Dispatch } from 'react'
 
 export const clearAllState = () => (dispatch: Dispatch<AnyAction>) => {
@@ -18,13 +17,14 @@ export const clearAllState = () => (dispatch: Dispatch<AnyAction>) => {
   dispatch(profileSettingsService.util.resetApiState())
   dispatch(devicesService.util.resetApiState())
   dispatch(setInitialPostsState())
-  dispatch(setInitialTokenState())
+  dispatch(addToken(null))
   dispatch(clearStateAndRedirectLogin(false))
 }
 
 const initialState = {
-  isLoading: false,
+  isLoading: 0,
   isGlobalLoading: false,
+  accessToken: null as null | string,
   errorAlert: null as null | string,
   successAlert: null as null | string,
   isClearStateAndRedirectLogin: false,
@@ -34,11 +34,14 @@ const appSlice = createSlice({
   name: 'app',
   initialState,
   reducers: {
-    setLoading(state, action: PayloadAction<boolean>) {
+    setLoading(state, action: PayloadAction<number>) {
       state.isLoading = action.payload
     },
     setIsGlobalLoading(state, action: PayloadAction<boolean>) {
       state.isGlobalLoading = action.payload
+    },
+    addToken(state, action: PayloadAction<string | null>) {
+      state.accessToken = action.payload
     },
     setErrorAlert(state, action: PayloadAction<{ message: Nullable<string> }>) {
       state.errorAlert = action.payload.message
@@ -57,16 +60,19 @@ const appSlice = createSlice({
           return action.type.endsWith('/pending')
         },
         (state, action) => {
-          if (endpointsSkipLoading.find((endpointName) => endpointName === action.meta.arg.endpointName)) return
-          state.isLoading = true
+          if (!endpointsSkipLoading.find((endpointName) => endpointName === action.meta.arg.endpointName)) {
+            state.isLoading = state.isLoading + 1
+          }
         }
       )
       .addMatcher(
         (action) => {
           return action.type.endsWith('/fulfilled')
         },
-        (state) => {
-          state.isLoading = false
+        (state, action) => {
+          if (!endpointsSkipLoading.find((endpointName) => endpointName === action.meta.arg.endpointName)) {
+            state.isLoading = state.isLoading - 1
+          }
         }
       )
       .addMatcher(
@@ -74,7 +80,9 @@ const appSlice = createSlice({
           return action.type.endsWith('/rejected')
         },
         (state, action) => {
-          state.isLoading = false
+          if (!endpointsSkipLoading.find((endpointName) => endpointName === action.meta.arg.endpointName)) {
+            state.isLoading = state.isLoading - 1
+          }
           if (endpointsSkipErrorHandling.find((endpointName) => endpointName === action.meta.arg.endpointName)) return
           if (action.payload.data) {
             state.errorAlert = action.payload.data.message[0]
@@ -88,4 +96,5 @@ const appSlice = createSlice({
 
 export const appReducer = appSlice.reducer
 
-export const { setIsGlobalLoading, setErrorAlert, setSuccessAlert, clearStateAndRedirectLogin } = appSlice.actions
+export const { addToken, setIsGlobalLoading, setErrorAlert, setSuccessAlert, clearStateAndRedirectLogin } =
+  appSlice.actions

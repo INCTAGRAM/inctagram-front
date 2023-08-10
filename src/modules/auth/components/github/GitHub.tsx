@@ -4,11 +4,11 @@ import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
 import { RouteNames } from '@/constants/routes'
 import { useAppDispatch } from '@/store/store'
-import { addToken } from '@/store/tokenSlice'
 import CircularProgress from '@mui/material/CircularProgress'
 import { FetchBaseQueryError } from '@reduxjs/toolkit/query'
 import { Popup } from '@/common/ui/popup/Popup'
 import { Button } from '@/common/ui/button/Button'
+import { addToken } from '@/store/appSlice'
 
 export const GitHub = () => {
   const dispatch = useAppDispatch()
